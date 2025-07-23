@@ -1,0 +1,5 @@
+/* Border component styles */
+.wallet-balance {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}

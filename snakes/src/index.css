@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-bg: #0B0F1A;
+  --secondary-bg: #1a2332;
+  --neon-blue: #00C3FF;
+  --text-primary: rgba(255, 255, 255, 0.95);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(135deg, #0B0F1A 0%, #1a2332 50%, #0B0F1A 100%);
+  color: var(--text-primary);
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Enhanced scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0F1A;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #00C3FF, #0080ff);
+  border-radius: 5px;
+  border: 1px solid #1a2332;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #0080ff, #00C3FF);
+}
+
+/* Remove number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Custom glow effects */
+.glow-blue {
+  box-shadow: 0 0 20px rgba(0, 195, 255, 0.3);
+}
+
+.glow-green {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.glow-red {
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+/* Enhanced animations */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(0, 195, 255, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(0, 195, 255, 0.6);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Button hover effects */
+.btn-glow:hover {
+  box-shadow: 
+    0 0 20px rgba(0, 195, 255, 0.4),
+    0 0 40px rgba(0, 195, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Text glow effects */
+.text-glow {
+  text-shadow: 0 0 10px currentColor;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(26, 35, 50, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 195, 255, 0.2);
+}
+
+/* Neon border effect */
+.neon-border {
+  border: 2px solid #00C3FF;
+  box-shadow: 
+    0 0 10px rgba(0, 195, 255, 0.3),
+    inset 0 0 10px rgba(0, 195, 255, 0.1);
+}
