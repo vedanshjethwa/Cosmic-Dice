@@ -235,3 +235,44 @@
 .animate-glow {
   animation: glow 2s ease-in-out infinite;
 }
+
+/* Game container styles */
+.game-container {
+  min-height: calc(100vh - 80px);
+  position: relative;
+}
+
+/* Smooth page transitions */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Game-specific overrides */
+.game-container > div {
+  background: transparent !important;
+}
+
+/* Responsive game layout */
+@media (max-width: 768px) {
+  .game-container {
+    padding: 0;
+  }
+}

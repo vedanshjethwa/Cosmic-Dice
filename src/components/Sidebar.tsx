@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Home,
   Gamepad,
@@ -21,14 +22,11 @@ import {
   ArrowUpCircle,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HomePage } from './pages/HomePage';
 import { PopularPage } from './pages/PopularPage';
 import { NewGamesPage } from './pages/NewGamesPage';
 import { AboutPage } from './pages/AboutPage';
 import { OffersPage } from './pages/OffersPage';
-import App from '../App';
 import { Footer } from './Footer';
-import { WithdrawalPage } from './WithdrawalPage';
 import FeedbackPage from './FeedbackPage';
 
 // UpcomingGames component
@@ -166,6 +164,7 @@ export function Sidebar({
   onWithdrawalClick,
   onDepositClick,
 }: SidebarProps) {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<{
     label: string;
     content: React.ReactNode;
@@ -175,7 +174,7 @@ export function Sidebar({
     {
       icon: <Home size={20} />,
       label: 'Home',
-      content: <App />,
+      onClick: () => navigate('/'),
     },
     {
       icon: <TrendingUp size={20} />,
@@ -207,9 +206,8 @@ export function Sidebar({
     {
       icon: <ArrowDownCircle size={20} />,
       label: 'Withdrawal',
-      onClick: onWithdrawalClick,
       className: 'text-purple-400 hover:text-purple-300',
-      content: <WithdrawalPage />,    
+      onClick: () => navigate('/withdrawal'),
     },
     {
       icon: <Headphones size={20} />,

@@ -1,8 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Home, TrendingUp, Users, Star } from 'lucide-react';
 
 export function HomePage() {
+  const navigate = useNavigate();
+  
   const stats = [
     { label: 'Active Players', value: '12,543', icon: <Users className="w-6 h-6" /> },
     { label: 'Games Played Today', value: '8,921', icon: <TrendingUp className="w-6 h-6" /> },
@@ -84,7 +87,10 @@ export function HomePage() {
         transition={{ delay: 0.6 }}
         className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6"
       >
-        <button className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-6 transition-colors">
+        <button 
+          onClick={() => navigate('/')}
+          className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-6 transition-colors"
+        >
           <h3 className="text-xl font-bold mb-2">Play Now</h3>
           <p className="text-blue-100">Jump into your favorite games</p>
         </button>

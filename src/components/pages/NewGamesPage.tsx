@@ -1,6 +1,8 @@
 import React, { lazy, Suspense, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Sparkles, Calendar } from 'lucide-react';
+import { GameGrid } from '../GameGrid';
 
 const games = [
   {
@@ -26,11 +28,71 @@ const games = [
 ];
 
 export function NewGamesPage() {
-  const newGames = games.map((game) => ({
-    id: game.key,
-    title: game.name,
-    description: `Play the exciting ${game.name} now!`,
-    image: `https://example.com/${game.key}.jpg`, // Placeholder image URL
+  const navigate = useNavigate();
+  
+  const newGames = [
+    {
+      label: 'Cosmic Cards',
+      image: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&q=80&w=400&h=225',
+      route: '/game/card',
+      description: 'Pick your fortune card and win big rewards',
+      category: 'Luck',
+      isNew: true,
+      rating: 4.8,
+      players: '1.5K'
+    },
+    {
+      label: 'Prediction Pulse',
+      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&q=80&w=400&h=225',
+      route: '/game/prediction-pulse',
+      description: 'Time your predictions perfectly for maximum rewards',
+      category: 'Timing',
+      isNew: true,
+      rating: 4.6,
+      players: '980'
+    },
+    {
+      label: 'Cosmic Limbo',
+      image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=400&h=225',
+      route: '/game/limbo',
+      description: 'How low can you go in this thrilling risk game',
+      category: 'Risk',
+      isNew: true,
+      rating: 4.7,
+      players: '1.2K'
+    },
+    {
+      label: 'Cosmic Snakes',
+      image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=400&h=225',
+      route: '/game/snakes',
+      description: 'Navigate through the cosmic maze adventure',
+      category: 'Adventure',
+      isNew: true,
+      rating: 4.5,
+      players: '850'
+    }
+  ];
+
+  const comingSoonGames = [
+    {
+      label: 'Cosmic Blackjack',
+      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=400&h=225',
+      route: '#',
+      description: 'Classic blackjack with a cosmic twist',
+      category: 'Cards',
+      rating: 0,
+      players: 'Coming Soon'
+    },
+    {
+      label: 'Cosmic Roulette',
+      image: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&q=80&w=400&h=225',
+      route: '#',
+      description: 'Spin the cosmic wheel of fortune',
+      category: 'Wheel',
+      rating: 0,
+      players: 'Coming Soon'
+    }
+  ];
     category: 'New',
     releaseDate: '2023-10-01',
     isNew: true,
@@ -80,62 +142,18 @@ export function NewGamesPage() {
       </motion.div>
 
       {/* Recently Released */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="mb-12"
-      >
-        <h2 className="text-2xl font-bold mb-6">Recently Released</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {newGames.map((game, index) => (
-            <motion.div
-              key={game.id}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.02 }}
-              className="bg-[#132F4C] rounded-xl overflow-hidden border border-blue-500/20 hover:border-blue-500/40 transition-colors cursor-pointer"
-              onClick={() => setSelectedGame(game.id)}
-            >
-              <div className="relative h-48">
-                <img
-                  src={game.image}
-                  alt={game.title}
-                  className="w-full h-full object-cover"
-                />
-                {game.isNew && (
-                  <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-lg text-xs font-medium">
-                    ✨ NEW
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] to-transparent" />
-              </div>
+      <GameGrid 
+        games={newGames} 
+        title="Recently Released"
+      />
 
-              <div className="p-4">
-                <h3 className="text-lg font-bold mb-2">{game.title}</h3>
-                <p className="text-gray-400 text-sm mb-3">{game.description}</p>
-
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-blue-400 text-sm bg-blue-500/20 px-2 py-1 rounded-full">
-                    {game.category}
-                  </span>
-                  <div className="flex items-center gap-1 text-gray-400">
-                    <Calendar className="w-4 h-4" />
-                    <span className="text-sm">
-                      {formatDate(game.releaseDate)}
-                    </span>
-                  </div>
-                </div>
-
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2 transition-colors">
-                  Play Now
-                </button>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
+      {/* Coming Soon */}
+      <div className="mt-12">
+        <GameGrid 
+          games={comingSoonGames} 
+          title="Coming Soon"
+        />
+      </div>
     </div>
   )
 }

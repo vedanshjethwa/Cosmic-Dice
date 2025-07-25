@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Wallet, HelpCircle, ArrowLeft } from 'lucide-react';
 
 interface WithdrawalFormData {
@@ -8,6 +9,7 @@ interface WithdrawalFormData {
 }
 
 export function WithdrawalPage() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<WithdrawalFormData>({
     walletAddress: '',
     comment: '',
@@ -32,6 +34,12 @@ export function WithdrawalPage() {
     <div className="min-h-screen bg-[#0A1929] p-4 sm:p-6 lg:p-8">
       <div className="max-w-xl mx-auto">
         <div className="mb-8 flex items-center gap-4">
+          <button
+            onClick={() => navigate('/')}
+            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+          >
+            <ArrowLeft size={20} />
+          </button>
           <h1 className="text-3xl font-bold text-white">Withdraw Funds</h1>
         </div>
 

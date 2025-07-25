@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Settings,
@@ -21,6 +22,7 @@ interface ProfilePageProps {
 }
 
 export function ProfilePage({ onExit }: ProfilePageProps) {
+  const navigate = useNavigate();
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [showThemeMenu, setShowThemeMenu] = useState(false);
 
@@ -64,6 +66,8 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
   const handleExit = () => {
     if (onExit) {
       onExit();
+    } else {
+      navigate('/');
     }
   };
 
