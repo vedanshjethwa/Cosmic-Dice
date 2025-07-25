@@ -291,7 +291,7 @@ function App() {
                         : 'text-gray-400 hover:text-white'
                     }`}
                   >
-                    Games
+                    Games ({filteredGameCards.length})
                   </button>
                   <button
                     onClick={() => setActiveSection('bonus')}
@@ -318,7 +318,7 @@ function App() {
                 {activeSection === 'games' && (
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div className="lg:col-span-2">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                         {filteredGameCards.map((game, index) => (
                           <motion.div
                             key={index}
@@ -355,6 +355,21 @@ function App() {
                           </motion.div>
                         ))}
                       </div>
+                      
+                      {/* Show message if no games found */}
+                      {filteredGameCards.length === 0 && searchTerm && (
+                        <div className="text-center py-12">
+                          <div className="text-6xl mb-4">🎮</div>
+                          <h3 className="text-xl font-bold text-gray-400 mb-2">No games found</h3>
+                          <p className="text-gray-500">Try adjusting your search terms</p>
+                          <button 
+                            onClick={() => setSearchTerm('')}
+                            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                          >
+                            Clear Search
+                          </button>
+                        </div>
+                      )}
                     </div>
 
                     <StatsSection />
