@@ -240,31 +240,45 @@ function App() {
                   />
                 </div>
 
-                {/* Scrollable Top Section */}
+                {/* Scrollable Top Section - Featured Offers */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                   className="mb-8"
                 >
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-2xl font-bold text-white">Featured Offers</h2>
+                    <button 
+                      onClick={() => setActiveSection('bonus')}
+                      className="text-blue-400 hover:text-blue-300 text-sm font-medium"
+                    >
+                      View All →
+                    </button>
+                  </div>
                   <div className="relative">
-                    <div className="flex overflow-x-auto scroll-smooth snap-x gap-3 sm:gap-6 mb-6 sm:mb-8 pb-2" style={{ scrollbarWidth: 'thin', scrollbarColor: '#3B82F6 transparent' }}>
+                    <div className="flex overflow-x-auto scroll-smooth snap-x gap-3 sm:gap-6 pb-4" 
+                         style={{ 
+                           scrollbarWidth: 'thin', 
+                           scrollbarColor: '#3B82F6 transparent',
+                           scrollBehavior: 'smooth'
+                         }}>
                       {offers.map((offer, index) => (
                         <div
                           key={index}
-                          className="bg-[#132F4C] rounded-xl p-4 sm:p-6 border border-blue-500/20 hover:border-blue-400/30 transition-colors snap-start flex-shrink-0 w-80 sm:w-96"
+                          className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-xl p-4 sm:p-6 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 snap-start flex-shrink-0 w-80 sm:w-96 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10"
                         >
                           <div className="flex items-center gap-4">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-3">
-                                <div className="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-lg text-xs font-medium border border-blue-500/30">
+                                <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-bold border border-blue-500/30 animate-pulse">
                                   {offer.tag}
                                 </div>
                               </div>
                               <h2 className="text-lg font-bold mb-3 text-white">
                                 {offer.title}
                               </h2>
-                              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors font-medium text-sm">
+                              <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg transition-all duration-300 font-medium text-sm transform hover:scale-105 shadow-lg">
                                 Claim Now
                               </button>
                             </div>
@@ -272,11 +286,20 @@ function App() {
                               <img
                                 src={offer.image}
                                 alt="Offer"
-                                className="w-full h-full object-contain"
+                                className="w-full h-full object-contain filter drop-shadow-lg"
                               />
                             </div>
                           </div>
                         </div>
+                      ))}
+                    </div>
+                    {/* Scroll indicators */}
+                    <div className="flex justify-center mt-4 gap-2">
+                      {offers.map((_, index) => (
+                        <div
+                          key={index}
+                          className="w-2 h-2 rounded-full bg-blue-500/30 hover:bg-blue-500/60 transition-colors cursor-pointer"
+                        />
                       ))}
                     </div>
                   </div>

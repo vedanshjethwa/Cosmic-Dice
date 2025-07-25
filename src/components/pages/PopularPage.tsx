@@ -53,21 +53,17 @@ export function PopularPage() {
     },
   ];
 
+  const handleBackToHome = () => {
+    navigate('/');
+  };
   return (
-    <div className="min-h-screen bg-[#0A1929] p-2 sm:p-4 lg:p-6 text-white">
-      <div className='transition-all duration-300 ease-in-out'>
+    <div className="max-w-6xl mx-auto p-6 text-white">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
         <div className="flex items-center gap-3 mb-4">
-          <button 
-            onClick={() => navigate('/')}
-            className="mr-2 text-gray-400 hover:text-white"
-          >
-            <ArrowLeft className="w-6 h-6" />
-          </button>
           <TrendingUp className="w-8 h-8 text-blue-400" />
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
             Popular Games
@@ -83,7 +79,6 @@ export function PopularPage() {
         games={popularGames} 
         title="Most Popular Games"
       />
-    </div>
     </div>
   );
 }

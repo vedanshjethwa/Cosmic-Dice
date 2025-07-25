@@ -20,6 +20,7 @@ import {
   Sparkles,
   ArrowDownCircle,
   ArrowUpCircle,
+  ArrowLeft,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PopularPage } from './pages/PopularPage';
@@ -291,6 +292,10 @@ export function Sidebar({
     }
   };
 
+  const handleBackToHome = () => {
+    setCurrentPage(null);
+    navigate('/');
+  };
   const isActivePage = (item: any) => {
     if (currentPage && currentPage.label === item.label) return true;
     if (item.path && currentPath === item.path) return true;
@@ -339,6 +344,10 @@ export function Sidebar({
                   }`}
                   onClick={() => handleItemClick(item)}
                 >
+                  {/* Active indicator */}
+                  {isActivePage(item) && (
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-400 rounded-r-full" />
+                  )}
                   <span className="min-w-[24px] group-hover:scale-110 transition-transform">
                     {item.icon}
                   </span>
@@ -351,6 +360,10 @@ export function Sidebar({
                   >
                     {item.label}
                   </span>
+                  {/* Badge for active page */}
+                  {isActivePage(item) && (
+                    <div className="ml-auto w-2 h-2 bg-blue-300 rounded-full animate-pulse" />
+                  )}
                 </button>
               </li>
             ))}
@@ -371,7 +384,7 @@ export function Sidebar({
               <div className="flex justify-between items-center p-6">
                 <div className="flex items-center gap-4">
                   <button
-                    onClick={() => setCurrentPage(null)}
+                    onClick={handleBackToHome}
                     className="text-gray-400 hover:text-white transition-colors"
                   >
                     <ArrowLeft size={24} />
@@ -381,7 +394,7 @@ export function Sidebar({
                   </h2>
                 </div>
                 <button
-                  onClick={() => setCurrentPage(null)}
+                  onClick={handleBackToHome}
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   <X size={24} />

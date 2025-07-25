@@ -82,15 +82,11 @@ export function AboutPage() {
 
     // Update registered players weekly (simulated here with faster interval for demo)
     const registeredPlayersInterval = setInterval(() => {
-      const currentRegistered =
-        parseInt(prevStats[1].value.replace('+', '').replace(',', '')) || 511;
-      const weeklyIncrease = getRandomNumber(100, 300);
-      const newRegistered = currentRegistered + weeklyIncrease;
       setStats((prevStats) => [
         prevStats[0],
         {
           ...prevStats[1],
-          value: formatNumber(newRegistered) + '+',
+          value: formatNumber(getRandomNumber(511, 800)) + '+',
         },
         prevStats[2],
       ]);
@@ -98,18 +94,12 @@ export function AboutPage() {
 
     // Update total paid monthly (simulated here with faster interval for demo)
     const totalPaidInterval = setInterval(() => {
-      const currentPaid =
-        parseInt(
-          prevStats[2].value.replace('$', '').replace('L+', '').replace(',', '')
-        ) * 100000 || 200000;
-      const monthlyIncrease = getRandomNumber(30, 40) * 100000;
-      const newPaid = currentPaid + monthlyIncrease;
       setStats((prevStats) => [
         prevStats[0],
         prevStats[1],
         {
           ...prevStats[2],
-          value: '$' + (newPaid / 100000).toFixed(0) + 'L+',
+          value: '$' + getRandomNumber(2, 5) + 'L+',
         },
       ]);
     }, 45000); // In real app, this would be monthly (2629800000 ms)

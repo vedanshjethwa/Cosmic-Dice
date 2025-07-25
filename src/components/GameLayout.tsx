@@ -120,7 +120,7 @@ export function GameLayout({ gameType }: GameLayoutProps) {
   const GameComponent = gameComponents[gameType];
 
   const handleBack = () => {
-    navigate(-1);
+    navigate('/');
   };
 
   const handleHome = () => {

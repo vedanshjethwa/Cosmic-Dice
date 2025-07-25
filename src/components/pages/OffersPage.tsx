@@ -7,29 +7,6 @@ export function OffersPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showClaimedOffers, setShowClaimedOffers] = useState(false);
 
-  const offers = [
-    {
-      title: 'Get 10% free on your first recharge',
-      image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/crown.png',
-      tag: 'COSMIC',
-    },
-    {
-      title: 'Earn 2x points this weekend',
-      image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/crown.png',
-      tag: 'SPECIAL',
-    },
-    {
-      title: 'Exclusive 50% off on all games',
-      image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/discount.png',
-      tag: 'LIMITED',
-    },
-    {
-      title: 'Win a free game every week',
-      image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/gift.png',
-      tag: 'GIVEAWAY',
-    },
-  ];
-
   const activeOffers = [
     {
       id: 1,
@@ -54,6 +31,29 @@ export function OffersPage() {
       type: 'Cashback',
       timeLeft: '12h',
       isLocked: true,
+    },
+    {
+      id: 6,
+      title: 'VIP Weekend Special',
+      description: 'Exclusive 200% bonus for VIP members only',
+      type: 'VIP Bonus',
+      timeLeft: '1d 5h',
+      isVip: true,
+    },
+    {
+      id: 7,
+      title: 'Lucky Friday Bonus',
+      description: 'Get lucky with our Friday special offers',
+      type: 'Weekly Bonus',
+      timeLeft: '3d',
+      isHot: true,
+    },
+    {
+      id: 8,
+      title: 'Referral Mega Bonus',
+      description: 'Invite friends and earn massive rewards',
+      type: 'Referral',
+      timeLeft: '7d',
     },
   ];
 
