@@ -98,49 +98,6 @@ export function OffersPage() {
         </p>
       </motion.div>
 
-      {/* Featured Offers Carousel */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="mb-8"
-      >
-        <h2 className="text-2xl font-bold mb-6">Featured Offers</h2>
-        <div className="relative">
-          <div className="flex overflow-x-auto scroll-smooth snap-x gap-3 sm:gap-6 mb-6 sm:mb-8" style={{ scrollbarWidth: 'none' }}>
-            {offers.map((offer, index) => (
-              <div
-                key={index}
-                className="bg-[#1E4976] rounded-xl sm:rounded-2xl p-3 sm:p-6 border border-blue-900/20 hover:border-blue-400/30 transition-colors snap-start flex-shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)]"
-              >
-                <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-                  <div className="flex-1 text-center sm:text-left">
-                    <div className="flex items-center justify-center sm:justify-start gap-2 mb-2 sm:mb-3">
-                      <div className="bg-blue-900/30 text-blue-200 px-2 sm:px-3 py-1 rounded-lg text-xs font-medium border border-blue-500/20">
-                        {offer.tag}
-                      </div>
-                    </div>
-                    <h2 className="text-sm sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 text-blue-50">
-                      {offer.title}
-                    </h2>
-                    <button className="bg-blue-900/40 text-blue-100 px-4 sm:px-6 py-1.5 sm:py-2 rounded-lg hover:bg-blue-900/60 transition-colors font-medium text-xs sm:text-sm border border-blue-500/20">
-                      Claim Now
-                    </button>
-                  </div>
-                  <div className="w-20 sm:w-32 lg:w-40">
-                    <img
-                      src={offer.image}
-                      alt="Offer"
-                      className="w-full h-auto object-contain"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-
       {/* Tabs and Search */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
         <div className="flex gap-2 bg-[#132F4C] rounded-lg p-1">

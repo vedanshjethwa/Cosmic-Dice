@@ -155,6 +155,7 @@ interface SidebarProps {
   onWalletClick: () => void;
   onWithdrawalClick: () => void;
   onDepositClick: () => void;
+  currentPath: string;
 }
 
 export function Sidebar({
@@ -163,6 +164,7 @@ export function Sidebar({
   onWalletClick,
   onWithdrawalClick,
   onDepositClick,
+  currentPath,
 }: SidebarProps) {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<{
@@ -174,66 +176,79 @@ export function Sidebar({
     {
       icon: <Home size={20} />,
       label: 'Home',
+      path: '/',
       onClick: () => navigate('/'),
     },
     {
       icon: <TrendingUp size={20} />,
       label: 'Popular',
+      path: '/popular',
       content: <PopularPage />,
     },
     {
       icon: <Gift size={20} />,
       label: 'Offers',
+      path: '/offers',
       content: <OffersPage />,
     },
     {
       icon: <Clock size={20} />,
       label: 'Upcoming Games',
+      path: '/upcoming',
       content: <UpcomingGames />,
     },
     {
       icon: <Wallet size={20} />,
       label: 'Wallet',
+      path: '/wallet',
       onClick: onWalletClick,
       className: 'text-blue-400 hover:text-blue-300',
     },
     {
       icon: <ArrowUpCircle size={20} />,
       label: 'Deposit',
+      path: '/deposit',
       onClick: onDepositClick,
       className: 'text-green-400 hover:text-green-300',
     },
     {
       icon: <ArrowDownCircle size={20} />,
       label: 'Withdrawal',
+      path: '/withdrawal',
       className: 'text-purple-400 hover:text-purple-300',
       onClick: () => navigate('/withdrawal'),
     },
     {
       icon: <Headphones size={20} />,
       label: 'Live Support',
+      path: '/support',
     },
     {
       icon: <Sparkles size={20} />,
       label: 'New Games',
+      path: '/new-games',
       content: <NewGamesPage />,
     },
     {
       icon: <History size={20} />,
       label: 'Transactions',
+      path: '/transactions',
     },
     {
       icon: <MessageCircle size={20} />,
       label: 'Feedback',
+      path: '/feedback',
       content: <FeedbackPage />,
     },
     {
       icon: <Settings size={20} />,
       label: 'Settings',
+      path: '/settings',
     },
     {
       icon: <Info size={20} />,
       label: 'About',
+      path: '/about',
       content: <AboutPage />,
     },
   ];
@@ -276,6 +291,11 @@ export function Sidebar({
     }
   };
 
+  const isActivePage = (item: any) => {
+    if (currentPage && currentPage.label === item.label) return true;
+    if (item.path && currentPath === item.path) return true;
+    return false;
+  };
   return (
     <>
       {/* Overlay */}
@@ -312,8 +332,10 @@ export function Sidebar({
             {menuItems.map((item, index) => (
               <li key={index}>
                 <button
-                  className={`flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-blue-900/30 hover:text-white transition-all whitespace-nowrap group w-full ${
-                    item.className || ''
+                  className={`flex items-center gap-3 p-3 rounded-lg transition-all whitespace-nowrap group w-full ${
+                    isActivePage(item)
+                      ? 'bg-blue-600 text-white'
+                      : `text-gray-300 hover:bg-blue-900/30 hover:text-white ${item.className || ''}`
                   }`}
                   onClick={() => handleItemClick(item)}
                 >
@@ -345,20 +367,27 @@ export function Sidebar({
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-[#0A1929] z-40 overflow-auto"
           >
-            {/* <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+            <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
               <div className="flex justify-between items-center p-6">
-                <h2 className="text-2xl font-bold text-white">
-                  {currentPage.label}
-                </h2>
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => setCurrentPage(null)}
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    <ArrowLeft size={24} />
+                  </button>
+                  <h2 className="text-2xl font-bold text-white">
+                    {currentPage.label}
+                  </h2>
+                </div>
                 <button
                   onClick={() => setCurrentPage(null)}
-                  className="flex items-center gap-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors"
                 >
-                  <X size={18} />
-                  Close
+                  <X size={24} />
                 </button>
               </div>
-            </div> */}
+            </div>
             <div className="pb-8 max-w-6xl mx-auto">
               {currentPage.content}            
               <Footer />
