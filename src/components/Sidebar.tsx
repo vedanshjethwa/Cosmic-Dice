@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PopularPage } from './pages/PopularPage';
-import { NewGamesPage } from './pages/NewGamesPage';
+import NewGamesPage from './pages/NewGamesPage';
 import { AboutPage } from './pages/AboutPage';
 import { OffersPage } from './pages/OffersPage';
 import { Footer } from './Footer';
