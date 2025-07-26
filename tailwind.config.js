@@ -5,6 +5,11 @@ export default {
     "../dice/src/**/*.{js,jsx,ts,tsx}",
     "../limbo/src/**/*.{js,jsx,ts,tsx}",
     "../snakes/src/**/*.{js,jsx,ts,tsx}",
+    "../game bollon/src/**/*.{js,jsx,ts,tsx}",
+    "../minesweeper/src/**/*.{js,jsx,ts,tsx}",
+    "../prediction-pulse/src/**/*.{js,jsx,ts,tsx}",
+    "../toss game/src/**/*.{js,jsx,ts,tsx}",
+    "../rps/src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {},

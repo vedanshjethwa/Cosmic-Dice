@@ -51,6 +51,26 @@ export function PopularPage() {
       players: '2.1K',
       rating: 4.6,
     },
+    {
+      label: 'Cosmic Balloon',
+      image:
+        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3',
+      route: '/game/balloon',
+      description: 'Pop balloons for cosmic rewards',
+      category: 'Luck',
+      players: '1.9K',
+      rating: 4.5,
+    },
+    {
+      label: 'Cosmic Heads & Tails',
+      image:
+        'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3',
+      route: '/game/toss',
+      description: 'Classic coin flip with cosmic rewards',
+      category: 'Luck',
+      players: '2.3K',
+      rating: 4.7,
+    },
   ];
 
   const handleBackToHome = () => {

@@ -4,7 +4,7 @@ import { ArrowLeft, Home, HelpCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface GameLayoutProps {
-  gameType: 'rps' | 'dice' | 'limbo' | 'snakes' | 'card' | 'prediction-pulse';
+  gameType: 'rps' | 'dice' | 'limbo' | 'snakes' | 'card' | 'prediction-pulse' | 'balloon' | 'minesweeper' | 'toss';
 }
 
 // Lazy load game components
@@ -15,6 +15,9 @@ const gameComponents = {
   snakes: lazy(() => import('../../snakes/src/App')),
   card: lazy(() => import('../../card/src/App')),
   'prediction-pulse': lazy(() => import('../../prediction-pulse/src/App')),
+  balloon: lazy(() => import('../../game bollon/src/App')),
+  minesweeper: lazy(() => import('../../minesweeper/src/App')),
+  toss: lazy(() => import('../../toss game/src/App')),
 };
 
 const gameInfo = {
@@ -47,6 +50,21 @@ const gameInfo = {
     title: 'Prediction Pulse',
     description: 'Time your predictions perfectly',
     color: 'from-indigo-600 to-purple-600'
+  },
+  balloon: {
+    title: 'Cosmic Balloon',
+    description: 'Pop balloons for cosmic rewards',
+    color: 'from-pink-600 to-rose-600'
+  },
+  minesweeper: {
+    title: 'Cosmic Minesweeper',
+    description: 'Navigate the cosmic minefield',
+    color: 'from-gray-600 to-slate-600'
+  },
+  toss: {
+    title: 'Cosmic Heads & Tails',
+    description: 'Classic coin flip with cosmic rewards',
+    color: 'from-amber-600 to-yellow-600'
   }
 };
 

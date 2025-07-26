@@ -231,6 +231,12 @@ export function Sidebar({
       content: <NewGamesPage />,
     },
     {
+      icon: <Gamepad size={20} />,
+      label: 'All Games',
+      path: '/all-games',
+      onClick: () => navigate('/'),
+    },
+    {
       icon: <History size={20} />,
       label: 'Transactions',
       path: '/transactions',

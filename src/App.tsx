@@ -85,6 +85,27 @@ function App() {
       route: '/game/prediction-pulse',
       description: 'Time your predictions perfectly',
       category: 'Timing'
+    },
+    {
+      label: 'Cosmic Balloon',
+      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&q=80&w=400&h=225',
+      route: '/game/balloon',
+      description: 'Pop balloons for cosmic rewards',
+      category: 'Luck'
+    },
+    {
+      label: 'Cosmic Minesweeper',
+      image: 'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?auto=format&fit=crop&q=80&w=400&h=225',
+      route: '/game/minesweeper',
+      description: 'Navigate the cosmic minefield',
+      category: 'Strategy'
+    },
+    {
+      label: 'Cosmic Heads & Tails',
+      image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400&h=225',
+      route: '/game/toss',
+      description: 'Classic coin flip with cosmic rewards',
+      category: 'Luck'
     }
   ];
 
@@ -413,6 +434,9 @@ function App() {
           <Route path="/game/snakes" element={<GameLayout gameType="snakes" />} />
           <Route path="/game/card" element={<GameLayout gameType="card" />} />
           <Route path="/game/prediction-pulse" element={<GameLayout gameType="prediction-pulse" />} />
+          <Route path="/game/balloon" element={<GameLayout gameType="balloon" />} />
+          <Route path="/game/minesweeper" element={<GameLayout gameType="minesweeper" />} />
+          <Route path="/game/toss" element={<GameLayout gameType="toss" />} />
 
           {/* Other Routes */}
           <Route path="/profile" element={<ProfilePage onExit={() => navigate('/')} />} />
