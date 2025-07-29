@@ -28,6 +28,8 @@ import { PopularPage } from './pages/PopularPage';
 import NewGamesPage from './pages/NewGamesPage';
 import { AboutPage } from './pages/AboutPage';
 import { OffersPage } from './pages/OffersPage';
+import { SettingsPage } from './pages/SettingsPage';
+import { AllGamesPage } from './pages/AllGamesPage';
 import { Footer } from './Footer';
 import FeedbackPage from './FeedbackPage';
 import { useChatStore } from './ChatSupport/ChatStore';
@@ -190,6 +192,12 @@ export function Sidebar({
       content: <PopularPage />,
     },
     {
+      icon: <Gamepad size={20} />,
+      label: 'All Games',
+      path: '/all-games',
+      content: <AllGamesPage />,
+    },
+    {
       icon: <Gift size={20} />,
       label: 'Offers',
       path: '/offers',
@@ -240,12 +248,6 @@ export function Sidebar({
       content: <NewGamesPage />,
     },
     {
-      icon: <Gamepad size={20} />,
-      label: 'All Games',
-      path: '/all-games',
-      onClick: () => navigate('/'),
-    },
-    {
       icon: <History size={20} />,
       label: 'Transactions',
       path: '/transactions',
@@ -260,6 +262,7 @@ export function Sidebar({
       icon: <Settings size={20} />,
       label: 'Settings',
       path: '/settings',
+      content: <SettingsPage />,
     },
     {
       icon: <Info size={20} />,

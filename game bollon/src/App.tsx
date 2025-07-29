@@ -20,8 +20,6 @@ interface BetRecord {
   timestamp: Date;
 }
 
-const MAX_BET = 100000;
-
 function App() {
   const [bet, setBet] = useState(10);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -179,7 +177,7 @@ function App() {
     }
 
     const roundedValue = Math.round(numValue * 100) / 100;
-    const newBet = Math.max(0, Math.min(MAX_BET, roundedValue));
+    const newBet = Math.max(0, Math.min(100000, roundedValue));
     setBet(newBet);
   };
 
@@ -219,12 +217,12 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(45,55,72,0.3),transparent)] pointer-events-none"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(66,153,225,0.15),transparent)] pointer-events-none"></div>
+    <div className="min-h-screen bg-gradient-to-br from-[#1a1f3a] via-[#2d3561] to-[#1a1f3a] text-white relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent pointer-events-none"></div>
       
       <div className="relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 animate-glow"></div>
         <Border 
           onHelpClick={() => setShowInfo(true)} 
           onBackClick={() => console.log('Back clicked')} 
@@ -234,9 +232,10 @@ function App() {
       <HowToPlayModal isOpen={showInfo} onClose={() => setShowInfo(false)} />
 
       <div className="container mx-auto max-w-7xl py-8 px-4 relative z-10">
-        <div className="flex flex-col lg:flex-row-reverse gap-8">
-          <div className="lg:w-2/3 order-1 lg:order-2">
-            <div className="bg-black/30 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-2xl border border-blue-500/20 relative">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Main Game Area */}
+          <div className="lg:w-2/3 order-1">
+            <div className="bg-[#1e2749]/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-2xl border border-blue-500/20 relative">
               {showResult && (
                 <div className="absolute inset-x-0 top-4 sm:top-8 text-center z-10 animate-fadeIn">
                   <div className="inline-block">
@@ -341,14 +340,16 @@ function App() {
             </div>
           </div>
 
-          <div className="lg:w-1/3 order-2 lg:order-1 space-y-6">
-            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20 shadow-2xl">
+          {/* Right Sidebar */}
+          <div className="lg:w-1/3 order-2 space-y-6">
+            {/* Place Your Bet */}
+            <div className="bg-[#1e2749]/80 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20 shadow-2xl">
               <h2 className="text-xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
                 Place Your Bet
               </h2>
               
               <div className="space-y-4">
-                <div className="bg-black/50 px-4 py-3 rounded-xl border border-blue-500/10 shadow-lg">
+                <div className="bg-[#0f1629]/50 px-4 py-3 rounded-xl border border-blue-500/10 shadow-lg">
                   <span className="text-sm text-gray-400 mb-1 block">Bet Amount</span>
                   <div className="flex items-center gap-2">
                     <button
@@ -365,14 +366,14 @@ function App() {
                       value={bet.toFixed(2)}
                       onChange={(e) => handleBetChange(e.target.value)}
                       disabled={isPlaying}
-                      className="w-full bg-black/50 rounded-lg px-3 py-2
+                      className="w-full bg-[#0f1629]/50 rounded-lg px-3 py-2
                         text-lg font-bold text-white text-center
                         border border-blue-500/30 focus:border-blue-500/50 focus:outline-none
                         disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                     <button
                       onClick={incrementBet}
-                      disabled={isPlaying || bet >= MAX_BET}
+                      disabled={isPlaying || bet >= 100000}
                       className="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-500/10 
                         hover:bg-blue-500/20 border border-blue-500/30 text-blue-400
                         disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -398,22 +399,23 @@ function App() {
               </div>
             </div>
 
-            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20 shadow-2xl">
+            {/* Stats */}
+            <div className="bg-[#1e2749]/80 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20 shadow-2xl">
               <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
                 Stats
               </h2>
               <div className="grid grid-cols-3 gap-4">
-                <div className="bg-black/30 rounded-lg p-4 border border-blue-500/10">
+                <div className="bg-[#0f1629]/30 rounded-lg p-4 border border-blue-500/10">
                   <div className="text-sm text-gray-400">Total Profit</div>
                   <div className={`text-xl font-bold ${stats.totalProfit >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                     {stats.totalProfit >= 0 ? '+' : ''}₹{stats.totalProfit.toFixed(2)}
                   </div>
                 </div>
-                <div className="bg-black/30 rounded-lg p-4 border border-blue-500/10">
+                <div className="bg-[#0f1629]/30 rounded-lg p-4 border border-blue-500/10">
                   <div className="text-sm text-gray-400">Wins</div>
                   <div className="text-xl font-bold text-green-500">{stats.totalWins}</div>
                 </div>
-                <div className="bg-black/30 rounded-lg p-4 border border-blue-500/10">
+                <div className="bg-[#0f1629]/30 rounded-lg p-4 border border-blue-500/10">
                   <div className="text-sm text-gray-400">Losses</div>
                   <div className="text-xl font-bold text-red-500">{stats.totalLosses}</div>
                 </div>
@@ -422,7 +424,8 @@ function App() {
           </div>
         </div>
 
-        <div className="mt-8 bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20 shadow-2xl">
+        {/* Recent Bets - Full Width */}
+        <div className="mt-8 bg-[#1e2749]/80 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20 shadow-2xl">
           <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
             Recent Bets
           </h2>

@@ -416,15 +416,30 @@
   }
 }
 
-/* Improved mobile chat positioning */
+/* Chat window responsive positioning */
 @media (max-width: 640px) {
-  .chat-window-mobile {
-    position: fixed;
-    bottom: 5rem;
+  .chat-window {
+    position: fixed !important;
+    bottom: 5rem !important;
+    right: 1rem !important;
+    left: 1rem !important;
+    width: auto !important;
+    max-height: 70vh !important;
+  }
+}
+
+/* Chat button positioning */
+.chat-button {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+}
+
+@media (max-width: 640px) {
+  .chat-button {
+    bottom: 1rem;
     right: 1rem;
-    left: 1rem;
-    width: auto;
-    max-height: 70vh;
   }
 }
 
