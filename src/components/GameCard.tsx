@@ -34,6 +34,11 @@ export function GameCard({
     navigate(route);
   };
 
+  const handleShowDetails = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const gameId = route.split('/').pop();
+    navigate(`/game-detail/${gameId}`);
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -99,9 +104,22 @@ export function GameCard({
           {description}
         </p>
 
-        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors font-medium">
-          Play Now
-        </button>
+        <div className="flex gap-2">
+          <button 
+            onClick={handlePlay}
+            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors font-medium"
+          >
+            Play Now
+          </button>
+          {(isNew || isFeatured) && (
+            <button
+              onClick={handleShowDetails}
+              className="px-3 py-2 bg-gray-600/20 hover:bg-gray-600/30 text-gray-300 rounded-lg transition-colors text-sm"
+            >
+              Info
+            </button>
+          )}
+        </div>
       </div>
     </motion.div>
   );

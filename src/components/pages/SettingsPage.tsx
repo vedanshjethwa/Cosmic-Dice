@@ -10,16 +10,13 @@ import {
   Sun,
   Volume2,
   VolumeX,
-  Eye,
-  EyeOff,
-  Smartphone,
-  Mail,
-  Lock,
   HelpCircle,
   FileText,
   AlertTriangle,
   Save,
-  RefreshCw
+  RefreshCw,
+  Headphones,
+  MessageCircle
 } from 'lucide-react';
 
 export function SettingsPage() {
@@ -369,6 +366,27 @@ export function SettingsPage() {
               </div>
             </button>
             <button className="flex items-center gap-3 p-4 bg-[#0A1929] rounded-lg hover:bg-blue-600/20 transition-colors text-left">
+              <Headphones className="w-5 h-5 text-blue-400" />
+              <div>
+                <h3 className="text-white font-medium">Gambling Helpline</h3>
+                <p className="text-gray-400 text-sm">Get help for gambling addiction</p>
+              </div>
+            </button>
+            <button className="flex items-center gap-3 p-4 bg-[#0A1929] rounded-lg hover:bg-blue-600/20 transition-colors text-left">
+              <MessageCircle className="w-5 h-5 text-blue-400" />
+              <div>
+                <h3 className="text-white font-medium">Live Support</h3>
+                <p className="text-gray-400 text-sm">Chat with our support team</p>
+              </div>
+            </button>
+            <button className="flex items-center gap-3 p-4 bg-[#0A1929] rounded-lg hover:bg-blue-600/20 transition-colors text-left">
+              <Shield className="w-5 h-5 text-blue-400" />
+              <div>
+                <h3 className="text-white font-medium">Self Exclusion</h3>
+                <p className="text-gray-400 text-sm">Temporarily block your account</p>
+              </div>
+            </button>
+            <button className="flex items-center gap-3 p-4 bg-[#0A1929] rounded-lg hover:bg-blue-600/20 transition-colors text-left">
               <FileText className="w-5 h-5 text-blue-400" />
               <div>
                 <h3 className="text-white font-medium">Terms of Service</h3>
@@ -376,17 +394,17 @@ export function SettingsPage() {
               </div>
             </button>
             <button className="flex items-center gap-3 p-4 bg-[#0A1929] rounded-lg hover:bg-blue-600/20 transition-colors text-left">
-              <Shield className="w-5 h-5 text-blue-400" />
-              <div>
-                <h3 className="text-white font-medium">Privacy Policy</h3>
-                <p className="text-gray-400 text-sm">Your privacy matters</p>
-              </div>
-            </button>
-            <button className="flex items-center gap-3 p-4 bg-[#0A1929] rounded-lg hover:bg-blue-600/20 transition-colors text-left">
               <AlertTriangle className="w-5 h-5 text-blue-400" />
               <div>
                 <h3 className="text-white font-medium">Responsible Gaming</h3>
                 <p className="text-gray-400 text-sm">Gaming responsibly</p>
+              </div>
+            </button>
+            <button className="flex items-center gap-3 p-4 bg-[#0A1929] rounded-lg hover:bg-blue-600/20 transition-colors text-left">
+              <FileText className="w-5 h-5 text-blue-400" />
+              <div>
+                <h3 className="text-white font-medium">Privacy Policy</h3>
+                <p className="text-gray-400 text-sm">Your privacy matters</p>
               </div>
             </button>
           </div>

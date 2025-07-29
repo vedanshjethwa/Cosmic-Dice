@@ -220,7 +220,7 @@ export function Sidebar({
       icon: <ArrowUpCircle size={20} />,
       label: 'Deposit',
       path: '/deposit',
-      onClick: onDepositClick,
+      onClick: () => navigate('/deposit'),
       className: 'text-green-400 hover:text-green-300',
     },
     {

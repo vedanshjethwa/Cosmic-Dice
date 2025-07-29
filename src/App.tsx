@@ -12,6 +12,10 @@ import { ProfilePage } from './components/ProfilePage';
 import { WithdrawalPage } from './components/WithdrawalPage';
 import { ChatButton } from './components/ChatSupport/ChatButton';
 import { ChatWindow } from './components/ChatSupport/ChatWindow';
+import { DepositPage } from './components/pages/DepositPage';
+import { GameDetailPage } from './components/pages/GameDetailPage';
+import { GuidanceSystem } from './components/GuidanceSystem';
+import { SearchSystem } from './components/SearchSystem';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Game Pages
@@ -27,6 +31,19 @@ function App() {
     'games' | 'bonus' | 'affiliate' | 'profile' | 'withdrawal'
   >('games');
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [userBehavior] = useState({
+    consecutiveLosses: 2,
+    totalBetAmount: 1500,
+    sessionTime: 20 * 60 * 1000, // 20 minutes
+    lastBetAmount: 500,
+    averageBetSize: 150,
+  });
+  const [gameContext] = useState({
+    currentGame: 'cosmic-dice',
+    isPlaying: false,
+    balance: 2500,
+  });
   const mainContentRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -201,12 +218,16 @@ function App() {
                           placeholder="Search games..."
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
+                          onFocus={() => setShowSearchModal(true)}
                           className={`bg-[#132F4C] rounded-lg pl-10 pr-4 py-2.5 w-[200px] lg:w-[300px] focus:outline-none border-2 transition-colors duration-200 text-white ${
                             searchFocused
                               ? 'border-blue-400/50'
                               : 'border-transparent'
                           }`}
-                          onFocus={() => setSearchFocused(true)}
+                          onFocus={() => {
+                            setSearchFocused(true);
+                            setShowSearchModal(true);
+                          }}
                           onBlur={() => setSearchFocused(false)}
                         />
                       </div>
@@ -256,7 +277,10 @@ function App() {
                         ? 'border-blue-400/50'
                         : 'border-transparent'
                     }`}
-                    onFocus={() => setSearchFocused(true)}
+                    onFocus={() => {
+                      setSearchFocused(true);
+                      setShowSearchModal(true);
+                    }}
                     onBlur={() => setSearchFocused(false)}
                     value={searchTerm}
                     onChange={e => setSearchTerm(e.target.value)}
@@ -443,6 +467,8 @@ function App() {
           {/* Other Routes */}
           <Route path="/profile" element={<ProfilePage onExit={() => navigate('/')} />} />
           <Route path="/withdrawal" element={<WithdrawalPage />} />
+          <Route path="/deposit" element={<DepositPage />} />
+          <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
           <Route path="/home" element={<HomePage />} />
         </Routes>
       </div>
@@ -455,6 +481,18 @@ function App() {
         isOpen={isWalletModalOpen}
         onClose={() => setWalletModalOpen(false)}
       />
+
+      <SearchSystem
+        isOpen={showSearchModal}
+        onClose={() => setShowSearchModal(false)}
+      />
+
+      {!isGameRoute && (
+        <GuidanceSystem
+          userBehavior={userBehavior}
+          gameContext={gameContext}
+        />
+      )}
 
       {!isGameRoute && (
         <>

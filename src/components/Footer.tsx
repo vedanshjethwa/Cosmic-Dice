@@ -53,7 +53,7 @@ export function Footer() {
       title: 'About Us',
       icon: <BookOpen className="w-5 h-5" />,
       links: [
-        { name: 'Affiliate', href: 'https://example.com/affiliate' },
+        { name: 'Affiliate Program', href: 'https://example.com/affiliate' },
         { name: 'Privacy Policy', href: 'https://example.com/privacy-policy' },
         { name: 'Terms of Service', href: 'https://example.com/terms-of-service' },
       ],
@@ -68,9 +68,10 @@ export function Footer() {
       ],
     },
     guides: {
-      title: 'How-to Guides',
+      title: 'Guides',
       icon: <HelpCircle className="w-5 h-5" />,
       links: [
+        { name: 'How-to Guides', href: 'https://example.com/how-to-guides' },
         { name: 'Online Casino Guide', href: 'https://example.com/online-casino-guide' },
         { name: 'Responsible Gaming', href: 'https://example.com/responsible-gaming', icon: <AlertTriangle className="w-4 h-4" /> },
         { name: 'Security Tips', href: 'https://example.com/security-tips', icon: <Shield className="w-4 h-4" /> },
