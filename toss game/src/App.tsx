@@ -224,7 +224,7 @@ function App() {
                 <span className="font-semibold text-[#3b82f6]">
                   Flip the Coin:
                 </span>{' '}
-                Click the 'Flip' button to start the game
+                Click the 'Flip\' button to start the game
               </li>
               <li className="leading-relaxed">
                 <span className="font-semibold text-[#3b82f6]">
