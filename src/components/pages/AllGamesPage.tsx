@@ -167,31 +167,6 @@ export function AllGamesPage() {
         </p>
       </motion.div>
 
-      {/* Stats Overview */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
-      >
-        <div className="bg-[#132F4C] rounded-xl p-4 border border-blue-500/20 text-center">
-          <div className="text-2xl font-bold text-blue-400 mb-1">{gameStats.totalGames}</div>
-          <div className="text-gray-400 text-sm">Total Games</div>
-        </div>
-        <div className="bg-[#132F4C] rounded-xl p-4 border border-blue-500/20 text-center">
-          <div className="text-2xl font-bold text-green-400 mb-1">{gameStats.totalPlayers.toFixed(1)}K</div>
-          <div className="text-gray-400 text-sm">Active Players</div>
-        </div>
-        <div className="bg-[#132F4C] rounded-xl p-4 border border-blue-500/20 text-center">
-          <div className="text-2xl font-bold text-yellow-400 mb-1">{gameStats.averageRating.toFixed(1)}</div>
-          <div className="text-gray-400 text-sm">Avg Rating</div>
-        </div>
-        <div className="bg-[#132F4C] rounded-xl p-4 border border-blue-500/20 text-center">
-          <div className="text-2xl font-bold text-purple-400 mb-1">{gameStats.newGames}</div>
-          <div className="text-gray-400 text-sm">New Games</div>
-        </div>
-      </motion.div>
-
       {/* Filters and Search */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
