@@ -98,6 +98,34 @@ export function OffersPage() {
         </p>
       </motion.div>
 
+      {/* Attractive Banner */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8 }}
+        className="mt-12 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 rounded-2xl p-8 border border-blue-500/30 relative overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 animate-pulse"></div>
+        <div className="relative z-10 text-center">
+          <div className="text-4xl mb-4">🎁</div>
+          <h3 className="text-2xl font-bold text-white mb-4">
+            Don't Miss Out on Exclusive Rewards!
+          </h3>
+          <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+            Join thousands of players who are already enjoying our premium bonuses, 
+            daily rewards, and special promotions. Start your cosmic journey today!
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105">
+              Claim Welcome Bonus
+            </button>
+            <button className="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-lg font-semibold transition-all border border-white/20">
+              View All Promotions
+            </button>
+          </div>
+        </div>
+      </motion.div>
+
       {/* Tabs and Search */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
         <div className="flex gap-2 bg-[#132F4C] rounded-lg p-1">

@@ -31,6 +31,13 @@ export function GuidanceSystem({ userBehavior, gameContext }: GuidanceSystemProp
   const [activeTooltips, setActiveTooltips] = useState<GuidanceTooltip[]>([]);
 
   useEffect(() => {
+    // Don't show guidance on initial page load
+    const hasVisited = sessionStorage.getItem('hasVisited');
+    if (!hasVisited) {
+      sessionStorage.setItem('hasVisited', 'true');
+      return;
+    }
+
     const newTooltips: GuidanceTooltip[] = [];
 
     // Overbetting warning

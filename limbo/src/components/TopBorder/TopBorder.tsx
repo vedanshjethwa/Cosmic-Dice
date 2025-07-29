@@ -17,7 +17,7 @@ function formatINR(amount: number): string {
 
 export function TopBorder({ balance, onBackClick, onHelpClick }: TopBorderProps) {
   return (
-    <header className="sticky top-0 z-50 bg-gradient-header border-t-2 border-blue-500 backdrop-blur-sm transition-all duration-300">
+    <header className="sticky top-0 z-50 bg-gradient-header backdrop-blur-sm transition-all duration-300">
       <div className="max-w-6xl mx-auto p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">

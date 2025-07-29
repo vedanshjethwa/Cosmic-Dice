@@ -22,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({
   onHelpClick,
 }) => {
   return (
-    <header className="bg-gradient-to-b from-black via-black to-[#0a0f1a] border-t-2 border-[#3b82f6] p-4">
+    <header className="bg-gradient-to-b from-black via-black to-[#0a0f1a] p-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">

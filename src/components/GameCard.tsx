@@ -48,7 +48,7 @@ export function GameCard({
       className={`relative bg-[#0A1929] rounded-xl overflow-hidden group cursor-pointer border transition-all duration-300 ${
         isFeatured 
           ? 'border-yellow-500/30 shadow-lg shadow-yellow-500/10' 
-          : 'border-blue-900/10 hover:border-blue-500/20'
+          : 'border-transparent hover:border-blue-500/20'
       }`}
       onClick={handlePlay}
     >

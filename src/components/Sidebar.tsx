@@ -273,6 +273,9 @@ export function Sidebar({
   ];
 
   const handleItemClick = (item: any) => {
+    // Close any existing page content first
+    setCurrentPage(null);
+    
     if (item.onClick) {
       item.onClick();
       return;

@@ -21,6 +21,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 // Game Pages
 import { GameLayout } from './components/GameLayout';
 import { HomePage } from './components/pages/HomePage';
+import { OffersPage } from './components/pages/OffersPage';
 
 function App() {
   const [isNavSidebarOpen, setNavSidebarOpen] = useState(false);
@@ -45,8 +46,21 @@ function App() {
     balance: 2500,
   });
   const mainContentRef = useRef<HTMLDivElement>(null);
+  const notificationRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Close notifications when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     if (isNavSidebarOpen) {
@@ -297,7 +311,7 @@ function App() {
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="text-2xl font-bold text-white">Featured Offers</h2>
                     <button 
-                      onClick={() => setActiveSection('bonus')}
+                      onClick={() => navigate('/offers')}
                       className="text-blue-400 hover:text-blue-300 text-sm font-medium"
                     >
                       View All →
@@ -339,6 +353,28 @@ function App() {
                           </div>
                         </div>
                       ))}
+                    
+                    {/* Attractive Banner for Home Page */}
+                    <div className="mt-8 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 rounded-2xl p-6 border border-blue-500/30 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 animate-pulse"></div>
+                      <div className="relative z-10 text-center">
+                        <div className="text-3xl mb-3">🎁</div>
+                        <h3 className="text-xl font-bold text-white mb-3">
+                          Don't Miss Out on Exclusive Rewards!
+                        </h3>
+                        <p className="text-gray-300 mb-4 text-sm">
+                          Join thousands of players enjoying premium bonuses and daily rewards.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                          <button 
+                            onClick={() => navigate('/offers')}
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 text-sm"
+                          >
+                            View All Offers
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                     </div>
                     {/* Scroll indicators */}
                     <div className="flex justify-center mt-4 gap-2">

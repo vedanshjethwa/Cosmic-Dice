@@ -135,29 +135,6 @@ const NewGamesPage: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* Stats Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-        className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-xl p-6 border border-blue-500/20"
-      >
-        <h3 className="text-xl font-bold mb-4 text-white">New Games Statistics</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-blue-400 mb-1">4</div>
-            <div className="text-gray-400">New Games Added</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-green-400 mb-1">7.4K</div>
-            <div className="text-gray-400">Total Players</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-purple-400 mb-1">4.6</div>
-            <div className="text-gray-400">Average Rating</div>
-          </div>
-        </div>
-      </motion.div>
     </div>
   );
 };

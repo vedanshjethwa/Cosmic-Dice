@@ -7,7 +7,7 @@ interface BorderProps {
 
 export function Border({ onBackClick, onHelpClick }: BorderProps) {
   return (
-    <header className="bg-gradient-to-b from-black/80 via-black/60 to-black/40 border-t-2 border-blue-500 p-4 relative z-20">
+    <header className="bg-gradient-to-b from-black/80 via-black/60 to-black/40 p-4 relative z-20">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
