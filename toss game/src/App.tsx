@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Minus, Plus, History, Trophy, Sparkles, Zap } from 'lucide-react';
 import { NumericFormat } from 'react-number-format';
-import { Border } from './border/Border';
 import { StarToggle } from './components/StarToggle';
 
 interface BetHistoryItem {
@@ -248,12 +247,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923]">
-      <Border
-        balance={balance}
-        onBackClick={() => console.log('Back clicked')}
-        onHelpClick={() => setShowHelp(true)}
-      />
-
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto">
           {/* Main Game Section - Split into two columns on desktop */}

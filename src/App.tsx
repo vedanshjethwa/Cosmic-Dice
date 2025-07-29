@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { Search, Wallet, Bell, Menu, ArrowLeft } from 'lucide-react';
+import { Search, Wallet, Bell, Menu, ArrowLeft, X } from 'lucide-react';
 import { RedeemModal } from './components/RedeemModal';
 import { WalletModal } from './components/WalletModal';
 import { Footer } from './components/Footer';
@@ -33,6 +33,12 @@ function App() {
   >('games');
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([
+    { id: 1, title: 'Welcome Bonus Available!', message: 'Claim your 100% first deposit bonus', time: '2 min ago', unread: true },
+    { id: 2, title: 'New Game Released', message: 'Cosmic Balloon is now live!', time: '1 hour ago', unread: true },
+    { id: 3, title: 'Withdrawal Processed', message: 'Your withdrawal of ₹5000 has been completed', time: '2 hours ago', unread: false }
+  ]);
   const [userBehavior] = useState({
     consecutiveLosses: 2,
     totalBetAmount: 1500,
@@ -50,6 +56,8 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const unreadCount = notifications.filter(n => n.unread).length;
+
   // Close notifications when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -60,7 +68,7 @@ function App() {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [setShowNotifications]);
 
   useEffect(() => {
     if (isNavSidebarOpen) {
@@ -175,6 +183,23 @@ function App() {
   const isGameRoute = location.pathname.startsWith('/game/');
   const isHomePage = location.pathname === '/';
 
+  const handleNotificationClick = () => {
+    setShowNotifications(!showNotifications);
+  };
+
+  const markAsRead = (id: number) => {
+    setNotifications(prev => prev.map(n => n.id === id ? { ...n, unread: false } : n));
+  };
+
+  const handleWalletAction = (action: 'deposit' | 'withdraw') => {
+    setWalletModalOpen(false);
+    if (action === 'deposit') {
+      navigate('/deposit');
+    } else {
+      navigate('/withdrawal');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#0A1929] text-white">
       <Sidebar
@@ -210,7 +235,7 @@ function App() {
                         <Menu size={25} />
                       </button>
                       <h1
-                        className="text-xl sm:text-2xl lg:text-3xl font-bold text-white transition-all duration-300"
+                        className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
                         style={{
                            fontFamily: "'Orbitron', sans-serif"
                           }}
@@ -247,26 +272,78 @@ function App() {
                       </div>
                       <button
                         onClick={() => setWalletModalOpen(true)}
-                        className="relative hover:text-blue-400 transition-colors"
+                        className="relative hover:text-blue-400 transition-colors p-2 rounded-lg hover:bg-blue-500/10"
                       >
                         <Wallet size={24} />
-                        <span className="absolute -top-1 -right-1 bg-blue-500 rounded-full w-4 h-4 text-xs flex items-center justify-center">
-                          2
-                        </span>
                       </button>
-                      <div className="relative">
-                        <Bell size={24} />
-                        <span className="absolute -top-1 -right-1 bg-blue-500 rounded-full w-4 h-4 text-xs flex items-center justify-center">
-                          1
-                        </span>
+                      <div className="relative" ref={notificationRef}>
+                        <button
+                          onClick={handleNotificationClick}
+                          className="relative hover:text-blue-400 transition-colors p-2 rounded-lg hover:bg-blue-500/10"
+                        >
+                          <Bell size={24} />
+                          {unreadCount > 0 && (
+                            <span className="absolute -top-1 -right-1 bg-red-500 rounded-full w-5 h-5 text-xs flex items-center justify-center text-white font-bold">
+                              {unreadCount}
+                            </span>
+                          )}
+                        </button>
+                        
+                        {/* Notifications Dropdown */}
+                        {showNotifications && (
+                          <div className="absolute right-0 top-full mt-2 w-80 bg-[#132F4C] rounded-xl border border-blue-500/20 shadow-2xl z-50 max-h-96 overflow-y-auto">
+                            <div className="p-4 border-b border-blue-500/20">
+                              <div className="flex items-center justify-between">
+                                <h3 className="text-lg font-semibold text-white">Notifications</h3>
+                                <button
+                                  onClick={() => setShowNotifications(false)}
+                                  className="text-gray-400 hover:text-white transition-colors"
+                                >
+                                  <X size={20} />
+                                </button>
+                              </div>
+                            </div>
+                            <div className="max-h-80 overflow-y-auto">
+                              {notifications.map((notification) => (
+                                <div
+                                  key={notification.id}
+                                  className={`p-4 border-b border-blue-500/10 hover:bg-blue-500/5 transition-colors cursor-pointer ${
+                                    notification.unread ? 'bg-blue-500/5' : ''
+                                  }`}
+                                  onClick={() => markAsRead(notification.id)}
+                                >
+                                  <div className="flex items-start justify-between">
+                                    <div className="flex-1">
+                                      <h4 className="text-white font-medium mb-1">{notification.title}</h4>
+                                      <p className="text-gray-400 text-sm mb-2">{notification.message}</p>
+                                      <span className="text-blue-400 text-xs">{notification.time}</span>
+                                    </div>
+                                    {notification.unread && (
+                                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="p-4 border-t border-blue-500/20">
+                              <button className="w-full text-center text-blue-400 hover:text-blue-300 transition-colors text-sm">
+                                View All Notifications
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
                       <div className="relative">
-                        <img
-                          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=40&h=40"
-                          alt="Profile"
-                          className="w-8 h-8 sm:w-10 sm:h-10 rounded-full ring-2 ring-blue-400/30 cursor-pointer"
+                        <button
                           onClick={() => navigate('/profile')}
-                        />
+                          className="hover:scale-105 transition-transform"
+                        >
+                          <img
+                            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=40&h=40"
+                            alt="Profile"
+                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full ring-2 ring-blue-400/30 cursor-pointer"
+                          />
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -301,7 +378,7 @@ function App() {
                   />
                 </div>
 
-                {/* Scrollable Top Section - Featured Offers */}
+                {/* Compact Featured Offers */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -309,7 +386,7 @@ function App() {
                   className="mb-8"
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-2xl font-bold text-white">Featured Offers</h2>
+                    <h2 className="text-xl font-bold text-white">Featured Offers</h2>
                     <button 
                       onClick={() => navigate('/offers')}
                       className="text-blue-400 hover:text-blue-300 text-sm font-medium"
@@ -318,32 +395,32 @@ function App() {
                     </button>
                   </div>
                   <div className="relative">
-                    <div className="flex overflow-x-auto scroll-smooth snap-x gap-3 lg:gap-6 pb-4" 
+                    <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 pb-4" 
                          style={{ 
                            scrollbarWidth: 'thin', 
                            scrollbarColor: '#3B82F6 transparent',
                            scrollBehavior: 'smooth'
                          }}>
-                      {offers.map((offer, index) => (
+                      {offers.slice(0, 3).map((offer, index) => (
                         <div
                           key={index}
-                          className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-xl p-4 lg:p-6 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 snap-start flex-shrink-0 w-72 sm:w-80 lg:w-96 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10"
+                          className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-lg p-4 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 snap-start flex-shrink-0 w-64 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10"
                         >
-                          <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-3">
                             <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-3">
-                                <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-bold border border-blue-500/30 animate-pulse">
+                              <div className="flex items-center gap-2 mb-2">
+                                <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 px-2 py-1 rounded-full text-xs font-bold border border-blue-500/30">
                                   {offer.tag}
                                 </div>
                               </div>
-                              <h2 className="text-base lg:text-lg font-bold mb-3 text-white">
+                              <h2 className="text-sm font-bold mb-2 text-white">
                                 {offer.title}
                               </h2>
-                              <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg transition-all duration-300 font-medium text-sm transform hover:scale-105 shadow-lg">
+                              <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-3 py-1.5 rounded-lg transition-all duration-300 font-medium text-xs transform hover:scale-105">
                                 Claim Now
                               </button>
                             </div>
-                            <div className="w-12 h-12 lg:w-16 lg:h-16">
+                            <div className="w-10 h-10">
                               <img
                                 src={offer.image}
                                 alt="Offer"
@@ -352,37 +429,6 @@ function App() {
                             </div>
                           </div>
                         </div>
-                      ))}
-                    
-                    {/* Attractive Banner for Home Page */}
-                    <div className="mt-8 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 rounded-2xl p-6 border border-blue-500/30 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 animate-pulse"></div>
-                      <div className="relative z-10 text-center">
-                        <div className="text-3xl mb-3">🎁</div>
-                        <h3 className="text-xl font-bold text-white mb-3">
-                          Don't Miss Out on Exclusive Rewards!
-                        </h3>
-                        <p className="text-gray-300 mb-4 text-sm">
-                          Join thousands of players enjoying premium bonuses and daily rewards.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                          <button 
-                            onClick={() => navigate('/offers')}
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 text-sm"
-                          >
-                            View All Offers
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    </div>
-                    {/* Scroll indicators */}
-                    <div className="flex justify-center mt-4 gap-2">
-                      {offers.map((_, index) => (
-                        <div
-                          key={index}
-                          className="w-2 h-2 rounded-full bg-blue-500/30 hover:bg-blue-500/60 transition-colors cursor-pointer"
-                        />
                       ))}
                     </div>
                   </div>
@@ -489,6 +535,9 @@ function App() {
               </div>
           } />
 
+          {/* Offers Page Route */}
+          <Route path="/offers" element={<OffersPage />} />
+
           {/* Game Routes */}
           <Route path="/game/rps" element={<GameLayout gameType="rps" />} />
           <Route path="/game/dice" element={<GameLayout gameType="dice" />} />
@@ -516,6 +565,8 @@ function App() {
       <WalletModal
         isOpen={isWalletModalOpen}
         onClose={() => setWalletModalOpen(false)}
+        onDeposit={() => handleWalletAction('deposit')}
+        onWithdraw={() => handleWalletAction('withdraw')}
       />
 
       <SearchSystem

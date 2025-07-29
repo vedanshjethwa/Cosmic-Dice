@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Wallet, History, BarChart3, Trophy } from 'lucide-react';
-import { Border } from './borders';
 import { StarToggle } from './components/StarToggle';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -186,7 +184,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#020B2D] via-[#0A1745] to-[#020B2D] text-white w-full">
-      <Border onBackClick={handleBackClick} onHelpClick={handleHelpClick} />
       <StarToggle onActivate={handleStarActivate} />
       
       <div className="p-4">

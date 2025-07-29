@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import GameArea from './components/GameArea';
 import RecentBets from './components/RecentBets';
-import Header from './components/Header';
 import HelpModal from './components/HelpModal';
 import { StarToggle } from './components/StarToggle';
 
@@ -37,10 +36,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white flex flex-col">
-      <Header 
-        balance={balance}
-        onHelpClick={() => setShowHelp(true)}
-      />
       <main className="flex-1 max-w-3xl w-full mx-auto p-4 space-y-6">
         <GameArea 
           betAmount={betAmount}

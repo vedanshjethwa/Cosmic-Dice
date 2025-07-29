@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Hand, Scroll, Scissors, Minus, Plus } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Border } from './border/Border';
 import { StarToggle } from './star/StarToggle';
 
 type Choice = 'rock' | 'paper' | 'scissors' | null;
@@ -274,12 +273,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-transparent">
-      <Border
-        balance={balance}
-        onBackClick={() => window.history.back()}
-        onHelpClick={() => setShowHowToPlay(true)}
-      />
-
       {showHowToPlay && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-[#1B2838] rounded-lg p-4 sm:p-8 max-w-md w-full mx-auto relative border border-[#2A4562]">

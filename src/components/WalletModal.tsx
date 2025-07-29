@@ -10,9 +10,11 @@ import {
 interface WalletModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onDeposit?: () => void;
+  onWithdraw?: () => void;
 }
 
-export function WalletModal({ isOpen, onClose }: WalletModalProps) {
+export function WalletModal({ isOpen, onClose, onDeposit, onWithdraw }: WalletModalProps) {
   const walletData = {
     balance: 5000,
     transactions: [
@@ -68,11 +70,17 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
 
           {/* Quick Actions */}
           <div className="grid grid-cols-2 gap-4 mb-8">
-            <button className="flex items-center justify-center gap-2 bg-green-600/20 hover:bg-green-600/30 text-green-400 rounded-lg py-3 px-4 transition-colors border border-green-500/20">
+            <button 
+              onClick={onDeposit}
+              className="flex items-center justify-center gap-2 bg-green-600/20 hover:bg-green-600/30 text-green-400 rounded-lg py-3 px-4 transition-colors border border-green-500/20"
+            >
               <ArrowUpCircle size={20} />
               <span>Deposit</span>
             </button>
-            <button className="flex items-center justify-center gap-2 bg-red-600/20 hover:bg-red-600/30 text-red-400 rounded-lg py-3 px-4 transition-colors border border-red-500/20">
+            <button 
+              onClick={onWithdraw}
+              className="flex items-center justify-center gap-2 bg-red-600/20 hover:bg-red-600/30 text-red-400 rounded-lg py-3 px-4 transition-colors border border-red-500/20"
+            >
               <ArrowDownCircle size={20} />
               <span>Withdraw</span>
             </button>

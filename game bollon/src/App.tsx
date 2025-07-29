@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Border } from './border/Border';
 import { HowToPlayModal } from './components/HowToPlayModal';
 import { StarToggle } from './star/StarToggle';
 import { calculateWinChance, BET_TIERS } from './star/winChance';
@@ -222,13 +221,6 @@ function App() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent pointer-events-none"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent pointer-events-none"></div>
       
-      <div className="relative">
-        <Border 
-          onHelpClick={() => setShowInfo(true)} 
-          onBackClick={() => console.log('Back clicked')} 
-        />
-      </div>
-
       <HowToPlayModal isOpen={showInfo} onClose={() => setShowInfo(false)} />
 
       <div className="container mx-auto max-w-7xl py-8 px-4 relative z-10">

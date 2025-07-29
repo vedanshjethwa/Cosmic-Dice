@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Target, Minus, Plus, HelpCircle, X, Sparkles } from 'lucide-react';
-import { TopBorder } from './components/TopBorder/TopBorder';
 import { StarToggle } from './components/star';
 
 interface BetHistory {
@@ -281,13 +280,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-game text-white">
-      <TopBorder
-        balance={currentBalance}
-        onBackClick={() => {}}
-        onHelpClick={() => setShowHelp(true)}
-      />
-
-      <main className="pt-20 p-4">
+      <main className="p-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left Side - Balloon Board */}

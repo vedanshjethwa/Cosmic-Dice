@@ -7,6 +7,79 @@ export function OffersPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showClaimedOffers, setShowClaimedOffers] = useState(false);
 
+  const allOffers = [
+    {
+      id: 1,
+      title: '100% First Deposit Bonus',
+      description: 'Double your first deposit up to ₹5000! Limited time offer for new players.',
+      type: 'Deposit Bonus',
+      timeLeft: '2h 40m',
+      isVip: true,
+      image: 'https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&q=80&w=400&h=200',
+    },
+    {
+      id: 2,
+      title: 'Triple Rewards Bundle',
+      description: 'Get 3 rewards in 1: Deposit Bonus + Cashback + Free Spin. Ultimate gaming package.',
+      type: 'Bundle Deal',
+      timeLeft: '5h',
+      isHot: true,
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=400&h=200',
+    },
+    {
+      id: 3,
+      title: '10% Cashback Bonus',
+      description: 'Win 3 games to unlock your cashback reward! Perfect for regular players.',
+      type: 'Cashback',
+      timeLeft: '12h',
+      isLocked: true,
+      image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=400&h=200',
+    },
+    {
+      id: 4,
+      title: 'VIP Weekend Special',
+      description: 'Exclusive 200% bonus for VIP members only. Premium gaming experience awaits.',
+      type: 'VIP Bonus',
+      timeLeft: '1d 5h',
+      isVip: true,
+      image: 'https://images.unsplash.com/photo-1551431009-a802eeec77b1?auto=format&fit=crop&q=80&w=400&h=200',
+    },
+    {
+      id: 5,
+      title: 'Lucky Friday Bonus',
+      description: 'Get lucky with our Friday special offers. Weekly excitement guaranteed.',
+      type: 'Weekly Bonus',
+      timeLeft: '3d',
+      isHot: true,
+      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&q=80&w=400&h=200',
+    },
+    {
+      id: 6,
+      title: 'Referral Mega Bonus',
+      description: 'Invite friends and earn massive rewards. Share the cosmic experience.',
+      type: 'Referral',
+      timeLeft: '7d',
+      image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=400&h=200',
+    },
+    {
+      id: 7,
+      title: 'Daily Login Streak',
+      description: 'Login daily for 7 days and unlock exclusive rewards and bonuses.',
+      type: 'Daily Bonus',
+      timeLeft: '24h',
+      image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=400&h=200',
+    },
+    {
+      id: 8,
+      title: 'High Roller Package',
+      description: 'For serious players: 500% bonus on deposits over ₹10,000.',
+      type: 'High Roller',
+      timeLeft: '2d 12h',
+      isVip: true,
+      image: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&q=80&w=400&h=200',
+    }
+  ];
+
   const activeOffers = [
     {
       id: 1,
@@ -99,30 +172,75 @@ export function OffersPage() {
       </motion.div>
 
       {/* Attractive Banner */}
+      {/* All Offers Grid */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-        className="mt-12 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 rounded-2xl p-8 border border-blue-500/30 relative overflow-hidden"
+        transition={{ delay: 0.4 }}
+        className="mb-8"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 animate-pulse"></div>
-        <div className="relative z-10 text-center">
-          <div className="text-4xl mb-4">🎁</div>
-          <h3 className="text-2xl font-bold text-white mb-4">
-            Don't Miss Out on Exclusive Rewards!
-          </h3>
-          <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-            Join thousands of players who are already enjoying our premium bonuses, 
-            daily rewards, and special promotions. Start your cosmic journey today!
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105">
-              Claim Welcome Bonus
-            </button>
-            <button className="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-lg font-semibold transition-all border border-white/20">
-              View All Promotions
-            </button>
-          </div>
+        <h2 className="text-2xl font-bold mb-6">All Available Offers</h2>
+        <div className="space-y-6">
+          {allOffers.map((offer) => (
+            <motion.div
+              key={offer.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-[#132F4C] rounded-xl overflow-hidden border border-blue-500/20 hover:border-blue-400/40 transition-all"
+            >
+              <div className="flex flex-col md:flex-row">
+                <div className="md:w-1/3 h-48 md:h-auto">
+                  <img
+                    src={offer.image}
+                    alt={offer.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex-1 p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      {offer.isVip && (
+                        <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-lg text-sm font-medium">
+                          VIP
+                        </span>
+                      )}
+                      {offer.isHot && (
+                        <span className="px-3 py-1 bg-red-500/20 text-red-400 rounded-lg text-sm font-medium">
+                          HOT
+                        </span>
+                      )}
+                      <span className="text-sm text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">
+                        {offer.type}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1 text-gray-400">
+                      <Clock size={16} />
+                      <span className="text-sm">{offer.timeLeft}</span>
+                    </div>
+                  </div>
+
+                  <h3 className="text-2xl font-bold mb-3 text-white">{offer.title}</h3>
+                  <p className="text-gray-400 mb-6 text-lg">{offer.description}</p>
+
+                  <div className="flex items-center gap-4">
+                    <button
+                      className={`px-8 py-3 rounded-lg font-medium transition-colors ${
+                        offer.isLocked
+                          ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
+                          : 'bg-blue-600 hover:bg-blue-700 text-white'
+                      }`}
+                      disabled={offer.isLocked}
+                    >
+                      {offer.isLocked ? 'Locked' : 'Claim Now'}
+                    </button>
+                    <button className="px-6 py-3 bg-gray-600/20 hover:bg-gray-600/30 text-gray-300 rounded-lg transition-colors">
+                      Learn More
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </motion.div>
 

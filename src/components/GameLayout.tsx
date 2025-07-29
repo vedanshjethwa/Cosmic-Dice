@@ -146,17 +146,10 @@ export function GameLayout({ gameType }: GameLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A1929]">
-      <GameHeader 
-        gameType={gameType} 
-        onBack={handleBack} 
-        onHome={handleHome} 
-      />
-      
+    <div className="min-h-screen">
       <motion.main
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         className="relative"
       >
         <Suspense fallback={<LoadingSpinner />}>

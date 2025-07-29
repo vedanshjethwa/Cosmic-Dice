@@ -4,7 +4,6 @@ import GameGrid from './components/GameGrid';
 import GameControls from './components/GameControls';
 import StatusBar from './components/StatusBar';
 import GameHistory from './components/GameHistory';
-import { Border } from './components/Border/Border';
 import { useGameStore } from './store/gameStore';
 
 function App() {
@@ -21,12 +20,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0B0F1A] via-[#1a2332] to-[#0B0F1A] text-white">
-      <Border 
-        balance={balance}
-        onBackClick={handleBackClick}
-        onHelpClick={handleHelpClick}
-      />
-      
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: -30 }}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { DivideCircle, Plus } from 'lucide-react';
-import { Border } from './border/Border';
 
 // Betting tiers with their corresponding win chances
 const BETTING_TIERS = [
