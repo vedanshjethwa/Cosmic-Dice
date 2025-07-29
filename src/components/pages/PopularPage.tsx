@@ -5,8 +5,6 @@ import { TrendingUp } from 'lucide-react';
 import { GameGrid } from '../GameGrid';
 
 export function PopularPage() {
-  const navigate = useNavigate();
-  
   const popularGames = [
     {
       label: 'Cosmic RPS',

@@ -183,7 +183,7 @@ export function Sidebar({
       icon: <Home size={20} />,
       label: 'Home',
       path: '/',
-      onClick: () => navigate('/'),
+      onClick: () => window.location.href = '/',
     },
     {
       icon: <TrendingUp size={20} />,
@@ -220,7 +220,7 @@ export function Sidebar({
       icon: <ArrowUpCircle size={20} />,
       label: 'Deposit',
       path: '/deposit',
-      onClick: () => navigate('/deposit'),
+      onClick: () => window.location.href = '/deposit',
       className: 'text-green-400 hover:text-green-300',
     },
     {
@@ -228,7 +228,7 @@ export function Sidebar({
       label: 'Withdrawal',
       path: '/withdrawal',
       className: 'text-purple-400 hover:text-purple-300',
-      onClick: () => navigate('/withdrawal'),
+      onClick: () => window.location.href = '/withdrawal',
     },
     {
       icon: <Headphones size={20} />,

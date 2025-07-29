@@ -67,7 +67,7 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
     if (onExit) {
       onExit();
     } else {
-      navigate('/');
+      window.location.href = '/';
     }
   };
 

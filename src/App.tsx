@@ -17,6 +17,7 @@ import { GameDetailPage } from './components/pages/GameDetailPage';
 import { GuidanceSystem } from './components/GuidanceSystem';
 import { SearchSystem } from './components/SearchSystem';
 import { motion, AnimatePresence } from 'framer-motion';
+import { LoadingScreen } from './components/LoadingScreen';
 
 // Game Pages
 import { GameLayout } from './components/GameLayout';
@@ -35,8 +36,8 @@ function App() {
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([
-    { id: 1, title: 'Welcome Bonus Available!', message: 'Claim your 100% first deposit bonus', time: '2 min ago', unread: true },
-    { id: 2, title: 'New Game Released', message: 'Cosmic Balloon is now live!', time: '1 hour ago', unread: true },
+    { id: 1, title: 'Welcome Bonus Available!', message: 'Claim your 100% first deposit bonus', time: '2 min ago', unread: false },
+    { id: 2, title: 'New Game Released', message: 'Cosmic Balloon is now live!', time: '1 hour ago', unread: false },
     { id: 3, title: 'Withdrawal Processed', message: 'Your withdrawal of ₹5000 has been completed', time: '2 hours ago', unread: false }
   ]);
   const [userBehavior] = useState({
@@ -51,6 +52,7 @@ function App() {
     isPlaying: false,
     balance: 2500,
   });
+  const [isLoading, setIsLoading] = useState(false);
   const mainContentRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -193,15 +195,37 @@ function App() {
 
   const handleWalletAction = (action: 'deposit' | 'withdraw') => {
     setWalletModalOpen(false);
+    setIsLoading(true);
     if (action === 'deposit') {
-      navigate('/deposit');
+      setTimeout(() => {
+        navigate('/deposit');
+        setIsLoading(false);
+      }, 800);
     } else {
-      navigate('/withdrawal');
+      setTimeout(() => {
+        navigate('/withdrawal');
+        setIsLoading(false);
+      }, 800);
+    }
+  };
+
+  // Enhanced navigation with loading
+  const handleNavigation = (path: string) => {
+    if (location.pathname !== path) {
+      setIsLoading(true);
+      setTimeout(() => {
+        navigate(path);
+        setIsLoading(false);
+      }, 600);
     }
   };
 
   return (
     <div className="min-h-screen bg-[#0A1929] text-white">
+      <AnimatePresence>
+        {isLoading && <LoadingScreen message="Preparing your cosmic experience..." />}
+      </AnimatePresence>
+      
       <Sidebar
         isOpen={isNavSidebarOpen}
         onClose={() => setNavSidebarOpen(false)}
@@ -416,7 +440,10 @@ function App() {
                               <h2 className="text-sm font-bold mb-2 text-white">
                                 {offer.title}
                               </h2>
-                              <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-3 py-1.5 rounded-lg transition-all duration-300 font-medium text-xs transform hover:scale-105">
+                              <button 
+                                onClick={() => handleNavigation('/offers')}
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-3 py-1.5 rounded-lg transition-all duration-300 font-medium text-xs transform hover:scale-105"
+                              >
                                 Claim Now
                               </button>
                             </div>
@@ -479,7 +506,7 @@ function App() {
                             transition={{ delay: index * 0.1 }}
                             whileHover={{ scale: 1.02, y: -4 }}
                             className="bg-[#132F4C] rounded-xl p-4 relative overflow-hidden group cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300"
-                            onClick={() => navigate(game.route)}
+                            onClick={() => handleNavigation(game.route)}
                           >
                             <div className="flex flex-col h-full">
                               <div className="w-full h-32 lg:h-40 mb-4 overflow-hidden rounded-lg">
@@ -499,7 +526,13 @@ function App() {
                                 <p className="text-gray-400 text-sm mb-4">
                                   {game.description}
                                 </p>
-                                <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors w-full font-medium">
+                                <button 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleNavigation(game.route);
+                                  }}
+                                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors w-full font-medium"
+                                >
                                   Play Now
                                 </button>
                               </div>

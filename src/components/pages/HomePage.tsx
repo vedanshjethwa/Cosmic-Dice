@@ -88,7 +88,7 @@ export function HomePage() {
         className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6"
       >
         <button 
-          onClick={() => navigate('/')}
+          onClick={() => window.location.href = '/'}
           className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-6 transition-colors"
         >
           <h3 className="text-xl font-bold mb-2">Play Now</h3>

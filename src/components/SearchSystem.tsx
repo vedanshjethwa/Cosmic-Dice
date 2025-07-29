@@ -171,7 +171,7 @@ export function SearchSystem({ isOpen, onClose, placeholder = "Search games..." 
       return updated;
     });
 
-    navigate(result.route);
+    window.location.href = result.route;
     onClose();
     setQuery('');
   };
