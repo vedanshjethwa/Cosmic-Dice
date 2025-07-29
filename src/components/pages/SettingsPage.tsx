@@ -152,7 +152,7 @@ export function SettingsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-[#0A1929] rounded-lg p-4">
               <h3 className="font-semibold text-white mb-2">Average Response Time</h3>
-              <p className="text-green-400 text-2xl font-bold">< 2 minutes</p>
+              <p className="text-green-400 text-2xl font-bold">&lt; 2 minutes</p>
             </div>
             <div className="bg-[#0A1929] rounded-lg p-4">
               <h3 className="font-semibold text-white mb-2">Satisfaction Rate</h3>
