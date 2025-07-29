@@ -30,6 +30,7 @@ import { AboutPage } from './pages/AboutPage';
 import { OffersPage } from './pages/OffersPage';
 import { Footer } from './Footer';
 import FeedbackPage from './FeedbackPage';
+import { useChatStore } from './ChatSupport/ChatStore';
 
 // UpcomingGames component
 const UpcomingGames = () => {
@@ -169,6 +170,7 @@ export function Sidebar({
   currentPath,
 }: SidebarProps) {
   const navigate = useNavigate();
+  const { setIsOpen: setChatOpen } = useChatStore();
   const [currentPage, setCurrentPage] = useState<{
     label: string;
     content: React.ReactNode;
@@ -224,6 +226,12 @@ export function Sidebar({
       icon: <Headphones size={20} />,
       label: 'Live Support',
       path: '/support',
+      onClick: () => {
+        setChatOpen(true);
+        if (window.innerWidth < 1024) {
+          onClose();
+        }
+      },
     },
     {
       icon: <Sparkles size={20} />,
@@ -264,7 +272,7 @@ export function Sidebar({
   const handleItemClick = (item: any) => {
     if (item.onClick) {
       item.onClick();
-      return; // Return early to prevent setting currentPage for onClick items
+      return;
     }
 
     if (item.content) {
@@ -321,11 +329,11 @@ export function Sidebar({
       {/* Sidebar */}
       <div
         className={`fixed top-0 left-0 h-full bg-[#0A1929] shadow-lg z-50 transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpen ? 'w-64 rounded-r-2xl' : 'w-0 lg:w-16 hover:w-64 rounded-r-lg'
+          isOpen ? 'w-64' : 'w-0 lg:w-16 hover:w-64'
         } border-r border-blue-500/20`}
       >
         {/* Header */}
-        <div className="p-4 border-b border-blue-900/30 flex items-center justify-between">
+        <div className="p-3 lg:p-4 border-b border-blue-900/30 flex items-center justify-between">
           <button
             onClick={onClose}
             className="text-white hover:text-gray-300 focus:outline-none"
@@ -346,7 +354,7 @@ export function Sidebar({
         <nav
           className={`${
             isOpen ? 'block' : 'hidden lg:block'
-          } p-4 overflow-y-auto h-[calc(100vh-60px)] custom-scrollbar`}
+          } p-2 lg:p-4 overflow-y-auto h-[calc(100vh-60px)] custom-scrollbar`}
         >
           <ul className="space-y-2">
             {menuItems.map((item, index) => (
@@ -400,7 +408,7 @@ export function Sidebar({
             className="fixed inset-0 bg-[#0A1929] z-40 overflow-auto"
           >
             <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
-              <div className="flex justify-between items-center p-6">
+              <div className="flex justify-between items-center p-4 lg:p-6">
                 <div className="flex items-center gap-4">
                   <button
                     onClick={handleBackToHome}
@@ -408,7 +416,7 @@ export function Sidebar({
                   >
                     <ArrowLeft size={24} />
                   </button>
-                  <h2 className="text-2xl font-bold text-white">
+                  <h2 className="text-xl lg:text-2xl font-bold text-white">
                     {currentPage.label}
                   </h2>
                 </div>
@@ -420,7 +428,7 @@ export function Sidebar({
                 </button>
               </div>
             </div>
-            <div className="pb-8 max-w-6xl mx-auto">
+            <div className="pb-8 max-w-6xl mx-auto px-4 lg:px-0">
               {currentPage.content}            
               <Footer />
             </div>

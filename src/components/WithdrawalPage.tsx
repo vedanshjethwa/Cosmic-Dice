@@ -31,19 +31,29 @@ export function WithdrawalPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A1929] p-4 sm:p-6 lg:p-8">
-      <div className="max-w-xl mx-auto">
-        <div className="mb-8 flex items-center gap-4">
-          <button
-            onClick={() => navigate('/')}
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <h1 className="text-3xl font-bold text-white">Withdraw Funds</h1>
+    <div className="min-h-screen bg-[#0A1929]">
+      {/* Header */}
+      <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => navigate('/')}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <ArrowLeft size={20} />
+                <span className="hidden sm:inline">Back</span>
+              </button>
+              <h1 className="text-xl lg:text-2xl font-bold text-white">Withdraw Funds</h1>
+            </div>
+          </div>
         </div>
+      </div>
+      
+      <div className="p-4 lg:p-8">
+      <div className="max-w-xl mx-auto">
 
-        <div className="bg-[#132F4C] rounded-2xl p-6 shadow-xl border border-blue-500/20">
+        <div className="bg-[#132F4C] rounded-2xl p-4 lg:p-6 shadow-xl border border-blue-500/20 mt-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Wallet Address */}
             <div>
@@ -132,6 +142,7 @@ export function WithdrawalPage() {
         >
           <HelpCircle size={24} />
         </button>
+      </div>
       </div>
     </div>
   );

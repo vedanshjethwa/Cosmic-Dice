@@ -75,7 +75,7 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
     <div className="min-h-screen bg-[#0A1929] text-white">
       {/* Header with Exit Button */}
       <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
@@ -85,7 +85,7 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
                 <ArrowLeft size={20} />
                 <span className="hidden sm:inline">Back</span>
               </button>
-              <h1 className="text-2xl font-bold">Profile</h1>
+              <h1 className="text-xl lg:text-2xl font-bold">Profile</h1>
             </div>
             <button
               onClick={handleExit}
@@ -97,12 +97,12 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4 lg:py-8">
         {/* Profile Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#132F4C] rounded-2xl p-6 mb-8 border border-blue-500/20"
+          className="bg-[#132F4C] rounded-2xl p-4 lg:p-6 mb-6 lg:mb-8 border border-blue-500/20"
         >
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
@@ -110,7 +110,7 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
                 <img
                   src={user.avatar}
                   alt="Profile"
-                  className="w-20 h-20 rounded-full object-cover border-2 border-blue-500/30"
+                  className="w-16 h-16 lg:w-20 lg:h-20 rounded-full object-cover border-2 border-blue-500/30"
                 />
                 <button className="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                   <Upload size={14} />
@@ -118,7 +118,7 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <h2 className="text-2xl font-bold">{user.name}</h2>
+                  <h2 className="text-xl lg:text-2xl font-bold">{user.name}</h2>
                   <button className="text-gray-400 hover:text-white transition-colors">
                     <Edit2 size={16} />
                   </button>
@@ -126,7 +126,7 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
                 <p className="text-gray-400">ID: {user.id}</p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 lg:gap-4 flex-wrap">
               <button
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
@@ -139,7 +139,7 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
               <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
                 <Settings size={20} />
               </button>
-              <button className="bg-red-500/10 text-red-400 px-4 py-2 rounded-lg hover:bg-red-500/20 transition-colors flex items-center gap-2">
+              <button className="bg-red-500/10 text-red-400 px-3 lg:px-4 py-2 rounded-lg hover:bg-red-500/20 transition-colors flex items-center gap-2">
                 <LogOut size={18} />
                 <span className="hidden sm:inline">Logout</span>
               </button>
@@ -148,20 +148,20 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
         </motion.div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 lg:gap-8">
           {/* Left Column - Main Content */}
-          <div className="xl:col-span-2 space-y-8">
+          <div className="xl:col-span-2 space-y-4 lg:space-y-8">
             {/* Wallet Card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-[#132F4C] rounded-2xl p-6 border border-blue-500/20"
+              className="bg-[#132F4C] rounded-2xl p-4 lg:p-6 border border-blue-500/20"
             >
-              <h3 className="text-xl font-bold mb-4">Wallet Balance</h3>
-              <div className="text-3xl font-bold text-blue-400 mb-6">
+              <h3 className="text-lg lg:text-xl font-bold mb-4">Wallet Balance</h3>
+              <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-4 lg:mb-6">
                 ${user.balance.toLocaleString()}
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <button className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-3 transition-colors">
                   <ArrowUpCircle size={20} />
                   <span>Deposit</span>
@@ -177,23 +177,23 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-[#132F4C] rounded-2xl p-6 border border-blue-500/20"
+              className="bg-[#132F4C] rounded-2xl p-4 lg:p-6 border border-blue-500/20"
             >
-              <h3 className="text-xl font-bold mb-4">Game Statistics</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <h3 className="text-lg lg:text-xl font-bold mb-4">Game Statistics</h3>
+              <div className="grid grid-cols-3 gap-2 lg:gap-4">
                 <div className="bg-blue-900/30 rounded-xl p-4">
                   <div className="text-gray-400 mb-1">Total Games</div>
-                  <div className="text-2xl font-bold">{user.stats.totalGames}</div>
+                  <div className="text-lg lg:text-2xl font-bold">{user.stats.totalGames}</div>
                 </div>
                 <div className="bg-blue-900/30 rounded-xl p-4">
                   <div className="text-gray-400 mb-1">Biggest Win</div>
-                  <div className="text-2xl font-bold text-green-400">
+                  <div className="text-lg lg:text-2xl font-bold text-green-400">
                     ${user.stats.biggestWin}
                   </div>
                 </div>
                 <div className="bg-blue-900/30 rounded-xl p-4">
                   <div className="text-gray-400 mb-1">Success Rate</div>
-                  <div className="text-2xl font-bold text-blue-400">
+                  <div className="text-lg lg:text-2xl font-bold text-blue-400">
                     {user.stats.successRate}%
                   </div>
                 </div>
@@ -204,9 +204,9 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-[#132F4C] rounded-2xl p-6 border border-blue-500/20"
+              className="bg-[#132F4C] rounded-2xl p-4 lg:p-6 border border-blue-500/20"
             >
-              <h3 className="text-xl font-bold mb-4">Transaction History</h3>
+              <h3 className="text-lg lg:text-xl font-bold mb-4">Transaction History</h3>
               <div className="space-y-4">
                 {user.transactions.map((tx, index) => (
                   <div
@@ -242,24 +242,24 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
           </div>
 
           {/* Right Column - Sidebar Content */}
-          <div className="space-y-8">
+          <div className="space-y-4 lg:space-y-8">
             {/* Referral */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-[#132F4C] rounded-2xl p-6 border border-blue-500/20"
+              className="bg-[#132F4C] rounded-2xl p-4 lg:p-6 border border-blue-500/20"
             >
-              <h3 className="text-xl font-bold mb-4">Refer & Earn</h3>
+              <h3 className="text-lg lg:text-xl font-bold mb-4">Refer & Earn</h3>
               <div className="space-y-4">
                 <div>
                   <div className="text-gray-400 mb-1">Total Rewards</div>
-                  <div className="text-2xl font-bold text-green-400">
+                  <div className="text-xl lg:text-2xl font-bold text-green-400">
                     ${user.referral.rewards}
                   </div>
                 </div>
                 <div>
                   <div className="text-gray-400 mb-1">Referrals</div>
-                  <div className="text-2xl font-bold">{user.referral.referrals}</div>
+                  <div className="text-xl lg:text-2xl font-bold">{user.referral.referrals}</div>
                 </div>
                 <div>
                   <div className="text-gray-400 mb-2">Your Referral Code</div>
@@ -285,13 +285,13 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-[#132F4C] rounded-2xl p-6 border border-blue-500/20"
+              className="bg-[#132F4C] rounded-2xl p-4 lg:p-6 border border-blue-500/20"
             >
               <div className="flex items-center gap-2 mb-4">
                 <Trophy className="text-yellow-400" size={24} />
-                <h3 className="text-xl font-bold">Badges</h3>
+                <h3 className="text-lg lg:text-xl font-bold">Badges</h3>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-2 lg:gap-4">
                 {user.badges.map((badge, index) => (
                   <div
                     key={index}
@@ -302,7 +302,7 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
                     }`}
                   >
                     <div className="text-2xl mb-2">{badge.icon}</div>
-                    <div className="font-medium mb-1">{badge.name}</div>
+                    <div className="font-medium mb-1 text-sm lg:text-base">{badge.name}</div>
                     <div className="text-sm text-gray-400">
                       {badge.description}
                     </div>

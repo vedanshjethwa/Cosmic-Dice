@@ -112,16 +112,16 @@ export function AboutPage() {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto p-6 text-white">
+    <div className="max-w-6xl mx-auto p-4 lg:p-6 text-white">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+        <h1 className="text-2xl lg:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
           About Us
         </h1>
-        <p className="text-gray-400 text-lg">
+        <p className="text-gray-400 text-base lg:text-lg">
           Discover the future of online gaming with COSMIC777
         </p>
       </motion.div>
@@ -131,12 +131,12 @@ export function AboutPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="bg-[#132F4C] rounded-xl p-8 mb-8 border border-blue-500/20"
+        className="bg-[#132F4C] rounded-xl p-4 lg:p-8 mb-6 lg:mb-8 border border-blue-500/20"
       >
-        <h2 className="text-3xl font-bold mb-6 text-white">
+        <h2 className="text-xl lg:text-3xl font-bold mb-4 lg:mb-6 text-white">
           COSMIC777 - Best Online Crypto Casino
         </h2>
-        <div className="space-y-6 text-gray-300 leading-relaxed">
+        <div className="space-y-4 lg:space-y-6 text-gray-300 leading-relaxed text-sm lg:text-base">
           <p>
             COSMIC777 is set to redefine the online gaming industry with its
             100% original games and cutting-edge user experience. Launching in
@@ -153,25 +153,25 @@ export function AboutPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="mb-8"
+        className="mb-6 lg:mb-8"
       >
-        <h3 className="text-2xl font-bold mb-6 text-white">
+        <h3 className="text-xl lg:text-2xl font-bold mb-4 lg:mb-6 text-white">
           What Makes Us Different
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
           {features.map((feature, index) => (
             <motion.div
               key={index}
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.6 + index * 0.1 }}
-              className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20 hover:border-blue-500/40 transition-colors"
+              className="bg-[#132F4C] rounded-xl p-4 lg:p-6 border border-blue-500/20 hover:border-blue-500/40 transition-colors"
             >
               <div className="text-blue-400 mb-4">{feature.icon}</div>
-              <h4 className="text-lg font-bold mb-3 text-white">
+              <h4 className="text-base lg:text-lg font-bold mb-3 text-white">
                 {feature.title}
               </h4>
-              <p className="text-gray-400">{feature.description}</p>
+              <p className="text-gray-400 text-sm lg:text-base">{feature.description}</p>
             </motion.div>
           ))}
         </div>
@@ -182,22 +182,22 @@ export function AboutPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
-        className="mb-8"
+        className="mb-6 lg:mb-8"
       >
-        <h3 className="text-2xl font-bold mb-6 text-white">COSMIC777 Stats</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <h3 className="text-xl lg:text-2xl font-bold mb-4 lg:mb-6 text-white">COSMIC777 Stats</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
           {stats.map((stat, index) => (
             <motion.div
               key={index}
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 1.0 + index * 0.1 }}
-              className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20 text-center"
+              className="bg-[#132F4C] rounded-xl p-4 lg:p-6 border border-blue-500/20 text-center"
             >
-              <div className="text-3xl font-bold text-blue-400 mb-2">
+              <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-2">
                 {stat.value}
               </div>
-              <div className="text-white font-medium mb-1">{stat.label}</div>
+              <div className="text-white font-medium mb-1 text-sm lg:text-base">{stat.label}</div>
               <div className="text-gray-400 text-sm">{stat.description}</div>
             </motion.div>
           ))}
@@ -209,12 +209,12 @@ export function AboutPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.0 }}
-        className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-xl p-8 border border-blue-500/20"
+        className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-xl p-4 lg:p-8 border border-blue-500/20"
       >
-        <h3 className="text-2xl font-bold mb-4 text-white">
+        <h3 className="text-xl lg:text-2xl font-bold mb-4 text-white">
           The Future of Online Gaming Begins Here
         </h3>
-        <p className="text-gray-300 leading-relaxed">
+        <p className="text-gray-300 leading-relaxed text-sm lg:text-base">
           Our platform represents the next evolution in online gaming, combining
           innovative technology with player-focused design. With our commitment
           to transparency, security, and original content, COSMIC777 is not just

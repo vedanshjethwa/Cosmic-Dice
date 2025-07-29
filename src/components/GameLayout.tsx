@@ -138,7 +138,7 @@ export function GameLayout({ gameType }: GameLayoutProps) {
   const GameComponent = gameComponents[gameType];
 
   const handleBack = () => {
-    navigate('/');
+    navigate(-1); // Go back to previous page instead of always going to home
   };
 
   const handleHome = () => {

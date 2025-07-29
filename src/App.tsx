@@ -166,9 +166,9 @@ function App() {
             <div className="min-h-screen bg-[#0A1929]">
               {/* Header */}
               <div className={`sticky top-0 z-50 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20 transition-all duration-300 ${
-                isNavSidebarOpen ? 'lg:pl-0' : 'lg:pl-0'
+                ''
               }`}>
-                <div className="max-w-7xl mx-auto px-4 py-4">
+                <div className="max-w-7xl mx-auto px-4 lg:px-6 py-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <button
@@ -179,7 +179,7 @@ function App() {
                         <Menu size={25} />
                       </button>
                       <h1
-                        className={`text-2xl lg:text-3xl font-bold text-white transition-all duration-300`}
+                        className="text-xl sm:text-2xl lg:text-3xl font-bold text-white transition-all duration-300"
                         style={{
                            fontFamily: "'Orbitron', sans-serif"
                           }}
@@ -189,7 +189,7 @@ function App() {
                     </div>
 
                     <div className="flex items-center gap-4">
-                      <div className="relative hidden sm:flex">
+                      <div className="relative hidden md:flex">
                         <Search
                           className={`absolute left-3 top-1/2 transform -translate-y-1/2 transition-colors duration-200 ${
                             searchFocused ? 'text-blue-400' : 'text-gray-400'
@@ -239,9 +239,9 @@ function App() {
               </div>
 
               {/* Main Content */}
-              <div className="max-w-7xl mx-auto p-4">
+              <div className="max-w-7xl mx-auto p-4 lg:p-6">
                 {/* Mobile Search */}
-                <div className="sm:hidden relative mb-6">
+                <div className="md:hidden relative mb-6">
                   <Search
                     className={`absolute left-3 top-1/2 transform -translate-y-1/2 transition-colors duration-200 ${
                       searchFocused ? 'text-blue-400' : 'text-gray-400'
@@ -280,7 +280,7 @@ function App() {
                     </button>
                   </div>
                   <div className="relative">
-                    <div className="flex overflow-x-auto scroll-smooth snap-x gap-3 sm:gap-6 pb-4" 
+                    <div className="flex overflow-x-auto scroll-smooth snap-x gap-3 lg:gap-6 pb-4" 
                          style={{ 
                            scrollbarWidth: 'thin', 
                            scrollbarColor: '#3B82F6 transparent',
@@ -289,7 +289,7 @@ function App() {
                       {offers.map((offer, index) => (
                         <div
                           key={index}
-                          className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-xl p-4 sm:p-6 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 snap-start flex-shrink-0 w-80 sm:w-96 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10"
+                          className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-xl p-4 lg:p-6 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 snap-start flex-shrink-0 w-72 sm:w-80 lg:w-96 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10"
                         >
                           <div className="flex items-center gap-4">
                             <div className="flex-1">
@@ -298,14 +298,14 @@ function App() {
                                   {offer.tag}
                                 </div>
                               </div>
-                              <h2 className="text-lg font-bold mb-3 text-white">
+                              <h2 className="text-base lg:text-lg font-bold mb-3 text-white">
                                 {offer.title}
                               </h2>
                               <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg transition-all duration-300 font-medium text-sm transform hover:scale-105 shadow-lg">
                                 Claim Now
                               </button>
                             </div>
-                            <div className="w-16 h-16">
+                            <div className="w-12 h-12 lg:w-16 lg:h-16">
                               <img
                                 src={offer.image}
                                 alt="Offer"
@@ -328,10 +328,10 @@ function App() {
                   </div>
                 </motion.div>
 
-                <div className="flex gap-4 mb-6">
+                <div className="flex flex-wrap gap-2 lg:gap-4 mb-6">
                   <button
                     onClick={() => setActiveSection('games')}
-                    className={`px-4 py-2 rounded-lg transition-colors ${
+                    className={`px-3 lg:px-4 py-2 rounded-lg transition-colors text-sm lg:text-base ${
                       activeSection === 'games'
                         ? 'bg-blue-600 text-white'
                         : 'text-gray-400 hover:text-white'
@@ -341,7 +341,7 @@ function App() {
                   </button>
                   <button
                     onClick={() => setActiveSection('bonus')}
-                    className={`px-4 py-2 rounded-lg transition-colors ${
+                    className={`px-3 lg:px-4 py-2 rounded-lg transition-colors text-sm lg:text-base ${
                       activeSection === 'bonus'
                         ? 'bg-blue-600 text-white'
                         : 'text-gray-400 hover:text-white'
@@ -351,7 +351,7 @@ function App() {
                   </button>
                   <button
                     onClick={() => setActiveSection('affiliate')}
-                    className={`px-4 py-2 rounded-lg transition-colors ${
+                    className={`px-3 lg:px-4 py-2 rounded-lg transition-colors text-sm lg:text-base ${
                       activeSection === 'affiliate'
                         ? 'bg-blue-600 text-white'
                         : 'text-gray-400 hover:text-white'
@@ -362,9 +362,9 @@ function App() {
                 </div>
 
                 {activeSection === 'games' && (
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                    <div className="xl:col-span-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 lg:gap-6">
                         {filteredGameCards.map((game, index) => (
                           <motion.div
                             key={index}
@@ -376,7 +376,7 @@ function App() {
                             onClick={() => navigate(game.route)}
                           >
                             <div className="flex flex-col h-full">
-                              <div className="w-full h-40 mb-4 overflow-hidden rounded-lg">
+                              <div className="w-full h-32 lg:h-40 mb-4 overflow-hidden rounded-lg">
                                 <img
                                   src={game.image}
                                   alt={game.label}
@@ -387,7 +387,7 @@ function App() {
                                 <div className="text-xs text-blue-400 mb-2 font-medium">
                                   {game.category}
                                 </div>
-                                <h3 className="font-bold text-white mb-2 text-lg">
+                                <h3 className="font-bold text-white mb-2 text-base lg:text-lg">
                                   {game.label}
                                 </h3>
                                 <p className="text-gray-400 text-sm mb-4">

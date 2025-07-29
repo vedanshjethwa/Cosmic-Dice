@@ -96,12 +96,12 @@ export function Footer() {
   ];
 
   return (
-    <footer className="mt-8 bg-gradient-to-b from-[#0A1929] to-black rounded-xl sm:rounded-2xl lg:rounded-3xl border-t border-blue-500/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <footer className="mt-8 bg-gradient-to-b from-[#0A1929] to-black rounded-xl lg:rounded-2xl xl:rounded-3xl border-t border-blue-500/20">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 lg:py-12 xl:py-16">
         {/* Logo and Copyright */}
         <div className="mb-12">
           <h2
-            className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent mb-2"
+            className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent mb-2"
             style={{ fontFamily: "'Press Start 2P', system-ui" }}
           >
             COSMIC
@@ -110,12 +110,12 @@ export function Footer() {
         </div>
 
         {/* Main Footer Links */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 lg:gap-8 mb-8 lg:mb-12">
           {Object.values(footerLinks).map((section) => (
             <div key={section.title}>
               <div className="flex items-center gap-2 mb-4">
                 {section.icon}
-                <h3 className="text-lg font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                <h3 className="text-base lg:text-lg font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                   {section.title}
                 </h3>
               </div>
@@ -142,18 +142,18 @@ export function Footer() {
         </div>
 
         {/* Payment Methods */}
-        <div className="mb-12">
+        <div className="mb-8 lg:mb-12">
           <h4 className="text-sm font-semibold text-gray-400 mb-4">Payment Methods</h4>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-2 lg:gap-4">
             {paymentMethods.map((method) => (
               <div
                 key={method.name}
-                className="bg-white/5 rounded-lg p-3 transition-all hover:bg-white/10 grayscale hover:grayscale-0"
+                className="bg-white/5 rounded-lg p-2 lg:p-3 transition-all hover:bg-white/10 grayscale hover:grayscale-0"
               >
                 <img
                   src={method.image}
                   alt={method.name}
-                  className="h-8 w-auto"
+                  className="h-6 lg:h-8 w-auto"
                 />
               </div>
             ))}
@@ -161,9 +161,9 @@ export function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-blue-900/30">
+        <div className="flex flex-col lg:flex-row items-center justify-between pt-6 lg:pt-8 border-t border-blue-900/30 gap-4 lg:gap-0">
           {/* Social Links */}
-          <div className="flex space-x-6 mb-6 sm:mb-0">
+          <div className="flex space-x-4 lg:space-x-6">
             {socialLinks.map(({ Icon, label, href }) => (
               <a
                 key={label}
@@ -171,7 +171,7 @@ export function Footer() {
                 className="text-gray-400 hover:text-blue-400 transition-all transform hover:scale-110"
                 aria-label={label}
               >
-                <Icon size={20} />
+                <Icon size={18} className="lg:w-5 lg:h-5" />
               </a>
             ))}
           </div>
@@ -179,9 +179,9 @@ export function Footer() {
           {/* Language Selector */}
           <div className="relative">
             <div className="flex items-center gap-2 text-gray-400">
-              <Globe size={20} />
+              <Globe size={18} className="lg:w-5 lg:h-5" />
               <select
-                className="bg-[#132F4C] text-white rounded-lg px-3 py-2 appearance-none cursor-pointer border border-blue-900/30 focus:outline-none focus:border-blue-500 hover:bg-[#1a3a5f] transition-colors"
+                className="bg-[#132F4C] text-white rounded-lg px-2 lg:px-3 py-1 lg:py-2 appearance-none cursor-pointer border border-blue-900/30 focus:outline-none focus:border-blue-500 hover:bg-[#1a3a5f] transition-colors text-sm lg:text-base"
                 defaultValue="English"
               >
                 {languages.map((lang) => (
