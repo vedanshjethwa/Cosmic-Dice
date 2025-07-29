@@ -21,6 +21,7 @@ import {
   ArrowDownCircle,
   ArrowUpCircle,
   ArrowLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PopularPage } from './pages/PopularPage';
@@ -324,13 +325,21 @@ export function Sidebar({
         } border-r border-blue-500/20`}
       >
         {/* Header */}
-        <div className="p-4 border-b border-blue-900/30 flex items-center">
+        <div className="p-4 border-b border-blue-900/30 flex items-center justify-between">
           <button
             onClick={onClose}
             className="text-white hover:text-gray-300 focus:outline-none"
           >
             <Menu size={24} />
           </button>
+          <h2 
+            className={`text-xl font-bold text-white transition-opacity duration-300 ${
+              isOpen ? 'opacity-100' : 'opacity-0 lg:opacity-0'
+            }`}
+            style={{ fontFamily: "'Orbitron', sans-serif" }}
+          >
+            COSMIC
+          </h2>
         </div>
 
         {/* Navigation */}
@@ -350,10 +359,6 @@ export function Sidebar({
                   }`}
                   onClick={() => handleItemClick(item)}
                 >
-                  {/* Active indicator */}
-                  {isActivePage(item) && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-400 rounded-r-full" />
-                  )}
                   <span className="min-w-[24px] group-hover:scale-110 transition-transform">
                     {item.icon}
                   </span>
@@ -366,10 +371,18 @@ export function Sidebar({
                   >
                     {item.label}
                   </span>
-                  {/* Badge for active page */}
-                  {isActivePage(item) && (
-                    <div className="ml-auto w-2 h-2 bg-blue-300 rounded-full animate-pulse" />
-                  )}
+                  {/* Arrow icon */}
+                  <ChevronRight 
+                    className={`w-4 h-4 transition-all duration-200 ${
+                      isOpen || window.innerWidth >= 1024
+                        ? 'opacity-100'
+                        : 'opacity-0'
+                    } ${
+                      isActivePage(item) 
+                        ? 'text-white' 
+                        : 'text-gray-400 group-hover:text-white'
+                    }`}
+                  />
                 </button>
               </li>
             ))}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { TrendingUp, Star, Users, ArrowLeft } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 import { GameGrid } from '../GameGrid';
 
 export function PopularPage() {
@@ -73,9 +73,6 @@ export function PopularPage() {
     },
   ];
 
-  const handleBackToHome = () => {
-    navigate('/');
-  };
   return (
     <div className="max-w-6xl mx-auto p-6 text-white">
       <motion.div

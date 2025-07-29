@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Play, Star, Users } from 'lucide-react';
+import { Star, Users } from 'lucide-react';
 
 interface GameCardProps {
   title: string;
@@ -70,17 +70,6 @@ export function GameCard({
               FEATURED
             </span>
           )}
-        </div>
-
-        {/* Play Button Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="bg-blue-600/90 backdrop-blur-sm text-white p-4 rounded-full shadow-lg"
-          >
-            <Play size={24} fill="currentColor" />
-          </motion.button>
         </div>
       </div>
 

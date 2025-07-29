@@ -165,7 +165,9 @@ function App() {
           <Route path="/" element={
             <div className="min-h-screen bg-[#0A1929]">
               {/* Header */}
-              <div className="sticky top-0 z-50 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+              <div className={`sticky top-0 z-50 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20 transition-all duration-300 ${
+                isNavSidebarOpen ? 'lg:pl-0' : 'lg:pl-0'
+              }`}>
                 <div className="max-w-7xl mx-auto px-4 py-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
@@ -177,7 +179,7 @@ function App() {
                         <Menu size={25} />
                       </button>
                       <h1
-                        className="text-2xl lg:text-3xl font-bold text-white"
+                        className={`text-2xl lg:text-3xl font-bold text-white transition-all duration-300`}
                         style={{
                            fontFamily: "'Orbitron', sans-serif"
                           }}

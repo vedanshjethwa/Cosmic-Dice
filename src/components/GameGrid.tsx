@@ -55,8 +55,8 @@ export function GameGrid({ games, title = "Games", searchTerm = "" }: GameGridPr
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredGames.map((game, index) => (
-            <GameCard
-              key={game.route}
+            <div key={game.route} className="game-card">
+              <GameCard
               title={game.label}
               description={game.description}
               image={game.image}
@@ -67,7 +67,8 @@ export function GameGrid({ games, title = "Games", searchTerm = "" }: GameGridPr
               isNew={game.isNew}
               isFeatured={game.isFeatured}
               index={index}
-            />
+              />
+            </div>
           ))}
         </div>
       )}
