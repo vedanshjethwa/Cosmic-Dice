@@ -424,42 +424,49 @@ function App() {
                       View All →
                     </button>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {offers.map((offer, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-lg p-4 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
-                              <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 px-2 py-1 rounded-full text-xs font-bold border border-blue-500/30">
-                                {offer.tag}
+                  <div className="relative">
+                    <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 pb-4 featured-offers-scroll" 
+                         style={{ 
+                           scrollbarWidth: 'thin', 
+                           scrollbarColor: '#3B82F6 transparent',
+                           scrollBehavior: 'smooth'
+                         }}>
+                      {offers.map((offer, index) => (
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-xl p-4 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10 flex-shrink-0 w-72 snap-start"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 px-2 py-1 rounded-full text-xs font-bold border border-blue-500/30">
+                                  {offer.tag}
+                                </div>
                               </div>
+                              <h2 className="text-sm font-bold mb-2 text-white">
+                                {offer.title}
+                              </h2>
+                              <button 
+                                onClick={() => handleNavigation('/offers')}
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-3 py-1.5 rounded-lg transition-all duration-300 font-medium text-xs transform hover:scale-105"
+                              >
+                                Claim Now
+                              </button>
                             </div>
-                            <h2 className="text-sm font-bold mb-2 text-white">
-                              {offer.title}
-                            </h2>
-                            <button 
-                              onClick={() => handleNavigation('/offers')}
-                              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-3 py-1.5 rounded-lg transition-all duration-300 font-medium text-xs transform hover:scale-105"
-                            >
-                              Claim Now
-                            </button>
+                            <div className="w-10 h-10">
+                              <img
+                                src={offer.image}
+                                alt="Offer"
+                                className="w-full h-full object-contain filter drop-shadow-lg"
+                              />
+                            </div>
                           </div>
-                          <div className="w-10 h-10">
-                            <img
-                              src={offer.image}
-                              alt="Offer"
-                              className="w-full h-full object-contain filter drop-shadow-lg"
-                            />
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
+                        </motion.div>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
 
@@ -473,63 +480,70 @@ function App() {
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="text-xl font-bold text-white">More Exclusive Offers</h2>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {[
-                      {
-                        title: 'VIP Weekend Bonus',
-                        image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/vip.png',
-                        tag: 'VIP',
-                      },
-                      {
-                        title: 'Daily Login Streak',
-                        image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/calendar.png',
-                        tag: 'DAILY',
-                      },
-                      {
-                        title: 'Referral Mega Bonus',
-                        image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/share.png',
-                        tag: 'SOCIAL',
-                      },
-                      {
-                        title: 'High Roller Exclusive',
-                        image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/diamond.png',
-                        tag: 'PREMIUM',
-                      },
-                    ].map((offer, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4 + index * 0.1 }}
-                        className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-lg p-4 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
-                              <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 px-2 py-1 rounded-full text-xs font-bold border border-purple-500/30">
-                                {offer.tag}
+                  <div className="relative">
+                    <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 pb-4 featured-offers-scroll" 
+                         style={{ 
+                           scrollbarWidth: 'thin', 
+                           scrollbarColor: '#3B82F6 transparent',
+                           scrollBehavior: 'smooth'
+                         }}>
+                      {[
+                        {
+                          title: 'VIP Weekend Bonus',
+                          image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/vip.png',
+                          tag: 'VIP',
+                        },
+                        {
+                          title: 'Daily Login Streak',
+                          image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/calendar.png',
+                          tag: 'DAILY',
+                        },
+                        {
+                          title: 'Referral Mega Bonus',
+                          image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/share.png',
+                          tag: 'SOCIAL',
+                        },
+                        {
+                          title: 'High Roller Exclusive',
+                          image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/diamond.png',
+                          tag: 'PREMIUM',
+                        },
+                      ].map((offer, index) => (
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.4 + index * 0.1 }}
+                          className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-xl p-4 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10 flex-shrink-0 w-72 snap-start"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 px-2 py-1 rounded-full text-xs font-bold border border-purple-500/30">
+                                  {offer.tag}
+                                </div>
                               </div>
+                              <h2 className="text-sm font-bold mb-2 text-white">
+                                {offer.title}
+                              </h2>
+                              <button 
+                                onClick={() => handleNavigation('/offers')}
+                                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-3 py-1.5 rounded-lg transition-all duration-300 font-medium text-xs transform hover:scale-105"
+                              >
+                                Claim Now
+                              </button>
                             </div>
-                            <h2 className="text-sm font-bold mb-2 text-white">
-                              {offer.title}
-                            </h2>
-                            <button 
-                              onClick={() => handleNavigation('/offers')}
-                              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-3 py-1.5 rounded-lg transition-all duration-300 font-medium text-xs transform hover:scale-105"
-                            >
-                              Claim Now
-                            </button>
+                            <div className="w-10 h-10">
+                              <img
+                                src={offer.image}
+                                alt="Offer"
+                                className="w-full h-full object-contain filter drop-shadow-lg"
+                              />
+                            </div>
                           </div>
-                          <div className="w-10 h-10">
-                            <img
-                              src={offer.image}
-                              alt="Offer"
-                              className="w-full h-full object-contain filter drop-shadow-lg"
-                            />
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
+                        </motion.div>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
 
@@ -587,7 +601,7 @@ function App() {
                 {activeSection === 'games' && (
                   <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                     <div className="xl:col-span-2">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 lg:gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 lg:gap-8">
                         {filteredGameCards.map((game, index) => (
                           <motion.div
                             key={index}
@@ -595,25 +609,42 @@ function App() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
                             whileHover={{ scale: 1.02, y: -4 }}
-                            className="bg-[#132F4C] rounded-xl p-4 relative overflow-hidden group cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300"
+                            className="bg-gradient-to-br from-[#1A2332] via-[#132F4C] to-[#0F1A2E] rounded-2xl p-6 relative overflow-hidden group cursor-pointer border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 shadow-2xl hover:shadow-blue-500/20 backdrop-blur-sm"
                             onClick={() => handleNavigation(game.route)}
+                            style={{
+                              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+                            }}
                           >
+                            {/* Premium Glow Effect */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
+                            
+                            {/* Animated Border */}
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
+                            
                             <div className="flex flex-col h-full">
-                              <div className="w-full h-32 lg:h-40 mb-4 overflow-hidden rounded-lg">
+                              <div className="w-full h-36 lg:h-44 mb-6 overflow-hidden rounded-xl relative">
+                                {/* Image Overlay for Premium Effect */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-10 rounded-xl" />
                                 <img
                                   src={game.image}
                                   alt={game.label}
-                                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 filter brightness-110 contrast-110"
                                 />
+                                {/* Premium Badge */}
+                                <div className="absolute top-3 right-3 z-20">
+                                  <div className="bg-gradient-to-r from-yellow-400/90 to-amber-500/90 text-black px-2 py-1 rounded-full text-xs font-bold backdrop-blur-sm border border-yellow-300/50">
+                                    PREMIUM
+                                  </div>
+                                </div>
                               </div>
-                              <div className="flex-1">
-                                <div className="text-xs text-blue-400 mb-2 font-medium">
+                              <div className="flex-1 relative z-20">
+                                <div className="text-xs text-blue-300 mb-3 font-semibold tracking-wider uppercase bg-blue-500/10 px-3 py-1 rounded-full inline-block border border-blue-500/20">
                                   {game.category}
                                 </div>
-                                <h3 className="font-bold text-white mb-2 text-base lg:text-lg">
+                                <h3 className="font-bold text-white mb-3 text-lg lg:text-xl leading-tight bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
                                   {game.label}
                                 </h3>
-                                <p className="text-gray-400 text-sm mb-4">
+                                <p className="text-gray-300 text-sm mb-6 leading-relaxed">
                                   {game.description}
                                 </p>
                                 <button 
@@ -621,12 +652,22 @@ function App() {
                                     e.stopPropagation();
                                     handleNavigation(game.route);
                                   }}
-                                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors w-full font-medium"
+                                  className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-700 hover:via-blue-800 hover:to-indigo-800 text-white px-6 py-3 rounded-xl transition-all duration-300 w-full font-semibold text-sm tracking-wide shadow-lg hover:shadow-blue-500/30 border border-blue-500/20 hover:border-blue-400/40 transform hover:scale-[1.02] active:scale-[0.98]"
+                                  style={{
+                                    boxShadow: '0 4px 16px rgba(59, 130, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                                  }}
                                 >
-                                  Play Now
+                                  <span className="flex items-center justify-center gap-2">
+                                    <span>Play Now</span>
+                                    <span className="text-xs">→</span>
+                                  </span>
                                 </button>
                               </div>
                             </div>
+                            
+                            {/* Premium Corner Accent */}
+                            <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-blue-500/20 to-transparent rounded-2xl" />
+                            <div className="absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl from-purple-500/20 to-transparent rounded-2xl" />
                           </motion.div>
                         ))}
                       </div>
