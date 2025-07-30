@@ -240,6 +240,7 @@
 .game-container {
   min-height: 100vh;
   position: relative;
+  background: transparent !important;
 }
 
 /* Smooth page transitions */
@@ -251,7 +252,7 @@
 .page-transition-enter-active {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
+  transition: opacity 200ms, transform 200ms;
 }
 
 .page-transition-exit {
@@ -262,7 +263,7 @@
 .page-transition-exit-active {
   opacity: 0;
   transform: translateY(-20px);
-  transition: opacity 300ms, transform 300ms;
+  transition: opacity 200ms, transform 200ms;
 }
 
 /* Game-specific overrides */
@@ -270,10 +271,46 @@
   background: transparent !important;
 }
 
+/* Enhanced game UI improvements */
+.game-ui-enhanced {
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.game-button-enhanced {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(147, 51, 234, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.game-button-enhanced:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+}
+
+.game-card-enhanced {
+  background: linear-gradient(135deg, rgba(26, 47, 76, 0.8), rgba(15, 23, 42, 0.9));
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.game-card-enhanced:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
+  transform: translateY(-4px);
+}
+
 /* Responsive game layout */
 @media (max-width: 768px) {
   .game-container {
     padding: 0;
+  }
+  
+  .game-ui-enhanced {
+    backdrop-filter: blur(8px);
   }
 }
 

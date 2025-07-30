@@ -59,7 +59,7 @@ function FeedbackPage() {
     }
   };
   return (
-    <div className="min-h-screen bg-[#0A1929] text-white">
+    <div className="min-h-screen text-white">
       {/* Main Header */}
       <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
         <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">

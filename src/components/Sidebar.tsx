@@ -183,31 +183,46 @@ export function Sidebar({
       icon: <Home size={20} />,
       label: 'Home',
       path: '/',
-      onClick: () => navigate('/'),
+      onClick: () => {
+        navigate('/');
+        if (window.innerWidth < 1024) onClose();
+      },
     },
     {
       icon: <TrendingUp size={20} />,
       label: 'Popular',
       path: '/popular',
-      content: <PopularPage />,
+      onClick: () => {
+        navigate('/popular');
+        if (window.innerWidth < 1024) onClose();
+      },
     },
     {
       icon: <Gamepad size={20} />,
       label: 'All Games',
       path: '/all-games',
-      content: <AllGamesPage />,
+      onClick: () => {
+        navigate('/all-games');
+        if (window.innerWidth < 1024) onClose();
+      },
     },
     {
       icon: <Gift size={20} />,
       label: 'Offers',
       path: '/offers',
-      content: <OffersPage />,
+      onClick: () => {
+        navigate('/offers');
+        if (window.innerWidth < 1024) onClose();
+      },
     },
     {
       icon: <Clock size={20} />,
       label: 'Upcoming Games',
       path: '/upcoming',
-      content: <UpcomingGames />,
+      onClick: () => {
+        navigate('/upcoming');
+        if (window.innerWidth < 1024) onClose();
+      },
     },
     {
       icon: <Wallet size={20} />,
@@ -245,12 +260,19 @@ export function Sidebar({
       icon: <Sparkles size={20} />,
       label: 'New Games',
       path: '/new-games',
-      content: <NewGamesPage />,
+      onClick: () => {
+        navigate('/new-games');
+        if (window.innerWidth < 1024) onClose();
+      },
     },
     {
       icon: <History size={20} />,
       label: 'Transactions',
       path: '/transactions',
+      onClick: () => {
+        navigate('/transactions');
+        if (window.innerWidth < 1024) onClose();
+      },
     },
     {
       icon: <MessageCircle size={20} />,
@@ -262,34 +284,30 @@ export function Sidebar({
       icon: <Settings size={20} />,
       label: 'Settings',
       path: '/settings',
-      content: <SettingsPage />,
+      onClick: () => {
+        navigate('/settings');
+        if (window.innerWidth < 1024) onClose();
+      },
     },
     {
       icon: <Info size={20} />,
       label: 'About',
       path: '/about',
-      content: <AboutPage />,
+      onClick: () => {
+        navigate('/about');
+        if (window.innerWidth < 1024) onClose();
+      },
     },
   ];
 
   const handleItemClick = (item: any) => {
-    // Close any existing page content first
-    setCurrentPage(null);
-    
     if (item.onClick) {
       item.onClick();
       return;
     }
 
-    if (item.content) {
-      setCurrentPage({
-        label: item.label,
-        content: item.content,
-      });
-    } else {
-      // Navigate to the actual route instead of showing content
-      navigate(item.path);
-    }
+    // Navigate to the actual route
+    navigate(item.path);
 
     if (window.innerWidth < 1024) {
       onClose();

@@ -424,6 +424,122 @@ function App() {
                       View All →
                     </button>
                   </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {offers.map((offer, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-lg p-4 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 px-2 py-1 rounded-full text-xs font-bold border border-blue-500/30">
+                                {offer.tag}
+                              </div>
+                            </div>
+                            <h2 className="text-sm font-bold mb-2 text-white">
+                              {offer.title}
+                            </h2>
+                            <button 
+                              onClick={() => handleNavigation('/offers')}
+                              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-3 py-1.5 rounded-lg transition-all duration-300 font-medium text-xs transform hover:scale-105"
+                            >
+                              Claim Now
+                            </button>
+                          </div>
+                          <div className="w-10 h-10">
+                            <img
+                              src={offer.image}
+                              alt="Offer"
+                              className="w-full h-full object-contain filter drop-shadow-lg"
+                            />
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* Additional Offers Grid */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="mb-8"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-bold text-white">More Exclusive Offers</h2>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {[
+                      {
+                        title: 'VIP Weekend Bonus',
+                        image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/vip.png',
+                        tag: 'VIP',
+                      },
+                      {
+                        title: 'Daily Login Streak',
+                        image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/calendar.png',
+                        tag: 'DAILY',
+                      },
+                      {
+                        title: 'Referral Mega Bonus',
+                        image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/share.png',
+                        tag: 'SOCIAL',
+                      },
+                      {
+                        title: 'High Roller Exclusive',
+                        image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/diamond.png',
+                        tag: 'PREMIUM',
+                      },
+                    ].map((offer, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 + index * 0.1 }}
+                        className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-lg p-4 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 px-2 py-1 rounded-full text-xs font-bold border border-purple-500/30">
+                                {offer.tag}
+                              </div>
+                            </div>
+                            <h2 className="text-sm font-bold mb-2 text-white">
+                              {offer.title}
+                            </h2>
+                            <button 
+                              onClick={() => handleNavigation('/offers')}
+                              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-3 py-1.5 rounded-lg transition-all duration-300 font-medium text-xs transform hover:scale-105"
+                            >
+                              Claim Now
+                            </button>
+                          </div>
+                          <div className="w-10 h-10">
+                            <img
+                              src={offer.image}
+                              alt="Offer"
+                              className="w-full h-full object-contain filter drop-shadow-lg"
+                            />
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* Remove the old offers section */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="mb-8 hidden"
+                >
                   <div className="relative">
                     <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 pb-4" 
                          style={{ 
@@ -431,38 +547,6 @@ function App() {
                            scrollbarColor: '#3B82F6 transparent',
                            scrollBehavior: 'smooth'
                          }}>
-                      {offers.map((offer, index) => (
-                        <div
-                          key={index}
-                          className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-lg p-4 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 snap-start flex-shrink-0 w-64 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-2">
-                                <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 px-2 py-1 rounded-full text-xs font-bold border border-blue-500/30">
-                                  {offer.tag}
-                                </div>
-                              </div>
-                              <h2 className="text-sm font-bold mb-2 text-white">
-                                {offer.title}
-                              </h2>
-                              <button 
-                                onClick={() => handleNavigation('/offers')}
-                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-3 py-1.5 rounded-lg transition-all duration-300 font-medium text-xs transform hover:scale-105"
-                              >
-                                Claim Now
-                              </button>
-                            </div>
-                            <div className="w-10 h-10">
-                              <img
-                                src={offer.image}
-                                alt="Offer"
-                                className="w-full h-full object-contain filter drop-shadow-lg"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      ))}
                     </div>
                   </div>
                 </motion.div>
@@ -575,14 +659,38 @@ function App() {
           } />
 
           {/* Offers Page Route */}
-          <Route path="/offers" element={<OffersPage />} />
-          <Route path="/popular" element={<PopularPage />} />
-          <Route path="/all-games" element={<AllGamesPage />} />
-          <Route path="/new-games" element={<NewGamesPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/about" element={<AboutPage />} />
+          <Route path="/offers" element={
+            <div className="min-h-screen bg-[#0A1929]">
+              <OffersPage />
+            </div>
+          } />
+          <Route path="/popular" element={
+            <div className="min-h-screen bg-[#0A1929]">
+              <PopularPage />
+            </div>
+          } />
+          <Route path="/all-games" element={
+            <div className="min-h-screen bg-[#0A1929]">
+              <AllGamesPage />
+            </div>
+          } />
+          <Route path="/new-games" element={
+            <div className="min-h-screen bg-[#0A1929]">
+              <NewGamesPage />
+            </div>
+          } />
+          <Route path="/settings" element={
+            <div className="min-h-screen bg-[#0A1929]">
+              <SettingsPage />
+            </div>
+          } />
+          <Route path="/about" element={
+            <div className="min-h-screen bg-[#0A1929]">
+              <AboutPage />
+            </div>
+          } />
           <Route path="/upcoming" element={
-            <div className="min-h-screen bg-[#0A1929] text-white">
+            <div className="min-h-screen bg-[#0A1929]">
               <div className="max-w-6xl mx-auto p-6">
                 <div className="flex items-center gap-4 mb-8">
                   <button
@@ -645,7 +753,7 @@ function App() {
                   </div>
                 </div>
               </div>
-              <div className="max-w-6xl mx-auto p-6">
+              <div className="max-w-6xl mx-auto p-6 text-white">
                 <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
                   <p className="text-gray-300 text-lg mb-4">
                     Exciting new games are coming soon to our platform!
@@ -658,7 +766,7 @@ function App() {
             </div>
           } />
           <Route path="/transactions" element={
-            <div className="min-h-screen bg-[#0A1929] text-white">
+            <div className="min-h-screen bg-[#0A1929]">
               {/* Header */}
               <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
                 <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
@@ -676,7 +784,7 @@ function App() {
                   </div>
                 </div>
               </div>
-              <div className="max-w-6xl mx-auto p-6">
+              <div className="max-w-6xl mx-auto p-6 text-white">
                 <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
                   <p className="text-gray-300 text-lg mb-4">
                     Your transaction history will appear here.
