@@ -24,6 +24,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { OffersPage } from './pages/OffersPage';
 import { PopularPage } from './pages/PopularPage';
 import NewGamesPage from './pages/NewGamesPage';
 import { AboutPage } from './pages/AboutPage';
@@ -182,7 +183,7 @@ export function Sidebar({
       icon: <Home size={20} />,
       label: 'Home',
       path: '/',
-      onClick: () => window.location.href = '/',
+      onClick: () => navigate('/'),
     },
     {
       icon: <TrendingUp size={20} />,
@@ -219,7 +220,7 @@ export function Sidebar({
       icon: <ArrowUpCircle size={20} />,
       label: 'Deposit',
       path: '/deposit',
-      onClick: () => window.location.href = '/deposit',
+      onClick: () => navigate('/deposit'),
       className: 'text-green-400 hover:text-green-300',
     },
     {
@@ -227,7 +228,7 @@ export function Sidebar({
       label: 'Withdrawal',
       path: '/withdrawal',
       className: 'text-purple-400 hover:text-purple-300',
-      onClick: () => window.location.href = '/withdrawal',
+      onClick: () => navigate('/withdrawal'),
     },
     {
       icon: <Headphones size={20} />,

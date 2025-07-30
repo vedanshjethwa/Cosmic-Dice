@@ -96,7 +96,7 @@ export function DepositPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => window.location.href = '/'}
+                onClick={() => navigate('/')}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
               >
                 <ArrowLeft size={20} />

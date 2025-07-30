@@ -138,16 +138,11 @@ export function GameLayout({ gameType }: GameLayoutProps) {
   const GameComponent = gameComponents[gameType];
 
   const handleBack = () => {
-    // Use window.history for proper URL handling
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.href = '/';
-    }
+    navigate(-1);
   };
 
   const handleHome = () => {
-    window.location.href = '/';
+    navigate('/');
   };
 
   return (

@@ -63,7 +63,7 @@ export function GuidanceSystem({ userBehavior, gameContext }: GuidanceSystemProp
     }
 
     // Session time bonus offer
-    // Removed loyalty bonus popup as requested
+    // Loyalty bonus popup removed to improve user experience
 
     // Achievement unlocked
     if (userBehavior.totalBetAmount >= 5000) {

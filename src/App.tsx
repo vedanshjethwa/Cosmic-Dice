@@ -430,7 +430,7 @@ function App() {
                            scrollbarColor: '#3B82F6 transparent',
                            scrollBehavior: 'smooth'
                          }}>
-                      {offers.slice(0, 3).map((offer, index) => (
+                      {offers.map((offer, index) => (
                         <div
                           key={index}
                           className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-lg p-4 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 snap-start flex-shrink-0 w-64 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10"
