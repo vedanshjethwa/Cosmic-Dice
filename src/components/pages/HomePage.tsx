@@ -1,1 +1,34 @@
-{"code":"rate-limited","message":"You have hit the rate limit. Please upgrade to keep chatting.","providerLimitHit":false,"isRetryable":true}
+import React from 'react';
+import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+export function HomePage() {
+  const navigate = useNavigate();
+  
+  return (
+    <div className="min-h-screen bg-[#0A1929] text-white">
+      <div className="max-w-6xl mx-auto p-6">
+        <div className="flex items-center gap-4 mb-8">
+          <button
+            onClick={() => navigate('/')}
+            className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <ArrowLeft size={20} />
+            <span className="hidden sm:inline">Back</span>
+          </button>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+            Home
+          </h1>
+        </div>
+        <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+          <p className="text-gray-300 text-lg mb-4">
+            Welcome to your gaming dashboard!
+          </p>
+          <p className="text-gray-400">
+            This is your personalized home page where you can access your favorite games and track your progress.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
