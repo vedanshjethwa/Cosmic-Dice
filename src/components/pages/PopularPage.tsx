@@ -116,6 +116,5 @@ export function PopularPage() {
     </div>
   );
 }
-}
   )
 }
