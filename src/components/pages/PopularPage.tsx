@@ -116,3 +116,5 @@ export function PopularPage() {
     </div>
   );
 }
+  )
+}
