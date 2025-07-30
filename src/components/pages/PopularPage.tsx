@@ -103,20 +103,17 @@ export function PopularPage() {
           </p>
         </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        {/* Popular Games Grid */}
-        <GameGrid 
-          games={popularGames} 
-          title="Most Popular Games"
-        />
-      </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          {/* Popular Games Grid */}
+          <GameGrid 
+            games={popularGames} 
+            title="Most Popular Games"
+          />
+        </motion.div>
+      </div>
     </div>
   );
-}
-  )
-}
-  )
 }
