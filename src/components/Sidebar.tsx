@@ -27,7 +27,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { PopularPage } from './pages/PopularPage';
 import NewGamesPage from './pages/NewGamesPage';
 import { AboutPage } from './pages/AboutPage';
-import { OffersPage } from './pages/OffersPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { AllGamesPage } from './pages/AllGamesPage';
 import { Footer } from './Footer';
@@ -256,7 +255,7 @@ export function Sidebar({
       icon: <MessageCircle size={20} />,
       label: 'Feedback',
       path: '/feedback',
-      content: <FeedbackPage />,
+      onClick: () => navigate('/feedback'),
     },
     {
       icon: <Settings size={20} />,

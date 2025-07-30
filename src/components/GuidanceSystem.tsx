@@ -63,20 +63,7 @@ export function GuidanceSystem({ userBehavior, gameContext }: GuidanceSystemProp
     }
 
     // Session time bonus offer
-    if (userBehavior.sessionTime > 15 * 60 * 1000 && userBehavior.totalBetAmount > 1000) {
-      newTooltips.push({
-        id: 'session-bonus',
-        type: 'offer',
-        title: 'Loyalty Bonus Available!',
-        message: 'You\'ve been playing for 15+ minutes. Claim your loyalty bonus now!',
-        action: 'Claim Bonus',
-        onAction: () => {
-          // Handle bonus claim
-          console.log('Bonus claimed');
-        },
-        duration: 15000,
-      });
-    }
+    // Removed loyalty bonus popup as requested
 
     // Achievement unlocked
     if (userBehavior.totalBetAmount >= 5000) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Home, TrendingUp, Users, Star } from 'lucide-react';
+import { Home, TrendingUp, Users, Star, ArrowLeft } from 'lucide-react';
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -22,26 +22,31 @@ export function HomePage() {
 
   return (
     <div className="max-w-6xl mx-auto p-6 text-white">
+      {/* Header with Back Button */}
+      <div className="flex items-center gap-4 mb-8">
+        <button
+          onClick={() => navigate('/')}
+          className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+        >
+          <ArrowLeft size={20} />
+          <span className="hidden sm:inline">Back</span>
+        </button>
+        <div>
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+            Welcome to Cosmic Gaming
+          </h1>
+          <p className="text-gray-400 text-lg">
+            Your ultimate destination for online gaming and entertainment
+          </p>
+        </div>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
       >
-        <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-          Welcome to Cosmic Gaming
-        </h1>
-        <p className="text-gray-400 text-lg">
-          Your ultimate destination for online gaming and entertainment
-        </p>
-      </motion.div>
-
-      {/* Stats Grid */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
-      >
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat, index) => (
           <div
             key={index}

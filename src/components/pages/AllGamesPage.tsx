@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Gamepad, Search, Filter, Star, Users, Clock, TrendingUp } from 'lucide-react';
+import { Gamepad, Search, Filter, Star, Users, Clock, TrendingUp, ArrowLeft } from 'lucide-react';
 import { GameGrid } from '../GameGrid';
 
 export function AllGamesPage() {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('popular');
@@ -151,29 +153,33 @@ export function AllGamesPage() {
   return (
     <div className="max-w-7xl mx-auto p-6 text-white">
       {/* Header */}
+      <div className="flex items-center gap-4 mb-8">
+        <button
+          onClick={() => navigate('/')}
+          className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+        >
+          <ArrowLeft size={20} />
+          <span className="hidden sm:inline">Back</span>
+        </button>
+        <div>
+          <div className="flex items-center gap-3">
+            <Gamepad className="w-8 h-8 text-blue-400" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              All Games
+            </h1>
+          </div>
+          <p className="text-gray-400 text-lg">
+            Explore our complete collection of cosmic gaming experiences
+          </p>
+        </div>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
       >
-        <div className="flex items-center gap-3 mb-4">
-          <Gamepad className="w-8 h-8 text-blue-400" />
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            All Games
-          </h1>
-        </div>
-        <p className="text-gray-400 text-lg">
-          Explore our complete collection of cosmic gaming experiences
-        </p>
-      </motion.div>
-
-      {/* Filters and Search */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20 mb-8"
-      >
+        {/* Filters and Search */}
+        <div className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20 mb-8">
         {/* Search Bar */}
         <div className="relative mb-6">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />

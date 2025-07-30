@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Settings,
@@ -16,7 +17,7 @@ import {
   Save,
   RefreshCw,
   Headphones,
-  MessageCircle,
+  ArrowLeft,
   ChevronRight
 } from 'lucide-react';
 
@@ -52,6 +53,7 @@ function SupportPage({ title, content, onBack }: SupportPageProps) {
 }
 
 export function SettingsPage() {
+  const navigate = useNavigate();
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [language, setLanguage] = useState('en');
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -330,23 +332,33 @@ export function SettingsPage() {
 
   return (
     <div className="max-w-4xl mx-auto p-6 text-white">
+      {/* Header with Back Button */}
+      <div className="flex items-center gap-4 mb-8">
+        <button
+          onClick={() => navigate('/')}
+          className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+        >
+          <ArrowLeft size={20} />
+          <span className="hidden sm:inline">Back</span>
+        </button>
+        <div>
+          <div className="flex items-center gap-3">
+            <Settings className="w-8 h-8 text-blue-400" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              Settings
+            </h1>
+          </div>
+          <p className="text-gray-400 text-lg">
+            Customize your gaming experience and account preferences
+          </p>
+        </div>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
       >
-        <div className="flex items-center gap-3 mb-4">
-          <Settings className="w-8 h-8 text-blue-400" />
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            Settings
-          </h1>
-        </div>
-        <p className="text-gray-400 text-lg">
-          Customize your gaming experience and account preferences
-        </p>
-      </motion.div>
-
-      <div className="space-y-8">
+        <div className="space-y-8">
         {/* Account Settings */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

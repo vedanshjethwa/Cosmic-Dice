@@ -18,11 +18,18 @@ import { GuidanceSystem } from './components/GuidanceSystem';
 import { SearchSystem } from './components/SearchSystem';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LoadingScreen } from './components/LoadingScreen';
+import { ArrowLeft } from 'lucide-react';
 
 // Game Pages
 import { GameLayout } from './components/GameLayout';
 import { HomePage } from './components/pages/HomePage';
 import { OffersPage } from './components/pages/OffersPage';
+import { PopularPage } from './components/pages/PopularPage';
+import { AllGamesPage } from './components/pages/AllGamesPage';
+import NewGamesPage from './components/pages/NewGamesPage';
+import { SettingsPage } from './components/pages/SettingsPage';
+import { AboutPage } from './components/pages/AboutPage';
+import FeedbackPage from './components/FeedbackPage';
 
 function App() {
   const [isNavSidebarOpen, setNavSidebarOpen] = useState(false);
@@ -570,6 +577,37 @@ function App() {
 
           {/* Offers Page Route */}
           <Route path="/offers" element={<OffersPage />} />
+          <Route path="/popular" element={<PopularPage />} />
+          <Route path="/all-games" element={<AllGamesPage />} />
+          <Route path="/new-games" element={<NewGamesPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/upcoming" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="flex items-center gap-4 mb-8">
+                  <button
+                    onClick={() => navigate('/')}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                  >
+                    <ArrowLeft size={20} />
+                    <span className="hidden sm:inline">Back</span>
+                  </button>
+                  <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                    Upcoming Games
+                  </h1>
+                </div>
+                <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                  <p className="text-gray-300 text-lg mb-4">
+                    Exciting new games are coming soon to our platform!
+                  </p>
+                  <p className="text-gray-400">
+                    Stay tuned for announcements about upcoming releases.
+                  </p>
+                </div>
+              </div>
+            </div>
+          } />
 
           {/* Game Routes */}
           <Route path="/game/rps" element={<GameLayout gameType="rps" />} />
@@ -588,6 +626,7 @@ function App() {
           <Route path="/deposit" element={<DepositPage />} />
           <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/feedback" element={<FeedbackPage />} />
         </Routes>
       </div>
 

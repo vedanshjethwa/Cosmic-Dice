@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { MessageSquare, Star, Send } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { MessageSquare, Star, Send, ArrowLeft } from 'lucide-react';
 export function maskUsername(username: string): string {
   if (!username) return '';
   if (username.length <= 3) return username + '***';
@@ -14,6 +15,7 @@ interface Feedback {
 }
 
 function FeedbackPage() {
+  const navigate = useNavigate();
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [review, setReview] = useState('');
   const [username, setUsername] = useState('');
@@ -58,14 +60,31 @@ function FeedbackPage() {
   };
   return (
     <div className="min-h-screen text-white">
+      {/* Header with Back Button */}
+      <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate('/')}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+            >
+              <ArrowLeft size={20} />
+              <span className="hidden sm:inline">Back</span>
+            </button>
+            <div className="flex items-center gap-3">
+              <MessageSquare className="w-8 h-8 text-blue-400" />
+              <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                Feedback about us
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Main Content */}
       <div className="max-w-[1200px] mx-auto px-6 py-12">
-        {/* Header Section */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center gap-3 mb-4">
-            <MessageSquare className="w-8 h-8 text-blue-400" />
-            <h1 className="text-4xl font-bold">Feedback about us</h1>
-          </div>
+        {/* Description Section */}
+        <div className="text-center mb-12">
           <p className="text-[#8899AC] text-lg">
             At Cosmic777.com, we take pride in providing a fair, secure, and
             innovative gaming experience for our players. Your feedback helps us

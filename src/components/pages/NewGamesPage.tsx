@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Sparkles, Star, Users, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Sparkles, Star, Users, Clock, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
 import { GameGrid } from '../GameGrid';
 
 const NewGamesPage: React.FC = () => {
@@ -159,29 +159,34 @@ const NewGamesPage: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6 text-white">
+      {/* Header with Back Button */}
+      <div className="flex items-center gap-4 mb-8">
+        <button
+          onClick={() => navigate('/')}
+          className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+        >
+          <ArrowLeft size={20} />
+          <span className="hidden sm:inline">Back</span>
+        </button>
+        <div>
+          <div className="flex items-center gap-3">
+            <Sparkles className="w-8 h-8 text-blue-400" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              New Games
+            </h1>
+          </div>
+          <p className="text-gray-400 text-lg">
+            Discover the latest additions to our cosmic gaming universe
+          </p>
+        </div>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
       >
-        <div className="flex items-center gap-3 mb-4">
-          <Sparkles className="w-8 h-8 text-blue-400" />
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            New Games
-          </h1>
-        </div>
-        <p className="text-gray-400 text-lg">
-          Discover the latest additions to our cosmic gaming universe
-        </p>
-      </motion.div>
-
-      {/* New Games Carousel */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="mb-12 relative"
-      >
+        {/* New Games Carousel */}
+        <div className="mb-12 relative">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-white">Recently Added Games</h2>
           <div className="flex items-center gap-2">

@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { TrendingUp } from 'lucide-react';
+import { TrendingUp, ArrowLeft } from 'lucide-react';
 import { GameGrid } from '../GameGrid';
 
 export function PopularPage() {
+  const navigate = useNavigate();
+  
   const popularGames = [
     {
       label: 'Cosmic RPS',
@@ -73,27 +75,38 @@ export function PopularPage() {
 
   return (
     <div className="max-w-6xl mx-auto p-6 text-white">
+      {/* Header with Back Button */}
+      <div className="flex items-center gap-4 mb-8">
+        <button
+          onClick={() => navigate('/')}
+          className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+        >
+          <ArrowLeft size={20} />
+          <span className="hidden sm:inline">Back</span>
+        </button>
+        <div>
+          <div className="flex items-center gap-3">
+            <TrendingUp className="w-8 h-8 text-blue-400" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              Popular Games
+            </h1>
+          </div>
+          <p className="text-gray-400 text-lg">
+            Discover the most played and highest-rated games on our platform
+          </p>
+        </div>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
       >
-        <div className="flex items-center gap-3 mb-4">
-          <TrendingUp className="w-8 h-8 text-blue-400" />
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            Popular Games
-          </h1>
-        </div>
-        <p className="text-gray-400 text-lg">
-          Discover the most played and highest-rated games on our platform
-        </p>
+        {/* Popular Games Grid */}
+        <GameGrid 
+          games={popularGames} 
+          title="Most Popular Games"
+        />
       </motion.div>
-
-      {/* Popular Games Grid */}
-      <GameGrid 
-        games={popularGames} 
-        title="Most Popular Games"
-      />
     </div>
   );
 }
