@@ -626,6 +626,68 @@ function App() {
           <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/upcoming" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              {/* Header */}
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                      Upcoming Games
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                  <p className="text-gray-300 text-lg mb-4">
+                    Exciting new games are coming soon to our platform!
+                  </p>
+                  <p className="text-gray-400">
+                    Stay tuned for announcements about upcoming releases.
+                  </p>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/transactions" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              {/* Header */}
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                      Transactions
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                  <p className="text-gray-300 text-lg mb-4">
+                    Your transaction history will appear here.
+                  </p>
+                  <p className="text-gray-400">
+                    All deposits, withdrawals, and game transactions are tracked here.
+                  </p>
+                </div>
+              </div>
+            </div>
+          } />
         </Routes>
       </div>
 

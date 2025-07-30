@@ -60,9 +60,23 @@ function FeedbackPage() {
   };
   return (
     <div className="min-h-screen bg-[#0A1929] text-white">
-      {/* Header with Back Button */}
+      {/* Main Header */}
       <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
         <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+          <h1
+            className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
+            style={{
+               fontFamily: "'Orbitron', sans-serif"
+              }}
+          >
+            Cosmic
+          </h1>
+        </div>
+      </div>
+      
+      {/* Page Header with Back Button */}
+      <div className="bg-[#0A1929] border-b border-blue-500/10">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-3">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/')}
@@ -71,12 +85,7 @@ function FeedbackPage() {
               <ArrowLeft size={20} />
               <span className="hidden sm:inline">Back</span>
             </button>
-            <div className="flex items-center gap-3">
-              <MessageSquare className="w-8 h-8 text-blue-400" />
-              <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                Feedback about us
-              </h1>
-            </div>
+            <h2 className="text-xl font-bold text-white">Feedback</h2>
           </div>
         </div>
       </div>

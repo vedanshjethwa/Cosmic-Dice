@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { StarToggle } from './components/StarToggle';
 import { motion, AnimatePresence } from 'framer-motion';
+import { BarChart3, Wallet, Trophy, History } from 'lucide-react';
 
 type RiskLevel = 'low' | 'medium' | 'high';
 
@@ -184,7 +184,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#020B2D] via-[#0A1745] to-[#020B2D] text-white w-full">
-      <StarToggle onActivate={handleStarActivate} />
       
       <div className="p-4">
         <div className="max-w-7xl mx-auto">

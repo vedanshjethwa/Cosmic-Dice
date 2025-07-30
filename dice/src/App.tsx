@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { DivideCircle, Plus } from 'lucide-react';
+import { DivideCircle, Plus, HelpCircle } from 'lucide-react';
+import { Border } from './border/Border';
 
 // Betting tiers with their corresponding win chances
 const BETTING_TIERS = [
@@ -220,11 +221,6 @@ function App() {
           : 'bg-gradient-to-b from-[#0f172a] via-[#0a0f1a] to-[#020817]'
       } text-white`}
     >
-      <Border 
-        balance={balance}
-        onBackClick={() => console.log('Back clicked')}
-        onHelpClick={() => setShowInstructions(true)}
-      />
 
       {/* Main Game Area */}
       <main className="container mx-auto px-2 md:px-4 py-3 md:py-8 flex flex-col gap-4 md:gap-8">

@@ -287,25 +287,8 @@ export function Sidebar({
         content: item.content,
       });
     } else {
-      setCurrentPage({
-        label: item.label,
-        content: (
-          <div className="mx-auto p-6 text-white">
-            <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              {item.label}
-            </h2>
-            <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
-              <p className="text-gray-300 text-lg mb-4">
-                Welcome to the {item.label} section.
-              </p>
-              <p className="text-gray-400">
-                This page is currently under development. Check back soon for
-                exciting new features and content!
-              </p>
-            </div>
-          </div>
-        ),
-      });
+      // Navigate to the actual route instead of showing content
+      navigate(item.path);
     }
 
     if (window.innerWidth < 1024) {

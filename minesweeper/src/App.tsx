@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import GameArea from './components/GameArea';
 import RecentBets from './components/RecentBets';
 import HelpModal from './components/HelpModal';
-import { StarToggle } from './components/StarToggle';
 
 function App() {
   const [balance, setBalance] = useState(1000);
@@ -35,7 +34,7 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">
       <main className="flex-1 max-w-3xl w-full mx-auto p-4 space-y-6">
         <GameArea 
           betAmount={betAmount}
@@ -46,7 +45,6 @@ function App() {
         <RecentBets history={gameHistory} />
       </main>
       {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
-      <StarToggle onActivate={handleStarActivate} />
     </div>
   );
 }
