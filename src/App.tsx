@@ -17,6 +17,7 @@ import { GameDetailPage } from './components/pages/GameDetailPage';
 import { GuidanceSystem } from './components/GuidanceSystem';
 import { SearchSystem } from './components/SearchSystem';
 import { motion, AnimatePresence } from 'framer-motion';
+import { LoadingScreen } from './components/LoadingScreen';
 
 // Game Pages
 import { GameLayout } from './components/GameLayout';

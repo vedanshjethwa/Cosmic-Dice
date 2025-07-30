@@ -38,20 +38,25 @@ export default function NewGamesPage() {
 
   return (
     <div className="min-h-screen bg-[#0A1929] text-white">
-      <div className="max-w-7xl mx-auto p-6">
-        <div className="flex items-center gap-4 mb-8">
-          <button
-            onClick={() => navigate('/')}
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
-          >
-            <ArrowLeft size={20} />
-            <span className="hidden sm:inline">Back</span>
-          </button>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            New Games
-          </h1>
+      {/* Header */}
+      <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate('/')}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+            >
+              <ArrowLeft size={20} />
+              <span className="hidden sm:inline">Back</span>
+            </button>
+            <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              New Games
+            </h1>
+          </div>
         </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto p-6">
         <div className="mb-8">
           <p className="text-gray-300 text-lg">
             Discover our latest cosmic gaming experiences! These games have been recently added to our platform.

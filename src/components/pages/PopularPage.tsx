@@ -74,28 +74,34 @@ export function PopularPage() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto p-6 text-white">
+    <div className="min-h-screen bg-[#0A1929] text-white">
       {/* Header with Back Button */}
-      <div className="flex items-center gap-4 mb-8">
-        <button
-          onClick={() => navigate('/')}
-          className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
-        >
-          <ArrowLeft size={20} />
-          <span className="hidden sm:inline">Back</span>
-        </button>
-        <div>
-          <div className="flex items-center gap-3">
-            <TrendingUp className="w-8 h-8 text-blue-400" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Popular Games
-            </h1>
+      <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate('/')}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+            >
+              <ArrowLeft size={20} />
+              <span className="hidden sm:inline">Back</span>
+            </button>
+            <div className="flex items-center gap-3">
+              <TrendingUp className="w-8 h-8 text-blue-400" />
+              <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                Popular Games
+              </h1>
+            </div>
           </div>
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto p-6">
+        <div className="mb-8">
           <p className="text-gray-400 text-lg">
             Discover the most played and highest-rated games on our platform
           </p>
         </div>
-      </div>
 
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -107,6 +113,7 @@ export function PopularPage() {
           title="Most Popular Games"
         />
       </motion.div>
+      </div>
     </div>
   );
 }
