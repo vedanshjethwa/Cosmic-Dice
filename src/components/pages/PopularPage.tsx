@@ -113,7 +113,9 @@ export function PopularPage() {
           title="Most Popular Games"
         />
       </motion.div>
-      </div>
     </div>
   );
+}
+
+  )
 }
