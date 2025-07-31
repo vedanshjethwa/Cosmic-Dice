@@ -425,13 +425,13 @@ function App() {
                     </button>
                   </div>
                   <div className="relative">
-                    <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 pb-4 featured-offers-scroll" 
+                    <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 pb-4" 
                          style={{ 
                            scrollbarWidth: 'thin', 
                            scrollbarColor: '#3B82F6 transparent',
                            scrollBehavior: 'smooth'
                          }}>
-                      {offers.map((offer, index) => (
+                      {offers.slice(0, 4).map((offer, index) => (
                         <motion.div
                           key={index}
                           initial={{ opacity: 0, y: 20 }}
@@ -470,100 +470,7 @@ function App() {
                   </div>
                 </motion.div>
 
-                {/* Additional Offers Grid */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="mb-8"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-bold text-white">More Exclusive Offers</h2>
-                  </div>
-                  <div className="relative">
-                    <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 pb-4 featured-offers-scroll" 
-                         style={{ 
-                           scrollbarWidth: 'thin', 
-                           scrollbarColor: '#3B82F6 transparent',
-                           scrollBehavior: 'smooth'
-                         }}>
-                      {[
-                        {
-                          title: 'VIP Weekend Bonus',
-                          image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/vip.png',
-                          tag: 'VIP',
-                        },
-                        {
-                          title: 'Daily Login Streak',
-                          image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/calendar.png',
-                          tag: 'DAILY',
-                        },
-                        {
-                          title: 'Referral Mega Bonus',
-                          image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/share.png',
-                          tag: 'SOCIAL',
-                        },
-                        {
-                          title: 'High Roller Exclusive',
-                          image: 'https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/diamond.png',
-                          tag: 'PREMIUM',
-                        },
-                      ].map((offer, index) => (
-                        <motion.div
-                          key={index}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.4 + index * 0.1 }}
-                          className="bg-gradient-to-br from-[#132F4C] to-[#1A243D] rounded-xl p-4 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10 flex-shrink-0 w-72 snap-start"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-2">
-                                <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 px-2 py-1 rounded-full text-xs font-bold border border-purple-500/30">
-                                  {offer.tag}
-                                </div>
-                              </div>
-                              <h2 className="text-sm font-bold mb-2 text-white">
-                                {offer.title}
-                              </h2>
-                              <button 
-                                onClick={() => handleNavigation('/offers')}
-                                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-3 py-1.5 rounded-lg transition-all duration-300 font-medium text-xs transform hover:scale-105"
-                              >
-                                Claim Now
-                              </button>
-                            </div>
-                            <div className="w-10 h-10">
-                              <img
-                                src={offer.image}
-                                alt="Offer"
-                                className="w-full h-full object-contain filter drop-shadow-lg"
-                              />
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
 
-                {/* Remove the old offers section */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="mb-8 hidden"
-                >
-                  <div className="relative">
-                    <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 pb-4" 
-                         style={{ 
-                           scrollbarWidth: 'thin', 
-                           scrollbarColor: '#3B82F6 transparent',
-                           scrollBehavior: 'smooth'
-                         }}>
-                    </div>
-                  </div>
-                </motion.div>
 
                 <div className="flex flex-wrap gap-2 lg:gap-4 mb-6">
                   <button
@@ -741,8 +648,13 @@ function App() {
                     <ArrowLeft size={20} />
                     <span className="hidden sm:inline">Back</span>
                   </button>
-                  <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                    Upcoming Games
+                  <h1
+                    className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
+                    style={{
+                       fontFamily: "'Orbitron', sans-serif"
+                      }}
+                  >
+                    Cosmic - Upcoming Games
                   </h1>
                 </div>
                 <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
@@ -788,8 +700,13 @@ function App() {
                       <ArrowLeft size={20} />
                       <span className="hidden sm:inline">Back</span>
                     </button>
-                    <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                      Upcoming Games
+                    <h1
+                      className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
+                      style={{
+                         fontFamily: "'Orbitron', sans-serif"
+                        }}
+                    >
+                      Cosmic - Upcoming Games
                     </h1>
                   </div>
                 </div>
@@ -819,8 +736,13 @@ function App() {
                       <ArrowLeft size={20} />
                       <span className="hidden sm:inline">Back</span>
                     </button>
-                    <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                      Transactions
+                    <h1
+                      className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
+                      style={{
+                         fontFamily: "'Orbitron', sans-serif"
+                        }}
+                    >
+                      Cosmic - Transactions
                     </h1>
                   </div>
                 </div>

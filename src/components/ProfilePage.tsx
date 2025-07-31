@@ -85,7 +85,14 @@ export function ProfilePage({ onExit }: ProfilePageProps) {
                 <ArrowLeft size={20} />
                 <span className="hidden sm:inline">Back</span>
               </button>
-              <h1 className="text-xl lg:text-2xl font-bold">Profile</h1>
+              <h1
+                className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
+                style={{
+                   fontFamily: "'Orbitron', sans-serif"
+                  }}
+              >
+                Cosmic - Profile
+              </h1>
             </div>
             <button
               onClick={handleExit}

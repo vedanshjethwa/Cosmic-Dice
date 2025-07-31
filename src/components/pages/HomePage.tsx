@@ -18,8 +18,13 @@ export function HomePage() {
               <ArrowLeft size={20} />
               <span className="hidden sm:inline">Back</span>
             </button>
-            <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Home
+            <h1
+              className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
+              style={{
+                 fontFamily: "'Orbitron', sans-serif"
+                }}
+            >
+              Cosmic - Home
             </h1>
           </div>
         </div>
