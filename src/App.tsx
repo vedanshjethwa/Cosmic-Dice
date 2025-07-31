@@ -1484,6 +1484,12 @@ function App() {
                 </div>
               </div>
             </div>
+            <Route path="/vault-guide" element={<VaultGuidePage />} />
+            <Route path="/betting-guide" element={<BettingGuidePage />} />
+            <Route path="/how-to-guides" element={<HowToGuidesPage />} />
+            <Route path="/casino-guide" element={<CasinoGuidePage />} />
+            <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
+            <Route path="/security-tips" element={<SecurityTipsPage />} />
           } />
         </Routes>
       </div>
