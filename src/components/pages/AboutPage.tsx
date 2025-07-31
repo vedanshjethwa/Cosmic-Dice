@@ -255,6 +255,84 @@ export function AboutPage() {
         </motion.div>
       </div>
       
+      {/* Privacy Policy Section */}
+      <div id="privacy" className="max-w-6xl mx-auto p-4 lg:p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="bg-[#132F4C] rounded-2xl p-8 lg:p-12 border border-blue-500/20 mb-8"
+        >
+          <h3 className="text-3xl font-bold text-white mb-6">Privacy Policy</h3>
+          <div className="space-y-6 text-gray-300">
+            <div>
+              <h4 className="text-xl font-semibold text-blue-400 mb-3">Information We Collect</h4>
+              <p className="leading-relaxed">
+                We collect information you provide directly to us, such as when you create an account, 
+                make deposits, or contact our support team. This includes your name, email address, 
+                payment information, and gaming activity.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-xl font-semibold text-blue-400 mb-3">How We Use Your Information</h4>
+              <p className="leading-relaxed">
+                Your information is used to provide our services, process transactions, ensure fair play, 
+                comply with legal requirements, and improve our platform. We never sell your personal data to third parties.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-xl font-semibold text-blue-400 mb-3">Data Security</h4>
+              <p className="leading-relaxed">
+                We implement industry-standard security measures including 256-bit SSL encryption, 
+                secure data storage, and regular security audits to protect your information.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Terms of Service Section */}
+      <div id="terms" className="max-w-6xl mx-auto p-4 lg:p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="bg-[#132F4C] rounded-2xl p-8 lg:p-12 border border-blue-500/20"
+        >
+          <h3 className="text-3xl font-bold text-white mb-6">Terms of Service</h3>
+          <div className="space-y-6 text-gray-300">
+            <div>
+              <h4 className="text-xl font-semibold text-blue-400 mb-3">Eligibility</h4>
+              <p className="leading-relaxed">
+                You must be at least 18 years old and legally eligible to participate in online gaming 
+                in your jurisdiction. By using our services, you confirm that you meet these requirements.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-xl font-semibold text-blue-400 mb-3">Account Responsibilities</h4>
+              <p className="leading-relaxed">
+                You are responsible for maintaining the confidentiality of your account credentials, 
+                all activities under your account, and ensuring your account information is accurate and up-to-date.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-xl font-semibold text-blue-400 mb-3">Fair Play</h4>
+              <p className="leading-relaxed">
+                All games must be played fairly. Any attempt to manipulate games, use unauthorized software, 
+                or engage in fraudulent activity will result in account termination and forfeiture of funds.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-xl font-semibold text-blue-400 mb-3">Deposits and Withdrawals</h4>
+              <p className="leading-relaxed">
+                All transactions are subject to our verification procedures. We reserve the right to request 
+                additional documentation for large transactions or suspicious activity.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+      
       <Footer />
     </div>
   );

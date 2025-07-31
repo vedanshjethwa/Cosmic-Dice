@@ -25,10 +25,10 @@ export function Footer() {
       title: 'Casino',
       icon: <CreditCard className="w-5 h-5" />,
       links: [
-        { name: 'Casino Games', href: 'https://example.com/casino-games' },
-        { name: 'Slots', href: 'https://example.com/slots' },
-        { name: 'Roulette', href: 'https://example.com/roulette' },
-        { name: 'Promos & Competitions', href: 'https://example.com/promos' },
+        { name: 'Casino Games', href: '/all-games', internal: true },
+        { name: 'Slots', href: '/slots', internal: true },
+        { name: 'Roulette', href: '/roulette', internal: true },
+        { name: 'Promos & Competitions', href: '/offers', internal: true },
       ],
     },
     support: {
@@ -37,44 +37,44 @@ export function Footer() {
       links: [
         {
           name: 'Help Center',
-          href: 'https://example.com/help-center',
-          external: true,
+          href: '/help-center',
+          internal: true,
         },
         {
           name: 'Gambling Helpline',
-          href: 'https://example.com/gambling-helpline',
-          external: true,
+          href: '/gambling-helpline',
+          internal: true,
         },
-        { name: 'Live Support', href: 'https://example.com/live-support', icon: <MessageCircle className="w-4 h-4" /> },
-        { name: 'Self Exclusion', href: 'https://example.com/self-exclusion', icon: <Shield className="w-4 h-4" /> },
+        { name: 'Live Support', href: '/live-support', icon: <MessageCircle className="w-4 h-4" />, internal: true },
+        { name: 'Self Exclusion', href: '/self-exclusion', icon: <Shield className="w-4 h-4" />, internal: true },
       ],
     },
     about: {
       title: 'About Us',
       icon: <BookOpen className="w-5 h-5" />,
       links: [
-        { name: 'Affiliate Program', href: 'https://example.com/affiliate' },
-        { name: 'Privacy Policy', href: 'https://example.com/privacy-policy' },
-        { name: 'Terms of Service', href: 'https://example.com/terms-of-service' },
+        { name: 'Affiliate Program', href: '/affiliate-program', internal: true },
+        { name: 'Privacy Policy', href: '/about#privacy', internal: true },
+        { name: 'Terms of Service', href: '/about#terms', internal: true },
       ],
     },
     payment: {
       title: 'Payment Info',
       icon: <Wallet className="w-5 h-5" />,
       links: [
-        { name: 'Deposit & Withdrawals', href: 'https://example.com/deposit-withdrawals' },
-        { name: 'How to Use the Vault', href: 'https://example.com/how-to-use-vault' },
-        { name: 'How Much to Bet With', href: 'https://example.com/how-much-to-bet' },
+        { name: 'Deposit & Withdrawals', href: '/deposit', internal: true },
+        { name: 'How to Use the Vault', href: '/vault-guide', internal: true },
+        { name: 'How Much to Bet With', href: '/betting-guide', internal: true },
       ],
     },
     guides: {
       title: 'Guides',
       icon: <HelpCircle className="w-5 h-5" />,
       links: [
-        { name: 'How-to Guides', href: 'https://example.com/how-to-guides' },
-        { name: 'Online Casino Guide', href: 'https://example.com/online-casino-guide' },
-        { name: 'Responsible Gaming', href: 'https://example.com/responsible-gaming', icon: <AlertTriangle className="w-4 h-4" /> },
-        { name: 'Security Tips', href: 'https://example.com/security-tips', icon: <Shield className="w-4 h-4" /> },
+        { name: 'How-to Guides', href: '/how-to-guides', internal: true },
+        { name: 'Online Casino Guide', href: '/casino-guide', internal: true },
+        { name: 'Responsible Gaming', href: '/responsible-gaming', icon: <AlertTriangle className="w-4 h-4" />, internal: true },
+        { name: 'Security Tips', href: '/security-tips', icon: <Shield className="w-4 h-4" />, internal: true },
       ],
     },
   };
@@ -123,18 +123,30 @@ export function Footer() {
               <ul className="space-y-3">
                 {section.links.map((link) => (
                   <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-gray-400 hover:text-blue-400 transition-all flex items-center gap-2 group text-sm"
-                    >
-                      {link.icon && <span className="opacity-60 group-hover:opacity-100">{link.icon}</span>}
-                      <span className="border-b border-transparent group-hover:border-blue-400/30">
-                        {link.name}
-                      </span>
-                      {link.external && (
+                    {link.internal ? (
+                      <button
+                        onClick={() => window.location.href = link.href}
+                        className="text-gray-400 hover:text-blue-400 transition-all flex items-center gap-2 group text-sm w-full text-left"
+                      >
+                        {link.icon && <span className="opacity-60 group-hover:opacity-100">{link.icon}</span>}
+                        <span className="border-b border-transparent group-hover:border-blue-400/30">
+                          {link.name}
+                        </span>
+                      </button>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-gray-400 hover:text-blue-400 transition-all flex items-center gap-2 group text-sm"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link.icon && <span className="opacity-60 group-hover:opacity-100">{link.icon}</span>}
+                        <span className="border-b border-transparent group-hover:border-blue-400/30">
+                          {link.name}
+                        </span>
                         <ExternalLink size={12} className="opacity-60 group-hover:opacity-100" />
-                      )}
-                    </a>
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>

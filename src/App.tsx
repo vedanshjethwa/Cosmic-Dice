@@ -712,6 +712,779 @@ function App() {
           <Route path="/transactions" element={
             <TransactionsPage />
           } />
+          
+          {/* New Pages */}
+          <Route path="/slots" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - Slot Games
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                  <h2 className="text-2xl font-bold text-white mb-4">Slot Games Coming Soon!</h2>
+                  <p className="text-gray-300 text-lg mb-4">
+                    We're working on exciting slot games with cosmic themes and amazing rewards.
+                  </p>
+                  <p className="text-gray-400">
+                    Stay tuned for announcements about our upcoming slot collection.
+                  </p>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/roulette" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - Roulette
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                  <h2 className="text-2xl font-bold text-white mb-4">Cosmic Roulette Coming Soon!</h2>
+                  <p className="text-gray-300 text-lg mb-4">
+                    Experience the classic roulette game with a cosmic twist and enhanced graphics.
+                  </p>
+                  <p className="text-gray-400">
+                    Our development team is crafting an immersive roulette experience for you.
+                  </p>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/help-center" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - Help Center
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="space-y-6">
+                  <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                    <h2 className="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+                    <div className="space-y-4">
+                      <div className="bg-[#0A1929] rounded-lg p-4">
+                        <h3 className="text-lg font-semibold text-blue-400 mb-2">How do I deposit funds?</h3>
+                        <p className="text-gray-300">You can deposit using UPI, Net Banking, or Digital Wallets. Go to Wallet → Deposit to get started.</p>
+                      </div>
+                      <div className="bg-[#0A1929] rounded-lg p-4">
+                        <h3 className="text-lg font-semibold text-blue-400 mb-2">How long do withdrawals take?</h3>
+                        <p className="text-gray-300">Withdrawals are processed within 24 hours. UPI withdrawals are usually instant.</p>
+                      </div>
+                      <div className="bg-[#0A1929] rounded-lg p-4">
+                        <h3 className="text-lg font-semibold text-blue-400 mb-2">Are the games fair?</h3>
+                        <p className="text-gray-300">Yes, all our games use provably fair algorithms and are regularly audited for fairness.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                    <h2 className="text-2xl font-bold text-white mb-6">Contact Support</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h3 className="text-lg font-semibold text-blue-400 mb-2">Live Chat</h3>
+                        <p className="text-gray-300 mb-4">Get instant help from our support team</p>
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors">
+                          Start Live Chat
+                        </button>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-blue-400 mb-2">Email Support</h3>
+                        <p className="text-gray-300 mb-2">support@cosmic777.com</p>
+                        <p className="text-gray-400 text-sm">Response within 24 hours</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/gambling-helpline" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - Gambling Helpline
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="space-y-6">
+                  <div className="bg-red-900/20 rounded-xl p-8 border border-red-500/30">
+                    <h2 className="text-2xl font-bold text-red-400 mb-6">Need Help? We're Here for You</h2>
+                    <p className="text-gray-300 text-lg mb-6">
+                      If gambling is no longer fun or you're concerned about your gaming habits, please reach out for help.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="bg-[#132F4C] rounded-lg p-6">
+                        <h3 className="text-lg font-semibold text-white mb-4">Emergency Contacts</h3>
+                        <div className="space-y-2 text-gray-300">
+                          <p>National Gambling Helpline: 1800-XXX-XXXX</p>
+                          <p>Crisis Support: 24/7 Available</p>
+                          <p>Email: help@gamblinghelp.org</p>
+                        </div>
+                      </div>
+                      <div className="bg-[#132F4C] rounded-lg p-6">
+                        <h3 className="text-lg font-semibold text-white mb-4">Self-Help Resources</h3>
+                        <div className="space-y-2 text-gray-300">
+                          <p>• Set daily/weekly limits</p>
+                          <p>• Take regular breaks</p>
+                          <p>• Never chase losses</p>
+                          <p>• Seek professional help</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/live-support" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - Live Support
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                  <h2 className="text-2xl font-bold text-white mb-6">24/7 Live Support</h2>
+                  <p className="text-gray-300 text-lg mb-6">
+                    Our support team is available around the clock to help you with any questions or issues.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white p-6 rounded-lg transition-colors text-left">
+                      <h3 className="text-lg font-semibold mb-2">Start Live Chat</h3>
+                      <p className="text-blue-100">Get instant help from our support agents</p>
+                    </button>
+                    <button className="bg-purple-600 hover:bg-purple-700 text-white p-6 rounded-lg transition-colors text-left">
+                      <h3 className="text-lg font-semibold mb-2">Create Support Ticket</h3>
+                      <p className="text-purple-100">Submit a detailed support request</p>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/self-exclusion" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - Self Exclusion
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="space-y-6">
+                  <div className="bg-yellow-900/20 rounded-xl p-8 border border-yellow-500/30">
+                    <h2 className="text-2xl font-bold text-yellow-400 mb-6">Self-Exclusion Options</h2>
+                    <p className="text-gray-300 text-lg mb-6">
+                      Take control of your gaming with our self-exclusion tools. Set limits or temporarily block your account.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="bg-[#132F4C] rounded-lg p-6">
+                        <h3 className="text-lg font-semibold text-white mb-4">Daily Limits</h3>
+                        <p className="text-gray-300 mb-4">Set maximum daily deposit and betting limits</p>
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                          Set Limits
+                        </button>
+                      </div>
+                      <div className="bg-[#132F4C] rounded-lg p-6">
+                        <h3 className="text-lg font-semibold text-white mb-4">Time Exclusion</h3>
+                        <p className="text-gray-300 mb-4">Block your account for 24h, 7 days, or 30 days</p>
+                        <button className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors">
+                          Set Timeout
+                        </button>
+                      </div>
+                      <div className="bg-[#132F4C] rounded-lg p-6">
+                        <h3 className="text-lg font-semibold text-white mb-4">Permanent Exclusion</h3>
+                        <p className="text-gray-300 mb-4">Permanently close your account</p>
+                        <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors">
+                          Close Account
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/affiliate-program" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - Affiliate Program
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="space-y-8">
+                  <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                    <h2 className="text-3xl font-bold text-white mb-6">Join Our Affiliate Program</h2>
+                    <p className="text-gray-300 text-lg mb-6">
+                      Earn lifetime commissions by referring players to Cosmic777. Our affiliate program offers competitive rates and reliable payouts.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="bg-[#0A1929] rounded-lg p-6 text-center">
+                        <div className="text-3xl font-bold text-blue-400 mb-2">25%</div>
+                        <div className="text-white font-semibold mb-2">Revenue Share</div>
+                        <div className="text-gray-400 text-sm">Lifetime commission on referred players</div>
+                      </div>
+                      <div className="bg-[#0A1929] rounded-lg p-6 text-center">
+                        <div className="text-3xl font-bold text-green-400 mb-2">₹500</div>
+                        <div className="text-white font-semibold mb-2">Minimum Payout</div>
+                        <div className="text-gray-400 text-sm">Low threshold for withdrawals</div>
+                      </div>
+                      <div className="bg-[#0A1929] rounded-lg p-6 text-center">
+                        <div className="text-3xl font-bold text-purple-400 mb-2">24h</div>
+                        <div className="text-white font-semibold mb-2">Payment Time</div>
+                        <div className="text-gray-400 text-sm">Fast and reliable payouts</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                    <h3 className="text-2xl font-bold text-white mb-6">How It Works</h3>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-4">
+                        <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">1</div>
+                        <div>
+                          <h4 className="text-lg font-semibold text-white mb-2">Sign Up</h4>
+                          <p className="text-gray-300">Register for our affiliate program and get your unique referral link</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-4">
+                        <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">2</div>
+                        <div>
+                          <h4 className="text-lg font-semibold text-white mb-2">Promote</h4>
+                          <p className="text-gray-300">Share your link on social media, websites, or with friends</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-4">
+                        <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">3</div>
+                        <div>
+                          <h4 className="text-lg font-semibold text-white mb-2">Earn</h4>
+                          <p className="text-gray-300">Get 25% commission on all revenue generated by your referrals</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-8">
+                      <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors">
+                        Join Affiliate Program
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/vault-guide" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - How to Use the Vault
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="space-y-8">
+                  <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                    <h2 className="text-3xl font-bold text-white mb-6">Your Cosmic Vault System</h2>
+                    <p className="text-gray-300 text-lg mb-8">
+                      The Vault is your secure digital wallet for managing funds on Cosmic777. Here's how it works:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="space-y-6">
+                        <div className="bg-[#0A1929] rounded-lg p-6">
+                          <h3 className="text-xl font-semibold text-blue-400 mb-4">1. Adding Funds</h3>
+                          <ul className="space-y-2 text-gray-300">
+                            <li>• Use UPI, Net Banking, or Digital Wallets</li>
+                            <li>• Minimum deposit: ₹100</li>
+                            <li>• Instant processing for most methods</li>
+                            <li>• Funds appear in your vault immediately</li>
+                          </ul>
+                        </div>
+                        <div className="bg-[#0A1929] rounded-lg p-6">
+                          <h3 className="text-xl font-semibold text-green-400 mb-4">2. Playing Games</h3>
+                          <ul className="space-y-2 text-gray-300">
+                            <li>• Use vault coins to place bets</li>
+                            <li>• Winnings are added to your vault</li>
+                            <li>• Track all transactions in real-time</li>
+                            <li>• Set spending limits for responsible gaming</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="space-y-6">
+                        <div className="bg-[#0A1929] rounded-lg p-6">
+                          <h3 className="text-xl font-semibold text-purple-400 mb-4">3. Withdrawing Winnings</h3>
+                          <ul className="space-y-2 text-gray-300">
+                            <li>• Minimum withdrawal: ₹1000</li>
+                            <li>• Process within 24 hours</li>
+                            <li>• Secure bank transfers</li>
+                            <li>• Track withdrawal status</li>
+                          </ul>
+                        </div>
+                        <div className="bg-[#0A1929] rounded-lg p-6">
+                          <h3 className="text-xl font-semibold text-yellow-400 mb-4">4. Security Features</h3>
+                          <ul className="space-y-2 text-gray-300">
+                            <li>• 256-bit SSL encryption</li>
+                            <li>• Two-factor authentication</li>
+                            <li>• Transaction history tracking</li>
+                            <li>• Fraud protection systems</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/betting-guide" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - Betting Guide
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="space-y-8">
+                  <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                    <h2 className="text-3xl font-bold text-white mb-6">Smart Betting Strategies</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="space-y-6">
+                        <div className="bg-green-900/20 rounded-lg p-6 border border-green-500/30">
+                          <h3 className="text-xl font-semibold text-green-400 mb-4">Recommended Approach</h3>
+                          <ul className="space-y-3 text-gray-300">
+                            <li>• Start with small bets (₹10-50)</li>
+                            <li>• Never bet more than 5% of your balance</li>
+                            <li>• Set daily loss limits</li>
+                            <li>• Take breaks between sessions</li>
+                            <li>• Celebrate wins, learn from losses</li>
+                          </ul>
+                        </div>
+                        <div className="bg-[#0A1929] rounded-lg p-6">
+                          <h3 className="text-xl font-semibold text-blue-400 mb-4">Bet Limits</h3>
+                          <div className="space-y-2 text-gray-300">
+                            <p>Minimum bet: ₹1 - ₹10 (varies by game)</p>
+                            <p>Maximum bet: ₹100,000</p>
+                            <p>Daily limit: ₹2,00,000</p>
+                            <p>Monthly limit: ₹50,00,000</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-6">
+                        <div className="bg-red-900/20 rounded-lg p-6 border border-red-500/30">
+                          <h3 className="text-xl font-semibold text-red-400 mb-4">What to Avoid</h3>
+                          <ul className="space-y-3 text-gray-300">
+                            <li>• Don't chase losses with bigger bets</li>
+                            <li>• Avoid betting when emotional</li>
+                            <li>• Don't borrow money to gamble</li>
+                            <li>• Never bet money you can't afford to lose</li>
+                            <li>• Don't play for extended periods</li>
+                          </ul>
+                        </div>
+                        <div className="bg-[#0A1929] rounded-lg p-6">
+                          <h3 className="text-xl font-semibold text-yellow-400 mb-4">Risk Management</h3>
+                          <div className="space-y-2 text-gray-300">
+                            <p>Low Risk: 1-2% of balance per bet</p>
+                            <p>Medium Risk: 3-5% of balance per bet</p>
+                            <p>High Risk: 5-10% of balance per bet</p>
+                            <p className="text-red-400">Never exceed 10% per bet</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/how-to-guides" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - How-to Guides
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20">
+                    <h3 className="text-xl font-bold text-blue-400 mb-4">How to Deposit</h3>
+                    <p className="text-gray-300 mb-4">Step-by-step guide to add funds to your account</p>
+                    <button onClick={() => navigate('/deposit')} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                      View Guide
+                    </button>
+                  </div>
+                  <div className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20">
+                    <h3 className="text-xl font-bold text-green-400 mb-4">How to Withdraw</h3>
+                    <p className="text-gray-300 mb-4">Learn how to withdraw your winnings safely</p>
+                    <button onClick={() => navigate('/withdrawal')} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                      View Guide
+                    </button>
+                  </div>
+                  <div className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20">
+                    <h3 className="text-xl font-bold text-purple-400 mb-4">Game Tutorials</h3>
+                    <p className="text-gray-300 mb-4">Learn how to play each game effectively</p>
+                    <button onClick={() => navigate('/all-games')} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                      View Games
+                    </button>
+                  </div>
+                  <div className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20">
+                    <h3 className="text-xl font-bold text-yellow-400 mb-4">Claim Bonuses</h3>
+                    <p className="text-gray-300 mb-4">How to claim and use promotional bonuses</p>
+                    <button onClick={() => navigate('/offers')} className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition-colors">
+                      View Offers
+                    </button>
+                  </div>
+                  <div className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20">
+                    <h3 className="text-xl font-bold text-cyan-400 mb-4">Contact Support</h3>
+                    <p className="text-gray-300 mb-4">Get help when you need it most</p>
+                    <button onClick={() => navigate('/help-center')} className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg transition-colors">
+                      Get Help
+                    </button>
+                  </div>
+                  <div className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20">
+                    <h3 className="text-xl font-bold text-orange-400 mb-4">Account Security</h3>
+                    <p className="text-gray-300 mb-4">Keep your account safe and secure</p>
+                    <button onClick={() => navigate('/security-tips')} className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors">
+                      Security Tips
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/casino-guide" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - Online Casino Guide
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="space-y-8">
+                  <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                    <h2 className="text-3xl font-bold text-white mb-6">What is an Online Casino?</h2>
+                    <p className="text-gray-300 text-lg mb-6">
+                      An online casino is a digital platform where you can play casino games using real money. 
+                      Cosmic777 offers a secure, fair, and entertaining gaming experience from the comfort of your home.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="bg-[#0A1929] rounded-lg p-6">
+                        <h3 className="text-xl font-semibold text-blue-400 mb-4">Available Games</h3>
+                        <ul className="space-y-2 text-gray-300">
+                          <li>• Dice Games - Test your luck</li>
+                          <li>• Card Games - Strategy meets chance</li>
+                          <li>• Rock Paper Scissors - Classic with a twist</li>
+                          <li>• Balloon Pop - Fun and rewarding</li>
+                          <li>• Minesweeper - Strategic gameplay</li>
+                          <li>• Coin Toss - Simple yet exciting</li>
+                        </ul>
+                      </div>
+                      <div className="bg-[#0A1929] rounded-lg p-6">
+                        <h3 className="text-xl font-semibold text-green-400 mb-4">How Winnings Work</h3>
+                        <ul className="space-y-2 text-gray-300">
+                          <li>• Win multipliers based on game outcomes</li>
+                          <li>• Instant credit to your vault</li>
+                          <li>• Withdraw winnings anytime</li>
+                          <li>• Transparent and fair payouts</li>
+                          <li>• No hidden fees or charges</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                    <h3 className="text-2xl font-bold text-white mb-6">Safe Gaming Practices</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="bg-blue-900/20 rounded-lg p-6">
+                        <h4 className="text-lg font-semibold text-blue-400 mb-3">Set Limits</h4>
+                        <p className="text-gray-300">Always set time and money limits before you start playing</p>
+                      </div>
+                      <div className="bg-green-900/20 rounded-lg p-6">
+                        <h4 className="text-lg font-semibold text-green-400 mb-3">Play for Fun</h4>
+                        <p className="text-gray-300">Gaming should be entertainment, not a way to make money</p>
+                      </div>
+                      <div className="bg-purple-900/20 rounded-lg p-6">
+                        <h4 className="text-lg font-semibold text-purple-400 mb-3">Stay in Control</h4>
+                        <p className="text-gray-300">If gaming stops being fun, take a break or seek help</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/responsible-gaming" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - Responsible Gaming
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="space-y-8">
+                  <div className="bg-green-900/20 rounded-xl p-8 border border-green-500/30">
+                    <h2 className="text-3xl font-bold text-green-400 mb-6">Gaming Should Be Fun</h2>
+                    <p className="text-gray-300 text-lg mb-6">
+                      At Cosmic777, we believe gaming should always be enjoyable and within your means. 
+                      We're committed to promoting responsible gaming practices.
+                    </p>
+                    <div className="bg-[#132F4C] rounded-lg p-6">
+                      <h3 className="text-xl font-semibold text-white mb-4">⚠️ Important Reminders</h3>
+                      <ul className="space-y-2 text-gray-300">
+                        <li>• You must be 18+ to play</li>
+                        <li>• Gaming is for entertainment, not income</li>
+                        <li>• Never gamble under the influence</li>
+                        <li>• Set time and money limits</li>
+                        <li>• Take regular breaks</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                      <h3 className="text-2xl font-bold text-blue-400 mb-6">Time Management Tips</h3>
+                      <ul className="space-y-3 text-gray-300">
+                        <li>• Set a timer for gaming sessions</li>
+                        <li>• Take 15-minute breaks every hour</li>
+                        <li>• Don't play when tired or stressed</li>
+                        <li>• Have other hobbies and activities</li>
+                        <li>• Spend time with family and friends</li>
+                      </ul>
+                    </div>
+                    <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                      <h3 className="text-2xl font-bold text-red-400 mb-6">When to Seek Help</h3>
+                      <ul className="space-y-3 text-gray-300">
+                        <li>• Gaming affects your relationships</li>
+                        <li>• You're spending more than planned</li>
+                        <li>• You feel anxious when not playing</li>
+                        <li>• You're borrowing money to play</li>
+                        <li>• Gaming interferes with work/school</li>
+                      </ul>
+                      <button onClick={() => navigate('/gambling-helpline')} className="mt-4 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg transition-colors">
+                        Get Help Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } />
+          <Route path="/security-tips" element={
+            <div className="min-h-screen bg-[#0A1929] text-white">
+              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <ArrowLeft size={20} />
+                      <span className="hidden sm:inline">Back</span>
+                    </button>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                      Cosmic - Security Tips
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-6xl mx-auto p-6">
+                <div className="space-y-8">
+                  <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
+                    <h2 className="text-3xl font-bold text-white mb-6">Keep Your Account Secure</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="space-y-6">
+                        <div className="bg-green-900/20 rounded-lg p-6 border border-green-500/30">
+                          <h3 className="text-xl font-semibold text-green-400 mb-4">✅ Do This</h3>
+                          <ul className="space-y-3 text-gray-300">
+                            <li>• Use strong, unique passwords</li>
+                            <li>• Enable two-factor authentication</li>
+                            <li>• Only play on HTTPS secure sites</li>
+                            <li>• Log out after each session</li>
+                            <li>• Keep your browser updated</li>
+                            <li>• Use trusted payment methods</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="space-y-6">
+                        <div className="bg-red-900/20 rounded-lg p-6 border border-red-500/30">
+                          <h3 className="text-xl font-semibold text-red-400 mb-4">❌ Never Do This</h3>
+                          <ul className="space-y-3 text-gray-300">
+                            <li>• Share your login credentials</li>
+                            <li>• Use public WiFi for gaming</li>
+                            <li>• Download suspicious files</li>
+                            <li>• Click on unknown links</li>
+                            <li>• Save passwords in browsers</li>
+                            <li>• Ignore security warnings</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-yellow-900/20 rounded-xl p-8 border border-yellow-500/30">
+                    <h3 className="text-2xl font-bold text-yellow-400 mb-6">Password Security</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="bg-[#132F4C] rounded-lg p-6">
+                        <h4 className="text-lg font-semibold text-white mb-3">Strong Password</h4>
+                        <ul className="text-sm text-gray-300 space-y-1">
+                          <li>• At least 12 characters</li>
+                          <li>• Mix of letters, numbers, symbols</li>
+                          <li>• No personal information</li>
+                          <li>• Unique for each account</li>
+                        </ul>
+                      </div>
+                      <div className="bg-[#132F4C] rounded-lg p-6">
+                        <h4 className="text-lg font-semibold text-white mb-3">Two-Factor Auth</h4>
+                        <ul className="text-sm text-gray-300 space-y-1">
+                          <li>• Extra layer of security</li>
+                          <li>• SMS or app-based codes</li>
+                          <li>• Protects against hacking</li>
+                          <li>• Enable in account settings</li>
+                        </ul>
+                      </div>
+                      <div className="bg-[#132F4C] rounded-lg p-6">
+                        <h4 className="text-lg font-semibold text-white mb-3">Regular Updates</h4>
+                        <ul className="text-sm text-gray-300 space-y-1">
+                          <li>• Change passwords regularly</li>
+                          <li>• Update browser and OS</li>
+                          <li>• Monitor account activity</li>
+                          <li>• Report suspicious activity</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } />
         </Routes>
       </div>
 
