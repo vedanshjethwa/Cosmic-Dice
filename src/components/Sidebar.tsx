@@ -228,7 +228,7 @@ export function Sidebar({
       icon: <Wallet size={20} />,
       label: 'Wallet',
       path: '/wallet',
-      onClick: onWalletClick,
+      onClick: () => navigate('/wallet'),
       className: 'text-blue-400 hover:text-blue-300',
     },
     {
@@ -369,11 +369,15 @@ export function Sidebar({
                 <button
                   className={`flex items-center gap-3 p-3 rounded-lg transition-all whitespace-nowrap group w-full ${
                     isActivePage(item)
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-blue-600 text-white relative border-l-4 border-blue-300'
                       : `text-gray-300 hover:bg-blue-900/30 hover:text-white ${item.className || ''}`
                   }`}
                   onClick={() => handleItemClick(item)}
                 >
+                  {/* Active indicator */}
+                  {isActivePage(item) && (
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-400 rounded-r-full animate-pulse" />
+                  )}
                   <span className="min-w-[24px] group-hover:scale-110 transition-transform">
                     {item.icon}
                   </span>

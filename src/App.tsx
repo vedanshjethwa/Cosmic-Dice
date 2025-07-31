@@ -29,6 +29,9 @@ import NewGamesPage from './components/pages/NewGamesPage';
 import { SettingsPage } from './components/pages/SettingsPage';
 import { AboutPage } from './components/pages/AboutPage';
 import FeedbackPage from './components/FeedbackPage';
+import { TransactionsPage } from './components/pages/TransactionsPage';
+import { UpcomingGamesPage } from './components/pages/UpcomingGamesPage';
+import { WalletPage } from './components/pages/WalletPage';
 
 function App() {
   const [isNavSidebarOpen, setNavSidebarOpen] = useState(false);
@@ -424,7 +427,7 @@ function App() {
                       View All →
                     </button>
                   </div>
-                  <div className="relative">
+                  <div className="relative overflow-hidden">
                     <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 pb-4" 
                          style={{ 
                            scrollbarWidth: 'thin', 
@@ -465,6 +468,16 @@ function App() {
                             </div>
                           </div>
                         </motion.div>
+                      ))}
+                    </div>
+                    
+                    {/* Scroll Indicators */}
+                    <div className="flex justify-center mt-4 gap-2">
+                      {offers.slice(0, 4).map((_, index) => (
+                        <div
+                          key={index}
+                          className="w-2 h-2 rounded-full bg-blue-500/30 hover:bg-blue-500/60 transition-colors cursor-pointer"
+                        />
                       ))}
                     </div>
                   </div>
@@ -638,35 +651,7 @@ function App() {
             </div>
           } />
           <Route path="/upcoming" element={
-            <div className="min-h-screen bg-[#0A1929]">
-              <div className="max-w-6xl mx-auto p-6">
-                <div className="flex items-center gap-4 mb-8">
-                  <button
-                    onClick={() => navigate('/')}
-                    className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
-                  >
-                    <ArrowLeft size={20} />
-                    <span className="hidden sm:inline">Back</span>
-                  </button>
-                  <h1
-                    className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
-                    style={{
-                       fontFamily: "'Orbitron', sans-serif"
-                      }}
-                  >
-                    Cosmic - Upcoming Games
-                  </h1>
-                </div>
-                <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
-                  <p className="text-gray-300 text-lg mb-4">
-                    Exciting new games are coming soon to our platform!
-                  </p>
-                  <p className="text-gray-400">
-                    Stay tuned for announcements about upcoming releases.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <UpcomingGamesPage />
           } />
 
           {/* Game Routes */}
@@ -687,6 +672,7 @@ function App() {
           <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/wallet" element={<WalletPage />} />
           <Route path="/upcoming" element={
             <div className="min-h-screen bg-[#0A1929] text-white">
               {/* Header */}
@@ -724,40 +710,7 @@ function App() {
             </div>
           } />
           <Route path="/transactions" element={
-            <div className="min-h-screen bg-[#0A1929]">
-              {/* Header */}
-              <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
-                <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={() => navigate('/')}
-                      className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
-                    >
-                      <ArrowLeft size={20} />
-                      <span className="hidden sm:inline">Back</span>
-                    </button>
-                    <h1
-                      className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
-                      style={{
-                         fontFamily: "'Orbitron', sans-serif"
-                        }}
-                    >
-                      Cosmic - Transactions
-                    </h1>
-                  </div>
-                </div>
-              </div>
-              <div className="max-w-6xl mx-auto p-6 text-white">
-                <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20">
-                  <p className="text-gray-300 text-lg mb-4">
-                    Your transaction history will appear here.
-                  </p>
-                  <p className="text-gray-400">
-                    All deposits, withdrawals, and game transactions are tracked here.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <TransactionsPage />
           } />
         </Routes>
       </div>

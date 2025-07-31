@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Gift, Search, Filter, Clock, Star, ChevronDown, ChevronUp, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Footer } from '../Footer';
 
 export function OffersPage() {
   const navigate = useNavigate();
@@ -9,7 +10,6 @@ export function OffersPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showClaimedOffers, setShowClaimedOffers] = useState(false);
 
-  // Merged all offers into one array for single horizontal scroll
   const allOffers = [
     {
       id: 1,
@@ -135,7 +135,7 @@ export function OffersPage() {
 
   return (
     <div className="min-h-screen text-white">
-      {/* Header with Back Button */}
+      {/* Single Header */}
       <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
         <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
           <div className="flex items-center gap-4">
@@ -205,7 +205,7 @@ export function OffersPage() {
           </div>
         </motion.div>
 
-        {/* Single Horizontal Scroll Section for All Offers */}
+        {/* Offers Grid */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -221,116 +221,88 @@ export function OffersPage() {
             </span>
           </div>
 
-          {/* Horizontal Scrollable Container */}
-          <div className="relative">
-            <div 
-              className="flex overflow-x-auto scroll-smooth gap-6 pb-4 px-2"
-              style={{ 
-                scrollbarWidth: 'thin', 
-                scrollbarColor: '#3B82F6 rgba(59, 130, 246, 0.1)',
-                scrollBehavior: 'smooth'
-              }}
-            >
-              {filteredOffers.map((offer, index) => (
-                <motion.div
-                  key={offer.id}
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 * index }}
-                  className="bg-[#132F4C] rounded-xl overflow-hidden border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group flex-shrink-0 w-80"
-                >
-                  {/* Offer Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={offer.image}
-                      alt={offer.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent" />
-                    
-                    {/* Badges */}
-                    <div className="absolute top-3 left-3 flex flex-col gap-2">
-                      {offer.isVip && (
-                        <span className="px-3 py-1 bg-purple-500/90 text-white rounded-lg text-sm font-medium backdrop-blur-sm">
-                          VIP
-                        </span>
-                      )}
-                      {offer.isHot && (
-                        <span className="px-3 py-1 bg-red-500/90 text-white rounded-lg text-sm font-medium backdrop-blur-sm">
-                          HOT
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Time/Status */}
-                    <div className="absolute top-3 right-3">
-                      <div className="flex items-center gap-1 text-white bg-black/50 px-2 py-1 rounded-lg text-sm backdrop-blur-sm">
-                        <Clock size={14} />
-                        <span>
-                          {activeTab === 'active' ? offer.timeLeft : `Expired ${offer.expiredDate}`}
-                        </span>
-                      </div>
-                    </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredOffers.map((offer, index) => (
+              <motion.div
+                key={offer.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * index }}
+                className="bg-[#132F4C] rounded-xl overflow-hidden border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group"
+              >
+                {/* Offer Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={offer.image}
+                    alt={offer.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent" />
+                  
+                  {/* Badges */}
+                  <div className="absolute top-3 left-3 flex flex-col gap-2">
+                    {offer.isVip && (
+                      <span className="px-3 py-1 bg-purple-500/90 text-white rounded-lg text-sm font-medium backdrop-blur-sm">
+                        VIP
+                      </span>
+                    )}
+                    {offer.isHot && (
+                      <span className="px-3 py-1 bg-red-500/90 text-white rounded-lg text-sm font-medium backdrop-blur-sm">
+                        HOT
+                      </span>
+                    )}
                   </div>
 
-                  {/* Offer Content */}
-                  <div className="p-6">
-                    <div className="mb-3">
-                      <span className="text-sm text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">
-                        {offer.type}
+                  {/* Time/Status */}
+                  <div className="absolute top-3 right-3">
+                    <div className="flex items-center gap-1 text-white bg-black/50 px-2 py-1 rounded-lg text-sm backdrop-blur-sm">
+                      <Clock size={14} />
+                      <span>
+                        {activeTab === 'active' ? offer.timeLeft : `Expired ${offer.expiredDate}`}
                       </span>
                     </div>
-
-                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition-colors">
-                      {offer.title}
-                    </h3>
-                    
-                    <p className="text-gray-400 mb-4 text-sm leading-relaxed line-clamp-3">
-                      {offer.description}
-                    </p>
-
-                    {/* Action Button */}
-                    <div className="mt-auto">
-                      {activeTab === 'active' && (
-                        <button
-                          className={`w-full py-3 rounded-lg font-medium transition-all duration-300 ${
-                            offer.isLocked
-                              ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
-                              : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white transform hover:scale-105'
-                          }`}
-                          disabled={offer.isLocked}
-                        >
-                          {offer.isLocked ? 'Requirements Not Met' : 'Claim Now'}
-                        </button>
-                      )}
-                      {activeTab === 'expired' && (
-                        <div className="w-full py-3 bg-gray-600/20 text-gray-400 rounded-lg text-center font-medium">
-                          Expired
-                        </div>
-                      )}
-                    </div>
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                </div>
 
-            {/* Custom Scrollbar Styling */}
-            <style jsx>{`
-              .flex::-webkit-scrollbar {
-                height: 8px;
-              }
-              .flex::-webkit-scrollbar-track {
-                background: rgba(59, 130, 246, 0.1);
-                border-radius: 4px;
-              }
-              .flex::-webkit-scrollbar-thumb {
-                background: linear-gradient(90deg, #3B82F6, #8B5CF6);
-                border-radius: 4px;
-              }
-              .flex::-webkit-scrollbar-thumb:hover {
-                background: linear-gradient(90deg, #2563EB, #7C3AED);
-              }
-            `}</style>
+                {/* Offer Content */}
+                <div className="p-6">
+                  <div className="mb-3">
+                    <span className="text-sm text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">
+                      {offer.type}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition-colors">
+                    {offer.title}
+                  </h3>
+                  
+                  <p className="text-gray-400 mb-4 text-sm leading-relaxed">
+                    {offer.description}
+                  </p>
+
+                  {/* Action Button */}
+                  <div className="mt-auto">
+                    {activeTab === 'active' && (
+                      <button
+                        className={`w-full py-3 rounded-lg font-medium transition-all duration-300 ${
+                          offer.isLocked
+                            ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white transform hover:scale-105'
+                        }`}
+                        disabled={offer.isLocked}
+                      >
+                        {offer.isLocked ? 'Requirements Not Met' : 'Claim Now'}
+                      </button>
+                    )}
+                    {activeTab === 'expired' && (
+                      <div className="w-full py-3 bg-gray-600/20 text-gray-400 rounded-lg text-center font-medium">
+                        Expired
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
 
@@ -414,6 +386,8 @@ export function OffersPage() {
           </AnimatePresence>
         </motion.div>
       </div>
+      
+      <Footer />
     </div>
   );
 }

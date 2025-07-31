@@ -356,21 +356,26 @@
 }
 
 /* Enhanced scrollbar for featured offers */
-.featured-offers-scroll::-webkit-scrollbar {
+.featured-offers-scroll::-webkit-scrollbar,
+.flex::-webkit-scrollbar {
   height: 4px;
+  width: 4px;
 }
 
-.featured-offers-scroll::-webkit-scrollbar-track {
+.featured-offers-scroll::-webkit-scrollbar-track,
+.flex::-webkit-scrollbar-track {
   background: rgba(59, 130, 246, 0.1);
   border-radius: 2px;
 }
 
-.featured-offers-scroll::-webkit-scrollbar-thumb {
+.featured-offers-scroll::-webkit-scrollbar-thumb,
+.flex::-webkit-scrollbar-thumb {
   background: linear-gradient(90deg, #3B82F6, #8B5CF6);
   border-radius: 2px;
 }
 
-.featured-offers-scroll::-webkit-scrollbar-thumb:hover {
+.featured-offers-scroll::-webkit-scrollbar-thumb:hover,
+.flex::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(90deg, #2563EB, #7C3AED);
 }
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Play, Shield, Zap, Users, Headphones } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Footer } from '../Footer';
 
 export function AboutPage() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ export function AboutPage() {
   
   return (
     <div className="min-h-screen text-white">
-      {/* Header with Back Button */}
+      {/* Single Header */}
       <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
         <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
           <div className="flex items-center gap-4">
@@ -52,7 +53,7 @@ export function AboutPage() {
                  fontFamily: "'Orbitron', sans-serif"
                 }}
             >
-              About Us
+              Cosmic - About Us
             </h1>
           </div>
         </div>
@@ -253,6 +254,8 @@ export function AboutPage() {
           </p>
         </motion.div>
       </div>
+      
+      <Footer />
     </div>
   );
 }

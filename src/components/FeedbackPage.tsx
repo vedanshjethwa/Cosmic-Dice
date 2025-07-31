@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageSquare, Star, Send, ArrowLeft } from 'lucide-react';
+import { Footer } from './Footer';
+
 export function maskUsername(username: string): string {
   if (!username) return '';
   if (username.length <= 3) return username + '***';
   return username.slice(0, -3) + '***';
 }
+
 interface Feedback {
   id: string;
   created_at: string;
@@ -58,11 +61,12 @@ function FeedbackPage() {
       setLoading(false);
     }
   };
+
   return (
-    <div className="min-h-screen text-white">
-      {/* Main Header */}
+    <div className="min-h-screen bg-[#0A1929] text-white">
+      {/* Single Header */}
       <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
-        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-3">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/')}
@@ -87,7 +91,7 @@ function FeedbackPage() {
       <div className="max-w-[1200px] mx-auto px-6 py-12">
         {/* Description Section */}
         <div className="text-center mb-12">
-          <p className="text-[#8899AC] text-lg">
+          <p className="text-gray-300 text-lg">
             At Cosmic777.com, we take pride in providing a fair, secure, and
             innovative gaming experience for our players. Your feedback helps us
             improve and continue delivering the best experience possible. We
@@ -96,11 +100,11 @@ function FeedbackPage() {
         </div>
 
         {/* Feedback Form */}
-        <div className="bg-[#131E2B] rounded-2xl p-8 mb-16">
-          <h2 className="text-2xl font-bold mb-2">
+        <div className="bg-[#132F4C] rounded-2xl p-8 mb-16 border border-blue-500/20">
+          <h2 className="text-2xl font-bold mb-2 text-white">
             Help Us Improve Your Experience
           </h2>
-          <p className="text-[#8899AC] mb-8">
+          <p className="text-gray-300 mb-8">
             Leave your impression of Cosmic777 and get rewarded for your
             valuable feedback
           </p>
@@ -109,7 +113,7 @@ function FeedbackPage() {
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm font-medium text-[#8899AC] mb-2"
+                className="block text-sm font-medium text-gray-300 mb-2"
               >
                 Your Name
               </label>
@@ -118,7 +122,7 @@ function FeedbackPage() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 bg-[#0B1622] rounded-xl border border-[#1a2634] focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none text-white"
+                className="w-full px-4 py-3 bg-[#0A1929] rounded-xl border border-blue-500/30 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none text-white"
                 placeholder="Enter your name"
               />
             </div>
@@ -126,7 +130,7 @@ function FeedbackPage() {
             <div>
               <label
                 htmlFor="rating"
-                className="block text-sm font-medium text-[#8899AC] mb-2"
+                className="block text-sm font-medium text-gray-300 mb-2"
               >
                 Rating
               </label>
@@ -137,7 +141,7 @@ function FeedbackPage() {
                     type="button"
                     onClick={() => setRating(value)}
                     className={`p-2 rounded-lg transition-all ${
-                      rating >= value ? 'text-yellow-400' : 'text-[#1a2634]'
+                      rating >= value ? 'text-yellow-400' : 'text-gray-600'
                     }`}
                   >
                     <Star
@@ -152,7 +156,7 @@ function FeedbackPage() {
             <div>
               <label
                 htmlFor="review"
-                className="block text-sm font-medium text-[#8899AC] mb-2"
+                className="block text-sm font-medium text-gray-300 mb-2"
               >
                 Your Feedback
               </label>
@@ -160,19 +164,19 @@ function FeedbackPage() {
                 id="review"
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
-                className="w-full h-[120px] px-4 py-3 bg-[#0B1622] rounded-xl border border-[#1a2634] focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none resize-none text-white"
+                className="w-full h-[120px] px-4 py-3 bg-[#0A1929] rounded-xl border border-blue-500/30 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none resize-none text-white"
                 placeholder="Share your experience of using Cosmic777"
               />
             </div>
 
             {submitStatus === 'success' && (
-              <div className="bg-green-500/10 text-green-400 px-4 py-3 rounded-xl">
+              <div className="bg-green-500/10 text-green-400 px-4 py-3 rounded-xl border border-green-500/20">
                 Your feedback has been submitted successfully! Thank you for sharing your experience.
               </div>
             )}
 
             {submitStatus === 'error' && (
-              <div className="bg-red-500/10 text-red-400 px-4 py-3 rounded-xl">
+              <div className="bg-red-500/10 text-red-400 px-4 py-3 rounded-xl border border-red-500/20">
                 There was an error submitting your feedback. Please try again.
               </div>
             )}
@@ -181,7 +185,7 @@ function FeedbackPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-[#3B82F6] text-white px-8 py-3 rounded-xl font-semibold hover:bg-[#2563EB] transition-colors disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
+                className="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
               >
                 <Send className="w-5 h-5" />
                 {loading ? 'Submitting...' : 'Leave a review'}
@@ -192,12 +196,12 @@ function FeedbackPage() {
 
         {/* Feedback Display */}
         <div>
-          <h2 className="text-2xl font-bold mb-8">Feedback from our players</h2>
+          <h2 className="text-2xl font-bold mb-8 text-white">Feedback from our players</h2>
           <div className="space-y-6">
             {feedbacks.map((feedback) => (
               <div
                 key={feedback.id}
-                className="bg-[#131E2B] rounded-xl p-6 hover:bg-[#1a2634] transition-colors"
+                className="bg-[#132F4C] rounded-xl p-6 hover:bg-[#1A243D] transition-colors border border-blue-500/20"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-4">
@@ -205,7 +209,7 @@ function FeedbackPage() {
                       {feedback.username[0].toUpperCase()}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-[#8899AC]">
+                      <h3 className="font-semibold text-white">
                         {maskUsername(feedback.username)}
                       </h3>
                       <div className="flex gap-1 mt-1">
@@ -219,17 +223,17 @@ function FeedbackPage() {
                       </div>
                     </div>
                   </div>
-                  <span className="text-sm text-[#8899AC]">
+                  <span className="text-sm text-gray-400">
                     {new Date(feedback.created_at).toLocaleDateString()}
                   </span>
                 </div>
-                <p className="text-[#8899AC] leading-relaxed">
+                <p className="text-gray-300 leading-relaxed">
                   {feedback.review}
                 </p>
               </div>
             ))}
             {feedbacks.length === 0 && (
-              <div className="text-center text-[#8899AC] py-12 bg-[#131E2B] rounded-xl">
+              <div className="text-center text-gray-400 py-12 bg-[#132F4C] rounded-xl border border-blue-500/20">
                 <MessageSquare className="w-16 h-16 mx-auto mb-4 text-blue-400 opacity-50" />
                 <p className="text-xl">
                   No feedback yet. Be the first to leave a review!
@@ -239,6 +243,8 @@ function FeedbackPage() {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }

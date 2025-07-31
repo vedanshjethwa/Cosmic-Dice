@@ -73,14 +73,14 @@ export function ChatWindow() {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+      className="fixed bottom-20 right-6 w-80 h-96 bg-[#132F4C] border border-blue-500/20 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden backdrop-blur-sm"
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.8, y: 20 }}
         className="fixed bottom-20 right-6 w-80 h-96 bg-[#0A1929] border border-blue-500/20 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
       >
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          className="px-4 py-4 cursor-move flex items-center justify-between bg-gradient-to-r from-blue-600 to-purple-600"
             <MessageCircle className="w-5 h-5 text-white" />
             <div>
               <h3 className="text-white font-semibold">Live Support</h3>
@@ -158,18 +158,12 @@ export function ChatWindow() {
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Type your message..."
-              className="flex-1 bg-gray-800 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
-            />
-            <button
-              onClick={handleSendMessage}
-              disabled={!inputMessage.trim()}
-              className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white rounded-lg px-3 py-2 transition-colors"
-            >
-              <Send size={16} />
-            </button>
-          </div>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-white hover:text-blue-200 transition-colors"
+          >
+            <X size={20} />
+          </button>
         </div>
       </motion.div>
     </AnimatePresence>

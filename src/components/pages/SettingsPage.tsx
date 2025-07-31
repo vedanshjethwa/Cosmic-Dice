@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, User, Bell, Shield, Palette, Globe, HelpCircle, LogOut } from 'lucide-react';
+import { ArrowLeft, User, Bell, Shield, Palette, Globe, HelpCircle, LogOut, Moon, Sun } from 'lucide-react';
+import { Footer } from '../Footer';
 
 export function SettingsPage() {
   const navigate = useNavigate();
@@ -94,24 +95,10 @@ export function SettingsPage() {
   ];
 
   return (
-    <div className="min-h-screen text-white">
-      {/* Main Header */}
+    <div className="min-h-screen bg-[#0A1929] text-white">
+      {/* Single Header */}
       <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
         <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
-          <h1
-            className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
-            style={{
-               fontFamily: "'Orbitron', sans-serif"
-              }}
-          >
-            Cosmic
-          </h1>
-        </div>
-      </div>
-      
-      {/* Page Header with Back Button */}
-      <div className="bg-[#0A1929] border-b border-blue-500/10">
-        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-3">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/')}
@@ -120,7 +107,14 @@ export function SettingsPage() {
               <ArrowLeft size={20} />
               <span className="hidden sm:inline">Back</span>
             </button>
-            <h2 className="text-xl font-bold text-white">Settings</h2>
+            <h1
+              className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
+              style={{
+                 fontFamily: "'Orbitron', sans-serif"
+                }}
+            >
+              Cosmic - Settings
+            </h1>
           </div>
         </div>
       </div>
@@ -206,6 +200,8 @@ export function SettingsPage() {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }

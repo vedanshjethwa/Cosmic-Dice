@@ -13,6 +13,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Footer } from '../Footer';
 
 interface PaymentMethod {
   id: string;
@@ -90,7 +91,7 @@ export function DepositPage() {
 
   return (
     <div className="min-h-screen text-white">
-      {/* Header */}
+      {/* Single Header */}
       <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
         <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
           <div className="flex items-center gap-4">
@@ -334,6 +335,8 @@ export function DepositPage() {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }
