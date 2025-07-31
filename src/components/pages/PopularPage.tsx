@@ -1,3 +1,4 @@
+import React from 'react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -138,4 +139,6 @@ export function PopularPage() {
       </div>
     </div>
   );
+}
+  )
 }
