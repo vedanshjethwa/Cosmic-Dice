@@ -106,7 +106,7 @@ import { AuthForm } from './auth/AuthForm';
 import { Logo } from './auth/Logo';
 
 // Import HowToPlay modal
-import { HowToPlayModal } from './HowToPlay';
+import { HowToPlayModal } from '../HowToPlay';
 
 // Import Star component
 import { StarComponent } from './Star/star';
