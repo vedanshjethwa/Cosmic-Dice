@@ -98,6 +98,8 @@ import { CasinoGuidePage } from './components/pages/CasinoGuidePage';
 import { ResponsibleGamingPage } from './components/pages/ResponsibleGamingPage';
 import { SecurityTipsPage } from './components/pages/SecurityTipsPage';
 import { GameDetailPage } from './components/pages/GameDetailPage';
+import { ActiveBonusesPage } from './components/pages/ActiveBonusesPage';
+import { AffiliateProgramPage } from './components/pages/AffiliateProgramPage';
 import FeedbackPage from './components/FeedbackPage';
 
 // Import auth components
@@ -309,15 +311,32 @@ function App() {
     }, 2000);
   };
 
+  const allCategories = ['all', 'Strategy', 'Luck', 'Risk', 'Adventure', 'Timing', 'Active Bonuses', 'Affiliate Program'];
+
   // Filter games based on search and category
   const filteredGames = gameCards.filter(game => {
+    if (selectedCategory === 'Active Bonuses' || selectedCategory === 'Affiliate Program') {
+      return false; // These will be handled by separate pages
+    }
+    
     const matchesSearch = game.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          game.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || game.category.toLowerCase() === selectedCategory.toLowerCase();
     return matchesSearch && matchesCategory;
   });
 
-  const categories = ['all', 'Strategy', 'Luck', 'Risk', 'Adventure', 'Timing'];
+  // Handle special category navigation
+  const handleCategoryClick = (category: string) => {
+    if (category === 'Active Bonuses') {
+      navigate('/active-bonuses');
+      return;
+    }
+    if (category === 'Affiliate Program') {
+      navigate('/affiliate-program');
+      return;
+    }
+    setSelectedCategory(category);
+  };
 
   // Featured games for carousel
   const featuredGames = gameCards.filter(game => game.isFeatured || game.isNew);
@@ -413,7 +432,7 @@ function App() {
                     </button>
 
                     <button
-                      onClick={() => setShowProfile(true)}
+                      onClick={() => navigate('/profile')}
                       className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                     >
                       <User size={20} />
@@ -586,10 +605,10 @@ function App() {
                       
                       {/* Category Filter */}
                       <div className="flex flex-wrap gap-2">
-                        {categories.map(category => (
+                        {allCategories.map(category => (
                           <button
                             key={category}
-                            onClick={() => setSelectedCategory(category)}
+                            onClick={() => handleCategoryClick(category)}
                             className={`px-3 lg:px-4 py-2 rounded-lg transition-colors capitalize text-sm lg:text-base ${
                               selectedCategory === category
                                 ? 'bg-blue-600 text-white'
@@ -628,8 +647,7 @@ function App() {
 
                     {/* Sidebar Content */}
                     <div className="space-y-6 lg:space-y-8">
-                      <AffiliateSection />
-                      <BonusSection />
+                      {/* Removed AffiliateSection and BonusSection from homepage */}
                     </div>
                   </div>
                 </div>
@@ -684,9 +702,6 @@ function App() {
               gameType={selectedGameType}
             />
 
-            {showProfile && (
-              <ProfilePage onExit={() => setShowProfile(false)} />
-            )}
 
             {/* Floating Elements */}
             <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-3">
@@ -727,6 +742,9 @@ function App() {
         <Route path="/withdrawal" element={<WithdrawalPage />} />
         <Route path="/feedback" element={<FeedbackPage />} />
         <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
+        <Route path="/active-bonuses" element={<ActiveBonusesPage />} />
+        <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
 
         {/* Guide Routes */}
         <Route path="/vault-guide" element={<VaultGuidePage />} />

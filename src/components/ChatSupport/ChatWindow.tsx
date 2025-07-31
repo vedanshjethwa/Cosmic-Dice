@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Send, MessageCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface ChatWindowProps {
   isOpen: boolean;
@@ -44,24 +45,42 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#132F4C] rounded-xl border border-blue-500/20 w-full max-w-md h-96 flex flex-col">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 50, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 50, scale: 0.95 }}
+        className="bg-[#132F4C] rounded-xl border border-blue-500/20 w-full max-w-md h-96 sm:h-[500px] flex flex-col shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-blue-500/20">
+        <div className="flex items-center justify-between p-4 border-b border-blue-500/20 bg-[#0A1929] rounded-t-xl">
           <div className="flex items-center gap-2">
             <MessageCircle className="w-5 h-5 text-blue-400" />
-            <h3 className="text-white font-semibold">Support Chat</h3>
+            <div>
+              <h3 className="text-white font-semibold">24/7 Live Support</h3>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-xs text-green-400">Online</span>
+              </div>
+            </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-white/10 rounded-lg transition-colors"
+            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
           >
             <X className="w-5 h-5 text-gray-400" />
           </button>
         </div>
 
         {/* Messages */}
-        <div className="flex-1 p-4 overflow-y-auto space-y-3">
+        <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-[#0A1929]/50">
           {messages.map((msg) => (
             <div
               key={msg.id}
@@ -70,18 +89,32 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
               <div
                 className={`max-w-xs px-3 py-2 rounded-lg ${
                   msg.sender === 'user'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-700 text-gray-200'
+                    ? 'bg-blue-600 text-white rounded-br-none'
+                    : 'bg-[#132F4C] text-gray-200 border border-blue-500/20 rounded-bl-none'
                 }`}
               >
                 <p className="text-sm">{msg.text}</p>
+                <div className="text-xs opacity-70 mt-1">
+                  {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </div>
               </div>
             </div>
           ))}
+          
+          {/* Typing indicator */}
+          <div className="flex justify-start">
+            <div className="bg-[#132F4C] border border-blue-500/20 rounded-lg rounded-bl-none px-3 py-2">
+              <div className="flex space-x-1">
+                <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Input */}
-        <div className="p-4 border-t border-blue-500/20">
+        <div className="p-4 border-t border-blue-500/20 bg-[#132F4C] rounded-b-xl">
           <div className="flex gap-2">
             <input
               type="text"
@@ -89,17 +122,18 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
               placeholder="Type your message..."
-              className="flex-1 bg-[#0A1929] text-white border border-blue-500/30 rounded-lg py-2 px-3 focus:outline-none focus:border-blue-400"
+              className="flex-1 bg-[#0A1929] text-white border border-blue-500/30 rounded-lg py-3 px-4 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
             />
             <button
               onClick={handleSendMessage}
-              className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition-colors"
+              disabled={!message.trim()}
+              className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-3 rounded-lg transition-colors flex items-center gap-2"
             >
               <Send className="w-4 h-4" />
             </button>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

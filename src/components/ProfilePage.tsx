@@ -15,7 +15,10 @@ import {
   Sun,
   X,
   ArrowLeft,
+  Menu,
 } from 'lucide-react';
+import { Sidebar } from './Sidebar';
+import { Footer } from './Footer';
 
 interface ProfilePageProps {
   onExit?: () => void;

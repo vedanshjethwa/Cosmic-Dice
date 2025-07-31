@@ -255,6 +255,7 @@ export function Sidebar({
           onClose();
         }
       },
+      className: 'text-green-400 hover:text-green-300',
     },
     {
       icon: <Sparkles size={20} />,

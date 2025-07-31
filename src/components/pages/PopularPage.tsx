@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { TrendingUp, ArrowLeft } from 'lucide-react';
+import { TrendingUp, ArrowLeft, Menu } from 'lucide-react';
 import { GameGrid } from '../GameGrid';
+import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
 
 export function PopularPage() {
   const navigate = useNavigate();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const popularGames = [
     {
@@ -75,31 +77,47 @@ export function PopularPage() {
   ];
 
   return (
-    <div className="min-h-screen text-white">
-      {/* Single Header */}
-      <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
-        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => navigate('/')}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
-            >
-              <ArrowLeft size={20} />
-              <span className="hidden sm:inline">Back</span>
-            </button>
-            <h1
-              className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
-              style={{
-                 fontFamily: "'Orbitron', sans-serif"
-                }}
-            >
-              Cosmic - Popular Games
-            </h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
+      {/* Sidebar */}
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        onWalletClick={() => navigate('/wallet')}
+        onWithdrawalClick={() => navigate('/withdrawal')}
+        onDepositClick={() => navigate('/deposit')}
+        currentPath="/popular"
+      />
+
+      {/* Main Content */}
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
+        {/* Header */}
+        <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+          <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors lg:hidden"
+              >
+                <Menu size={24} />
+              </button>
+              <button
+                onClick={() => navigate('/')}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <ArrowLeft size={20} />
+                <span className="hidden sm:inline">Back</span>
+              </button>
+              <h1
+                className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
+                style={{ fontFamily: "'Orbitron', sans-serif" }}
+              >
+                Cosmic - Popular Games
+              </h1>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="max-w-6xl mx-auto p-6">
+        <div className="max-w-6xl mx-auto p-6">
         <div className="mb-8">
           <p className="text-gray-400 text-lg">
             Discover the most played and highest-rated games on our platform
@@ -115,9 +133,9 @@ export function PopularPage() {
             title="Most Popular Games"
           />
         </motion.div>
-      </div>
       
-      <Footer />
+        <Footer />
+      </div>
     </div>
   );
 }
