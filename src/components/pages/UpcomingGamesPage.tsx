@@ -230,7 +230,7 @@ export function UpcomingGamesPage() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Newsletter Signup */}
         <motion.div
