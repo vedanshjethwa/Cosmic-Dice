@@ -118,26 +118,25 @@ export function PopularPage() {
         </div>
 
         <div className="max-w-6xl mx-auto p-6">
-        <div className="mb-8">
-          <p className="text-gray-400 text-lg">
-            Discover the most played and highest-rated games on our platform
-          </p>
-        </div>
+          <div className="mb-8">
+            <p className="text-gray-400 text-lg">
+              Discover the most played and highest-rated games on our platform
+            </p>
+          </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <GameGrid 
-            games={popularGames} 
-            title="Most Popular Games"
-          />
-        </motion.div>
-      
-        <Footer />
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <GameGrid 
+              games={popularGames} 
+              title="Most Popular Games"
+            />
+          </motion.div>
+        
+          <Footer />
+        </div>
       </div>
     </div>
   );
-}
-  )
 }
