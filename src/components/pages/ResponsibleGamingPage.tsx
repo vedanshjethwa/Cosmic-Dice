@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Shield, Clock, AlertTriangle, Heart, Phone, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Shield, Clock, AlertTriangle, Heart, Phone, ExternalLink, DollarSign, Info } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Footer } from '../Footer';
 
