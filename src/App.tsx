@@ -19,7 +19,7 @@ import { WalletModal } from './components/WalletModal';
 import { RedeemModal } from './components/RedeemModal';
 import { ScratchCard } from './components/ScratchCard';
 import { FeedbackModal } from './components/FeedbackModal';
-import { ChatWindow } from './components/ChatSupport/ChatWindow';
+import ChatWindow from './components/ChatSupport/ChatWindow';
 import { ChatButton } from './components/ChatSupport/ChatButton';
 import { GuidanceSystem } from './components/GuidanceSystem';
 import { GameGrid } from './components/GameGrid';
