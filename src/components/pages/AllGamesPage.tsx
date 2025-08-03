@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Grid, ArrowLeft, Menu } from 'lucide-react';
+import { Grid, ArrowLeft, Menu, Search, Filter } from 'lucide-react';
 import { GameGrid } from '../GameGrid';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
@@ -9,6 +9,8 @@ import { Footer } from '../Footer';
 export function AllGamesPage() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   
   const allGames = [
     {
@@ -107,6 +109,15 @@ export function AllGamesPage() {
     },
   ];
 
+  const categories = ['all', 'Strategy', 'Luck', 'Risk', 'Adventure', 'Timing'];
+
+  const filteredGames = allGames.filter(game => {
+    const matchesSearch = game.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         game.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'all' || game.category.toLowerCase() === selectedCategory.toLowerCase();
+    return matchesSearch && matchesCategory;
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
       {/* Sidebar */}
@@ -149,19 +160,58 @@ export function AllGamesPage() {
         </div>
 
         <div className="max-w-6xl mx-auto p-6">
-          <div className="mb-8">
+          {/* Search and Filters */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20 mb-8"
+          >
+            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+              {/* Search Bar */}
+              <div className="relative w-full lg:w-auto">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="text"
+                  placeholder="Search games..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full lg:w-64 bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400"
+                />
+              </div>
+
+              {/* Category Filters */}
+              <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all ${
+                      selectedCategory === category
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-[#0A1929] text-gray-300 hover:bg-blue-600/20'
+                    }`}
+                  >
+                    {category === 'all' ? 'All Games' : category}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
             <p className="text-gray-400 text-lg">
               Explore our complete collection of cosmic games
-            </p>
+              Explore our complete collection of cosmic games ({filteredGames.length} games)
           </div>
 
+          <div className="mb-8">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
           >
             <GameGrid 
-              games={allGames} 
+              games={filteredGames} 
               title="All Available Games"
+              searchTerm={searchTerm}
             />
           </motion.div>
         
