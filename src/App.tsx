@@ -11,6 +11,8 @@ import {
   ChevronLeft,
   Play,
   Menu,
+  Headphones,
+  Clock,
 } from 'lucide-react';
 
 // Import components
@@ -170,6 +172,7 @@ function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [balance, setBalance] = useState(5000);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [gameSlide, setGameSlide] = useState(0);
 
   // User behavior tracking for guidance system
   const [userBehavior, setUserBehavior] = useState({
@@ -229,21 +232,18 @@ function HomePage() {
 
   // Handle game navigation
   const handleGameClick = (route: string) => {
-    // Direct navigation to game folders
-    const gameRoutes: { [key: string]: string } = {
-      '/game/rps': '/rps/index.html',
-      '/game/dice': '/dice/index.html',
-      '/game/limbo': '/limbo/index.html',
-      '/game/snakes': '/snakes/index.html',
-      '/game/card': '/card/index.html',
-      '/game/prediction-pulse': '/prediction-pulse/index.html',
-      '/game/balloon': '/game bollon/index.html',
-      '/game/minesweeper': '/minesweeper/index.html',
-      '/game/toss': '/toss game/index.html'
-    };
-    
-    const actualRoute = gameRoutes[route] || route;
-    window.location.href = actualRoute;
+    // Navigate to game routes properly
+    navigate(route);
+  };
+
+  const nextGameSlide = () => {
+    const maxSlides = Math.ceil(gameCards.length / 4);
+    setGameSlide((prev) => (prev + 1) % maxSlides);
+  };
+
+  const prevGameSlide = () => {
+    const maxSlides = Math.ceil(gameCards.length / 4);
+    setGameSlide((prev) => (prev - 1 + maxSlides) % maxSlides);
   };
 
   const nextSlide = () => {
@@ -271,11 +271,12 @@ function HomePage() {
   const banners = [
     {
       id: 1,
-      title: "Welcome to Cosmic Gaming",
-      subtitle: "Experience the future of online gaming",
+      title: "24/7 Live Support Available",
+      subtitle: "Get instant help from our expert support team",
       image: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=1200&h=400",
-      cta: "Start Playing",
-      action: () => navigate('/all-games')
+      cta: "Contact Support",
+      action: () => setChatOpen(true),
+      icon: <Headphones className="w-6 h-6" />
     },
     {
       id: 2,
@@ -283,7 +284,8 @@ function HomePage() {
       subtitle: "Double your first deposit up to ₹5000",
       image: "https://images.unsplash.com/photo-1551431009-a802eeec77b1?auto=format&fit=crop&q=80&w=1200&h=400",
       cta: "Claim Bonus",
-      action: () => navigate('/offers')
+      action: () => navigate('/offers'),
+      icon: <Star className="w-6 h-6" />
     },
     {
       id: 3,
@@ -291,7 +293,8 @@ function HomePage() {
       subtitle: "Discover our latest cosmic adventures",
       image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200&h=400",
       cta: "Explore Now",
-      action: () => navigate('/new-games')
+      action: () => navigate('/new-games'),
+      icon: <Play className="w-6 h-6" />
     }
   ];
 
@@ -396,7 +399,7 @@ function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               className="mb-8 lg:mb-12"
             >
-              <div className="relative h-64 lg:h-80 rounded-2xl overflow-hidden">
+              <div className="relative h-64 lg:h-80 rounded-2xl overflow-hidden border border-blue-500/20">
                 <AnimatePresence mode="wait">
                   {banners.map((banner, index) => (
                     index === currentSlide && (
@@ -414,6 +417,15 @@ function HomePage() {
                           className="w-full h-full object-cover"
                         />
                         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+                        
+                        {/* 24/7 Support Indicator */}
+                        {banner.id === 1 && (
+                          <div className="absolute top-4 right-4 bg-green-500/90 backdrop-blur-sm rounded-full px-4 py-2 flex items-center gap-2">
+                            <div className="w-2 h-2 bg-green-300 rounded-full animate-pulse" />
+                            <span className="text-white text-sm font-medium">24/7 Live</span>
+                          </div>
+                        )}
+                        
                         <div className="absolute inset-0 flex items-center">
                           <div className="max-w-2xl mx-auto px-8 lg:px-16">
                             <motion.h2
@@ -439,7 +451,7 @@ function HomePage() {
                               onClick={banner.action}
                               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-bold transition-all transform hover:scale-105 flex items-center gap-2"
                             >
-                              <Play size={20} />
+                              {banner.icon}
                               {banner.cta}
                             </motion.button>
                           </div>
@@ -464,7 +476,7 @@ function HomePage() {
               </div>
             </motion.section>
 
-            {/* Featured Games Carousel */}
+            {/* All Games Section with Category Filters */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -472,10 +484,7 @@ function HomePage() {
               className="mb-8 lg:mb-12"
             >
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl lg:text-2xl font-bold text-white flex items-center gap-2">
-                  <Star className="text-yellow-400" />
-                  Featured Games
-                </h3>
+                <h3 className="text-2xl lg:text-3xl font-bold text-white">All Games</h3>
                 <button
                   onClick={() => navigate('/all-games')}
                   className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
@@ -485,7 +494,153 @@ function HomePage() {
                 </button>
               </div>
               
-              {/* Horizontal Scrolling Games */}
+              {/* Category Filters */}
+              <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+                {allCategories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all ${
+                      selectedCategory === category
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-[#132F4C] text-gray-300 hover:bg-blue-600/20'
+                    }`}
+                  >
+                    {category === 'all' ? 'All Games' : category}
+                  </button>
+                ))}
+              </div>
+              
+              {/* Games Carousel with Navigation */}
+              <div className="relative">
+                {/* Left Arrow */}
+                <button
+                  onClick={prevGameSlide}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                
+                {/* Right Arrow */}
+                <button
+                  onClick={nextGameSlide}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all"
+                >
+                  <ChevronRight size={24} />
+                </button>
+                
+                <div className="overflow-hidden">
+                  <div 
+                    className="flex gap-4 lg:gap-6 transition-transform duration-300 ease-in-out"
+                    style={{ transform: `translateX(-${gameSlide * 100}%)` }}
+                  >
+                    {filteredGames.map((game, index) => (
+                      <motion.div
+                        key={game.route}
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 * index }}
+                        whileHover={{ scale: 1.02, y: -4 }}
+                        className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 flex-shrink-0 w-72 group"
+                        onClick={() => handleGameClick(game.route)}
+                      >
+                        <div className="relative h-40">
+                          <img
+                            src={game.image}
+                            alt={game.label}
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent" />
+                          
+                          {/* Glow Effect on Hover */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-blue-500/0 via-blue-500/0 to-blue-500/0 group-hover:from-blue-500/10 group-hover:via-blue-500/5 group-hover:to-blue-500/10 transition-all duration-300" />
+                          
+                          {/* Badges */}
+                          <div className="absolute top-3 left-3 flex gap-2">
+                            {game.isNew && (
+                              <span className="px-2 py-1 bg-green-500 text-white text-xs font-bold rounded-full">
+                                NEW
+                              </span>
+                            )}
+                            {game.isFeatured && (
+                              <span className="px-2 py-1 bg-yellow-500 text-black text-xs font-bold rounded-full">
+                                FEATURED
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Stats overlay */}
+                          <div className="absolute top-3 right-3 flex items-center gap-2 text-xs text-white">
+                            <div className="flex items-center gap-1 bg-black/50 px-2 py-1 rounded-full backdrop-blur-sm">
+                              <Star size={10} className="text-yellow-400 fill-current" />
+                              <span>{game.rating}</span>
+                            </div>
+                            <div className="flex items-center gap-1 bg-black/50 px-2 py-1 rounded-full backdrop-blur-sm">
+                              <Users size={10} />
+                              <span>{game.players}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded-full font-medium">
+                              {game.category}
+                            </span>
+                          </div>
+
+                          <h4 className="font-bold text-white mb-2 text-lg group-hover:text-blue-400 transition-colors">
+                            {game.label}
+                          </h4>
+                          
+                          <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+                            {game.description}
+                          </p>
+
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleGameClick(game.route);
+                            }}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors font-medium cosmic-button"
+                          >
+                            Play Now
+                          </button>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Slide Indicators */}
+                <div className="flex justify-center mt-4 gap-2">
+                  {Array.from({ length: Math.ceil(filteredGames.length / 4) }).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setGameSlide(index)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        index === gameSlide ? 'bg-blue-400' : 'bg-gray-600'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.section>
+
+            {/* Featured Games Section */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="mb-8 lg:mb-12"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl lg:text-2xl font-bold text-white flex items-center gap-2">
+                  <Star className="text-yellow-400" />
+                  Featured Games
+                </h3>
+              </div>
+              
               <div className="relative">
                 <div className="flex overflow-x-auto gap-4 lg:gap-6 pb-4 scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                   <style jsx>{`
@@ -493,23 +648,26 @@ function HomePage() {
                       display: none;
                     }
                   `}</style>
-                  {gameCards.map((game, index) => (
+                  {featuredGames.map((game, index) => (
                     <motion.div
                       key={game.route}
                       initial={{ opacity: 0, x: 50 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.1 * index }}
                       whileHover={{ scale: 1.02, y: -4 }}
-                      className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 flex-shrink-0 w-72"
+                      className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 flex-shrink-0 w-72 group"
                       onClick={() => handleGameClick(game.route)}
                     >
                       <div className="relative h-40">
                         <img
                           src={game.image}
                           alt={game.label}
-                          className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent" />
+                        
+                        {/* Arcade Glow Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-blue-500/0 via-blue-500/0 to-blue-500/0 group-hover:from-blue-500/20 group-hover:via-blue-500/10 group-hover:to-blue-500/20 transition-all duration-300" />
                         
                         {/* Badges */}
                         <div className="absolute top-3 left-3 flex gap-2">
@@ -569,7 +727,7 @@ function HomePage() {
                 
                 {/* Scroll Indicators */}
                 <div className="flex justify-center mt-4 gap-2">
-                  {Array.from({ length: Math.ceil(gameCards.length / 4) }).map((_, index) => (
+                  {Array.from({ length: Math.ceil(featuredGames.length / 4) }).map((_, index) => (
                     <div
                       key={index}
                       className={`w-2 h-2 rounded-full transition-all ${
@@ -581,7 +739,7 @@ function HomePage() {
               </div>
             </motion.section>
 
-            {/* All Games Section - Removed to avoid duplication */}
+            {/* Popular Games Grid */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -604,19 +762,22 @@ function HomePage() {
                   <motion.div
                     key={game.route}
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 * index }}
                     whileHover={{ scale: 1.02, y: -4 }}
-                    className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300"
+                    className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group"
                     onClick={() => handleGameClick(game.route)}
                   >
                     <div className="relative h-32 lg:h-40">
                       <img
                         src={game.image}
                         alt={game.label}
-                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent" />
+                      
+                      {/* Arcade Glow Effect */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-blue-500/0 via-blue-500/0 to-blue-500/0 group-hover:from-blue-500/20 group-hover:via-blue-500/10 group-hover:to-blue-500/20 transition-all duration-300" />
                       
                       {/* Badges */}
                       <div className="absolute top-2 left-2 flex gap-1">
@@ -806,18 +967,33 @@ function App() {
         <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
 
-
-        {/* Game Routes - Direct links to game folders */}
-        <Route path="/game/rps" element={<div>Redirecting to RPS game...</div>} />
-        <Route path="/game/dice" element={<div>Redirecting to Dice game...</div>} />
-        <Route path="/game/limbo" element={<div>Redirecting to Limbo game...</div>} />
-        <Route path="/game/snakes" element={<div>Redirecting to Snakes game...</div>} />
-        <Route path="/game/card" element={<div>Redirecting to Card game...</div>} />
-        <Route path="/game/prediction-pulse" element={<div>Redirecting to Prediction Pulse game...</div>} />
-        <Route path="/game/balloon" element={<div>Redirecting to Balloon game...</div>} />
-        <Route path="/game/minesweeper" element={<div>Redirecting to Minesweeper game...</div>} />
-        <Route path="/game/toss" element={<div>Redirecting to Toss game...</div>} />
+        {/* Game Routes - Proper navigation to game folders */}
+        <Route path="/game/rps" element={<GameRedirect route="/rps/index.html" />} />
+        <Route path="/game/dice" element={<GameRedirect route="/dice/index.html" />} />
+        <Route path="/game/limbo" element={<GameRedirect route="/limbo/index.html" />} />
+        <Route path="/game/snakes" element={<GameRedirect route="/snakes/index.html" />} />
+        <Route path="/game/card" element={<GameRedirect route="/card/index.html" />} />
+        <Route path="/game/prediction-pulse" element={<GameRedirect route="/prediction-pulse/index.html" />} />
+        <Route path="/game/balloon" element={<GameRedirect route="/game bollon/index.html" />} />
+        <Route path="/game/minesweeper" element={<GameRedirect route="/minesweeper/index.html" />} />
+        <Route path="/game/toss" element={<GameRedirect route="/toss game/index.html" />} />
       </Routes>
+    </div>
+  );
+}
+
+// Game redirect component
+function GameRedirect({ route }: { route: string }) {
+  useEffect(() => {
+    window.location.href = route;
+  }, [route]);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+        <p className="text-white text-lg">Loading game...</p>
+      </div>
     </div>
   );
 }

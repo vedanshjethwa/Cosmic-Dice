@@ -21,7 +21,7 @@ export function OffersPage() {
       timeLeft: '2h 40m',
       isVip: true,
       isLocked: false,
-      image: 'https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&q=80&w=400&h=200',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=400&h=200',
     },
     {
       id: 2,
@@ -31,7 +31,7 @@ export function OffersPage() {
       timeLeft: '5h',
       isHot: true,
       isLocked: false,
-      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=400&h=200',
+      image: 'https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&q=80&w=400&h=200',
     },
     {
       id: 3,
@@ -40,7 +40,7 @@ export function OffersPage() {
       type: 'Cashback',
       timeLeft: '12h',
       isLocked: true,
-      image: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?auto=format&fit=crop&q=80&w=400&h=200',
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400&h=200',
     },
     {
       id: 4,
@@ -50,7 +50,7 @@ export function OffersPage() {
       timeLeft: '1d 5h',
       isVip: true,
       isLocked: false,
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400&h=200',
+      image: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?auto=format&fit=crop&q=80&w=400&h=200',
     },
     {
       id: 5,
@@ -60,7 +60,7 @@ export function OffersPage() {
       timeLeft: '3d',
       isHot: true,
       isLocked: false,
-      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&q=80&w=400&h=200',
+      image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=400&h=200',
     },
     {
       id: 6,
@@ -69,7 +69,7 @@ export function OffersPage() {
       type: 'Referral',
       timeLeft: '7d',
       isLocked: false,
-      image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&q=80&w=400&h=200',
+      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&q=80&w=400&h=200',
     },
     {
       id: 7,
@@ -78,7 +78,7 @@ export function OffersPage() {
       type: 'Daily Bonus',
       timeLeft: '24h',
       isLocked: false,
-      image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=400&h=200',
+      image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&q=80&w=400&h=200',
     },
     {
       id: 8,
@@ -99,7 +99,7 @@ export function OffersPage() {
       description: '150% bonus for weekend gaming sessions',
       type: 'Weekend Bonus',
       expiredDate: '2 days ago',
-      image: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&q=80&w=400&h=200',
+      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&q=80&w=400&h=200',
     },
     {
       id: 10,
@@ -107,7 +107,7 @@ export function OffersPage() {
       description: '50% bonus on first three deposits',
       type: 'Welcome Bonus',
       expiredDate: '1 week ago',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&q=80&w=400&h=200',
+      image: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&q=80&w=400&h=200',
     },
   ];
 

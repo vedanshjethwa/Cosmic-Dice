@@ -225,6 +225,15 @@ export function Sidebar({
       },
     },
     {
+      icon: <Sparkles size={20} />,
+      label: 'New Games',
+      path: '/new-games',
+      onClick: () => {
+        navigate('/new-games');
+        if (window.innerWidth < 1024) onClose();
+      },
+    },
+    {
       icon: <Wallet size={20} />,
       label: 'Wallet',
       path: '/wallet',
@@ -246,6 +255,15 @@ export function Sidebar({
       onClick: () => navigate('/withdrawal'),
     },
     {
+      icon: <History size={20} />,
+      label: 'Transactions',
+      path: '/transactions',
+      onClick: () => {
+        navigate('/transactions');
+        if (window.innerWidth < 1024) onClose();
+      },
+    },
+    {
       icon: <Headphones size={20} />,
       label: 'Live Support',
       path: '/support',
@@ -256,24 +274,6 @@ export function Sidebar({
         }
       },
       className: 'text-green-400 hover:text-green-300',
-    },
-    {
-      icon: <Sparkles size={20} />,
-      label: 'New Games',
-      path: '/new-games',
-      onClick: () => {
-        navigate('/new-games');
-        if (window.innerWidth < 1024) onClose();
-      },
-    },
-    {
-      icon: <History size={20} />,
-      label: 'Transactions',
-      path: '/transactions',
-      onClick: () => {
-        navigate('/transactions');
-        if (window.innerWidth < 1024) onClose();
-      },
     },
     {
       icon: <MessageCircle size={20} />,

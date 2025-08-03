@@ -94,10 +94,10 @@ export function StatsSection() {
   };
 
   return (
-    <div className="mt-6 xl:mt-0">
+    <div className="mt-8">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg lg:text-xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
-          Gaming Activity
+        <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+          Gaming Trends & Analytics
         </h2>
       </div>
 
@@ -124,7 +124,7 @@ export function StatsSection() {
       </div>
 
       {/* Chart */}
-      <div className="bg-[#0A1929] rounded-xl p-4 lg:p-6 border border-blue-500/20">
+      <div className="bg-[#132F4C] rounded-xl p-4 lg:p-6 border border-blue-500/20">
         <div className="h-48 lg:h-64">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chartData}>
