@@ -221,3 +221,5 @@ export function AllGamesPage() {
     </div>
   );
 }
+  )
+}
