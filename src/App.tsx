@@ -10,6 +10,7 @@ import {
   ChevronRight,
   ChevronLeft,
   Play,
+  Menu,
 } from 'lucide-react';
 
 // Import components
