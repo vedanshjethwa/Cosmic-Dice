@@ -295,6 +295,14 @@ function HomePage() {
     }
   ];
 
+  // Auto-advance banners
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % banners.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <>
       {/* Sidebar */}
@@ -765,14 +773,6 @@ function App() {
     e.preventDefault();
     setShowAuth(false);
   };
-
-  // Auto-advance banners
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % banners.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
 
   if (showAuth) {
     return (
