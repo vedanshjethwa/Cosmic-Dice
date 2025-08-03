@@ -236,6 +236,19 @@
   animation: glow 2s ease-in-out infinite;
 }
 
+/* Banner auto-advance animation */
+@keyframes bannerSlide {
+  0%, 20% { transform: translateX(0); }
+  25%, 45% { transform: translateX(-100%); }
+  50%, 70% { transform: translateX(-200%); }
+  75%, 95% { transform: translateX(-300%); }
+  100% { transform: translateX(0); }
+}
+
+.banner-auto-slide {
+  animation: bannerSlide 15s infinite;
+}
+
 /* Game container styles */
 .game-container {
   min-height: 100vh;

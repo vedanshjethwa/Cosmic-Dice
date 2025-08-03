@@ -30,7 +30,7 @@ export function ChatWindow() {
       setTimeout(() => {
         const supportResponse = {
           id: messages.length + 2,
-          text: 'Thank you for your message. Our support team will get back to you shortly.',
+          text: 'Thank you for contacting Cosmic777 support! How can I assist you with your gaming experience today?',
           sender: 'support',
           timestamp: new Date()
         };
@@ -43,18 +43,11 @@ export function ChatWindow() {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-4"
-      onClick={() => setIsOpen(false)}
+      initial={{ opacity: 0, scale: 0.8, y: 100 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.8, y: 100 }}
+      className="fixed bottom-4 right-4 z-50 w-80 h-96 bg-[#132F4C] rounded-xl border border-blue-500/20 shadow-2xl flex flex-col"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 50, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 50, scale: 0.95 }}
-        className="bg-[#132F4C] rounded-xl border border-blue-500/20 w-full max-w-md h-96 sm:h-[500px] flex flex-col shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-blue-500/20 bg-[#0A1929] rounded-t-xl">
@@ -100,6 +93,8 @@ export function ChatWindow() {
           
           {/* Typing indicator */}
           <div className="flex justify-start">
+        {messages.length > 1 && (
+          <div className="flex justify-start">
             <div className="bg-[#132F4C] border border-blue-500/20 rounded-lg rounded-bl-none px-3 py-2">
               <div className="flex space-x-1">
                 <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
@@ -108,7 +103,7 @@ export function ChatWindow() {
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Input */}
         <div className="p-4 border-t border-blue-500/20 bg-[#132F4C] rounded-b-xl">
@@ -130,7 +125,6 @@ export function ChatWindow() {
             </button>
           </div>
         </div>
-      </motion.div>
     </motion.div>
   );
 }

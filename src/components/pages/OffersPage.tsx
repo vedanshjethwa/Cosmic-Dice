@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, Search, Filter, Clock, Star, ChevronDown, ChevronUp, ArrowLeft } from 'lucide-react';
+import { Gift, Search, Filter, Clock, Star, ChevronDown, ChevronUp, ArrowLeft, Menu } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
