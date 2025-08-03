@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MessageSquare, Star, Send, ArrowLeft } from 'lucide-react';
+import { MessageSquare, Star, Send, ArrowLeft, Menu } from 'lucide-react';
+import { Sidebar } from './Sidebar';
 import { Footer } from './Footer';
 
 export function maskUsername(username: string): string {
@@ -19,6 +20,7 @@ interface Feedback {
 
 function FeedbackPage() {
   const navigate = useNavigate();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [review, setReview] = useState('');
   const [username, setUsername] = useState('');
@@ -64,10 +66,28 @@ function FeedbackPage() {
 
   return (
     <div className="min-h-screen bg-[#0A1929] text-white">
+      {/* Sidebar */}
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        onWalletClick={() => navigate('/wallet')}
+        onWithdrawalClick={() => navigate('/withdrawal')}
+        onDepositClick={() => navigate('/deposit')}
+        currentPath="/feedback"
+      />
+
+      {/* Main Content */}
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
       {/* Single Header */}
       <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
         <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
           <div className="flex items-center gap-4">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors lg:hidden"
+            >
+              <Menu size={24} />
+            </button>
             <button
               onClick={() => navigate('/')}
               className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
@@ -245,6 +265,7 @@ function FeedbackPage() {
       </div>
       
       <Footer />
+    </div>
     </div>
   );
 }

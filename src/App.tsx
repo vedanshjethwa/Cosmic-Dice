@@ -6,58 +6,9 @@ import {
   Search,
   User,
   Wallet,
-  Gift,
-  MessageCircle,
-  Bell,
-  Settings,
-  X,
-  Gamepad2,
-  TrendingUp,
   Star,
-  Sparkles,
-  Clock,
-  ArrowUpCircle,
-  ArrowDownCircle,
-  Headphones,
   Users,
-  Award,
-  DollarSign,
-  Target,
-  Zap,
-  Trophy,
-  History,
   ChevronRight,
-  Home,
-  Info,
-  BookOpen,
-  Shield,
-  AlertTriangle,
-  Calendar,
-  Filter,
-  Download,
-  Play,
-  Eye,
-  EyeOff,
-  Copy,
-  Upload,
-  Edit2,
-  LogOut,
-  Moon,
-  Sun,
-  Lock,
-  Mail,
-  Smartphone,
-  CreditCard,
-  ExternalLink,
-  Globe,
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
-  HelpCircle,
-  ArrowLeft,
-  Plus,
-  Minus,
 } from 'lucide-react';
 
 // Import components
@@ -70,14 +21,12 @@ import { FeedbackModal } from './components/FeedbackModal';
 import { ChatWindow } from './components/ChatSupport/ChatWindow';
 import { ChatButton } from './components/ChatSupport/ChatButton';
 import { GuidanceSystem } from './components/GuidanceSystem';
-import { LoadingScreen } from './components/LoadingScreen';
 import { GameGrid } from './components/GameGrid';
 import { StatsSection } from './components/StatsSection';
-import { AffiliateSection } from './components/AffiliateSection';
-import { BonusSection } from './components/BonusSection';
 import { ProfilePage } from './components/ProfilePage';
 import { WithdrawalPage } from './components/WithdrawalPage';
 import { Footer } from './components/Footer';
+import { useChatStore } from './components/ChatSupport/ChatStore';
 
 // Import page components
 import { AllGamesPage } from './components/pages/AllGamesPage';
@@ -90,15 +39,7 @@ import { SettingsPage } from './components/pages/SettingsPage';
 import { TransactionsPage } from './components/pages/TransactionsPage';
 import { WalletPage } from './components/pages/WalletPage';
 import { DepositPage } from './components/pages/DepositPage';
-import { VaultGuidePage } from './components/pages/VaultGuidePage';
-import { BettingGuidePage } from './components/pages/BettingGuidePage';
-import { HowToGuidesPage } from './components/pages/HowToGuidesPage';
-import { CasinoGuidePage } from './components/pages/CasinoGuidePage';
-import { ResponsibleGamingPage } from './components/pages/ResponsibleGamingPage';
-import { SecurityTipsPage } from './components/pages/SecurityTipsPage';
 import { GameDetailPage } from './components/pages/GameDetailPage';
-import { ActiveBonusesPage } from './components/pages/ActiveBonusesPage';
-import { AffiliateProgramPage } from './components/pages/AffiliateProgramPage';
 import FeedbackPage from './components/FeedbackPage';
 
 // Import auth components
@@ -214,13 +155,13 @@ const gameCards = [
 
 function HomePage() {
   const navigate = useNavigate();
+  const { setIsOpen: setChatOpen } = useChatStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [walletOpen, setWalletOpen] = useState(false);
   const [redeemOpen, setRedeemOpen] = useState(false);
   const [scratchOpen, setScratchOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(false);
   const [selectedGameType, setSelectedGameType] = useState<string>('general');
   const [searchTerm, setSearchTerm] = useState('');
@@ -275,7 +216,6 @@ function HomePage() {
         setRedeemOpen(false);
         setScratchOpen(false);
         setFeedbackOpen(false);
-        setChatOpen(false);
         setShowHowToPlay(false);
       }
     };
@@ -388,30 +328,6 @@ function HomePage() {
         {/* Main Content Area */}
         <main className="p-4 lg:p-8">
           <div className="max-w-7xl mx-auto">
-            {/* Hero Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center mb-8 lg:mb-12"
-            >
-              <motion.h2
-                className="text-3xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent"
-                initial={{ scale: 0.9 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                Welcome to the Cosmic Universe
-              </motion.h2>
-              <motion.p
-                className="text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                Experience the future of gaming with our collection of original, 
-                fair, and exciting cosmic games
-              </motion.p>
-            </motion.div>
 
             {/* Featured Games Carousel */}
             <motion.section
@@ -434,7 +350,7 @@ function HomePage() {
                 </button>
               </div>
               
-              <div className="flex gap-4 lg:gap-6 overflow-x-auto pb-4 scroll-smooth featured-offers-scroll">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
                 {featuredGames.map((game, index) => (
                   <motion.div
                     key={game.route}
@@ -442,7 +358,7 @@ function HomePage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 * index }}
                     whileHover={{ scale: 1.02, y: -4 }}
-                    className="flex-shrink-0 w-72 lg:w-80 bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 carousel-item"
+                    className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300"
                     onClick={() => handleGameClick(game.route)}
                   >
                     <div className="relative h-40 lg:h-48">
@@ -510,11 +426,96 @@ function HomePage() {
               </div>
             </motion.section>
 
-            {/* Quick Stats */}
+            {/* All Games Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
+              className="mb-8 lg:mb-12"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl lg:text-2xl font-bold text-white">All Games</h3>
+                <button
+                  onClick={() => navigate('/all-games')}
+                  className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
+                >
+                  View All
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+                {gameCards.slice(0, 8).map((game, index) => (
+                  <motion.div
+                    key={game.route}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 * index }}
+                    whileHover={{ scale: 1.02, y: -4 }}
+                    className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300"
+                    onClick={() => handleGameClick(game.route)}
+                  >
+                    <div className="relative h-32 lg:h-40">
+                      <img
+                        src={game.image}
+                        alt={game.label}
+                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent" />
+                      
+                      {/* Badges */}
+                      <div className="absolute top-2 left-2 flex gap-1">
+                        {game.isNew && (
+                          <span className="px-2 py-1 bg-green-500 text-white text-xs font-bold rounded-full">
+                            NEW
+                          </span>
+                        )}
+                        {game.isFeatured && (
+                          <span className="px-2 py-1 bg-yellow-500 text-black text-xs font-bold rounded-full">
+                            FEATURED
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="p-3 lg:p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded-full font-medium">
+                          {game.category}
+                        </span>
+                        <div className="flex items-center gap-1 text-xs text-gray-400">
+                          <Star size={10} className="text-yellow-400 fill-current" />
+                          <span>{game.rating}</span>
+                        </div>
+                      </div>
+
+                      <h4 className="font-bold text-white mb-2 text-sm lg:text-base">
+                        {game.label}
+                      </h4>
+                      
+                      <p className="text-gray-400 text-xs lg:text-sm mb-3 line-clamp-2">
+                        {game.description}
+                      </p>
+
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleGameClick(game.route);
+                        }}
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors font-medium text-sm"
+                      >
+                        Play Now
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.section>
+            {/* Quick Stats */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
               className="mb-8 lg:mb-12"
             >
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
@@ -537,50 +538,6 @@ function HomePage() {
               </div>
             </motion.section>
 
-            {/* Game Categories and Search */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="mb-8"
-            >
-              <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-6">
-                <h3 className="text-xl lg:text-2xl font-bold text-white">All Games</h3>
-                
-                {/* Category Filter */}
-                <div className="flex flex-wrap gap-2">
-                  {allCategories.map(category => (
-                    <button
-                      key={category}
-                      onClick={() => setSelectedCategory(category)}
-                      className={`px-3 lg:px-4 py-2 rounded-lg transition-colors capitalize text-sm lg:text-base ${
-                        selectedCategory === category
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-[#132F4C] text-gray-400 hover:text-white hover:bg-blue-600/20 border border-blue-500/20'
-                      }`}
-                    >
-                      {category}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Search Input (Mobile) */}
-              <div className="md:hidden mb-6">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                  <input
-                    type="text"
-                    placeholder="Search games..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full bg-[#132F4C] rounded-lg pl-10 pr-4 py-3 focus:outline-none border-2 border-transparent focus:border-blue-400/50 text-white"
-                  />
-                </div>
-              </div>
-
-              <GameGrid games={filteredGames} searchTerm={searchTerm} />
-            </motion.section>
 
             {/* Additional Sections */}
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
@@ -630,10 +587,6 @@ function HomePage() {
         onClose={() => setFeedbackOpen(false)}
       />
 
-      <ChatWindow
-        isOpen={chatOpen}
-        onClose={() => setChatOpen(false)}
-      />
 
       <HowToPlayModal
         isOpen={showHowToPlay}
@@ -657,22 +610,14 @@ function HomePage() {
 }
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
 
   // Handle auth
   const handleAuthSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setShowAuth(false);
-      setIsLoading(false);
-    }, 2000);
+    setShowAuth(false);
   };
 
-  if (isLoading) {
-    return <LoadingScreen message="Preparing your cosmic experience..." />;
-  }
 
   if (showAuth) {
     return (
@@ -685,6 +630,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
+      <ChatWindow />
       <Routes>
         {/* Main Home Route */}
         <Route path="/" element={<HomePage />} />
@@ -703,17 +649,8 @@ function App() {
         <Route path="/withdrawal" element={<WithdrawalPage />} />
         <Route path="/feedback" element={<FeedbackPage />} />
         <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
-        <Route path="/active-bonuses" element={<ActiveBonusesPage />} />
-        <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
         <Route path="/profile" element={<ProfilePage />} />
 
-        {/* Guide Routes */}
-        <Route path="/vault-guide" element={<VaultGuidePage />} />
-        <Route path="/betting-guide" element={<BettingGuidePage />} />
-        <Route path="/how-to-guides" element={<HowToGuidesPage />} />
-        <Route path="/casino-guide" element={<CasinoGuidePage />} />
-        <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
-        <Route path="/security-tips" element={<SecurityTipsPage />} />
 
         {/* Game Routes - Direct links to game folders */}
         <Route path="/game/rps" element={<div>Redirecting to RPS game...</div>} />

@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { X, Send, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useChatStore } from './ChatStore';
 
-interface ChatWindowProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
+export function ChatWindow() {
+  const { isOpen, setIsOpen } = useChatStore();
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([
     {
@@ -50,7 +47,7 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-4"
-      onClick={onClose}
+      onClick={() => setIsOpen(false)}
     >
       <motion.div
         initial={{ opacity: 0, y: 50, scale: 0.95 }}
@@ -72,7 +69,7 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
             </div>
           </div>
           <button
-            onClick={onClose}
+            onClick={() => setIsOpen(false)}
             className="p-2 hover:bg-white/10 rounded-lg transition-colors"
           >
             <X className="w-5 h-5 text-gray-400" />
