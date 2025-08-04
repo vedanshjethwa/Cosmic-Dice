@@ -383,6 +383,30 @@ img {
   background: #2563EB;
 }
 
+/* Games horizontal scroll styling */
+.games-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #3B82F6 transparent;
+}
+
+.games-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.games-scroll::-webkit-scrollbar-track {
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 4px;
+}
+
+.games-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+  border-radius: 4px;
+}
+
+.games-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #2563EB, #7C3AED);
+}
+
 /* Optimized scrollbar for sidebar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
