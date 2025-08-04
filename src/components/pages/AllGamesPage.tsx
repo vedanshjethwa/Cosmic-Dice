@@ -217,9 +217,8 @@ export function AllGamesPage() {
 
         <Footer />
       </div>
-    </div>
-  );
-}
+    );
+  }
 }
   )
 }
