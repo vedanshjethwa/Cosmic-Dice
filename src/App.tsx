@@ -47,7 +47,6 @@ import FeedbackPage from './components/FeedbackPage';
 // Import game components
 import { GameLayout } from './components/GameLayout';
 import { useChatStore } from './components/ChatSupport/ChatStore';
-import { ChatButton } from './components/ChatSupport/ChatButton';
 
 // Game data
 const gameCards = [
