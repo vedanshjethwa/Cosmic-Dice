@@ -47,7 +47,6 @@ import FeedbackPage from './components/FeedbackPage';
 // Import game components
 import { GameLayout } from './components/GameLayout';
 import { useChatStore } from './components/ChatSupport/ChatStore';
-import ChatWindow from './components/ChatSupport/ChatWindow';
 import { ChatButton } from './components/ChatSupport/ChatButton';
 
 // Game data

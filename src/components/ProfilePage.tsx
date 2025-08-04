@@ -242,44 +242,43 @@ export function ProfilePage() {
                   </motion.div>
                 ))}
               </div>
-            </motion.div>
 
-            {/* Quick Actions */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            >
-              <button 
-                onClick={() => navigate('/wallet')}
-                className="bg-gradient-to-br from-green-600/20 to-green-800/20 border border-green-500/30 rounded-2xl p-6 hover:from-green-600/30 hover:to-green-800/30 transition-all group"
-              >
-                <Wallet className="w-8 h-8 text-green-400 mb-3 group-hover:scale-110 transition-transform" />
-                <h4 className="font-bold text-white mb-2">Manage Wallet</h4>
-                <p className="text-gray-400 text-sm">Deposit, withdraw, and view transactions</p>
-              </button>
 
-              <button 
-                onClick={() => navigate('/all-games')}
-                className="bg-gradient-to-br from-blue-600/20 to-blue-800/20 border border-blue-500/30 rounded-2xl p-6 hover:from-blue-600/30 hover:to-blue-800/30 transition-all group"
-              >
-                <Gamepad2 className="w-8 h-8 text-blue-400 mb-3 group-hover:scale-110 transition-transform" />
-                <h4 className="font-bold text-white mb-2">Play Games</h4>
-                <p className="text-gray-400 text-sm">Explore our cosmic game collection</p>
-              </button>
-          </motion.div>
-        </div>
+        {/* Quick Actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        >
+          <button 
+            onClick={() => navigate('/wallet')}
+            className="bg-gradient-to-br from-green-600/20 to-green-800/20 border border-green-500/30 rounded-2xl p-6 hover:from-green-600/30 hover:to-green-800/30 transition-all group"
+          >
+            <Wallet className="w-8 h-8 text-green-400 mb-3 group-hover:scale-110 transition-transform" />
+            <h4 className="font-bold text-white mb-2">Manage Wallet</h4>
+            <p className="text-gray-400 text-sm">Deposit, withdraw, and view transactions</p>
+          </button>
 
-              <button 
-                onClick={() => navigate('/settings')}
-                className="bg-gradient-to-br from-purple-600/20 to-purple-800/20 border border-purple-500/30 rounded-2xl p-6 hover:from-purple-600/30 hover:to-purple-800/30 transition-all group"
-              >
-                <Settings className="w-8 h-8 text-purple-400 mb-3 group-hover:scale-110 transition-transform" />
-                <h4 className="font-bold text-white mb-2">Account Settings</h4>
-                <p className="text-gray-400 text-sm">Customize your gaming experience</p>
-              </button>
-            </motion.div>
+          <button 
+            onClick={() => navigate('/all-games')}
+            className="bg-gradient-to-br from-blue-600/20 to-blue-800/20 border border-blue-500/30 rounded-2xl p-6 hover:from-blue-600/30 hover:to-blue-800/30 transition-all group"
+          >
+            <Gamepad2 className="w-8 h-8 text-blue-400 mb-3 group-hover:scale-110 transition-transform" />
+            <h4 className="font-bold text-white mb-2">Play Games</h4>
+            <p className="text-gray-400 text-sm">Explore our cosmic game collection</p>
+          </button>
+          <button 
+            onClick={() => navigate('/settings')}
+            className="bg-gradient-to-br from-purple-600/20 to-purple-800/20 border border-purple-500/30 rounded-2xl p-6 hover:from-purple-600/30 hover:to-purple-800/30 transition-all group"
+          >
+            <Settings className="w-8 h-8 text-purple-400 mb-3 group-hover:scale-110 transition-transform" />
+            <h4 className="font-bold text-white mb-2">Account Settings</h4>
+            <p className="text-gray-400 text-sm">Customize your gaming experience</p>
+          </button>
+        </motion.div>
+      </div>
+
         <Footer />
       </div>
     </div>
