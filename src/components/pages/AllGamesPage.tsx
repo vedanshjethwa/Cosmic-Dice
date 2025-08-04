@@ -213,11 +213,10 @@ export function AllGamesPage() {
               searchTerm={searchTerm}
             />
           </motion.div>
-          </div>
-
-          <Footer />
         </div>
+
+        <Footer />
       </div>
     </div>
-  )
+  );
 }
