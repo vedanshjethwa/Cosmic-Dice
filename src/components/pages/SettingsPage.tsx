@@ -18,7 +18,9 @@ import {
   Volume2,
   VolumeX,
   Smartphone,
-  Mail
+  Mail,
+  Save,
+  Edit3
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Sidebar } from '../Sidebar';
@@ -37,13 +39,23 @@ export function SettingsPage() {
   const [currency, setCurrency] = useState('INR');
   const [showBalance, setShowBalance] = useState(true);
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+  const [autoLogout, setAutoLogout] = useState(true);
 
-  const ToggleSwitch = ({ enabled, onChange }: { enabled: boolean; onChange: (value: boolean) => void }) => (
+  // Profile settings
+  const [profileData, setProfileData] = useState({
+    username: 'CosmicPlayer777',
+    email: 'player@cosmic777.com',
+    phone: '+91 98765 43210',
+    country: 'India'
+  });
+
+  const ToggleSwitch = ({ enabled, onChange, disabled = false }: { enabled: boolean; onChange: (value: boolean) => void; disabled?: boolean }) => (
     <button
-      onClick={() => onChange(!enabled)}
+      onClick={() => !disabled && onChange(!enabled)}
+      disabled={disabled}
       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
         enabled ? 'bg-blue-600' : 'bg-gray-600'
-      }`}
+      } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
     >
       <span
         className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -52,6 +64,11 @@ export function SettingsPage() {
       />
     </button>
   );
+
+  const handleSaveProfile = () => {
+    // Save profile logic here
+    console.log('Profile saved:', profileData);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
@@ -73,7 +90,7 @@ export function SettingsPage() {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors lg:hidden"
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
               >
                 <Menu size={24} />
               </button>
@@ -100,32 +117,68 @@ export function SettingsPage() {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            {/* Account Settings */}
+            {/* Profile Settings */}
             <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
               <div className="p-6 border-b border-blue-500/20">
-                <div className="flex items-center gap-3">
-                  <User className="text-blue-400" size={24} />
-                  <h2 className="text-xl font-bold text-white">Account Settings</h2>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <User className="text-blue-400" size={24} />
+                    <h2 className="text-xl font-bold text-white">Profile Information</h2>
+                  </div>
+                  <button
+                    onClick={handleSaveProfile}
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm"
+                  >
+                    <Save size={16} />
+                    Save Changes
+                  </button>
                 </div>
               </div>
               <div className="p-6 space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <User className="text-gray-400" size={20} />
-                    <div>
-                      <div className="text-white font-medium">Profile Information</div>
-                      <div className="text-gray-400 text-sm">Update your personal details</div>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Username</label>
+                    <input
+                      type="text"
+                      value={profileData.username}
+                      onChange={(e) => setProfileData({...profileData, username: e.target.value})}
+                      className="w-full bg-[#0A1929] text-white border border-blue-500/30 rounded-lg py-3 px-4 focus:outline-none focus:border-blue-400"
+                    />
                   </div>
-                  <button
-                    onClick={() => navigate('/profile')}
-                    className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg"
-                  >
-                    Edit →
-                  </button>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                    <input
+                      type="email"
+                      value={profileData.email}
+                      onChange={(e) => setProfileData({...profileData, email: e.target.value})}
+                      className="w-full bg-[#0A1929] text-white border border-blue-500/30 rounded-lg py-3 px-4 focus:outline-none focus:border-blue-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Phone</label>
+                    <input
+                      type="tel"
+                      value={profileData.phone}
+                      onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
+                      className="w-full bg-[#0A1929] text-white border border-blue-500/30 rounded-lg py-3 px-4 focus:outline-none focus:border-blue-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Country</label>
+                    <select
+                      value={profileData.country}
+                      onChange={(e) => setProfileData({...profileData, country: e.target.value})}
+                      className="w-full bg-[#0A1929] text-white border border-blue-500/30 rounded-lg py-3 px-4 focus:outline-none focus:border-blue-400"
+                    >
+                      <option value="India">India</option>
+                      <option value="USA">United States</option>
+                      <option value="UK">United Kingdom</option>
+                      <option value="Canada">Canada</option>
+                    </select>
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between pt-4 border-t border-blue-500/20">
                   <div className="flex items-center gap-3">
                     <Lock className="text-gray-400" size={20} />
                     <div>
@@ -137,7 +190,18 @@ export function SettingsPage() {
                     Change →
                   </button>
                 </div>
+              </div>
+            </div>
 
+            {/* Security Settings */}
+            <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
+              <div className="p-6 border-b border-blue-500/20">
+                <div className="flex items-center gap-3">
+                  <Shield className="text-green-400" size={24} />
+                  <h2 className="text-xl font-bold text-white">Security Settings</h2>
+                </div>
+              </div>
+              <div className="p-6 space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Shield className="text-gray-400" size={20} />
@@ -147,6 +211,17 @@ export function SettingsPage() {
                     </div>
                   </div>
                   <ToggleSwitch enabled={twoFactorEnabled} onChange={setTwoFactorEnabled} />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Clock className="text-gray-400" size={20} />
+                    <div>
+                      <div className="text-white font-medium">Auto Logout</div>
+                      <div className="text-gray-400 text-sm">Automatically logout after inactivity</div>
+                    </div>
+                  </div>
+                  <ToggleSwitch enabled={autoLogout} onChange={setAutoLogout} />
                 </div>
               </div>
             </div>
@@ -195,66 +270,45 @@ export function SettingsPage() {
               </div>
             </div>
 
-            {/* Language & Region */}
+            {/* Display & Language */}
             <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
               <div className="p-6 border-b border-blue-500/20">
                 <div className="flex items-center gap-3">
                   <Globe className="text-blue-400" size={24} />
-                  <h2 className="text-xl font-bold text-white">Language & Region</h2>
+                  <h2 className="text-xl font-bold text-white">Display & Language</h2>
                 </div>
               </div>
               <div className="p-6 space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Globe className="text-gray-400" size={20} />
-                    <div>
-                      <div className="text-white font-medium">Language</div>
-                      <div className="text-gray-400 text-sm">Choose your preferred language</div>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Language</label>
+                    <select
+                      value={language}
+                      onChange={(e) => setLanguage(e.target.value)}
+                      className="w-full bg-[#0A1929] border border-blue-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-400"
+                    >
+                      <option value="en">English</option>
+                      <option value="es">Español</option>
+                      <option value="fr">Français</option>
+                      <option value="de">Deutsch</option>
+                      <option value="hi">हिंदी</option>
+                    </select>
                   </div>
-                  <select
-                    value={language}
-                    onChange={(e) => setLanguage(e.target.value)}
-                    className="bg-[#0A1929] border border-blue-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-400"
-                  >
-                    <option value="en">English</option>
-                    <option value="es">Español</option>
-                    <option value="fr">Français</option>
-                    <option value="de">Deutsch</option>
-                    <option value="hi">हिंदी</option>
-                  </select>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Currency</label>
+                    <select
+                      value={currency}
+                      onChange={(e) => setCurrency(e.target.value)}
+                      className="w-full bg-[#0A1929] border border-blue-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-400"
+                    >
+                      <option value="INR">₹ Indian Rupee</option>
+                      <option value="USD">$ US Dollar</option>
+                      <option value="EUR">€ Euro</option>
+                    </select>
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="text-gray-400 text-xl">₹</div>
-                    <div>
-                      <div className="text-white font-medium">Currency</div>
-                      <div className="text-gray-400 text-sm">Select your preferred currency</div>
-                    </div>
-                  </div>
-                  <select
-                    value={currency}
-                    onChange={(e) => setCurrency(e.target.value)}
-                    className="bg-[#0A1929] border border-blue-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-400"
-                  >
-                    <option value="INR">₹ Indian Rupee</option>
-                    <option value="USD">$ US Dollar</option>
-                    <option value="EUR">€ Euro</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            {/* Wallet Settings */}
-            <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
-              <div className="p-6 border-b border-blue-500/20">
-                <div className="flex items-center gap-3">
-                  <Wallet className="text-blue-400" size={24} />
-                  <h2 className="text-xl font-bold text-white">Wallet Settings</h2>
-                </div>
-              </div>
-              <div className="p-6 space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     {showBalance ? <Eye className="text-gray-400" size={20} /> : <EyeOff className="text-gray-400" size={20} />}
@@ -266,84 +320,6 @@ export function SettingsPage() {
                   <ToggleSwitch enabled={showBalance} onChange={setShowBalance} />
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Wallet className="text-gray-400" size={20} />
-                    <div>
-                      <div className="text-white font-medium">Payment Methods</div>
-                      <div className="text-gray-400 text-sm">Manage your payment options</div>
-                    </div>
-                  </div>
-                  <button className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg">
-                    Manage →
-                  </button>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Shield className="text-gray-400" size={20} />
-                    <div>
-                      <div className="text-white font-medium">Transaction Limits</div>
-                      <div className="text-gray-400 text-sm">Set daily and monthly limits</div>
-                    </div>
-                  </div>
-                  <button className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg">
-                    Configure →
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Linked Accounts */}
-            <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
-              <div className="p-6 border-b border-blue-500/20">
-                <div className="flex items-center gap-3">
-                  <Link className="text-blue-400" size={24} />
-                  <h2 className="text-xl font-bold text-white">Linked Accounts</h2>
-                </div>
-              </div>
-              <div className="p-6 space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-                      G
-                    </div>
-                    <div>
-                      <div className="text-white font-medium">Google Account</div>
-                      <div className="text-gray-400 text-sm">Not connected</div>
-                    </div>
-                  </div>
-                  <button className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg">
-                    Connect →
-                  </button>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-                      F
-                    </div>
-                    <div>
-                      <div className="text-white font-medium">Facebook Account</div>
-                      <div className="text-gray-400 text-sm">Not connected</div>
-                    </div>
-                  </div>
-                  <button className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg">
-                    Connect →
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Appearance */}
-            <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
-              <div className="p-6 border-b border-blue-500/20">
-                <div className="flex items-center gap-3">
-                  <Palette className="text-blue-400" size={24} />
-                  <h2 className="text-xl font-bold text-white">Appearance</h2>
-                </div>
-              </div>
-              <div className="p-6 space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Palette className="text-gray-400" size={20} />
@@ -365,12 +341,52 @@ export function SettingsPage() {
               </div>
             </div>
 
+            {/* Wallet Settings */}
+            <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
+              <div className="p-6 border-b border-blue-500/20">
+                <div className="flex items-center gap-3">
+                  <Wallet className="text-blue-400" size={24} />
+                  <h2 className="text-xl font-bold text-white">Wallet Settings</h2>
+                </div>
+              </div>
+              <div className="p-6 space-y-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Wallet className="text-gray-400" size={20} />
+                    <div>
+                      <div className="text-white font-medium">Payment Methods</div>
+                      <div className="text-gray-400 text-sm">Manage your payment options</div>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => navigate('/payment-methods')}
+                    className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg"
+                  >
+                    Manage →
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Shield className="text-gray-400" size={20} />
+                    <div>
+                      <div className="text-white font-medium">Transaction Limits</div>
+                      <div className="text-gray-400 text-sm">Set daily and monthly limits</div>
+                    </div>
+                  </div>
+                  <button className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg">
+                    Configure →
+                  </button>
+                </div>
+              </div>
+            </div>
+
             {/* Support */}
             <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
               <div className="p-6 border-b border-blue-500/20">
                 <div className="flex items-center gap-3">
                   <HelpCircle className="text-blue-400" size={24} />
-                  <h2 className="text-xl font-bold text-white">Support</h2>
+                  <h2 className="text-xl font-bold text-white">Support & Help</h2>
                 </div>
               </div>
               <div className="p-6 space-y-6">
@@ -382,7 +398,10 @@ export function SettingsPage() {
                       <div className="text-gray-400 text-sm">Browse our help articles</div>
                     </div>
                   </div>
-                  <button className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg">
+                  <button 
+                    onClick={() => navigate('/how-to-guides')}
+                    className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg"
+                  >
                     Visit →
                   </button>
                 </div>
@@ -395,7 +414,10 @@ export function SettingsPage() {
                       <div className="text-gray-400 text-sm">Get help from our team</div>
                     </div>
                   </div>
-                  <button className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg">
+                  <button 
+                    onClick={() => navigate('/feedback')}
+                    className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg"
+                  >
                     Contact →
                   </button>
                 </div>
@@ -423,10 +445,10 @@ export function SettingsPage() {
               <div className="p-6 border-b border-red-500/30">
                 <div className="flex items-center gap-3">
                   <LogOut className="text-red-400" size={24} />
-                  <h2 className="text-xl font-bold text-white">Danger Zone</h2>
+                  <h2 className="text-xl font-bold text-white">Account Actions</h2>
                 </div>
               </div>
-              <div className="p-6">
+              <div className="p-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-white font-medium">Sign Out</div>
@@ -434,6 +456,15 @@ export function SettingsPage() {
                   </div>
                   <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors font-medium">
                     Sign Out
+                  </button>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-white font-medium">Delete Account</div>
+                    <div className="text-gray-400 text-sm">Permanently delete your account and data</div>
+                  </div>
+                  <button className="bg-red-800 hover:bg-red-900 text-white px-6 py-2 rounded-lg transition-colors font-medium">
+                    Delete Account
                   </button>
                 </div>
               </div>
