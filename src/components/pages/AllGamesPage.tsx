@@ -220,9 +220,3 @@ export function AllGamesPage() {
     );
   }
 }
-  )
-}
-  )
-}
-  )
-}
