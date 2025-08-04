@@ -197,12 +197,11 @@ export function AllGamesPage() {
               </div>
             </div>
           </motion.div>
-            <p className="text-gray-400 text-lg">
-              Explore our complete collection of cosmic games
-              Explore our complete collection of cosmic games ({filteredGames.length} games)
-          </div>
-
           <div className="mb-8">
+            <p className="text-gray-400 text-lg mb-6">
+              Explore our complete collection of cosmic games ({filteredGames.length} games)
+            </p>
+            
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -214,12 +213,9 @@ export function AllGamesPage() {
               searchTerm={searchTerm}
             />
           </motion.div>
-        
+          </div>
+
           <Footer />
         </div>
       </div>
     </div>
-  );
-}
-  )
-}
