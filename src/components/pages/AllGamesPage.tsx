@@ -219,3 +219,5 @@ export function AllGamesPage() {
         </div>
       </div>
     </div>
+  )
+}
