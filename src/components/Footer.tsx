@@ -54,8 +54,8 @@ export function Footer() {
       icon: <BookOpen className="w-5 h-5" />,
       links: [
         { name: 'Affiliate Program', href: '/affiliate-program', internal: true },
-        { name: 'Privacy Policy', href: '/about#privacy', internal: true },
-        { name: 'Terms of Service', href: '/about#terms', internal: true },
+        { name: 'Privacy Policy', href: '/privacy-policy', internal: true },
+        { name: 'Terms of Service', href: '/terms', internal: true },
       ],
     },
     payment: {
