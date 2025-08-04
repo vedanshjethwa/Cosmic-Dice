@@ -43,6 +43,16 @@ import { WalletPage } from './components/pages/WalletPage';
 import { DepositPage } from './components/pages/DepositPage';
 import { GameDetailPage } from './components/pages/GameDetailPage';
 import FeedbackPage from './components/FeedbackPage';
+import { AffiliateProgramPage } from './components/pages/AffiliateProgramPage';
+import { VaultGuidePage } from './components/pages/VaultGuidePage';
+import { BettingGuidePage } from './components/pages/BettingGuidePage';
+import { HowToGuidesPage } from './components/pages/HowToGuidesPage';
+import { CasinoGuidePage } from './components/pages/CasinoGuidePage';
+import { ResponsibleGamingPage } from './components/pages/ResponsibleGamingPage';
+import { SecurityTipsPage } from './components/pages/SecurityTipsPage';
+import { PaymentMethodsPage } from './components/pages/PaymentMethodsPage';
+import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
+import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
 
 // Import game components
 import { GameLayout } from './components/GameLayout';
@@ -676,6 +686,19 @@ function App() {
         <Route path="/feedback" element={<FeedbackPage />} />
         <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        
+        {/* Info Pages */}
+        <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
+        <Route path="/vault-guide" element={<VaultGuidePage />} />
+        <Route path="/betting-guide" element={<BettingGuidePage />} />
+        <Route path="/how-to-guides" element={<HowToGuidesPage />} />
+        <Route path="/casino-guide" element={<CasinoGuidePage />} />
+        <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
+        <Route path="/security-tips" element={<SecurityTipsPage />} />
+        <Route path="/payment-methods" element={<PaymentMethodsPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms" element={<TermsOfServicePage />} />
+        <Route path="/deposit-withdrawals" element={<DepositPage />} />
 
         {/* Game Routes */}
         <Route path="/game/rps" element={<GameWrapper gameType="rps" />} />
