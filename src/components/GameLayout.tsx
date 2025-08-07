@@ -22,7 +22,7 @@ export function GameLayout({ gameType, children, sidebarOpen, setSidebarOpen }: 
         onWalletClick={() => navigate('/wallet')}
         onWithdrawalClick={() => navigate('/withdrawal')}
         onDepositClick={() => navigate('/deposit')}
-        currentPath={`/game/${gameType}`}
+        currentPath={`/game/${gameType.toLowerCase()}`}
       />
 
       {/* Main Content */}
@@ -42,13 +42,13 @@ export function GameLayout({ gameType, children, sidebarOpen, setSidebarOpen }: 
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
               >
                 <ArrowLeft size={20} />
-                <span className="hidden sm:inline">Back</span>
+                <span className="hidden sm:inline">Back to Home</span>
               </button>
               <h1
                 className="text-lg sm:text-xl font-bold text-white transition-all duration-300"
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
               >
-                Cosmic {gameType.charAt(0).toUpperCase() + gameType.slice(1)}
+                Cosmic {gameType}
               </h1>
             </div>
           </div>

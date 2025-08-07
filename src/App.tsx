@@ -31,6 +31,7 @@ import { ProfilePage } from './components/ProfilePage';
 import { WithdrawalPage } from './components/WithdrawalPage';
 import { Footer } from './components/Footer';
 import { LoadingScreen } from './components/LoadingScreen';
+import { GameLayout } from './components/GameLayout';
 
 // Import page components
 import { AllGamesPage } from './components/pages/AllGamesPage';
@@ -58,12 +59,12 @@ import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
 
 import { useChatStore } from './components/ChatSupport/ChatStore';
 
-// Game data
+// Game data with proper routing
 const gameCards = [
   {
     label: 'Cosmic RPS',
     image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=80&w=400&h=225',
-    route: '/rps/',
+    route: '/game/rps',
     description: 'Rock Paper Scissors with cosmic twists and strategic gameplay',
     category: 'Strategy',
     players: '2.5K',
@@ -73,7 +74,7 @@ const gameCards = [
   {
     label: 'Cosmic Dice',
     image: 'https://images.unsplash.com/photo-1551431009-a802eeec77b1?auto=format&fit=crop&q=80&w=400&h=225',
-    route: '/dice/',
+    route: '/game/dice',
     description: 'Roll the cosmic dice and test your luck with dynamic betting tiers',
     category: 'Luck',
     players: '3.2K',
@@ -83,7 +84,7 @@ const gameCards = [
   {
     label: 'Cosmic Limbo',
     image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=400&h=225',
-    route: '/limbo/',
+    route: '/game/limbo',
     description: 'How low can you go in this thrilling multiplier game',
     category: 'Risk',
     players: '1.8K',
@@ -93,7 +94,7 @@ const gameCards = [
   {
     label: 'Cosmic Snakes',
     image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=400&h=225',
-    route: '/snakes/',
+    route: '/game/snakes',
     description: 'Navigate through the cosmic maze and avoid the snakes',
     category: 'Adventure',
     players: '2.1K',
@@ -102,7 +103,7 @@ const gameCards = [
   {
     label: 'Cosmic Cards',
     image: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&q=80&w=400&h=225',
-    route: '/card/',
+    route: '/game/card',
     description: 'Pick your fortune card and reveal cosmic rewards',
     category: 'Luck',
     players: '1.5K',
@@ -111,7 +112,7 @@ const gameCards = [
   {
     label: 'Prediction Pulse',
     image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&q=80&w=400&h=225',
-    route: '/prediction-pulse/',
+    route: '/game/prediction-pulse',
     description: 'Time your predictions perfectly for maximum rewards',
     category: 'Timing',
     players: '1.3K',
@@ -120,7 +121,7 @@ const gameCards = [
   {
     label: 'Cosmic Balloon',
     image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&q=80&w=400&h=225',
-    route: '/game bollon/',
+    route: '/game/balloon',
     description: 'Pop balloons for cosmic rewards and multipliers',
     category: 'Luck',
     players: '1.9K',
@@ -130,7 +131,7 @@ const gameCards = [
   {
     label: 'Cosmic Minesweeper',
     image: 'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?auto=format&fit=crop&q=80&w=400&h=225',
-    route: '/minesweeper/',
+    route: '/game/minesweeper',
     description: 'Navigate the cosmic minefield and claim your rewards',
     category: 'Strategy',
     players: '1.1K',
@@ -140,7 +141,7 @@ const gameCards = [
   {
     label: 'Cosmic Heads & Tails',
     image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400&h=225',
-    route: '/toss game/',
+    route: '/game/toss',
     description: 'Classic coin flip with cosmic rewards and fast-paced action',
     category: 'Luck',
     players: '2.3K',
@@ -149,20 +150,293 @@ const gameCards = [
   },
 ];
 
-// Game redirect component with loading animation
-function GameRedirect({ gameRoute }: { gameRoute: string }) {
-  const [isLoading, setIsLoading] = useState(true);
-
+// Game wrapper components for each game
+function RPSGamePage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
   useEffect(() => {
-    const timer = setTimeout(() => {
-      window.location.href = gameRoute;
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [gameRoute]);
+    // Load the RPS game
+    const iframe = document.createElement('iframe');
+    iframe.src = '/rps/';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    
+    const container = document.getElementById('game-container');
+    if (container) {
+      container.appendChild(iframe);
+    }
+    
+    return () => {
+      if (container && iframe.parentNode) {
+        container.removeChild(iframe);
+      }
+    };
+  }, []);
 
   return (
-    <LoadingScreen message="Loading game..." />
+    <GameLayout gameType="RPS" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+      <div id="game-container" className="relative w-full h-full" />
+    </GameLayout>
+  );
+}
+
+function DiceGamePage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  useEffect(() => {
+    const iframe = document.createElement('iframe');
+    iframe.src = '/dice/';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    
+    const container = document.getElementById('game-container');
+    if (container) {
+      container.appendChild(iframe);
+    }
+    
+    return () => {
+      if (container && iframe.parentNode) {
+        container.removeChild(iframe);
+      }
+    };
+  }, []);
+
+  return (
+    <GameLayout gameType="Dice" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+      <div id="game-container" className="relative w-full h-full" />
+    </GameLayout>
+  );
+}
+
+function LimboGamePage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  useEffect(() => {
+    const iframe = document.createElement('iframe');
+    iframe.src = '/limbo/';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    
+    const container = document.getElementById('game-container');
+    if (container) {
+      container.appendChild(iframe);
+    }
+    
+    return () => {
+      if (container && iframe.parentNode) {
+        container.removeChild(iframe);
+      }
+    };
+  }, []);
+
+  return (
+    <GameLayout gameType="Limbo" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+      <div id="game-container" className="relative w-full h-full" />
+    </GameLayout>
+  );
+}
+
+function SnakesGamePage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  useEffect(() => {
+    const iframe = document.createElement('iframe');
+    iframe.src = '/snakes/';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    
+    const container = document.getElementById('game-container');
+    if (container) {
+      container.appendChild(iframe);
+    }
+    
+    return () => {
+      if (container && iframe.parentNode) {
+        container.removeChild(iframe);
+      }
+    };
+  }, []);
+
+  return (
+    <GameLayout gameType="Snakes" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+      <div id="game-container" className="relative w-full h-full" />
+    </GameLayout>
+  );
+}
+
+function CardGamePage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  useEffect(() => {
+    const iframe = document.createElement('iframe');
+    iframe.src = '/card/';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    
+    const container = document.getElementById('game-container');
+    if (container) {
+      container.appendChild(iframe);
+    }
+    
+    return () => {
+      if (container && iframe.parentNode) {
+        container.removeChild(iframe);
+      }
+    };
+  }, []);
+
+  return (
+    <GameLayout gameType="Cards" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+      <div id="game-container" className="relative w-full h-full" />
+    </GameLayout>
+  );
+}
+
+function PredictionPulseGamePage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  useEffect(() => {
+    const iframe = document.createElement('iframe');
+    iframe.src = '/prediction-pulse/';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    
+    const container = document.getElementById('game-container');
+    if (container) {
+      container.appendChild(iframe);
+    }
+    
+    return () => {
+      if (container && iframe.parentNode) {
+        container.removeChild(iframe);
+      }
+    };
+  }, []);
+
+  return (
+    <GameLayout gameType="Prediction Pulse" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+      <div id="game-container" className="relative w-full h-full" />
+    </GameLayout>
+  );
+}
+
+function BalloonGamePage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  useEffect(() => {
+    const iframe = document.createElement('iframe');
+    iframe.src = '/game bollon/';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    
+    const container = document.getElementById('game-container');
+    if (container) {
+      container.appendChild(iframe);
+    }
+    
+    return () => {
+      if (container && iframe.parentNode) {
+        container.removeChild(iframe);
+      }
+    };
+  }, []);
+
+  return (
+    <GameLayout gameType="Balloon" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+      <div id="game-container" className="relative w-full h-full" />
+    </GameLayout>
+  );
+}
+
+function MinesweeperGamePage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  useEffect(() => {
+    const iframe = document.createElement('iframe');
+    iframe.src = '/minesweeper/';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    
+    const container = document.getElementById('game-container');
+    if (container) {
+      container.appendChild(iframe);
+    }
+    
+    return () => {
+      if (container && iframe.parentNode) {
+        container.removeChild(iframe);
+      }
+    };
+  }, []);
+
+  return (
+    <GameLayout gameType="Minesweeper" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+      <div id="game-container" className="relative w-full h-full" />
+    </GameLayout>
+  );
+}
+
+function TossGamePage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  useEffect(() => {
+    const iframe = document.createElement('iframe');
+    iframe.src = '/toss game/';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    
+    const container = document.getElementById('game-container');
+    if (container) {
+      container.appendChild(iframe);
+    }
+    
+    return () => {
+      if (container && iframe.parentNode) {
+        container.removeChild(iframe);
+      }
+    };
+  }, []);
+
+  return (
+    <GameLayout gameType="Heads & Tails" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+      <div id="game-container" className="relative w-full h-full" />
+    </GameLayout>
   );
 }
 
@@ -179,8 +453,15 @@ function HomePage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [balance, setBalance] = useState(5000);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [gameSlide, setGameSlide] = useState(0);
+  const [currentBannerSlide, setCurrentBannerSlide] = useState(0);
+
+  // Auto-advance banner
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBannerSlide((prev) => (prev + 1) % 3);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Handle keyboard shortcuts
   useEffect(() => {
@@ -210,16 +491,6 @@ function HomePage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [sidebarOpen]);
 
-  const nextGameSlide = () => {
-    const maxSlides = Math.ceil(gameCards.length / 4);
-    setGameSlide((prev) => (prev + 1) % maxSlides);
-  };
-
-  const prevGameSlide = () => {
-    const maxSlides = Math.ceil(gameCards.length / 4);
-    setGameSlide((prev) => (prev - 1 + maxSlides) % maxSlides);
-  };
-
   const allCategories = ['all', 'Strategy', 'Luck', 'Risk', 'Adventure', 'Timing'];
 
   // Filter games based on search and category
@@ -233,6 +504,30 @@ function HomePage() {
   // Featured games for carousel
   const featuredGames = gameCards.filter(game => game.isFeatured || game.isNew);
   const popularGames = gameCards.filter(game => game.isFeatured);
+
+  const banners = [
+    {
+      title: "Welcome to Cosmic Gaming",
+      subtitle: "Experience the future of online gaming",
+      image: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=1200&h=400",
+      cta: "Start Playing",
+      action: () => navigate('/all-games')
+    },
+    {
+      title: "24/7 Live Support",
+      subtitle: "Get help anytime, anywhere",
+      image: "https://images.unsplash.com/photo-1551431009-a802eeec77b1?auto=format&fit=crop&q=80&w=1200&h=400",
+      cta: "Contact Support",
+      action: () => setChatOpen(true)
+    },
+    {
+      title: "Exclusive VIP Rewards",
+      subtitle: "Unlock premium benefits",
+      image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200&h=400",
+      cta: "View Offers",
+      action: () => navigate('/offers')
+    }
+  ];
 
   return (
     <>
@@ -321,58 +616,50 @@ function HomePage() {
         <main className="p-4 lg:p-8">
           <div className="max-w-7xl mx-auto">
 
-            {/* Enhanced Hero Banner with 24/7 Support */}
+            {/* Hero Banner Section - Compact & Scrollable */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="mb-8"
             >
-              <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-2xl p-8 border border-blue-500/20 backdrop-blur-sm relative overflow-hidden">
-                {/* 24/7 Support Badge */}
-                <div className="absolute top-4 right-4">
-                  <div className="flex items-center gap-2 bg-green-500/20 border border-green-500/30 rounded-full px-4 py-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <span className="text-green-400 text-sm font-medium">24/7 Live Support</span>
-                  </div>
+              <div className="relative h-64 rounded-2xl overflow-hidden">
+                <div className="flex transition-transform duration-500 ease-in-out h-full"
+                     style={{ transform: `translateX(-${currentBannerSlide * 100}%)` }}>
+                  {banners.map((banner, index) => (
+                    <div key={index} className="min-w-full h-full relative">
+                      <img 
+                        src={banner.image} 
+                        alt={banner.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
+                      <div className="absolute inset-0 flex items-center justify-start p-8">
+                        <div className="text-white max-w-lg">
+                          <h2 className="text-3xl lg:text-4xl font-bold mb-2">{banner.title}</h2>
+                          <p className="text-lg mb-6 text-gray-200">{banner.subtitle}</p>
+                          <button
+                            onClick={banner.action}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105"
+                          >
+                            {banner.cta}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-
-                <div className="text-center">
-                  <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-3xl lg:text-4xl font-bold text-white mb-4"
-                  >
-                    Experience Cosmic Gaming
-                  </motion.h2>
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="text-lg text-gray-300 mb-6"
-                  >
-                    Play exclusive cosmic games with instant payouts and 24/7 support
-                  </motion.p>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center"
-                  >
+                
+                {/* Banner indicators */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                  {banners.map((_, index) => (
                     <button
-                      onClick={() => navigate('/all-games')}
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl font-bold transition-all transform hover:scale-105 flex items-center justify-center gap-2"
-                    >
-                      <Play className="w-5 h-5" />
-                      Start Playing
-                    </button>
-                    <button
-                      onClick={() => setChatOpen(true)}
-                      className="bg-green-600/20 hover:bg-green-600/30 text-green-400 px-8 py-3 rounded-xl font-bold transition-all border border-green-500/30 flex items-center justify-center gap-2"
-                    >
-                      <Headphones className="w-5 h-5" />
-                      24/7 Support
-                    </button>
-                  </motion.div>
+                      key={index}
+                      onClick={() => setCurrentBannerSlide(index)}
+                      className={`w-3 h-3 rounded-full transition-all ${
+                        currentBannerSlide === index ? 'bg-white' : 'bg-white/50'
+                      }`}
+                    />
+                  ))}
                 </div>
               </div>
             </motion.section>
@@ -419,51 +706,15 @@ function HomePage() {
                 </h3>
               </div>
               
-              <div className="relative">
-                {/* Mobile: Show 3 cards with navigation */}
-                <div className="block md:hidden">
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={prevGameSlide}
-                      className="p-2 bg-blue-600/20 hover:bg-blue-600/30 rounded-lg transition-colors"
-                    >
-                      <ChevronLeft size={20} />
-                    </button>
-                    <div className="flex-1 overflow-hidden">
-                      <div 
-                        className="flex transition-transform duration-300 ease-in-out gap-4"
-                        style={{ transform: `translateX(-${gameSlide * 100}%)` }}
-                      >
-                        {Array.from({ length: Math.ceil(featuredGames.length / 3) }).map((_, slideIndex) => (
-                          <div key={slideIndex} className="flex gap-4 min-w-full">
-                            {featuredGames.slice(slideIndex * 3, (slideIndex + 1) * 3).map((game, index) => (
-                              <div key={game.route} className="flex-1">
-                                <GameCard game={game} index={index} />
-                              </div>
-                            ))}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <button
-                      onClick={nextGameSlide}
-                      className="p-2 bg-blue-600/20 hover:bg-blue-600/30 rounded-lg transition-colors"
-                    >
-                      <ChevronRight size={20} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Desktop: Show all cards */}
-                <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {featuredGames.map((game, index) => (
-                    <GameCard key={game.route} game={game} index={index} />
-                  ))}
-                </div>
+              {/* Mobile: 3 cards with proper alignment */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {featuredGames.map((game, index) => (
+                  <GameCard key={game.route} game={game} index={index} />
+                ))}
               </div>
             </motion.section>
 
-            {/* All Games Section with Horizontal Scroll */}
+            {/* All Games Section - Single Row with Horizontal Scroll */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -482,7 +733,7 @@ function HomePage() {
               </div>
 
               {/* Category Filters */}
-              <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+              <div className="flex gap-2 mb-6 overflow-x-auto pb-2 games-scroll">
                 {allCategories.map((category) => (
                   <button
                     key={category}
@@ -498,33 +749,14 @@ function HomePage() {
                 ))}
               </div>
               
-              {/* Horizontal Scrolling Games */}
+              {/* Horizontal Scrolling Games - Single Row */}
               <div className="relative">
-                <div className="flex items-center gap-4">
-                  <button
-                    onClick={prevGameSlide}
-                    className="p-3 bg-blue-600/20 hover:bg-blue-600/30 rounded-lg transition-colors z-10"
-                  >
-                    <ChevronLeft size={24} />
-                  </button>
-                  <div className="flex-1 overflow-hidden">
-                    <div 
-                      className="flex transition-transform duration-500 ease-in-out gap-6"
-                      style={{ transform: `translateX(-${gameSlide * 25}%)` }}
-                    >
-                      {filteredGames.map((game, index) => (
-                        <div key={game.route} className="flex-shrink-0 w-80">
-                          <GameCard game={game} index={index} />
-                        </div>
-                      ))}
+                <div className="flex gap-6 overflow-x-auto pb-4 games-scroll">
+                  {filteredGames.map((game, index) => (
+                    <div key={game.route} className="flex-shrink-0 w-80">
+                      <GameCard game={game} index={index} />
                     </div>
-                  </div>
-                  <button
-                    onClick={nextGameSlide}
-                    className="p-3 bg-blue-600/20 hover:bg-blue-600/30 rounded-lg transition-colors z-10"
-                  >
-                    <ChevronRight size={24} />
-                  </button>
+                  ))}
                 </div>
               </div>
             </motion.section>
@@ -606,16 +838,12 @@ function HomePage() {
   );
 }
 
-// Enhanced Game Card Component with Arcade Effects
+// Enhanced Game Card Component
 function GameCard({ game, index }: { game: any; index: number }) {
-  const [isLoading, setIsLoading] = useState(false);
-
+  const navigate = useNavigate();
+  
   const handleGameClick = () => {
-    setIsLoading(true);
-    // Direct navigation to game folder
-    setTimeout(() => {
-      window.location.href = game.route;
-    }, 300);
+    navigate(game.route);
   };
   
   return (
@@ -624,15 +852,9 @@ function GameCard({ game, index }: { game: any; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 * index }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group game-card-arcade"
+      className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group game-card-arcade h-full"
       onClick={handleGameClick}
     >
-      {isLoading && (
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
-          <div className="animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full"></div>
-        </div>
-      )}
-
       <div className="relative h-48">
         <img
           src={game.image}
@@ -669,7 +891,7 @@ function GameCard({ game, index }: { game: any; index: number }) {
         </div>
       </div>
 
-      <div className="p-4">
+      <div className="p-4 flex flex-col h-full">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded-full font-medium">
             {game.category}
@@ -680,7 +902,7 @@ function GameCard({ game, index }: { game: any; index: number }) {
           {game.label}
         </h4>
         
-        <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+        <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
           {game.description}
         </p>
 
@@ -689,7 +911,7 @@ function GameCard({ game, index }: { game: any; index: number }) {
             e.stopPropagation();
             handleGameClick();
           }}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors font-medium cosmic-button"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors font-medium cosmic-button mt-auto"
         >
           Play Now
         </button>
@@ -720,6 +942,17 @@ function App() {
         {/* Main Home Route */}
         <Route path="/" element={<HomePage />} />
 
+        {/* Game Routes - Proper page routing */}
+        <Route path="/game/rps" element={<RPSGamePage />} />
+        <Route path="/game/dice" element={<DiceGamePage />} />
+        <Route path="/game/limbo" element={<LimboGamePage />} />
+        <Route path="/game/snakes" element={<SnakesGamePage />} />
+        <Route path="/game/card" element={<CardGamePage />} />
+        <Route path="/game/prediction-pulse" element={<PredictionPulseGamePage />} />
+        <Route path="/game/balloon" element={<BalloonGamePage />} />
+        <Route path="/game/minesweeper" element={<MinesweeperGamePage />} />
+        <Route path="/game/toss" element={<TossGamePage />} />
+
         {/* Page Routes */}
         <Route path="/all-games" element={<AllGamesPage />} />
         <Route path="/popular" element={<PopularPage />} />
@@ -747,17 +980,6 @@ function App() {
         <Route path="/payment-methods" element={<PaymentMethodsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms" element={<TermsOfServicePage />} />
-
-        {/* Game Routes - Direct folder navigation */}
-        <Route path="/game/rps" element={<GameRedirect gameRoute="/rps/" />} />
-        <Route path="/game/dice" element={<GameRedirect gameRoute="/dice/" />} />
-        <Route path="/game/limbo" element={<GameRedirect gameRoute="/limbo/" />} />
-        <Route path="/game/snakes" element={<GameRedirect gameRoute="/snakes/" />} />
-        <Route path="/game/card" element={<GameRedirect gameRoute="/card/" />} />
-        <Route path="/game/prediction-pulse" element={<GameRedirect gameRoute="/prediction-pulse/" />} />
-        <Route path="/game/balloon" element={<GameRedirect gameRoute="/game bollon/" />} />
-        <Route path="/game/minesweeper" element={<GameRedirect gameRoute="/minesweeper/" />} />
-        <Route path="/game/toss" element={<GameRedirect gameRoute="/toss game/" />} />
       </Routes>
     </div>
   );

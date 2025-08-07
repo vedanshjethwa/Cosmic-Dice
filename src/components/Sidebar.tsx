@@ -112,6 +112,18 @@ export function Sidebar({
       onClick: () => navigate('/transactions'),
     },
     {
+      icon: <Settings size={20} />,
+      label: 'Settings',
+      path: '/settings',
+      onClick: () => navigate('/settings'),
+    },
+    {
+      icon: <Info size={20} />,
+      label: 'About',
+      path: '/about',
+      onClick: () => navigate('/about'),
+    },
+    {
       icon: <Headphones size={20} />,
       label: 'Live Support',
       path: '/support',
@@ -123,18 +135,6 @@ export function Sidebar({
       label: 'Feedback',
       path: '/feedback',
       onClick: () => navigate('/feedback'),
-    },
-    {
-      icon: <Settings size={20} />,
-      label: 'Settings',
-      path: '/settings',
-      onClick: () => navigate('/settings'),
-    },
-    {
-      icon: <Info size={20} />,
-      label: 'About',
-      path: '/about',
-      onClick: () => navigate('/about'),
     },
   ];
 

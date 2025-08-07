@@ -20,7 +20,9 @@ import {
   Smartphone,
   Mail,
   Save,
-  Edit3
+  Edit3,
+  CreditCard,
+  Settings as SettingsIcon
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Sidebar } from '../Sidebar';
@@ -70,6 +72,135 @@ export function SettingsPage() {
     console.log('Profile saved:', profileData);
   };
 
+  const settingsSections = [
+    {
+      title: 'Account Settings',
+      icon: <User className="w-6 h-6 text-blue-400" />,
+      items: [
+        {
+          icon: <Edit3 className="w-5 h-5 text-gray-400" />,
+          title: 'Edit Profile',
+          description: 'Update your personal information',
+          action: () => navigate('/profile')
+        },
+        {
+          icon: <Lock className="w-5 h-5 text-gray-400" />,
+          title: 'Change Password',
+          description: 'Update your account password',
+          action: () => console.log('Change password')
+        },
+        {
+          icon: <Shield className="w-5 h-5 text-gray-400" />,
+          title: 'Two-Factor Authentication',
+          description: 'Add extra security to your account',
+          toggle: { enabled: twoFactorEnabled, onChange: setTwoFactorEnabled }
+        }
+      ]
+    },
+    {
+      title: 'Notification Settings',
+      icon: <Bell className="w-6 h-6 text-green-400" />,
+      items: [
+        {
+          icon: <Smartphone className="w-5 h-5 text-gray-400" />,
+          title: 'Push Notifications',
+          description: 'Receive notifications on your device',
+          toggle: { enabled: notifications, onChange: setNotifications }
+        },
+        {
+          icon: <Mail className="w-5 h-5 text-gray-400" />,
+          title: 'Email Notifications',
+          description: 'Get updates via email',
+          toggle: { enabled: emailNotifications, onChange: setEmailNotifications }
+        },
+        {
+          icon: soundEnabled ? <Volume2 className="w-5 h-5 text-gray-400" /> : <VolumeX className="w-5 h-5 text-gray-400" />,
+          title: 'Sound Effects',
+          description: 'Enable game sound effects',
+          toggle: { enabled: soundEnabled, onChange: setSoundEnabled }
+        }
+      ]
+    },
+    {
+      title: 'Language & Region',
+      icon: <Globe className="w-6 h-6 text-purple-400" />,
+      items: [
+        {
+          icon: <Globe className="w-5 h-5 text-gray-400" />,
+          title: 'Language',
+          description: 'Choose your preferred language',
+          select: {
+            value: language,
+            onChange: setLanguage,
+            options: [
+              { value: 'en', label: 'English' },
+              { value: 'es', label: 'Español' },
+              { value: 'fr', label: 'Français' },
+              { value: 'de', label: 'Deutsch' },
+              { value: 'hi', label: 'हिंदी' }
+            ]
+          }
+        },
+        {
+          icon: <CreditCard className="w-5 h-5 text-gray-400" />,
+          title: 'Currency',
+          description: 'Select your preferred currency',
+          select: {
+            value: currency,
+            onChange: setCurrency,
+            options: [
+              { value: 'INR', label: '₹ Indian Rupee' },
+              { value: 'USD', label: '$ US Dollar' },
+              { value: 'EUR', label: '€ Euro' }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      title: 'Wallet Settings',
+      icon: <Wallet className="w-6 h-6 text-yellow-400" />,
+      items: [
+        {
+          icon: showBalance ? <Eye className="w-5 h-5 text-gray-400" /> : <EyeOff className="w-5 h-5 text-gray-400" />,
+          title: 'Show Balance',
+          description: 'Display wallet balance in header',
+          toggle: { enabled: showBalance, onChange: setShowBalance }
+        },
+        {
+          icon: <CreditCard className="w-5 h-5 text-gray-400" />,
+          title: 'Payment Methods',
+          description: 'Manage your payment options',
+          action: () => navigate('/payment-methods')
+        },
+        {
+          icon: <Shield className="w-5 h-5 text-gray-400" />,
+          title: 'Transaction Limits',
+          description: 'Set daily and monthly limits',
+          action: () => console.log('Configure limits')
+        }
+      ]
+    },
+    {
+      title: 'Linked Accounts',
+      icon: <Link className="w-6 h-6 text-cyan-400" />,
+      items: [
+        {
+          icon: <div className="w-5 h-5 bg-blue-600 rounded text-white text-xs flex items-center justify-center font-bold">G</div>,
+          title: 'Google Account',
+          description: 'Connect your Google account',
+          action: () => console.log('Connect Google')
+        },
+        {
+          icon: <div className="w-5 h-5 bg-blue-800 rounded text-white text-xs flex items-center justify-center font-bold">f</div>,
+          title: 'Facebook Account',
+          description: 'Connect your Facebook account',
+          action: () => console.log('Connect Facebook')
+        }
+      ]
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
       {/* Sidebar */}
@@ -115,284 +246,85 @@ export function SettingsPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="space-y-6"
+            className="space-y-8"
           >
-            {/* Profile Settings */}
-            <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
-              <div className="p-6 border-b border-blue-500/20">
-                <div className="flex items-center justify-between">
+            {/* Settings Sections */}
+            {settingsSections.map((section, sectionIndex) => (
+              <motion.div
+                key={section.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: sectionIndex * 0.1 }}
+                className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden"
+              >
+                <div className="p-6 border-b border-blue-500/20">
                   <div className="flex items-center gap-3">
-                    <User className="text-blue-400" size={24} />
-                    <h2 className="text-xl font-bold text-white">Profile Information</h2>
-                  </div>
-                  <button
-                    onClick={handleSaveProfile}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm"
-                  >
-                    <Save size={16} />
-                    Save Changes
-                  </button>
-                </div>
-              </div>
-              <div className="p-6 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Username</label>
-                    <input
-                      type="text"
-                      value={profileData.username}
-                      onChange={(e) => setProfileData({...profileData, username: e.target.value})}
-                      className="w-full bg-[#0A1929] text-white border border-blue-500/30 rounded-lg py-3 px-4 focus:outline-none focus:border-blue-400"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                    <input
-                      type="email"
-                      value={profileData.email}
-                      onChange={(e) => setProfileData({...profileData, email: e.target.value})}
-                      className="w-full bg-[#0A1929] text-white border border-blue-500/30 rounded-lg py-3 px-4 focus:outline-none focus:border-blue-400"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Phone</label>
-                    <input
-                      type="tel"
-                      value={profileData.phone}
-                      onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
-                      className="w-full bg-[#0A1929] text-white border border-blue-500/30 rounded-lg py-3 px-4 focus:outline-none focus:border-blue-400"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Country</label>
-                    <select
-                      value={profileData.country}
-                      onChange={(e) => setProfileData({...profileData, country: e.target.value})}
-                      className="w-full bg-[#0A1929] text-white border border-blue-500/30 rounded-lg py-3 px-4 focus:outline-none focus:border-blue-400"
-                    >
-                      <option value="India">India</option>
-                      <option value="USA">United States</option>
-                      <option value="UK">United Kingdom</option>
-                      <option value="Canada">Canada</option>
-                    </select>
+                    {section.icon}
+                    <h2 className="text-xl font-bold text-white">{section.title}</h2>
                   </div>
                 </div>
-
-                <div className="flex items-center justify-between pt-4 border-t border-blue-500/20">
-                  <div className="flex items-center gap-3">
-                    <Lock className="text-gray-400" size={20} />
-                    <div>
-                      <div className="text-white font-medium">Change Password</div>
-                      <div className="text-gray-400 text-sm">Update your account password</div>
+                <div className="p-6 space-y-6">
+                  {section.items.map((item, itemIndex) => (
+                    <div key={itemIndex} className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        {item.icon}
+                        <div>
+                          <div className="text-white font-medium">{item.title}</div>
+                          <div className="text-gray-400 text-sm">{item.description}</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {item.toggle && (
+                          <ToggleSwitch 
+                            enabled={item.toggle.enabled} 
+                            onChange={item.toggle.onChange} 
+                          />
+                        )}
+                        {item.select && (
+                          <select
+                            value={item.select.value}
+                            onChange={(e) => item.select.onChange(e.target.value)}
+                            className="bg-[#0A1929] border border-blue-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-400"
+                          >
+                            {item.select.options.map((option) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                        )}
+                        {item.action && (
+                          <button 
+                            onClick={item.action}
+                            className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg"
+                          >
+                            Configure →
+                          </button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <button className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg">
-                    Change →
-                  </button>
+                  ))}
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            ))}
 
-            {/* Security Settings */}
-            <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
+            {/* Support Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden"
+            >
               <div className="p-6 border-b border-blue-500/20">
                 <div className="flex items-center gap-3">
-                  <Shield className="text-green-400" size={24} />
-                  <h2 className="text-xl font-bold text-white">Security Settings</h2>
-                </div>
-              </div>
-              <div className="p-6 space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Shield className="text-gray-400" size={20} />
-                    <div>
-                      <div className="text-white font-medium">Two-Factor Authentication</div>
-                      <div className="text-gray-400 text-sm">Add extra security to your account</div>
-                    </div>
-                  </div>
-                  <ToggleSwitch enabled={twoFactorEnabled} onChange={setTwoFactorEnabled} />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Clock className="text-gray-400" size={20} />
-                    <div>
-                      <div className="text-white font-medium">Auto Logout</div>
-                      <div className="text-gray-400 text-sm">Automatically logout after inactivity</div>
-                    </div>
-                  </div>
-                  <ToggleSwitch enabled={autoLogout} onChange={setAutoLogout} />
-                </div>
-              </div>
-            </div>
-
-            {/* Notification Settings */}
-            <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
-              <div className="p-6 border-b border-blue-500/20">
-                <div className="flex items-center gap-3">
-                  <Bell className="text-blue-400" size={24} />
-                  <h2 className="text-xl font-bold text-white">Notification Settings</h2>
-                </div>
-              </div>
-              <div className="p-6 space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Smartphone className="text-gray-400" size={20} />
-                    <div>
-                      <div className="text-white font-medium">Push Notifications</div>
-                      <div className="text-gray-400 text-sm">Receive notifications on your device</div>
-                    </div>
-                  </div>
-                  <ToggleSwitch enabled={notifications} onChange={setNotifications} />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Mail className="text-gray-400" size={20} />
-                    <div>
-                      <div className="text-white font-medium">Email Notifications</div>
-                      <div className="text-gray-400 text-sm">Get updates via email</div>
-                    </div>
-                  </div>
-                  <ToggleSwitch enabled={emailNotifications} onChange={setEmailNotifications} />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    {soundEnabled ? <Volume2 className="text-gray-400" size={20} /> : <VolumeX className="text-gray-400" size={20} />}
-                    <div>
-                      <div className="text-white font-medium">Sound Effects</div>
-                      <div className="text-gray-400 text-sm">Enable game sound effects</div>
-                    </div>
-                  </div>
-                  <ToggleSwitch enabled={soundEnabled} onChange={setSoundEnabled} />
-                </div>
-              </div>
-            </div>
-
-            {/* Display & Language */}
-            <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
-              <div className="p-6 border-b border-blue-500/20">
-                <div className="flex items-center gap-3">
-                  <Globe className="text-blue-400" size={24} />
-                  <h2 className="text-xl font-bold text-white">Display & Language</h2>
-                </div>
-              </div>
-              <div className="p-6 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Language</label>
-                    <select
-                      value={language}
-                      onChange={(e) => setLanguage(e.target.value)}
-                      className="w-full bg-[#0A1929] border border-blue-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-400"
-                    >
-                      <option value="en">English</option>
-                      <option value="es">Español</option>
-                      <option value="fr">Français</option>
-                      <option value="de">Deutsch</option>
-                      <option value="hi">हिंदी</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Currency</label>
-                    <select
-                      value={currency}
-                      onChange={(e) => setCurrency(e.target.value)}
-                      className="w-full bg-[#0A1929] border border-blue-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-400"
-                    >
-                      <option value="INR">₹ Indian Rupee</option>
-                      <option value="USD">$ US Dollar</option>
-                      <option value="EUR">€ Euro</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    {showBalance ? <Eye className="text-gray-400" size={20} /> : <EyeOff className="text-gray-400" size={20} />}
-                    <div>
-                      <div className="text-white font-medium">Show Balance</div>
-                      <div className="text-gray-400 text-sm">Display wallet balance in header</div>
-                    </div>
-                  </div>
-                  <ToggleSwitch enabled={showBalance} onChange={setShowBalance} />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Palette className="text-gray-400" size={20} />
-                    <div>
-                      <div className="text-white font-medium">Theme</div>
-                      <div className="text-gray-400 text-sm">Choose your preferred theme</div>
-                    </div>
-                  </div>
-                  <select
-                    value={theme}
-                    onChange={(e) => setTheme(e.target.value)}
-                    className="bg-[#0A1929] border border-blue-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-400"
-                  >
-                    <option value="dark">Dark</option>
-                    <option value="light">Light</option>
-                    <option value="auto">Auto</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            {/* Wallet Settings */}
-            <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
-              <div className="p-6 border-b border-blue-500/20">
-                <div className="flex items-center gap-3">
-                  <Wallet className="text-blue-400" size={24} />
-                  <h2 className="text-xl font-bold text-white">Wallet Settings</h2>
-                </div>
-              </div>
-              <div className="p-6 space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Wallet className="text-gray-400" size={20} />
-                    <div>
-                      <div className="text-white font-medium">Payment Methods</div>
-                      <div className="text-gray-400 text-sm">Manage your payment options</div>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={() => navigate('/payment-methods')}
-                    className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg"
-                  >
-                    Manage →
-                  </button>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Shield className="text-gray-400" size={20} />
-                    <div>
-                      <div className="text-white font-medium">Transaction Limits</div>
-                      <div className="text-gray-400 text-sm">Set daily and monthly limits</div>
-                    </div>
-                  </div>
-                  <button className="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 bg-blue-500/10 rounded-lg">
-                    Configure →
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Support */}
-            <div className="bg-[#132F4C] rounded-2xl border border-blue-500/20 overflow-hidden">
-              <div className="p-6 border-b border-blue-500/20">
-                <div className="flex items-center gap-3">
-                  <HelpCircle className="text-blue-400" size={24} />
+                  <HelpCircle className="w-6 h-6 text-blue-400" />
                   <h2 className="text-xl font-bold text-white">Support & Help</h2>
                 </div>
               </div>
               <div className="p-6 space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <HelpCircle className="text-gray-400" size={20} />
+                    <HelpCircle className="w-5 h-5 text-gray-400" />
                     <div>
                       <div className="text-white font-medium">Help Center</div>
                       <div className="text-gray-400 text-sm">Browse our help articles</div>
@@ -438,10 +370,15 @@ export function SettingsPage() {
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Danger Zone */}
-            <div className="bg-gradient-to-r from-red-900/20 to-red-800/20 rounded-2xl border border-red-500/30 overflow-hidden">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="bg-gradient-to-r from-red-900/20 to-red-800/20 rounded-2xl border border-red-500/30 overflow-hidden"
+            >
               <div className="p-6 border-b border-red-500/30">
                 <div className="flex items-center gap-3">
                   <LogOut className="text-red-400" size={24} />
@@ -468,7 +405,7 @@ export function SettingsPage() {
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
 
