@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AuthProvider } from './contexts/AuthContext';
-import { AuthGuard } from './components/auth/AuthGuard';
 import {
   Search,
   User,
@@ -12,6 +10,13 @@ import {
   Play,
   Menu,
   TrendingUp,
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  LogIn,
+  UserPlus,
+  Sparkles
 } from 'lucide-react';
 
 // Import components
@@ -29,9 +34,6 @@ import { ProfilePage } from './components/ProfilePage';
 import { WithdrawalPage } from './components/WithdrawalPage';
 import { Footer } from './components/Footer';
 import { LoadingScreen } from './components/LoadingScreen';
-import { GameLayout } from './components/GameLayout';
-import { WalletHeader } from './components/wallet/WalletHeader';
-import { GameGuard } from './components/game/GameGuard';
 
 // Import page components
 import { AllGamesPage } from './components/pages/AllGamesPage';
@@ -58,11 +60,6 @@ import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
 import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
 
 import { useChatStore } from './components/ChatSupport/ChatStore';
-import { WalletDashboard } from './components/wallet/WalletDashboard';
-import { BonusSystem } from './components/bonus/BonusSystem';
-import { ReferralSystem } from './components/referral/ReferralSystem';
-import { NotificationCenter } from './components/notifications/NotificationCenter';
-import { AdminDashboard } from './components/admin/AdminDashboard';
 
 // Game data with proper routing
 const gameCards = [
@@ -155,311 +152,12 @@ const gameCards = [
   },
 ];
 
-// Game wrapper components for each game
-function RPSGamePage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  useEffect(() => {
-    const iframe = document.createElement('iframe');
-    iframe.src = '/rps/';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.position = 'absolute';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    
-    const container = document.getElementById('game-container');
-    if (container) {
-      container.appendChild(iframe);
-    }
-    
-    return () => {
-      if (container && iframe.parentNode) {
-        container.removeChild(iframe);
-      }
-    };
-  }, []);
-
-  return (
-    <GameGuard minBalance={10}>
-      <GameLayout gameType="RPS" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-        <div id="game-container" className="relative w-full h-full" />
-      </GameLayout>
-    </GameGuard>
-  );
-}
-
-function DiceGamePage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  useEffect(() => {
-    const iframe = document.createElement('iframe');
-    iframe.src = '/dice/';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.position = 'absolute';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    
-    const container = document.getElementById('game-container');
-    if (container) {
-      container.appendChild(iframe);
-    }
-    
-    return () => {
-      if (container && iframe.parentNode) {
-        container.removeChild(iframe);
-      }
-    };
-  }, []);
-
-  return (
-    <GameGuard minBalance={1}>
-      <GameLayout gameType="Dice" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-        <div id="game-container" className="relative w-full h-full" />
-      </GameLayout>
-    </GameGuard>
-  );
-}
-
-function LimboGamePage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  useEffect(() => {
-    const iframe = document.createElement('iframe');
-    iframe.src = '/limbo/';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.position = 'absolute';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    
-    const container = document.getElementById('game-container');
-    if (container) {
-      container.appendChild(iframe);
-    }
-    
-    return () => {
-      if (container && iframe.parentNode) {
-        container.removeChild(iframe);
-      }
-    };
-  }, []);
-
-  return (
-    <GameGuard minBalance={10}>
-      <GameLayout gameType="Limbo" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-        <div id="game-container" className="relative w-full h-full" />
-      </GameLayout>
-    </GameGuard>
-  );
-}
-
-function SnakesGamePage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  useEffect(() => {
-    const iframe = document.createElement('iframe');
-    iframe.src = '/snakes/';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.position = 'absolute';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    
-    const container = document.getElementById('game-container');
-    if (container) {
-      container.appendChild(iframe);
-    }
-    
-    return () => {
-      if (container && iframe.parentNode) {
-        container.removeChild(iframe);
-      }
-    };
-  }, []);
-
-  return (
-    <GameGuard minBalance={10}>
-      <GameLayout gameType="Snakes" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-        <div id="game-container" className="relative w-full h-full" />
-      </GameLayout>
-    </GameGuard>
-  );
-}
-
-function CardGamePage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  useEffect(() => {
-    const iframe = document.createElement('iframe');
-    iframe.src = '/card/';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.position = 'absolute';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    
-    const container = document.getElementById('game-container');
-    if (container) {
-      container.appendChild(iframe);
-    }
-    
-    return () => {
-      if (container && iframe.parentNode) {
-        container.removeChild(iframe);
-      }
-    };
-  }, []);
-
-  return (
-    <GameGuard minBalance={10}>
-      <GameLayout gameType="Cards" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-        <div id="game-container" className="relative w-full h-full" />
-      </GameLayout>
-    </GameGuard>
-  );
-}
-
-function PredictionPulseGamePage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  useEffect(() => {
-    const iframe = document.createElement('iframe');
-    iframe.src = '/prediction-pulse/';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.position = 'absolute';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    
-    const container = document.getElementById('game-container');
-    if (container) {
-      container.appendChild(iframe);
-    }
-    
-    return () => {
-      if (container && iframe.parentNode) {
-        container.removeChild(iframe);
-      }
-    };
-  }, []);
-
-  return (
-    <GameGuard minBalance={10}>
-      <GameLayout gameType="Prediction Pulse" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-        <div id="game-container" className="relative w-full h-full" />
-      </GameLayout>
-    </GameGuard>
-  );
-}
-
-function BalloonGamePage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  useEffect(() => {
-    const iframe = document.createElement('iframe');
-    iframe.src = '/game bollon/';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.position = 'absolute';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    
-    const container = document.getElementById('game-container');
-    if (container) {
-      container.appendChild(iframe);
-    }
-    
-    return () => {
-      if (container && iframe.parentNode) {
-        container.removeChild(iframe);
-      }
-    };
-  }, []);
-
-  return (
-    <GameGuard minBalance={1}>
-      <GameLayout gameType="Balloon" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-        <div id="game-container" className="relative w-full h-full" />
-      </GameLayout>
-    </GameGuard>
-  );
-}
-
-function MinesweeperGamePage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  useEffect(() => {
-    const iframe = document.createElement('iframe');
-    iframe.src = '/minesweeper/';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.position = 'absolute';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    
-    const container = document.getElementById('game-container');
-    if (container) {
-      container.appendChild(iframe);
-    }
-    
-    return () => {
-      if (container && iframe.parentNode) {
-        container.removeChild(iframe);
-      }
-    };
-  }, []);
-
-  return (
-    <GameGuard minBalance={10}>
-      <GameLayout gameType="Minesweeper" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-        <div id="game-container" className="relative w-full h-full" />
-      </GameLayout>
-    </GameGuard>
-  );
-}
-
-function TossGamePage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  useEffect(() => {
-    const iframe = document.createElement('iframe');
-    iframe.src = '/toss game/';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.position = 'absolute';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    
-    const container = document.getElementById('game-container');
-    if (container) {
-      container.appendChild(iframe);
-    }
-    
-    return () => {
-      if (container && iframe.parentNode) {
-        container.removeChild(iframe);
-      }
-    };
-  }, []);
-
-  return (
-    <GameGuard minBalance={1}>
-      <GameLayout gameType="Heads & Tails" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-        <div id="game-container" className="relative w-full h-full" />
-      </GameLayout>
-    </GameGuard>
-  );
+// Simple authentication state
+interface User {
+  id: string;
+  email: string;
+  username: string;
+  balance: number;
 }
 
 function HomePage() {
@@ -476,6 +174,20 @@ function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showBalance, setShowBalance] = useState(true);
   const [currentBannerSlide, setCurrentBannerSlide] = useState(0);
+  
+  // Authentication state
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const [authData, setAuthData] = useState({
+    email: '',
+    password: '',
+    username: '',
+    confirmPassword: ''
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [authError, setAuthError] = useState('');
+  const [showGameInfo, setShowGameInfo] = useState<string | null>(null);
 
   // Auto-advance banner
   useEffect(() => {
@@ -506,6 +218,7 @@ function HomePage() {
         setRedeemOpen(false);
         setScratchOpen(false);
         setFeedbackOpen(false);
+        setShowGameInfo(null);
       }
     };
 
@@ -513,6 +226,242 @@ function HomePage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [sidebarOpen]);
 
+  // Authentication functions
+  const handleAuthSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setAuthError('');
+
+    try {
+      if (authMode === 'login') {
+        // Simulate login - replace with actual API call
+        if (authData.email && authData.password) {
+          const mockUser = {
+            id: '1',
+            email: authData.email,
+            username: authData.email.split('@')[0],
+            balance: 5000
+          };
+          setUser(mockUser);
+          localStorage.setItem('cosmic_user', JSON.stringify(mockUser));
+        } else {
+          throw new Error('Please enter email and password');
+        }
+      } else {
+        // Simulate registration
+        if (authData.password !== authData.confirmPassword) {
+          throw new Error('Passwords do not match');
+        }
+        if (authData.password.length < 8) {
+          throw new Error('Password must be at least 8 characters long');
+        }
+        if (!authData.username) {
+          throw new Error('Username is required');
+        }
+        
+        const mockUser = {
+          id: '1',
+          email: authData.email,
+          username: authData.username,
+          balance: 1000
+        };
+        setUser(mockUser);
+        localStorage.setItem('cosmic_user', JSON.stringify(mockUser));
+      }
+    } catch (err) {
+      setAuthError(err instanceof Error ? err.message : 'Authentication failed');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAuthData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+    setAuthError('');
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('cosmic_user');
+  };
+
+  // Check for existing user on load
+  useEffect(() => {
+    const savedUser = localStorage.getItem('cosmic_user');
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (error) {
+        localStorage.removeItem('cosmic_user');
+      }
+    }
+  }, []);
+
+  const handleGameClick = (game: any) => {
+    if (!user) {
+      setAuthError('Please login to play games');
+      return;
+    }
+    setShowGameInfo(game.label);
+  };
+
+  const getGameInfo = (gameLabel: string) => {
+    const gameInfoMap: { [key: string]: { description: string; rules: string[]; tips: string[] } } = {
+      'Cosmic RPS': {
+        description: 'A strategic twist on the classic Rock Paper Scissors game with cosmic multipliers and betting mechanics.',
+        rules: [
+          'Choose Rock, Paper, or Scissors',
+          'Rock beats Scissors, Paper beats Rock, Scissors beats Paper',
+          'Win double your bet on victory',
+          'Draw returns your original bet',
+          'Higher bets have different win chances'
+        ],
+        tips: [
+          'Start with smaller bets to learn the patterns',
+          'Watch for opponent tendencies',
+          'Use psychological tactics to your advantage',
+          'Manage your bankroll wisely'
+        ]
+      },
+      'Cosmic Dice': {
+        description: 'Roll the cosmic dice and predict the outcome. A pure luck game with dynamic betting tiers and exciting multipliers.',
+        rules: [
+          'Select a number from 1 to 6',
+          'Place your bet amount',
+          'Roll the dice to see if you win',
+          'Match your number to win 5x your bet',
+          'Win chances vary based on bet amount'
+        ],
+        tips: [
+          'Higher bets have lower win chances but bigger payouts',
+          'Start with smaller amounts to get familiar',
+          'Set win/loss limits before playing',
+          'Take breaks between sessions'
+        ]
+      },
+      'Cosmic Limbo': {
+        description: 'Set a target multiplier and watch as the counter climbs. Cash out before it crashes to win your target amount.',
+        rules: [
+          'Set your target multiplier (e.g., 2.00x)',
+          'Place your bet',
+          'Watch the multiplier climb from 1.00x',
+          'Win if it reaches your target before crashing',
+          'Higher targets = bigger wins but lower chances'
+        ],
+        tips: [
+          'Conservative targets (1.5x-2x) have better odds',
+          'High targets (5x+) are risky but rewarding',
+          'Don\'t get greedy - set realistic targets',
+          'Use the auto-cashout feature for consistency'
+        ]
+      },
+      'Cosmic Snakes': {
+        description: 'Navigate through a cosmic path while avoiding snakes. Roll dice to move forward and multiply your winnings.',
+        rules: [
+          'Choose number of snakes (more snakes = higher risk/reward)',
+          'Roll dice to move 1-3 steps forward',
+          'Avoid landing on snake tiles',
+          'Reach the end or cash out anytime',
+          'Each step increases your multiplier'
+        ],
+        tips: [
+          'Start with fewer snakes to learn the game',
+          'Cash out early for guaranteed smaller wins',
+          'More snakes mean higher multipliers',
+          'Plan your risk tolerance before starting'
+        ]
+      },
+      'Cosmic Cards': {
+        description: 'Pick cards from a cosmic deck to reveal hidden multipliers. Choose your risk level for different reward tiers.',
+        rules: [
+          'Select your risk level (Low/Medium/High)',
+          'Choose a card to reveal its multiplier',
+          'Higher risk levels have better potential rewards',
+          'Each risk level has different winning card counts',
+          'Win your bet amount × the revealed multiplier'
+        ],
+        tips: [
+          'Low risk is good for steady, smaller wins',
+          'High risk offers massive payouts but lower odds',
+          'Medium risk balances reward and safety',
+          'Set a budget before choosing risk level'
+        ]
+      },
+      'Prediction Pulse': {
+        description: 'Time your tap perfectly as a pulse moves across colored zones. Precision timing determines your rewards.',
+        rules: [
+          'Watch the blue pulse move across the bar',
+          'Tap when it enters the green zone for maximum reward',
+          'Yellow zones give partial rewards',
+          'Missing all zones loses your bet',
+          'Choose difficulty for different zone sizes and multipliers'
+        ],
+        tips: [
+          'Practice timing on low difficulty first',
+          'Green zones give the best rewards',
+          'Higher difficulty = smaller zones but bigger multipliers',
+          'Focus and avoid distractions for better timing'
+        ]
+      },
+      'Cosmic Balloon': {
+        description: 'Pop colorful balloons to reveal hidden multipliers. Each balloon contains a surprise reward waiting to be discovered.',
+        rules: [
+          'Place your bet amount',
+          'Click any balloon to pop it',
+          'Reveal the hidden multiplier inside',
+          'Win your bet × the multiplier',
+          'Multipliers range from 0.2x to 5x'
+        ],
+        tips: [
+          'All balloons are random - trust your instincts',
+          'Higher bets can lead to better multiplier distributions',
+          'Set a budget and stick to it',
+          'Enjoy the surprise element of each pop'
+        ]
+      },
+      'Cosmic Minesweeper': {
+        description: 'Navigate through a cosmic minefield by revealing safe tiles. Choose your difficulty for different risk/reward ratios.',
+        rules: [
+          'Select difficulty level (Low/Mid/High)',
+          'Reveal tiles to find safe zones',
+          'Avoid the hidden mines',
+          'Higher difficulty = more mines but better rewards',
+          'Cash out anytime or risk it for bigger multipliers'
+        ],
+        tips: [
+          'Start with low difficulty to learn patterns',
+          'Cash out early for guaranteed wins',
+          'High difficulty offers the best multipliers',
+          'Use logical deduction to avoid mines'
+        ]
+      },
+      'Cosmic Heads & Tails': {
+        description: 'Classic coin flip game with cosmic flair. Choose heads or tails and watch the cosmic coin decide your fate.',
+        rules: [
+          'Choose Heads or Tails before the flip',
+          'Place your bet amount',
+          'Watch the cosmic coin flip',
+          'Win double your bet if you guess correctly',
+          'Wrong guess loses your bet'
+        ],
+        tips: [
+          'It\'s pure 50/50 chance - trust your intuition',
+          'Use fast mode for quicker gameplay',
+          'Set win/loss limits to manage your session',
+          'Both sides have equal probability'
+        ]
+      }
+    };
+    
+    return gameInfoMap[gameLabel] || {
+      description: 'An exciting cosmic game with unique mechanics and rewards.',
+      rules: ['Place your bet', 'Play the game', 'Win cosmic rewards'],
+      tips: ['Start small', 'Learn the mechanics', 'Have fun']
+    };
+  };
   const allCategories = ['all', 'Strategy', 'Luck', 'Risk', 'Adventure', 'Timing'];
 
   // Filter games based on search and category
@@ -551,6 +500,170 @@ function HomePage() {
     }
   ];
 
+  // If not logged in, show login form
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          className="bg-[#132F4C]/95 backdrop-blur-sm rounded-2xl p-8 border border-blue-500/20 max-w-md w-full"
+        >
+          {/* Header */}
+          <div className="text-center mb-8">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: "spring", bounce: 0.4 }}
+              className="flex items-center justify-center gap-2 mb-4"
+            >
+              <Sparkles className="w-8 h-8 text-blue-400" />
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                COSMIC
+              </h1>
+            </motion.div>
+            <h2 className="text-2xl font-bold text-white mb-2">
+              {authMode === 'login' ? 'Welcome Back' : 'Join the Universe'}
+            </h2>
+            <p className="text-gray-400">
+              {authMode === 'login' 
+                ? 'Sign in to your cosmic gaming account' 
+                : 'Create your cosmic gaming account'
+              }
+            </p>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleAuthSubmit} className="space-y-6">
+            {authError && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-red-500/10 border border-red-500/20 rounded-lg p-4"
+              >
+                <p className="text-red-400 text-sm">{authError}</p>
+              </motion.div>
+            )}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Email Address
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="email"
+                  name="email"
+                  value={authData.email}
+                  onChange={handleAuthChange}
+                  className="w-full bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 transition-colors"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+            </div>
+
+            {authMode === 'register' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Username
+                </label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <input
+                    type="text"
+                    name="username"
+                    value={authData.username}
+                    onChange={handleAuthChange}
+                    className="w-full bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 transition-colors"
+                    placeholder="Choose a username"
+                    required
+                  />
+                </div>
+              </div>
+            )}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={authData.password}
+                  onChange={handleAuthChange}
+                  className="w-full bg-[#0A1929] text-white rounded-lg pl-10 pr-12 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 transition-colors"
+                  placeholder={authMode === 'login' ? 'Enter your password' : 'Create a password'}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+            </div>
+
+            {authMode === 'register' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    name="confirmPassword"
+                    value={authData.confirmPassword}
+                    onChange={handleAuthChange}
+                    className="w-full bg-[#0A1929] text-white rounded-lg pl-10 pr-12 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 transition-colors"
+                    placeholder="Confirm your password"
+                    required
+                  />
+                </div>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 text-white py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-2"
+            >
+              {isLoading ? (
+                <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
+              ) : (
+                <>
+                  {authMode === 'login' ? <LogIn size={20} /> : <UserPlus size={20} />}
+                  {authMode === 'login' ? 'Sign In' : 'Create Account'}
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Switch Mode */}
+          <div className="mt-6 text-center">
+            <p className="text-gray-400">
+              {authMode === 'login' ? "Don't have an account?" : 'Already have an account?'}{' '}
+              <button
+                onClick={() => {
+                  setAuthMode(authMode === 'login' ? 'register' : 'login');
+                  setAuthError('');
+                  setAuthData({ email: '', password: '', username: '', confirmPassword: '' });
+                }}
+                className="text-blue-400 hover:text-blue-300 transition-colors font-medium"
+              >
+                {authMode === 'login' ? 'Sign up' : 'Sign in'}
+              </button>
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
   return (
     <>
       {/* Sidebar */}
@@ -616,16 +729,31 @@ function HomePage() {
                 <Search size={20} />
               </button>
               
-              <WalletHeader 
-                showBalance={showBalance}
-                onToggleBalance={() => setShowBalance(!showBalance)}
-              />
+              <div className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors border border-blue-500/30 flex items-center gap-2">
+                <span className="font-medium">
+                  {showBalance ? `₹${user.balance.toLocaleString()}` : '₹••••••'}
+                </span>
+                <button
+                  onClick={() => setShowBalance(!showBalance)}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  {showBalance ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
 
               <button
                 onClick={() => navigate('/profile')}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
               >
                 <User size={20} />
+              </button>
+              
+              <button
+                onClick={logout}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors text-red-400"
+                title="Logout"
+              >
+                <LogIn size={20} />
               </button>
             </div>
           </div>
@@ -857,12 +985,7 @@ function HomePage() {
 }
 
 // Enhanced Game Card Component
-function GameCard({ game, index }: { game: any; index: number }) {
-  const navigate = useNavigate();
-  
-  const handleGameClick = () => {
-    navigate(game.route);
-  };
+function GameCard({ game, index, onGameClick }: { game: any; index: number; onGameClick: (game: any) => void }) {
   
   return (
     <motion.div
@@ -871,7 +994,7 @@ function GameCard({ game, index }: { game: any; index: number }) {
       transition={{ delay: 0.1 * index }}
       whileHover={{ scale: 1.02, y: -4 }}
       className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group game-card-arcade h-full"
-      onClick={handleGameClick}
+      onClick={() => onGameClick(game)}
     >
       <div className="relative h-48">
         <img
@@ -927,11 +1050,11 @@ function GameCard({ game, index }: { game: any; index: number }) {
         <button 
           onClick={(e) => {
             e.stopPropagation();
-            handleGameClick();
+            onGameClick(game);
           }}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors font-medium cosmic-button mt-auto"
         >
-          Play Now
+          Game Info
         </button>
       </div>
     </motion.div>
@@ -955,7 +1078,6 @@ function App() {
   }
 
   return (
-    <AuthProvider>
       <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
         <Routes>
           {/* Public Routes - No Auth Required */}
@@ -967,118 +1089,42 @@ function App() {
           <Route path="/casino-guide" element={<CasinoGuidePage />} />
           <Route path="/how-to-guides" element={<HowToGuidesPage />} />
 
-          {/* Protected Routes - Auth Required */}
-          <Route path="/" element={
-            <AuthGuard>
-              <HomePage />
-            </AuthGuard>
-          } />
+          {/* Main Route */}
+          <Route path="/" element={<HomePage />} />
 
-          {/* Game Routes - Auth + Balance Required */}
-          <Route path="/game/rps" element={<RPSGamePage />} />
-          <Route path="/game/dice" element={<DiceGamePage />} />
-          <Route path="/game/limbo" element={<LimboGamePage />} />
-          <Route path="/game/snakes" element={<SnakesGamePage />} />
-          <Route path="/game/card" element={<CardGamePage />} />
-          <Route path="/game/prediction-pulse" element={<PredictionPulseGamePage />} />
-          <Route path="/game/balloon" element={<BalloonGamePage />} />
-          <Route path="/game/minesweeper" element={<MinesweeperGamePage />} />
-          <Route path="/game/toss" element={<TossGamePage />} />
+          {/* Game Routes */}
+          <Route path="/game/rps" element={<div>RPS Game Loading...</div>} />
+          <Route path="/game/dice" element={<div>Dice Game Loading...</div>} />
+          <Route path="/game/limbo" element={<div>Limbo Game Loading...</div>} />
+          <Route path="/game/snakes" element={<div>Snakes Game Loading...</div>} />
+          <Route path="/game/card" element={<div>Card Game Loading...</div>} />
+          <Route path="/game/prediction-pulse" element={<div>Prediction Pulse Loading...</div>} />
+          <Route path="/game/balloon" element={<div>Balloon Game Loading...</div>} />
+          <Route path="/game/minesweeper" element={<div>Minesweeper Loading...</div>} />
+          <Route path="/game/toss" element={<div>Heads & Tails Loading...</div>} />
 
           {/* User Dashboard Routes */}
-          <Route path="/all-games" element={
-            <AuthGuard>
-              <AllGamesPage />
-            </AuthGuard>
-          } />
-          <Route path="/popular" element={
-            <AuthGuard>
-              <PopularPage />
-            </AuthGuard>
-          } />
-          <Route path="/offers" element={
-            <AuthGuard>
-              <OffersPage />
-            </AuthGuard>
-          } />
-          <Route path="/new-games" element={
-            <AuthGuard>
-              <NewGamesPage />
-            </AuthGuard>
-          } />
-          <Route path="/upcoming" element={
-            <AuthGuard>
-              <UpcomingGamesPage />
-            </AuthGuard>
-          } />
-          <Route path="/settings" element={
-            <AuthGuard>
-              <SettingsPage />
-            </AuthGuard>
-          } />
-          <Route path="/transactions" element={
-            <AuthGuard>
-              <TransactionsPage />
-            </AuthGuard>
-          } />
-          <Route path="/wallet" element={
-            <AuthGuard>
-              <WalletDashboard />
-            </AuthGuard>
-          } />
-          <Route path="/deposit" element={
-            <AuthGuard>
-              <DepositPage />
-            </AuthGuard>
-          } />
-          <Route path="/withdrawal" element={
-            <AuthGuard>
-              <WithdrawalPage />
-            </AuthGuard>
-          } />
-          <Route path="/feedback" element={
-            <AuthGuard>
-              <FeedbackPage />
-            </AuthGuard>
-          } />
-          <Route path="/game-detail/:gameId" element={
-            <AuthGuard>
-              <GameDetailPage />
-            </AuthGuard>
-          } />
-          <Route path="/profile" element={
-            <AuthGuard>
-              <ProfilePage />
-            </AuthGuard>
-          } />
-          <Route path="/bonuses" element={
-            <AuthGuard>
-              <BonusSystem />
-            </AuthGuard>
-          } />
-          <Route path="/referrals" element={
-            <AuthGuard>
-              <ReferralSystem />
-            </AuthGuard>
-          } />
-          <Route path="/admin" element={
-            <AuthGuard>
-              <AdminDashboard />
-            </AuthGuard>
-          } />
+          <Route path="/all-games" element={<AllGamesPage />} />
+          <Route path="/popular" element={<PopularPage />} />
+          <Route path="/offers" element={<OffersPage />} />
+          <Route path="/new-games" element={<NewGamesPage />} />
+          <Route path="/upcoming" element={<UpcomingGamesPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/transactions" element={<TransactionsPage />} />
+          <Route path="/wallet" element={<WalletPage />} />
+          <Route path="/deposit" element={<DepositPage />} />
+          <Route path="/withdrawal" element={<WithdrawalPage />} />
+          <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           
           {/* Info Pages */}
-          <Route path="/affiliate-program" element={
-            <AuthGuard>
-              <AffiliateProgramPage />
-            </AuthGuard>
-          } />
+          <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
           <Route path="/vault-guide" element={<VaultGuidePage />} />
           <Route path="/betting-guide" element={<BettingGuidePage />} />
           <Route path="/payment-methods" element={<PaymentMethodsPage />} />
         </Routes>
       </div>
-    </AuthProvider>
   );
 }
 
