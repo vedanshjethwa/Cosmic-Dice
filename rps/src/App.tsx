@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Hand, Scroll, Scissors, Minus, Plus } from 'lucide-react';
+import { Hand, Scroll, Scissors, Minus, Plus, ArrowLeft, Info } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { StarToggle } from './star/StarToggle';
 
@@ -268,23 +268,24 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
+    <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white border-4 border-blue-500/30 rounded-2xl m-4">
       {/* Header */}
       <div className="bg-gradient-to-r from-[#1a2332] to-[#0f1923] p-6 border-b border-blue-500/20">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
               onClick={() => window.history.back()}
-              className="p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-xl border border-blue-500/30 transition-all"
+              className="p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-xl border border-blue-500/30 transition-all flex items-center gap-2"
             >
-              ←
+              <ArrowLeft size={20} />
+              <span className="hidden sm:inline">Back</span>
             </button>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
               Cosmic RPS
             </h1>
           </div>
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl px-6 py-3 flex items-center gap-3">
-            <span className="text-blue-400 font-medium">₹{balance.toLocaleString()}</span>
+            <span className="text-blue-400 font-medium">Balance: ₹{balance.toLocaleString()}</span>
           </div>
         </div>
       </div>
@@ -472,6 +473,46 @@ function App() {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Game Info Section */}
+        <div className="mt-8 bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
+          <div className="flex items-center gap-3 mb-4">
+            <Info className="w-6 h-6 text-blue-400" />
+            <h3 className="text-xl font-bold text-white">How to Play Cosmic RPS</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-[#0f1923]/50 rounded-xl p-4 border border-blue-500/20">
+              <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Rock beats Scissors</li>
+                <li>• Paper beats Rock</li>
+                <li>• Scissors beats Paper</li>
+                <li>• Win = 2x your bet</li>
+                <li>• Draw = Get bet back</li>
+              </ul>
+            </div>
+            <div className="bg-[#0f1923]/50 rounded-xl p-4 border border-blue-500/20">
+              <h4 className="font-bold text-green-400 mb-2">Strategy Tips</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Start with small bets</li>
+                <li>• Study opponent patterns</li>
+                <li>• Use psychological tactics</li>
+                <li>• Manage your bankroll</li>
+                <li>• Take regular breaks</li>
+              </ul>
+            </div>
+            <div className="bg-[#0f1923]/50 rounded-xl p-4 border border-blue-500/20">
+              <h4 className="font-bold text-purple-400 mb-2">Win Chances</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Higher bets = Lower win chance</li>
+                <li>• ₹1-10: 50% win chance</li>
+                <li>• ₹100+: 30% win chance</li>
+                <li>• ₹1000+: 15% win chance</li>
+                <li>• Max bet: ₹100,000</li>
+              </ul>
             </div>
           </div>
         </div>

@@ -401,6 +401,46 @@ function App() {
             </div>
           </div>
         </div>
+
+        {/* Game Info Section */}
+        <div className="mt-4 bg-[#0f172a] rounded-xl p-6 border border-[#1a2942]">
+          <div className="flex items-center gap-3 mb-4">
+            <Info className="w-6 h-6 text-blue-400" />
+            <h3 className="text-xl font-bold text-white">How to Play Cosmic Dice</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-[#1a2942] rounded-lg p-4">
+              <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Choose your bet amount</li>
+                <li>• Select target number (1-6)</li>
+                <li>• Roll the dice</li>
+                <li>• Match = Win 5x your bet</li>
+                <li>• No match = Lose bet</li>
+              </ul>
+            </div>
+            <div className="bg-[#1a2942] rounded-lg p-4">
+              <h4 className="font-bold text-green-400 mb-2">Strategy Tips</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Start with small bets</li>
+                <li>• Each number has equal chance</li>
+                <li>• Higher bets = Lower win chance</li>
+                <li>• Set win/loss limits</li>
+                <li>• Play responsibly</li>
+              </ul>
+            </div>
+            <div className="bg-[#1a2942] rounded-lg p-4">
+              <h4 className="font-bold text-purple-400 mb-2">Betting Tiers</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• ₹1-10: 50% win chance</li>
+                <li>• ₹100+: 30% win chance</li>
+                <li>• ₹1000+: 15% win chance</li>
+                <li>• ₹10,000+: 8% win chance</li>
+                <li>• Max: ₹100,000</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </main>
 
       {/* Instructions Modal */}

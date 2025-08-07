@@ -60,6 +60,7 @@ import { PaymentMethodsPage } from './components/pages/PaymentMethodsPage';
 import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
 import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
 import { SupportPage } from './components/pages/SupportPage';
+import { CalculatorPage } from './components/pages/CalculatorPage';
 
 // Import game components
 import RPSApp from '../rps/src/App';
@@ -946,49 +947,49 @@ function App() {
 
           {/* Game Routes */}
           <Route path="/game/rps" element={
-            <GameLayout gameType="RPS" sidebarOpen={false} setSidebarOpen={() => {}}>
+            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
               <RPSApp />
-            </GameLayout>
+            </div>
           } />
           <Route path="/game/dice" element={
-            <GameLayout gameType="Dice" sidebarOpen={false} setSidebarOpen={() => {}}>
+            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
               <DiceApp />
-            </GameLayout>
+            </div>
           } />
           <Route path="/game/limbo" element={
-            <GameLayout gameType="Limbo" sidebarOpen={false} setSidebarOpen={() => {}}>
+            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
               <LimboApp />
-            </GameLayout>
+            </div>
           } />
           <Route path="/game/snakes" element={
-            <GameLayout gameType="Snakes" sidebarOpen={false} setSidebarOpen={() => {}}>
+            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
               <SnakesApp />
-            </GameLayout>
+            </div>
           } />
           <Route path="/game/card" element={
-            <GameLayout gameType="Cards" sidebarOpen={false} setSidebarOpen={() => {}}>
+            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
               <CardApp />
-            </GameLayout>
+            </div>
           } />
           <Route path="/game/prediction-pulse" element={
-            <GameLayout gameType="Prediction Pulse" sidebarOpen={false} setSidebarOpen={() => {}}>
+            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
               <PredictionPulseApp />
-            </GameLayout>
+            </div>
           } />
           <Route path="/game/balloon" element={
-            <GameLayout gameType="Balloon" sidebarOpen={false} setSidebarOpen={() => {}}>
+            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
               <BalloonApp />
-            </GameLayout>
+            </div>
           } />
           <Route path="/game/minesweeper" element={
-            <GameLayout gameType="Minesweeper" sidebarOpen={false} setSidebarOpen={() => {}}>
+            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
               <MinesweeperApp />
-            </GameLayout>
+            </div>
           } />
           <Route path="/game/toss" element={
-            <GameLayout gameType="Heads & Tails" sidebarOpen={false} setSidebarOpen={() => {}}>
+            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
               <TossApp />
-            </GameLayout>
+            </div>
           } />
 
           {/* User Dashboard Routes */}
@@ -1019,6 +1020,7 @@ function App() {
           <Route path="/gambling-helpline" element={<ResponsibleGamingPage />} />
           <Route path="/live-support" element={<SupportPage />} />
           <Route path="/self-exclusion" element={<ResponsibleGamingPage />} />
+          <Route path="/calculator" element={<CalculatorPage />} />
         </Routes>
       </div>
   );

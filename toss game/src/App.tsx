@@ -197,16 +197,17 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
+    <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white border-4 border-blue-500/30 rounded-2xl m-4">
       {/* Header */}
       <div className="bg-gradient-to-r from-[#1a2332] to-[#0f1923] p-6 border-b border-blue-500/20">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
               onClick={() => window.history.back()}
-              className="p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-xl border border-blue-500/30 transition-all"
+              className="p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-xl border border-blue-500/30 transition-all flex items-center gap-2"
             >
-              ←
+              <ArrowLeft size={20} />
+              <span className="hidden sm:inline">Back</span>
             </button>
             <div className="flex items-center gap-3">
               <Sparkles className="w-8 h-8 text-blue-400" />
@@ -216,7 +217,7 @@ function App() {
             </div>
           </div>
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl px-6 py-3 flex items-center gap-3">
-            <span className="text-blue-400 font-medium">₹{balance.toLocaleString()}</span>
+            <span className="text-blue-400 font-medium">Balance: ₹{balance.toLocaleString()}</span>
           </div>
         </div>
       </div>

@@ -22,6 +22,7 @@ import {
   ArrowUpCircle,
   ArrowLeft,
   ChevronRight,
+  Calculator,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useChatStore } from './ChatSupport/ChatStore';
@@ -135,6 +136,12 @@ export function Sidebar({
       label: 'Feedback',
       path: '/feedback',
       onClick: () => navigate('/feedback'),
+    },
+    {
+      icon: <Calculator size={20} />,
+      label: 'Calculator',
+      path: '/calculator',
+      onClick: () => navigate('/calculator'),
     },
   ];
 

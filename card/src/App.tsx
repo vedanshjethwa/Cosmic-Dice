@@ -422,6 +422,46 @@ function App() {
             </div>
           </div>
         </div>
+
+        {/* Game Info Section */}
+        <div className="mt-8 bg-gradient-to-br from-blue-900/30 to-purple-900/20 rounded-xl p-6 panel-border backdrop-blur-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <Info className="w-6 h-6 text-cyan-400" />
+            <h3 className="text-xl font-bold text-white">How to Play Cosmic Cards</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-r from-blue-950/60 to-purple-950/40 rounded-lg p-4 border border-blue-500/20">
+              <h4 className="font-bold text-cyan-400 mb-2">Game Rules</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Choose risk level</li>
+                <li>• Place your bet</li>
+                <li>• Pick a card</li>
+                <li>• Reveal multiplier</li>
+                <li>• Win bet × multiplier</li>
+              </ul>
+            </div>
+            <div className="bg-gradient-to-r from-blue-950/60 to-purple-950/40 rounded-lg p-4 border border-blue-500/20">
+              <h4 className="font-bold text-emerald-400 mb-2">Risk Levels</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Low: 4 winning cards (5x)</li>
+                <li>• Medium: 2 winning cards (10x)</li>
+                <li>• High: 1 winning card (20x)</li>
+                <li>• Higher risk = bigger rewards</li>
+                <li>• Choose wisely!</li>
+              </ul>
+            </div>
+            <div className="bg-gradient-to-r from-blue-950/60 to-purple-950/40 rounded-lg p-4 border border-blue-500/20">
+              <h4 className="font-bold text-purple-400 mb-2">Strategy Tips</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Start with low risk</li>
+                <li>• Understand the odds</li>
+                <li>• Manage your bankroll</li>
+                <li>• Don't chase losses</li>
+                <li>• Play for fun!</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

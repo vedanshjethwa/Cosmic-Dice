@@ -425,6 +425,46 @@ function App() {
             </div>
           </div>
 
+          {/* Game Info Section */}
+          <div className="mt-8 bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20">
+            <div className="flex items-center gap-3 mb-4">
+              <Info className="w-6 h-6 text-blue-400" />
+              <h3 className="text-xl font-bold text-white">How to Play Cosmic Limbo</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-black/50 rounded-lg p-4 border border-blue-500/20">
+                <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
+                <ul className="text-gray-300 text-sm space-y-1">
+                  <li>• Set target multiplier</li>
+                  <li>• Place your bet</li>
+                  <li>• Watch multiplier rise</li>
+                  <li>• Win if it reaches target</li>
+                  <li>• Higher targets = bigger wins</li>
+                </ul>
+              </div>
+              <div className="bg-black/50 rounded-lg p-4 border border-blue-500/20">
+                <h4 className="font-bold text-green-400 mb-2">Strategy Tips</h4>
+                <ul className="text-gray-300 text-sm space-y-1">
+                  <li>• Start with low multipliers</li>
+                  <li>• Higher targets = lower chance</li>
+                  <li>• Use half/double buttons</li>
+                  <li>• Set realistic goals</li>
+                  <li>• Don't chase losses</li>
+                </ul>
+              </div>
+              <div className="bg-black/50 rounded-lg p-4 border border-blue-500/20">
+                <h4 className="font-bold text-purple-400 mb-2">Win Chances</h4>
+                <ul className="text-gray-300 text-sm space-y-1">
+                  <li>• 2x target: ~47% chance</li>
+                  <li>• 5x target: ~19% chance</li>
+                  <li>• 10x target: ~9% chance</li>
+                  <li>• 100x target: ~1% chance</li>
+                  <li>• Max multiplier: 100x</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
           {/* Bottom Full Width - Recent Bets */}
           <div className="mt-8 bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20">
             <h2 className="text-xl font-bold mb-4">Recent Bets</h2>
