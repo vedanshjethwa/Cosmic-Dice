@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AuthProvider, useAuth } from './hooks/useAuth.tsx';
+import { AuthProvider } from './contexts/AuthContext';
+import { AuthGuard } from './components/auth/AuthGuard';
 import {
   Search,
   User,
-  Wallet,
   Star,
   Users,
   ChevronRight,
-  ChevronLeft,
   Play,
   Menu,
-  Headphones,
-  MessageCircle,
   TrendingUp,
 } from 'lucide-react';
 
@@ -33,6 +30,8 @@ import { WithdrawalPage } from './components/WithdrawalPage';
 import { Footer } from './components/Footer';
 import { LoadingScreen } from './components/LoadingScreen';
 import { GameLayout } from './components/GameLayout';
+import { WalletHeader } from './components/wallet/WalletHeader';
+import { GameGuard } from './components/game/GameGuard';
 
 // Import page components
 import { AllGamesPage } from './components/pages/AllGamesPage';
@@ -59,8 +58,6 @@ import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
 import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
 
 import { useChatStore } from './components/ChatSupport/ChatStore';
-import { LoginForm } from './components/auth/LoginForm';
-import { RegisterForm } from './components/auth/RegisterForm';
 import { WalletDashboard } from './components/wallet/WalletDashboard';
 import { BonusSystem } from './components/bonus/BonusSystem';
 import { ReferralSystem } from './components/referral/ReferralSystem';
@@ -163,7 +160,6 @@ function RPSGamePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
   useEffect(() => {
-    // Load the RPS game
     const iframe = document.createElement('iframe');
     iframe.src = '/rps/';
     iframe.style.width = '100%';
@@ -186,9 +182,11 @@ function RPSGamePage() {
   }, []);
 
   return (
-    <GameLayout gameType="RPS" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-      <div id="game-container" className="relative w-full h-full" />
-    </GameLayout>
+    <GameGuard minBalance={10}>
+      <GameLayout gameType="RPS" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+        <div id="game-container" className="relative w-full h-full" />
+      </GameLayout>
+    </GameGuard>
   );
 }
 
@@ -218,9 +216,11 @@ function DiceGamePage() {
   }, []);
 
   return (
-    <GameLayout gameType="Dice" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-      <div id="game-container" className="relative w-full h-full" />
-    </GameLayout>
+    <GameGuard minBalance={1}>
+      <GameLayout gameType="Dice" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+        <div id="game-container" className="relative w-full h-full" />
+      </GameLayout>
+    </GameGuard>
   );
 }
 
@@ -250,9 +250,11 @@ function LimboGamePage() {
   }, []);
 
   return (
-    <GameLayout gameType="Limbo" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-      <div id="game-container" className="relative w-full h-full" />
-    </GameLayout>
+    <GameGuard minBalance={10}>
+      <GameLayout gameType="Limbo" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+        <div id="game-container" className="relative w-full h-full" />
+      </GameLayout>
+    </GameGuard>
   );
 }
 
@@ -282,9 +284,11 @@ function SnakesGamePage() {
   }, []);
 
   return (
-    <GameLayout gameType="Snakes" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-      <div id="game-container" className="relative w-full h-full" />
-    </GameLayout>
+    <GameGuard minBalance={10}>
+      <GameLayout gameType="Snakes" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+        <div id="game-container" className="relative w-full h-full" />
+      </GameLayout>
+    </GameGuard>
   );
 }
 
@@ -314,9 +318,11 @@ function CardGamePage() {
   }, []);
 
   return (
-    <GameLayout gameType="Cards" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-      <div id="game-container" className="relative w-full h-full" />
-    </GameLayout>
+    <GameGuard minBalance={10}>
+      <GameLayout gameType="Cards" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+        <div id="game-container" className="relative w-full h-full" />
+      </GameLayout>
+    </GameGuard>
   );
 }
 
@@ -346,9 +352,11 @@ function PredictionPulseGamePage() {
   }, []);
 
   return (
-    <GameLayout gameType="Prediction Pulse" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-      <div id="game-container" className="relative w-full h-full" />
-    </GameLayout>
+    <GameGuard minBalance={10}>
+      <GameLayout gameType="Prediction Pulse" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+        <div id="game-container" className="relative w-full h-full" />
+      </GameLayout>
+    </GameGuard>
   );
 }
 
@@ -378,9 +386,11 @@ function BalloonGamePage() {
   }, []);
 
   return (
-    <GameLayout gameType="Balloon" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-      <div id="game-container" className="relative w-full h-full" />
-    </GameLayout>
+    <GameGuard minBalance={1}>
+      <GameLayout gameType="Balloon" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+        <div id="game-container" className="relative w-full h-full" />
+      </GameLayout>
+    </GameGuard>
   );
 }
 
@@ -410,9 +420,11 @@ function MinesweeperGamePage() {
   }, []);
 
   return (
-    <GameLayout gameType="Minesweeper" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-      <div id="game-container" className="relative w-full h-full" />
-    </GameLayout>
+    <GameGuard minBalance={10}>
+      <GameLayout gameType="Minesweeper" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+        <div id="game-container" className="relative w-full h-full" />
+      </GameLayout>
+    </GameGuard>
   );
 }
 
@@ -442,9 +454,11 @@ function TossGamePage() {
   }, []);
 
   return (
-    <GameLayout gameType="Heads & Tails" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-      <div id="game-container" className="relative w-full h-full" />
-    </GameLayout>
+    <GameGuard minBalance={1}>
+      <GameLayout gameType="Heads & Tails" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+        <div id="game-container" className="relative w-full h-full" />
+      </GameLayout>
+    </GameGuard>
   );
 }
 
@@ -460,7 +474,7 @@ function HomePage() {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [balance, setBalance] = useState(5000);
+  const [showBalance, setShowBalance] = useState(true);
   const [currentBannerSlide, setCurrentBannerSlide] = useState(0);
 
   // Auto-advance banner
@@ -602,13 +616,10 @@ function HomePage() {
                 <Search size={20} />
               </button>
               
-              <button
-                onClick={() => setWalletOpen(true)}
-                className="hidden sm:flex items-center gap-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-3 lg:px-4 py-2 rounded-lg transition-colors border border-blue-500/30"
-              >
-                <Wallet size={18} />
-                <span className="hidden lg:inline">₹{balance.toLocaleString()}</span>
-              </button>
+              <WalletHeader 
+                showBalance={showBalance}
+                onToggleBalance={() => setShowBalance(!showBalance)}
+              />
 
               <button
                 onClick={() => navigate('/profile')}
@@ -624,7 +635,7 @@ function HomePage() {
         <main className="p-4 lg:p-8">
           <div className="max-w-7xl mx-auto">
 
-            {/* Hero Banner Section - Compact & Scrollable */}
+            {/* Hero Banner Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -714,7 +725,6 @@ function HomePage() {
                 </h3>
               </div>
               
-              {/* Mobile: 3 cards with proper alignment */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {featuredGames.map((game, index) => (
                   <GameCard key={game.route} game={game} index={index} />
@@ -722,7 +732,7 @@ function HomePage() {
               </div>
             </motion.section>
 
-            {/* All Games Section - Single Row with Horizontal Scroll */}
+            {/* All Games Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -757,7 +767,7 @@ function HomePage() {
                 ))}
               </div>
               
-              {/* Horizontal Scrolling Games - Single Row */}
+              {/* Horizontal Scrolling Games */}
               <div className="relative">
                 <div className="flex gap-6 overflow-x-auto pb-4 games-scroll">
                   {filteredGames.map((game, index) => (
@@ -930,8 +940,6 @@ function GameCard({ game, index }: { game: any; index: number }) {
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
 
   useEffect(() => {
     // Simulate initial loading
@@ -950,14 +958,23 @@ function App() {
     <AuthProvider>
       <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
         <Routes>
-          {/* Main Home Route */}
-          <Route path="/" element={<HomePage />} />
+          {/* Public Routes - No Auth Required */}
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
+          <Route path="/security-tips" element={<SecurityTipsPage />} />
+          <Route path="/casino-guide" element={<CasinoGuidePage />} />
+          <Route path="/how-to-guides" element={<HowToGuidesPage />} />
 
-          {/* Auth Routes */}
-          <Route path="/login" element={<AuthPage mode="login" />} />
-          <Route path="/register" element={<AuthPage mode="register" />} />
+          {/* Protected Routes - Auth Required */}
+          <Route path="/" element={
+            <AuthGuard>
+              <HomePage />
+            </AuthGuard>
+          } />
 
-          {/* Game Routes - Proper page routing */}
+          {/* Game Routes - Auth + Balance Required */}
           <Route path="/game/rps" element={<RPSGamePage />} />
           <Route path="/game/dice" element={<DiceGamePage />} />
           <Route path="/game/limbo" element={<LimboGamePage />} />
@@ -968,64 +985,100 @@ function App() {
           <Route path="/game/minesweeper" element={<MinesweeperGamePage />} />
           <Route path="/game/toss" element={<TossGamePage />} />
 
-          {/* Page Routes */}
-          <Route path="/all-games" element={<AllGamesPage />} />
-          <Route path="/popular" element={<PopularPage />} />
-          <Route path="/offers" element={<OffersPage />} />
-          <Route path="/new-games" element={<NewGamesPage />} />
-          <Route path="/upcoming" element={<UpcomingGamesPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/transactions" element={<TransactionsPage />} />
-          <Route path="/wallet" element={<WalletDashboard />} />
-          <Route path="/deposit" element={<DepositPage />} />
-          <Route path="/withdrawal" element={<WithdrawalPage />} />
-          <Route path="/feedback" element={<FeedbackPage />} />
-          <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/bonuses" element={<BonusSystem />} />
-          <Route path="/referrals" element={<ReferralSystem />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+          {/* User Dashboard Routes */}
+          <Route path="/all-games" element={
+            <AuthGuard>
+              <AllGamesPage />
+            </AuthGuard>
+          } />
+          <Route path="/popular" element={
+            <AuthGuard>
+              <PopularPage />
+            </AuthGuard>
+          } />
+          <Route path="/offers" element={
+            <AuthGuard>
+              <OffersPage />
+            </AuthGuard>
+          } />
+          <Route path="/new-games" element={
+            <AuthGuard>
+              <NewGamesPage />
+            </AuthGuard>
+          } />
+          <Route path="/upcoming" element={
+            <AuthGuard>
+              <UpcomingGamesPage />
+            </AuthGuard>
+          } />
+          <Route path="/settings" element={
+            <AuthGuard>
+              <SettingsPage />
+            </AuthGuard>
+          } />
+          <Route path="/transactions" element={
+            <AuthGuard>
+              <TransactionsPage />
+            </AuthGuard>
+          } />
+          <Route path="/wallet" element={
+            <AuthGuard>
+              <WalletDashboard />
+            </AuthGuard>
+          } />
+          <Route path="/deposit" element={
+            <AuthGuard>
+              <DepositPage />
+            </AuthGuard>
+          } />
+          <Route path="/withdrawal" element={
+            <AuthGuard>
+              <WithdrawalPage />
+            </AuthGuard>
+          } />
+          <Route path="/feedback" element={
+            <AuthGuard>
+              <FeedbackPage />
+            </AuthGuard>
+          } />
+          <Route path="/game-detail/:gameId" element={
+            <AuthGuard>
+              <GameDetailPage />
+            </AuthGuard>
+          } />
+          <Route path="/profile" element={
+            <AuthGuard>
+              <ProfilePage />
+            </AuthGuard>
+          } />
+          <Route path="/bonuses" element={
+            <AuthGuard>
+              <BonusSystem />
+            </AuthGuard>
+          } />
+          <Route path="/referrals" element={
+            <AuthGuard>
+              <ReferralSystem />
+            </AuthGuard>
+          } />
+          <Route path="/admin" element={
+            <AuthGuard>
+              <AdminDashboard />
+            </AuthGuard>
+          } />
           
           {/* Info Pages */}
-          <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
+          <Route path="/affiliate-program" element={
+            <AuthGuard>
+              <AffiliateProgramPage />
+            </AuthGuard>
+          } />
           <Route path="/vault-guide" element={<VaultGuidePage />} />
           <Route path="/betting-guide" element={<BettingGuidePage />} />
-          <Route path="/how-to-guides" element={<HowToGuidesPage />} />
-          <Route path="/casino-guide" element={<CasinoGuidePage />} />
-          <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
-          <Route path="/security-tips" element={<SecurityTipsPage />} />
           <Route path="/payment-methods" element={<PaymentMethodsPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms" element={<TermsOfServicePage />} />
         </Routes>
       </div>
     </AuthProvider>
-  );
-}
-
-// Auth page component
-function AuthPage({ mode }: { mode: 'login' | 'register' }) {
-  const navigate = useNavigate();
-  const [currentMode, setCurrentMode] = useState(mode);
-
-  const handleSuccess = () => {
-    navigate('/');
-  };
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] flex items-center justify-center p-4">
-      {currentMode === 'login' ? (
-        <LoginForm
-          onSuccess={handleSuccess}
-          onSwitchToRegister={() => setCurrentMode('register')}
-        />
-      ) : (
-        <RegisterForm
-          onSuccess={handleSuccess}
-          onSwitchToLogin={() => setCurrentMode('login')}
-        />
-      )}
-    </div>
   );
 }
 
