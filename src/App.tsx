@@ -58,6 +58,7 @@ import { SecurityTipsPage } from './components/pages/SecurityTipsPage';
 import { PaymentMethodsPage } from './components/pages/PaymentMethodsPage';
 import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
 import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
+import { SupportPage } from './components/pages/SupportPage';
 
 import { useChatStore } from './components/ChatSupport/ChatStore';
 
@@ -300,168 +301,6 @@ function HomePage() {
     }
   }, []);
 
-  const handleGameClick = (game: any) => {
-    if (!user) {
-      setAuthError('Please login to play games');
-      return;
-    }
-    setShowGameInfo(game.label);
-  };
-
-  const getGameInfo = (gameLabel: string) => {
-    const gameInfoMap: { [key: string]: { description: string; rules: string[]; tips: string[] } } = {
-      'Cosmic RPS': {
-        description: 'A strategic twist on the classic Rock Paper Scissors game with cosmic multipliers and betting mechanics.',
-        rules: [
-          'Choose Rock, Paper, or Scissors',
-          'Rock beats Scissors, Paper beats Rock, Scissors beats Paper',
-          'Win double your bet on victory',
-          'Draw returns your original bet',
-          'Higher bets have different win chances'
-        ],
-        tips: [
-          'Start with smaller bets to learn the patterns',
-          'Watch for opponent tendencies',
-          'Use psychological tactics to your advantage',
-          'Manage your bankroll wisely'
-        ]
-      },
-      'Cosmic Dice': {
-        description: 'Roll the cosmic dice and predict the outcome. A pure luck game with dynamic betting tiers and exciting multipliers.',
-        rules: [
-          'Select a number from 1 to 6',
-          'Place your bet amount',
-          'Roll the dice to see if you win',
-          'Match your number to win 5x your bet',
-          'Win chances vary based on bet amount'
-        ],
-        tips: [
-          'Higher bets have lower win chances but bigger payouts',
-          'Start with smaller amounts to get familiar',
-          'Set win/loss limits before playing',
-          'Take breaks between sessions'
-        ]
-      },
-      'Cosmic Limbo': {
-        description: 'Set a target multiplier and watch as the counter climbs. Cash out before it crashes to win your target amount.',
-        rules: [
-          'Set your target multiplier (e.g., 2.00x)',
-          'Place your bet',
-          'Watch the multiplier climb from 1.00x',
-          'Win if it reaches your target before crashing',
-          'Higher targets = bigger wins but lower chances'
-        ],
-        tips: [
-          'Conservative targets (1.5x-2x) have better odds',
-          'High targets (5x+) are risky but rewarding',
-          'Don\'t get greedy - set realistic targets',
-          'Use the auto-cashout feature for consistency'
-        ]
-      },
-      'Cosmic Snakes': {
-        description: 'Navigate through a cosmic path while avoiding snakes. Roll dice to move forward and multiply your winnings.',
-        rules: [
-          'Choose number of snakes (more snakes = higher risk/reward)',
-          'Roll dice to move 1-3 steps forward',
-          'Avoid landing on snake tiles',
-          'Reach the end or cash out anytime',
-          'Each step increases your multiplier'
-        ],
-        tips: [
-          'Start with fewer snakes to learn the game',
-          'Cash out early for guaranteed smaller wins',
-          'More snakes mean higher multipliers',
-          'Plan your risk tolerance before starting'
-        ]
-      },
-      'Cosmic Cards': {
-        description: 'Pick cards from a cosmic deck to reveal hidden multipliers. Choose your risk level for different reward tiers.',
-        rules: [
-          'Select your risk level (Low/Medium/High)',
-          'Choose a card to reveal its multiplier',
-          'Higher risk levels have better potential rewards',
-          'Each risk level has different winning card counts',
-          'Win your bet amount × the revealed multiplier'
-        ],
-        tips: [
-          'Low risk is good for steady, smaller wins',
-          'High risk offers massive payouts but lower odds',
-          'Medium risk balances reward and safety',
-          'Set a budget before choosing risk level'
-        ]
-      },
-      'Prediction Pulse': {
-        description: 'Time your tap perfectly as a pulse moves across colored zones. Precision timing determines your rewards.',
-        rules: [
-          'Watch the blue pulse move across the bar',
-          'Tap when it enters the green zone for maximum reward',
-          'Yellow zones give partial rewards',
-          'Missing all zones loses your bet',
-          'Choose difficulty for different zone sizes and multipliers'
-        ],
-        tips: [
-          'Practice timing on low difficulty first',
-          'Green zones give the best rewards',
-          'Higher difficulty = smaller zones but bigger multipliers',
-          'Focus and avoid distractions for better timing'
-        ]
-      },
-      'Cosmic Balloon': {
-        description: 'Pop colorful balloons to reveal hidden multipliers. Each balloon contains a surprise reward waiting to be discovered.',
-        rules: [
-          'Place your bet amount',
-          'Click any balloon to pop it',
-          'Reveal the hidden multiplier inside',
-          'Win your bet × the multiplier',
-          'Multipliers range from 0.2x to 5x'
-        ],
-        tips: [
-          'All balloons are random - trust your instincts',
-          'Higher bets can lead to better multiplier distributions',
-          'Set a budget and stick to it',
-          'Enjoy the surprise element of each pop'
-        ]
-      },
-      'Cosmic Minesweeper': {
-        description: 'Navigate through a cosmic minefield by revealing safe tiles. Choose your difficulty for different risk/reward ratios.',
-        rules: [
-          'Select difficulty level (Low/Mid/High)',
-          'Reveal tiles to find safe zones',
-          'Avoid the hidden mines',
-          'Higher difficulty = more mines but better rewards',
-          'Cash out anytime or risk it for bigger multipliers'
-        ],
-        tips: [
-          'Start with low difficulty to learn patterns',
-          'Cash out early for guaranteed wins',
-          'High difficulty offers the best multipliers',
-          'Use logical deduction to avoid mines'
-        ]
-      },
-      'Cosmic Heads & Tails': {
-        description: 'Classic coin flip game with cosmic flair. Choose heads or tails and watch the cosmic coin decide your fate.',
-        rules: [
-          'Choose Heads or Tails before the flip',
-          'Place your bet amount',
-          'Watch the cosmic coin flip',
-          'Win double your bet if you guess correctly',
-          'Wrong guess loses your bet'
-        ],
-        tips: [
-          'It\'s pure 50/50 chance - trust your intuition',
-          'Use fast mode for quicker gameplay',
-          'Set win/loss limits to manage your session',
-          'Both sides have equal probability'
-        ]
-      }
-    };
-    
-    return gameInfoMap[gameLabel] || {
-      description: 'An exciting cosmic game with unique mechanics and rewards.',
-      rules: ['Place your bet', 'Play the game', 'Win cosmic rewards'],
-      tips: ['Start small', 'Learn the mechanics', 'Have fun']
-    };
-  };
   const allCategories = ['all', 'Strategy', 'Luck', 'Risk', 'Adventure', 'Timing'];
 
   // Filter games based on search and category
@@ -985,7 +824,8 @@ function HomePage() {
 }
 
 // Enhanced Game Card Component
-function GameCard({ game, index, onGameClick }: { game: any; index: number; onGameClick: (game: any) => void }) {
+function GameCard({ game, index }: { game: any; index: number }) {
+  const navigate = useNavigate();
   
   return (
     <motion.div
@@ -994,7 +834,7 @@ function GameCard({ game, index, onGameClick }: { game: any; index: number; onGa
       transition={{ delay: 0.1 * index }}
       whileHover={{ scale: 1.02, y: -4 }}
       className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group game-card-arcade h-full"
-      onClick={() => onGameClick(game)}
+      onClick={() => window.location.href = game.route}
     >
       <div className="relative h-48">
         <img
@@ -1050,11 +890,11 @@ function GameCard({ game, index, onGameClick }: { game: any; index: number; onGa
         <button 
           onClick={(e) => {
             e.stopPropagation();
-            onGameClick(game);
+            window.location.href = game.route;
           }}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors font-medium cosmic-button mt-auto"
         >
-          Game Info
+          Play Now
         </button>
       </div>
     </motion.div>
@@ -1123,6 +963,13 @@ function App() {
           <Route path="/vault-guide" element={<VaultGuidePage />} />
           <Route path="/betting-guide" element={<BettingGuidePage />} />
           <Route path="/payment-methods" element={<PaymentMethodsPage />} />
+          
+          {/* Support Routes */}
+          <Route path="/support" element={<SupportPage />} />
+          <Route path="/help-center" element={<HowToGuidesPage />} />
+          <Route path="/gambling-helpline" element={<ResponsibleGamingPage />} />
+          <Route path="/live-support" element={<SupportPage />} />
+          <Route path="/self-exclusion" element={<ResponsibleGamingPage />} />
         </Routes>
       </div>
   );

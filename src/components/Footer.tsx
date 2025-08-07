@@ -37,16 +37,16 @@ export function Footer() {
       links: [
         {
           name: 'Help Center',
-          href: '/help-center',
+          href: '/how-to-guides',
           internal: true,
         },
         {
           name: 'Gambling Helpline',
-          href: '/gambling-helpline',
+          href: '/responsible-gaming',
           internal: true,
         },
-        { name: 'Live Support', href: '/live-support', icon: <MessageCircle className="w-4 h-4" />, internal: true },
-        { name: 'Self Exclusion', href: '/self-exclusion', icon: <Shield className="w-4 h-4" />, internal: true },
+        { name: 'Live Support', href: '/support', icon: <MessageCircle className="w-4 h-4" />, internal: true },
+        { name: 'Self Exclusion', href: '/responsible-gaming', icon: <Shield className="w-4 h-4" />, internal: true },
       ],
     },
     about: {
