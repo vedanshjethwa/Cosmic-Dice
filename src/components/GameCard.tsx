@@ -31,13 +31,13 @@ export function GameCard({
   const navigate = useNavigate();
 
   const handlePlay = () => {
-    window.location.href = route;
+    navigate(route);
   };
 
   const handleShowDetails = (e: React.MouseEvent) => {
     e.stopPropagation();
     const gameId = route.split('/').pop();
-    window.location.href = `/game-detail/${gameId}`;
+    navigate(`/game-detail/${gameId}`);
   };
   return (
     <motion.div

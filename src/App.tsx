@@ -34,6 +34,7 @@ import { ProfilePage } from './components/ProfilePage';
 import { WithdrawalPage } from './components/WithdrawalPage';
 import { Footer } from './components/Footer';
 import { LoadingScreen } from './components/LoadingScreen';
+import { GameLayout } from './components/GameLayout';
 
 // Import page components
 import { AllGamesPage } from './components/pages/AllGamesPage';
@@ -59,6 +60,17 @@ import { PaymentMethodsPage } from './components/pages/PaymentMethodsPage';
 import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
 import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
 import { SupportPage } from './components/pages/SupportPage';
+
+// Import game components
+import RPSApp from '../rps/src/App';
+import DiceApp from '../dice/src/App';
+import LimboApp from '../limbo/src/App';
+import SnakesApp from '../snakes/src/App';
+import CardApp from '../card/src/App';
+import BalloonApp from '../game bollon/src/App';
+import MinesweeperApp from '../minesweeper/src/App';
+import TossApp from '../toss game/src/App';
+import PredictionPulseApp from '../prediction-pulse/src/App';
 
 import { useChatStore } from './components/ChatSupport/ChatStore';
 
@@ -319,7 +331,7 @@ function HomePage() {
     {
       title: "Welcome to Cosmic Gaming",
       subtitle: "Experience the future of online gaming",
-      image: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=1200&h=400",
+      image: "/Screenshot (483).png",
       cta: "Start Playing",
       action: () => navigate('/all-games')
     },
@@ -933,15 +945,51 @@ function App() {
           <Route path="/" element={<HomePage />} />
 
           {/* Game Routes */}
-          <Route path="/game/rps" element={<div>RPS Game Loading...</div>} />
-          <Route path="/game/dice" element={<div>Dice Game Loading...</div>} />
-          <Route path="/game/limbo" element={<div>Limbo Game Loading...</div>} />
-          <Route path="/game/snakes" element={<div>Snakes Game Loading...</div>} />
-          <Route path="/game/card" element={<div>Card Game Loading...</div>} />
-          <Route path="/game/prediction-pulse" element={<div>Prediction Pulse Loading...</div>} />
-          <Route path="/game/balloon" element={<div>Balloon Game Loading...</div>} />
-          <Route path="/game/minesweeper" element={<div>Minesweeper Loading...</div>} />
-          <Route path="/game/toss" element={<div>Heads & Tails Loading...</div>} />
+          <Route path="/game/rps" element={
+            <GameLayout gameType="RPS" sidebarOpen={false} setSidebarOpen={() => {}}>
+              <RPSApp />
+            </GameLayout>
+          } />
+          <Route path="/game/dice" element={
+            <GameLayout gameType="Dice" sidebarOpen={false} setSidebarOpen={() => {}}>
+              <DiceApp />
+            </GameLayout>
+          } />
+          <Route path="/game/limbo" element={
+            <GameLayout gameType="Limbo" sidebarOpen={false} setSidebarOpen={() => {}}>
+              <LimboApp />
+            </GameLayout>
+          } />
+          <Route path="/game/snakes" element={
+            <GameLayout gameType="Snakes" sidebarOpen={false} setSidebarOpen={() => {}}>
+              <SnakesApp />
+            </GameLayout>
+          } />
+          <Route path="/game/card" element={
+            <GameLayout gameType="Cards" sidebarOpen={false} setSidebarOpen={() => {}}>
+              <CardApp />
+            </GameLayout>
+          } />
+          <Route path="/game/prediction-pulse" element={
+            <GameLayout gameType="Prediction Pulse" sidebarOpen={false} setSidebarOpen={() => {}}>
+              <PredictionPulseApp />
+            </GameLayout>
+          } />
+          <Route path="/game/balloon" element={
+            <GameLayout gameType="Balloon" sidebarOpen={false} setSidebarOpen={() => {}}>
+              <BalloonApp />
+            </GameLayout>
+          } />
+          <Route path="/game/minesweeper" element={
+            <GameLayout gameType="Minesweeper" sidebarOpen={false} setSidebarOpen={() => {}}>
+              <MinesweeperApp />
+            </GameLayout>
+          } />
+          <Route path="/game/toss" element={
+            <GameLayout gameType="Heads & Tails" sidebarOpen={false} setSidebarOpen={() => {}}>
+              <TossApp />
+            </GameLayout>
+          } />
 
           {/* User Dashboard Routes */}
           <Route path="/all-games" element={<AllGamesPage />} />
@@ -963,6 +1011,7 @@ function App() {
           <Route path="/vault-guide" element={<VaultGuidePage />} />
           <Route path="/betting-guide" element={<BettingGuidePage />} />
           <Route path="/payment-methods" element={<PaymentMethodsPage />} />
+          <Route path="/deposit-withdrawals" element={<DepositPage />} />
           
           {/* Support Routes */}
           <Route path="/support" element={<SupportPage />} />
