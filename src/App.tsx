@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AuthProvider, useAuth } from './hooks/useAuth';
 import {
   Search,
   User,
@@ -58,6 +59,13 @@ import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
 import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
 
 import { useChatStore } from './components/ChatSupport/ChatStore';
+import { LoginForm } from './components/auth/LoginForm';
+import { RegisterForm } from './components/auth/RegisterForm';
+import { WalletDashboard } from './components/wallet/WalletDashboard';
+import { BonusSystem } from './components/bonus/BonusSystem';
+import { ReferralSystem } from './components/referral/ReferralSystem';
+import { NotificationCenter } from './components/notifications/NotificationCenter';
+import { AdminDashboard } from './components/admin/AdminDashboard';
 
 // Game data with proper routing
 const gameCards = [
@@ -922,6 +930,8 @@ function GameCard({ game, index }: { game: any; index: number }) {
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
 
   useEffect(() => {
     // Simulate initial loading
@@ -937,50 +947,84 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
-      <Routes>
-        {/* Main Home Route */}
-        <Route path="/" element={<HomePage />} />
+    <AuthProvider>
+      <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
+        <Routes>
+          {/* Main Home Route */}
+          <Route path="/" element={<HomePage />} />
 
-        {/* Game Routes - Proper page routing */}
-        <Route path="/game/rps" element={<RPSGamePage />} />
-        <Route path="/game/dice" element={<DiceGamePage />} />
-        <Route path="/game/limbo" element={<LimboGamePage />} />
-        <Route path="/game/snakes" element={<SnakesGamePage />} />
-        <Route path="/game/card" element={<CardGamePage />} />
-        <Route path="/game/prediction-pulse" element={<PredictionPulseGamePage />} />
-        <Route path="/game/balloon" element={<BalloonGamePage />} />
-        <Route path="/game/minesweeper" element={<MinesweeperGamePage />} />
-        <Route path="/game/toss" element={<TossGamePage />} />
+          {/* Auth Routes */}
+          <Route path="/login" element={<AuthPage mode="login" />} />
+          <Route path="/register" element={<AuthPage mode="register" />} />
 
-        {/* Page Routes */}
-        <Route path="/all-games" element={<AllGamesPage />} />
-        <Route path="/popular" element={<PopularPage />} />
-        <Route path="/offers" element={<OffersPage />} />
-        <Route path="/new-games" element={<NewGamesPage />} />
-        <Route path="/upcoming" element={<UpcomingGamesPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/transactions" element={<TransactionsPage />} />
-        <Route path="/wallet" element={<WalletPage />} />
-        <Route path="/deposit" element={<DepositPage />} />
-        <Route path="/withdrawal" element={<WithdrawalPage />} />
-        <Route path="/feedback" element={<FeedbackPage />} />
-        <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        
-        {/* Info Pages */}
-        <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
-        <Route path="/vault-guide" element={<VaultGuidePage />} />
-        <Route path="/betting-guide" element={<BettingGuidePage />} />
-        <Route path="/how-to-guides" element={<HowToGuidesPage />} />
-        <Route path="/casino-guide" element={<CasinoGuidePage />} />
-        <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
-        <Route path="/security-tips" element={<SecurityTipsPage />} />
-        <Route path="/payment-methods" element={<PaymentMethodsPage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/terms" element={<TermsOfServicePage />} />
-      </Routes>
+          {/* Game Routes - Proper page routing */}
+          <Route path="/game/rps" element={<RPSGamePage />} />
+          <Route path="/game/dice" element={<DiceGamePage />} />
+          <Route path="/game/limbo" element={<LimboGamePage />} />
+          <Route path="/game/snakes" element={<SnakesGamePage />} />
+          <Route path="/game/card" element={<CardGamePage />} />
+          <Route path="/game/prediction-pulse" element={<PredictionPulseGamePage />} />
+          <Route path="/game/balloon" element={<BalloonGamePage />} />
+          <Route path="/game/minesweeper" element={<MinesweeperGamePage />} />
+          <Route path="/game/toss" element={<TossGamePage />} />
+
+          {/* Page Routes */}
+          <Route path="/all-games" element={<AllGamesPage />} />
+          <Route path="/popular" element={<PopularPage />} />
+          <Route path="/offers" element={<OffersPage />} />
+          <Route path="/new-games" element={<NewGamesPage />} />
+          <Route path="/upcoming" element={<UpcomingGamesPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/transactions" element={<TransactionsPage />} />
+          <Route path="/wallet" element={<WalletDashboard />} />
+          <Route path="/deposit" element={<DepositPage />} />
+          <Route path="/withdrawal" element={<WithdrawalPage />} />
+          <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/bonuses" element={<BonusSystem />} />
+          <Route path="/referrals" element={<ReferralSystem />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          
+          {/* Info Pages */}
+          <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
+          <Route path="/vault-guide" element={<VaultGuidePage />} />
+          <Route path="/betting-guide" element={<BettingGuidePage />} />
+          <Route path="/how-to-guides" element={<HowToGuidesPage />} />
+          <Route path="/casino-guide" element={<CasinoGuidePage />} />
+          <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
+          <Route path="/security-tips" element={<SecurityTipsPage />} />
+          <Route path="/payment-methods" element={<PaymentMethodsPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsOfServicePage />} />
+        </Routes>
+      </div>
+    </AuthProvider>
+  );
+}
+
+// Auth page component
+function AuthPage({ mode }: { mode: 'login' | 'register' }) {
+  const navigate = useNavigate();
+  const [currentMode, setCurrentMode] = useState(mode);
+
+  const handleSuccess = () => {
+    navigate('/');
+  };
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] flex items-center justify-center p-4">
+      {currentMode === 'login' ? (
+        <LoginForm
+          onSuccess={handleSuccess}
+          onSwitchToRegister={() => setCurrentMode('register')}
+        />
+      ) : (
+        <RegisterForm
+          onSuccess={handleSuccess}
+          onSwitchToLogin={() => setCurrentMode('login')}
+        />
+      )}
     </div>
   );
 }
