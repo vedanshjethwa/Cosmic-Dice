@@ -61,8 +61,6 @@ function App() {
 
   const generateMultipliers = (betAmount: number): number[] => {
     const winChance = getWinChance(betAmount);
-    const maxMultiplier = 5;
-
     const multipliers = [0.2, 0.5];
     
     if (Math.random() < winChance) {
@@ -216,29 +214,43 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1a1f3a] via-[#2d3561] to-[#1a1f3a] text-white relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent pointer-events-none"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent pointer-events-none"></div>
-      
+    <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-[#1a2332] to-[#0f1923] p-6 border-b border-blue-500/20">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => window.history.back()}
+              className="p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-xl border border-blue-500/30 transition-all"
+            >
+              ←
+            </button>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              Cosmic Balloon
+            </h1>
+          </div>
+          <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl px-6 py-3">
+            <span className="text-blue-400 font-medium">Balance: ₹1,000.00</span>
+          </div>
+        </div>
+      </div>
+
       <HowToPlayModal isOpen={showInfo} onClose={() => setShowInfo(false)} />
 
-      <div className="container mx-auto max-w-7xl py-8 px-4 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Game Area */}
-          <div className="lg:w-2/3 order-1">
-            <div className="bg-[#1e2749]/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-2xl border border-blue-500/20 relative">
+          <div className="lg:col-span-2">
+            <div className="premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-3xl p-8 border border-blue-500/20 shadow-2xl relative overflow-hidden">
               {showResult && (
-                <div className="absolute inset-x-0 top-4 sm:top-8 text-center z-10 animate-fadeIn">
+                <div className="absolute inset-x-0 top-8 text-center z-10 animate-fadeIn">
                   <div className="inline-block">
-                    <h2 className="text-2xl sm:text-4xl font-bold mb-2 sm:mb-3 text-transparent bg-clip-text 
-                      bg-gradient-to-r from-blue-400 to-blue-500">
+                    <h2 className="text-3xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
                       {getResultMessage()}
                     </h2>
-                    <p className="text-xl sm:text-2xl mb-2 sm:mb-4">
-                      You won <span className="font-bold text-transparent bg-clip-text 
-                        bg-gradient-to-r from-emerald-300 to-emerald-500">₹{lastWin.toFixed(2)}</span>
-                      <span className="text-gray-400 text-sm sm:text-base ml-2">
+                    <p className="text-2xl mb-4">
+                      You won <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-emerald-500">₹{lastWin.toFixed(2)}</span>
+                      <span className="text-gray-400 text-base ml-2">
                         ({lastWin > bet ? `+${((lastWin/bet - 1) * 100).toFixed(0)}%` : `${((lastWin/bet - 1) * 100).toFixed(0)}%`})
                       </span>
                     </p>
@@ -246,7 +258,7 @@ function App() {
                 </div>
               )}
               
-              <div className="grid grid-cols-3 sm:grid-cols-5 gap-4 sm:gap-6 relative z-10">
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-6 relative z-10">
                 {balloons.map(balloon => {
                   const colorObj = colors.find(c => c.gradient === balloon.color);
                   return (
@@ -254,13 +266,13 @@ function App() {
                       key={balloon.id}
                       onClick={() => popBalloon(balloon)}
                       disabled={!isPlaying || balloon.revealed || hasPopped}
-                      className="relative group aspect-square p-1 sm:p-3"
+                      className="premium-balloon relative group aspect-square p-3"
                     >
                       <div
                         className={`
                           w-full h-full relative
                           transition-all duration-500 transform-gpu
-                          ${balloon.revealed ? 'scale-0 opacity-0 rotate-12' : 'group-hover:scale-110 group-hover:-translate-y-2'}
+                          ${balloon.revealed ? 'scale-0 opacity-0 rotate-12' : 'group-hover:scale-110 group-hover:-translate-y-3'}
                           ${!isPlaying && !balloon.revealed ? 'opacity-50 scale-95' : ''}
                           ${hasPopped && !balloon.revealed ? 'opacity-30 scale-95' : ''}
                           animate-balloon-float
@@ -271,48 +283,49 @@ function App() {
                             absolute inset-0
                             bg-gradient-to-b ${balloon.color}
                             rounded-full
-                            shadow-[0_8px_24px_rgba(0,0,0,0.4)]
+                            shadow-[0_12px_32px_rgba(0,0,0,0.5)]
                             before:content-['']
                             before:absolute
                             before:inset-[8%]
                             before:bg-gradient-to-tl
                             before:from-transparent
-                            before:to-${colorObj?.shine || 'white'}
+                            before:to-white
                             before:opacity-40
                             before:rounded-full
                             after:content-['']
                             after:absolute
-                            after:w-4
-                            after:h-4
+                            after:w-6
+                            after:h-6
                             after:rounded-full
                             after:bg-gradient-to-br
                             after:from-white
                             after:to-transparent
-                            after:opacity-60
+                            after:opacity-70
                             after:top-[15%]
                             after:left-[15%]
-                            group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)]
-                            group-hover:before:opacity-50
+                            group-hover:shadow-[0_16px_40px_rgba(0,0,0,0.6)]
+                            group-hover:before:opacity-60
                             transition-all duration-300
+                            border-2 border-white/20
                           `}
                         >
                           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-full opacity-75"></div>
                           
                           {!balloon.revealed && isPlaying && (
                             <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="text-xl sm:text-3xl font-bold text-white drop-shadow-lg animate-pulse">
+                              <div className="text-2xl font-bold text-white drop-shadow-lg animate-pulse">
                                 ?
                               </div>
                             </div>
                           )}
                           {balloon.revealed && (
-                            <span className="absolute inset-0 flex items-center justify-center text-xl sm:text-4xl font-bold text-white drop-shadow-lg animate-bounce">
+                            <span className="absolute inset-0 flex items-center justify-center text-3xl font-bold text-white drop-shadow-lg animate-bounce">
                               {balloon.multiplier}x
                             </span>
                           )}
                         </div>
 
-                        <div className="absolute -bottom-4 sm:-bottom-8 left-1/2 w-[1px] h-4 sm:h-8
+                        <div className="absolute -bottom-8 left-1/2 w-[2px] h-8
                           transition-all duration-300 transform-gpu origin-top
                           after:content-['']
                           after:absolute
@@ -320,9 +333,9 @@ function App() {
                           after:h-full
                           after:bg-gradient-to-b
                           after:from-gray-300
-                          after:to-gray-400
+                          after:to-gray-500
                           after:animate-string-sway
-                          group-hover:h-6 sm:group-hover:h-10
+                          group-hover:h-10
                         "></div>
                       </div>
                     </button>
@@ -332,45 +345,36 @@ function App() {
             </div>
           </div>
 
-          {/* Right Sidebar */}
-          <div className="lg:w-1/3 order-2 space-y-6">
+          {/* Side Panel */}
+          <div className="space-y-6">
             {/* Place Your Bet */}
-            <div className="bg-[#1e2749]/80 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20 shadow-2xl">
-              <h2 className="text-xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
-                Place Your Bet
-              </h2>
+            <div className="premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
+              <h3 className="text-xl font-bold text-white mb-6">Place Your Bet</h3>
               
-              <div className="space-y-4">
-                <div className="bg-[#0f1629]/50 px-4 py-3 rounded-xl border border-blue-500/10 shadow-lg">
-                  <span className="text-sm text-gray-400 mb-1 block">Bet Amount</span>
-                  <div className="flex items-center gap-2">
+              <div className="space-y-6">
+                <div className="bg-[#0f1923]/50 px-4 py-3 rounded-xl border border-blue-500/20 shadow-lg">
+                  <span className="text-sm text-gray-400 mb-2 block">Bet Amount</span>
+                  <div className="flex items-center gap-3">
                     <button
                       onClick={decrementBet}
                       disabled={isPlaying || bet <= 0}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-500/10 
-                        hover:bg-blue-500/20 border border-blue-500/30 text-blue-400
-                        disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="premium-control-btn w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-[#2a3441] to-[#1a2332] hover:from-[#3a4451] hover:to-[#2a3441] border border-blue-500/30 hover:border-blue-400/50 text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     >
-                      <Minus size={16} />
+                      <Minus size={18} />
                     </button>
                     <input
                       type="text"
                       value={bet.toFixed(2)}
                       onChange={(e) => handleBetChange(e.target.value)}
                       disabled={isPlaying}
-                      className="w-full bg-[#0f1629]/50 rounded-lg px-3 py-2
-                        text-lg font-bold text-white text-center
-                        border border-blue-500/30 focus:border-blue-500/50 focus:outline-none
-                        disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="premium-input flex-1 bg-gradient-to-br from-[#2a3441] to-[#1a2332] rounded-xl px-4 py-3 text-lg font-bold text-white text-center border border-blue-500/30 focus:border-blue-400/50 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     />
                     <button
                       onClick={incrementBet}
                       disabled={isPlaying || bet >= 100000}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-500/10 
-                        hover:bg-blue-500/20 border border-blue-500/30 text-blue-400
-                        disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="premium-control-btn w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-[#2a3441] to-[#1a2332] hover:from-[#3a4451] hover:to-[#2a3441] border border-blue-500/30 hover:border-blue-400/50 text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     >
-                      <Plus size={16} />
+                      <Plus size={18} />
                     </button>
                   </div>
                 </div>
@@ -378,13 +382,7 @@ function App() {
                 <button
                   onClick={startGame}
                   disabled={isPlaying || bet <= 0}
-                  className="w-full bg-gradient-to-br from-blue-500 to-purple-500 
-                    hover:from-blue-600 hover:to-purple-600
-                    px-8 py-4 rounded-xl font-bold text-lg
-                    disabled:opacity-50 transition-all duration-300 
-                    shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30
-                    disabled:hover:shadow-none border border-white/10
-                    transform hover:-translate-y-0.5 active:translate-y-0"
+                  className="premium-action-btn w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 px-8 py-4 rounded-xl font-bold text-lg disabled:opacity-50 transition-all shadow-lg hover:shadow-blue-500/30 border border-white/10 transform hover:scale-105 disabled:hover:scale-100"
                 >
                   {isPlaying ? 'Playing...' : 'Start Game'}
                 </button>
@@ -392,45 +390,41 @@ function App() {
             </div>
 
             {/* Stats */}
-            <div className="bg-[#1e2749]/80 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20 shadow-2xl">
-              <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
-                Stats
-              </h2>
+            <div className="premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
+              <h3 className="text-xl font-bold text-white mb-6">Stats</h3>
               <div className="grid grid-cols-3 gap-4">
-                <div className="bg-[#0f1629]/30 rounded-lg p-4 border border-blue-500/10">
-                  <div className="text-sm text-gray-400">Total Profit</div>
-                  <div className={`text-xl font-bold ${stats.totalProfit >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                <div className="premium-stat-card bg-gradient-to-br from-[#2a3441] to-[#1a2332] rounded-xl p-4 border border-blue-500/20 text-center">
+                  <div className="text-sm text-gray-400 mb-1">Total Profit</div>
+                  <div className={`text-xl font-bold ${stats.totalProfit >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                     {stats.totalProfit >= 0 ? '+' : ''}₹{stats.totalProfit.toFixed(2)}
                   </div>
                 </div>
-                <div className="bg-[#0f1629]/30 rounded-lg p-4 border border-blue-500/10">
-                  <div className="text-sm text-gray-400">Wins</div>
-                  <div className="text-xl font-bold text-green-500">{stats.totalWins}</div>
+                <div className="premium-stat-card bg-gradient-to-br from-[#2a3441] to-[#1a2332] rounded-xl p-4 border border-green-500/20 text-center">
+                  <div className="text-sm text-gray-400 mb-1">Wins</div>
+                  <div className="text-xl font-bold text-green-400">{stats.totalWins}</div>
                 </div>
-                <div className="bg-[#0f1629]/30 rounded-lg p-4 border border-blue-500/10">
-                  <div className="text-sm text-gray-400">Losses</div>
-                  <div className="text-xl font-bold text-red-500">{stats.totalLosses}</div>
+                <div className="premium-stat-card bg-gradient-to-br from-[#2a3441] to-[#1a2332] rounded-xl p-4 border border-red-500/20 text-center">
+                  <div className="text-sm text-gray-400 mb-1">Losses</div>
+                  <div className="text-xl font-bold text-red-400">{stats.totalLosses}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Recent Bets - Full Width */}
-        <div className="mt-8 bg-[#1e2749]/80 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20 shadow-2xl">
-          <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
-            Recent Bets
-          </h2>
+        {/* Recent Bets */}
+        <div className="mt-8 premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
+          <h3 className="text-xl font-bold text-white mb-6">Recent Bets</h3>
           {betHistory.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="text-left text-gray-400 border-b border-blue-500/10">
-                    <th className="pb-2 font-medium">Time</th>
-                    <th className="pb-2 font-medium">Bet</th>
-                    <th className="pb-2 font-medium">Multiplier</th>
-                    <th className="pb-2 font-medium">Payout</th>
-                    <th className="pb-2 font-medium">Profit</th>
+                  <tr className="text-left text-gray-400 border-b border-blue-500/20">
+                    <th className="pb-3 font-medium">Time</th>
+                    <th className="pb-3 font-medium">Bet</th>
+                    <th className="pb-3 font-medium">Multiplier</th>
+                    <th className="pb-3 font-medium">Payout</th>
+                    <th className="pb-3 font-medium">Profit</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -439,12 +433,12 @@ function App() {
                     const isProfitable = profit >= 0;
                     
                     return (
-                      <tr key={record.id} className="border-b border-blue-500/10 last:border-0">
-                        <td className="py-3 text-sm">{formatTime(record.timestamp)}</td>
-                        <td className="py-3 text-sm">₹{record.amount.toFixed(2)}</td>
-                        <td className="py-3 text-sm">{record.multiplier}x</td>
-                        <td className="py-3 text-sm">₹{record.winAmount.toFixed(2)}</td>
-                        <td className={`py-3 text-sm font-medium ${isProfitable ? 'text-green-500' : 'text-red-500'}`}>
+                      <tr key={record.id} className="border-b border-blue-500/10 last:border-0 hover:bg-blue-500/5 transition-colors">
+                        <td className="py-4 text-sm">{formatTime(record.timestamp)}</td>
+                        <td className="py-4 text-sm">₹{record.amount.toFixed(2)}</td>
+                        <td className="py-4 text-sm font-bold text-blue-400">{record.multiplier}x</td>
+                        <td className="py-4 text-sm">₹{record.winAmount.toFixed(2)}</td>
+                        <td className={`py-4 text-sm font-bold ${isProfitable ? 'text-green-400' : 'text-red-400'}`}>
                           {isProfitable ? '+' : ''}₹{profit.toFixed(2)}
                         </td>
                       </tr>
