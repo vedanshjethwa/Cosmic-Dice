@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Minus, Plus, History, Trophy, Sparkles, Zap } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Minus, Plus, Sparkles, Zap, Info } from 'lucide-react';
 import { NumericFormat } from 'react-number-format';
-import { StarToggle } from './components/StarToggle';
+import { useAuth } from '../../contexts/AuthContext';
+import { TransactionService } from '../transactions/TransactionService';
 
 interface BetHistoryItem {
   betAmount: number;
@@ -21,55 +22,45 @@ interface BetTier {
   winChance: number;
 }
 
-function App() {
+const BET_TIERS: BetTier[] = [
+  { amount: 1, winChance: 0.5 },
+  { amount: 10, winChance: 0.4 },
+  { amount: 20, winChance: 0.3 },
+  { amount: 40, winChance: 0.25 },
+  { amount: 80, winChance: 0.2 },
+  { amount: 160, winChance: 0.15 },
+  { amount: 320, winChance: 0.12 },
+  { amount: 640, winChance: 0.1 },
+  { amount: 1280, winChance: 0.08 },
+  { amount: 2560, winChance: 0.06 },
+  { amount: 5120, winChance: 0.05 },
+  { amount: 10240, winChance: 0.04 },
+  { amount: 20480, winChance: 0.03 },
+  { amount: 40960, winChance: 0.025 },
+  { amount: 81920, winChance: 0.02 },
+  { amount: 100000, winChance: 0.01 },
+];
+
+export default function TossGame() {
+  const { user, wallet, refreshWallet } = useAuth();
   const [isFlipping, setIsFlipping] = useState(false);
   const [result, setResult] = useState<'heads' | 'tails' | null>(null);
   const [selectedSide, setSelectedSide] = useState<'heads' | 'tails'>('heads');
   const [bet, setBet] = useState(1);
-  const [balance, setBalance] = useState(8000);
   const [showImpact, setShowImpact] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
   const [betHistory, setBetHistory] = useState<BetHistoryItem[]>([]);
   const [stats, setStats] = useState<GameStats>({
     totalWins: 0,
     totalLosses: 0,
     totalProfit: 0,
   });
-  const [isTestMode, setIsTestMode] = useState(false);
-  const [testWinRate, setTestWinRate] = useState(0.5);
   const [isFastMode, setIsFastMode] = useState(false);
 
-  const soundsLoaded = useRef(false);
-  const coinFlipSound = useRef(new Audio('https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3'));
-  const coinLandSound = useRef(new Audio('https://assets.mixkit.co/active_storage/sfx/2001/2001-preview.mp3'));
-  const winSound = useRef(new Audio('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3'));
-  const loseSound = useRef(new Audio('https://assets.mixkit.co/active_storage/sfx/2961/2961-preview.mp3'));
-
+  const currentBalance = (wallet?.real_balance || 0) + (wallet?.bonus_balance || 0);
   const MIN_BET = 0;
   const MAX_BET = 100000;
 
-  const BET_TIERS: BetTier[] = [
-    { amount: 1, winChance: 0.5 },
-    { amount: 10, winChance: 0.4 },
-    { amount: 20, winChance: 0.3 },
-    { amount: 40, winChance: 0.25 },
-    { amount: 80, winChance: 0.2 },
-    { amount: 160, winChance: 0.15 },
-    { amount: 320, winChance: 0.12 },
-    { amount: 640, winChance: 0.1 },
-    { amount: 1280, winChance: 0.08 },
-    { amount: 2560, winChance: 0.06 },
-    { amount: 5120, winChance: 0.05 },
-    { amount: 10240, winChance: 0.04 },
-    { amount: 20480, winChance: 0.03 },
-    { amount: 40960, winChance: 0.025 },
-    { amount: 81920, winChance: 0.02 },
-    { amount: 100000, winChance: 0.01 },
-  ];
-
   const getWinChance = (betAmount: number): number => {
-    if (isTestMode) return testWinRate;
-
     for (let i = BET_TIERS.length - 1; i >= 0; i--) {
       if (betAmount >= BET_TIERS[i].amount) {
         return BET_TIERS[i].winChance;
@@ -78,56 +69,10 @@ function App() {
     return BET_TIERS[0].winChance;
   };
 
-  useEffect(() => {
-    if (!soundsLoaded.current) {
-      const sounds = [
-        coinFlipSound.current,
-        coinLandSound.current,
-        winSound.current,
-        loseSound.current,
-      ];
-
-      const loadPromises = sounds.map(sound => {
-        sound.load();
-        sound.preload = 'auto';
-        return new Promise((resolve) => {
-          sound.addEventListener('canplaythrough', resolve, { once: true });
-        });
-      });
-
-      Promise.all(loadPromises).then(() => {
-        soundsLoaded.current = true;
-      });
-
-      return () => {
-        sounds.forEach((sound) => {
-          sound.pause();
-          sound.currentTime = 0;
-        });
-      };
-    }
-  }, []);
-
-  const playSound = async (sound: HTMLAudioElement) => {
-    try {
-      if (soundsLoaded.current) {
-        sound.currentTime = 0;
-        await sound.play();
-      }
-    } catch (error) {
-      console.error('Error playing sound:', error);
-    }
-  };
-
-  const handleTestModeActivate = (winRate: number) => {
-    setIsTestMode(true);
-    setTestWinRate(winRate);
-  };
-
   const adjustBet = (operation: 'increase' | 'decrease') => {
     if (operation === 'increase') {
       const newBet = Math.min(MAX_BET, bet * 2);
-      setBet(Math.min(newBet, balance));
+      setBet(Math.min(newBet, currentBalance));
     } else {
       const newBet = Math.max(MIN_BET, bet / 2);
       setBet(newBet);
@@ -136,25 +81,18 @@ function App() {
 
   const handleBetChange = (value: number) => {
     const cappedValue = Math.min(Math.max(MIN_BET, value), MAX_BET);
-    setBet(Math.min(cappedValue, balance));
+    setBet(Math.min(cappedValue, currentBalance));
   };
 
   const flipCoin = async () => {
-    if (isFlipping || bet > balance || bet <= 0) return;
+    if (isFlipping || bet > currentBalance || bet <= 0) return;
 
     setIsFlipping(true);
     setShowImpact(false);
 
-    if (!isFastMode) {
-      await playSound(coinFlipSound.current);
-    }
-
     const flipDuration = isFastMode ? 300 : 1500;
 
     setTimeout(async () => {
-      if (!isFastMode) {
-        await playSound(coinLandSound.current);
-      }
       setShowImpact(true);
 
       const winChance = getWinChance(bet);
@@ -166,9 +104,23 @@ function App() {
         : 'heads';
       setResult(newResult);
 
-      const rawProfit = isWin ? bet : -bet;
-      const profit = isWin ? Math.min(rawProfit, balance) : rawProfit;
-      setBalance((prev) => prev + profit);
+      const winAmount = isWin ? bet * 2 : 0;
+      const profit = winAmount - bet;
+
+      // Process game result through TransactionService
+      if (user) {
+        try {
+          await TransactionService.processGameResult(user.id, bet, winAmount, {
+            gameType: 'toss',
+            selectedSide,
+            result: newResult,
+            isWin
+          });
+          refreshWallet();
+        } catch (error) {
+          console.error('Error processing game result:', error);
+        }
+      }
 
       const newBetHistoryItem = {
         betAmount: bet,
@@ -188,41 +140,13 @@ function App() {
         totalProfit: prevStats.totalProfit + profit,
       }));
 
-      if (!isFastMode) {
-        await playSound(isWin ? winSound.current : loseSound.current);
-      }
-
       setIsFlipping(false);
     }, flipDuration);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white border-4 border-blue-500/30 rounded-2xl m-4">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-[#1a2332] to-[#0f1923] p-6 border-b border-blue-500/20">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => window.history.back()}
-              className="p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-xl border border-blue-500/30 transition-all flex items-center gap-2"
-            >
-              <ArrowLeft size={20} />
-              <span className="hidden sm:inline">Back</span>
-            </button>
-            <div className="flex items-center gap-3">
-              <Sparkles className="w-8 h-8 text-blue-400" />
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                Cosmic Heads & Tails
-              </h1>
-            </div>
-          </div>
-          <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl px-6 py-3 flex items-center gap-3">
-            <span className="text-blue-400 font-medium">Balance: ₹{balance.toLocaleString()}</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto p-6">
+    <div className="p-6">
+      <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Coin Section */}
           <div className="bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-3xl p-8 border border-blue-500/20 shadow-2xl">
@@ -244,14 +168,14 @@ function App() {
                   }}
                 >
                   <img
-                    src="https://media-hosting.imagekit.io/2f36d5203b8d4f92/download.png?Expires=1839243587&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=OYLiklQHV-Anmk-ZHrm48ZzJ5X-QOtQJYPXQ32UR9SA01yNloiaz5qcNsOGuPhdfb6ucej4X39JsasuM0BJYJbjUA3W0ZFL9QzsTjQlTXWzHc3xrWlgWNGjRDpPkyXstXdpgKWI0hDkRcdY5XD2qUVhNfu57hWZma8Umvs1XQPO4LZcGsNAQcj87nGDtDa0c63daVhp1JbAG8grV5GCuTXWBhHgxMMGkWccFTzRifZ5AJiHcbTfMX5MNbec9t~qFWH-gSZDicNQhQQzXdIadnoEpzkZgzYoMXltbToTJaWc6NeAOqKLvs4oGXMlto1Yf5q69u6oGupBrDWXbA-VhHw__"
+                    src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=320&h=320"
                     alt="Heads"
                     className={`absolute w-full h-full object-cover rounded-full border-8 border-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-opacity duration-500 ${
                       result === 'heads' || result === null ? 'opacity-100' : 'opacity-0'
                     }`}
                   />
                   <img
-                    src="https://media-hosting.imagekit.io/06f942dfa71f4746/ChatGPT%20Image%20Apr%2014,%202025,%2006_44_12%20PM-modified.png?Expires=1839244559&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=fsbz~lV8NXqAOnwC0vxBXziIL3ss-oau945xTjXBUNqAmKaYLdelamOTaCTUwWztMw9aEA2Ynu1WVcrIi6cUHE7YjnQgmeXegUF0cLGRTog1BxWBCQ27rr5ssl8-yxkuZi3ikl9t-r0LR8NcuDvZ1-qj47ez70NBsXbogA~MW1augxt9JK6RgWSr~Ku0GlGQe20yj6Uzx~qZ~a2rNoo5SWXjZbEcCPQY~1RR1XBtyBY~z4uT37AqqNLG48j6oxYd9fj6av~pt1Lk7uZoDj916kM~lyIoDubhob~lujxy1YZuqoS2~UYjZ~KjcZ6TD57PeRboQZORAhzt3Sn11HTOTQ__"
+                    src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=320&h=320"
                     alt="Tails"
                     className={`absolute w-full h-full object-cover rounded-full border-8 border-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-opacity duration-500 ${
                       result === 'tails' ? 'opacity-100' : 'opacity-0'
@@ -270,7 +194,7 @@ function App() {
                 } transition-all duration-300`}
               >
                 <div className="text-sm mb-3 text-blue-400 text-center font-medium">
-                  Head (1)
+                  Heads
                 </div>
                 <div
                   className={`w-24 h-24 rounded-full overflow-hidden border-4 transition-all ${
@@ -280,7 +204,7 @@ function App() {
                   }`}
                 >
                   <img
-                    src="https://media-hosting.imagekit.io/2f36d5203b8d4f92/download.png?Expires=1839243587&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=OYLiklQHV-Anmk-ZHrm48ZzJ5X-QOtQJYPXQ32UR9SA01yNloiaz5qcNsOGuPhdfb6ucej4X39JsasuM0BJYJbjUA3W0ZFL9QzsTjQlTXWzHc3xrWlgWNGjRDpPkyXstXdpgKWI0hDkRcdY5XD2qUVhNfu57hWZma8Umvs1XQPO4LZcGsNAQcj87nGDtDa0c63daVhp1JbAG8grV5GCuTXWBhHgxMMGkWccFTzRifZ5AJiHcbTfMX5MNbec9t~qFWH-gSZDicNQhQQzXdIadnoEpzkZgzYoMXltbToTJaWc6NeAOqKLvs4oGXMlto1Yf5q69u6oGupBrDWXbA-VhHw__"
+                    src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=96&h=96"
                     alt="Heads"
                     className="w-full h-full object-cover"
                   />
@@ -293,7 +217,7 @@ function App() {
                 } transition-all duration-300`}
               >
                 <div className="text-sm mb-3 text-blue-400 text-center font-medium">
-                  Tail (2)
+                  Tails
                 </div>
                 <div
                   className={`w-24 h-24 rounded-full overflow-hidden border-4 transition-all ${
@@ -303,7 +227,7 @@ function App() {
                   }`}
                 >
                   <img
-                    src="https://media-hosting.imagekit.io/06f942dfa71f4746/ChatGPT%20Image%20Apr%2014,%202025,%2006_44_12%20PM-modified.png?Expires=1839244559&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=fsbz~lV8NXqAOnwC0vxBXziIL3ss-oau945xTjXBUNqAmKaYLdelamOTaCTUwWztMw9aEA2Ynu1WVcrIi6cUHE7YjnQgmeXegUF0cLGRTog1BxWBCQ27rr5ssl8-yxkuZi3ikl9t-r0LR8NcuDvZ1-qj47ez70NBsXbogA~MW1augxt9JK6RgWSr~Ku0GlGQe20yj6Uzx~qZ~a2rNoo5SWXjZbEcCPQY~1RR1XBtyBY~z4uT37AqqNLG48j6oxYd9fj6av~pt1Lk7uZoDj916kM~lyIoDubhob~lujxy1YZuqoS2~UYjZ~KjcZ6TD57PeRboQZORAhzt3Sn11HTOTQ__"
+                    src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=96&h=96"
                     alt="Tails"
                     className="w-full h-full object-cover"
                   />
@@ -365,9 +289,9 @@ function App() {
                 {/* Flip Button */}
                 <button
                   onClick={flipCoin}
-                  disabled={isFlipping || bet > balance || bet <= 0}
+                  disabled={isFlipping || bet > currentBalance || bet <= 0}
                   className={`premium-action-btn w-full py-5 rounded-xl text-xl font-bold transition-all transform shadow-xl ${
-                    isFlipping || bet > balance || bet <= 0
+                    isFlipping || bet > currentBalance || bet <= 0
                       ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
                       : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white hover:scale-105 shadow-blue-500/40'
                   }`}
@@ -379,10 +303,7 @@ function App() {
 
             {/* Stats Panel */}
             <div className="premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
-              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
-                <Trophy className="w-6 h-6 text-yellow-400" />
-                Stats
-              </h3>
+              <h3 className="text-xl font-bold text-white mb-6">Stats</h3>
               <div className="grid grid-cols-3 gap-4">
                 <div className="premium-stat-card bg-gradient-to-br from-[#2a3441] to-[#1a2332] rounded-xl p-4 border border-blue-500/20 text-center">
                   <div className="text-sm text-gray-400 mb-1">Total Profit</div>
@@ -415,10 +336,7 @@ function App() {
 
         {/* Recent Bets Section */}
         <div className="mt-8 premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
-          <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
-            <History className="w-6 h-6 text-blue-400" />
-            Recent Bets
-          </h3>
+          <h3 className="text-xl font-bold text-white mb-6">Recent Bets</h3>
           <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
             {betHistory.length === 0 ? (
               <div className="text-gray-400 text-center p-8 bg-[#0f1923]/50 rounded-xl border border-blue-500/10">
@@ -455,11 +373,47 @@ function App() {
             )}
           </div>
         </div>
-      </div>
 
-      <StarToggle onActivate={handleTestModeActivate} />
+        {/* Game Info */}
+        <div className="mt-8 bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
+          <div className="flex items-center gap-3 mb-4">
+            <Info className="w-6 h-6 text-blue-400" />
+            <h3 className="text-xl font-bold text-white">How to Play Cosmic Heads & Tails</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-[#0f1923]/50 rounded-lg p-4 border border-blue-500/20">
+              <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Choose heads or tails</li>
+                <li>• Set your bet amount</li>
+                <li>• Flip the coin</li>
+                <li>• Correct guess = 2x bet</li>
+                <li>• Wrong guess = lose bet</li>
+              </ul>
+            </div>
+            <div className="bg-[#0f1923]/50 rounded-lg p-4 border border-blue-500/20">
+              <h4 className="font-bold text-green-400 mb-2">Features</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Fast mode for quick games</li>
+                <li>• Dynamic win chances</li>
+                <li>• Real-time statistics</li>
+                <li>• Bet history tracking</li>
+                <li>• Smooth animations</li>
+              </ul>
+            </div>
+            <div className="bg-[#0f1923]/50 rounded-lg p-4 border border-blue-500/20">
+              <h4 className="font-bold text-purple-400 mb-2">Strategy Tips</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Start with small bets</li>
+                <li>• Use fast mode for efficiency</li>
+                <li>• Higher bets = lower win chance</li>
+                <li>• Set profit targets</li>
+                <li>• Play responsibly</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
-
-export default App;

@@ -1,20 +1,21 @@
 import React, { useState, useCallback } from 'react';
-import GameArea from './components/GameArea';
-import RecentBets from './components/RecentBets';
-import HelpModal from './components/HelpModal';
+import { Minus, Plus, Info } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import { TransactionService } from '../transactions/TransactionService';
 
-function App() {
-  const [balance, setBalance] = useState(83000);
+export default function MinesweeperGame() {
+  const { user, wallet, refreshWallet } = useAuth();
   const [betAmount, setBetAmount] = useState(830);
   const [gameHistory, setGameHistory] = useState([]);
-  const [showHelp, setShowHelp] = useState(false);
   const [mineCount, setMineCount] = useState(5);
   const [gameGrid, setGameGrid] = useState(Array(25).fill(false));
   const [revealedTiles, setRevealedTiles] = useState(Array(25).fill(false));
   const [gameActive, setGameActive] = useState(false);
   const [currentMultiplier, setCurrentMultiplier] = useState(1.0);
 
-  const handleGameResult = useCallback((result: 'green' | 'yellow' | 'miss', difficulty: 'low' | 'mid' | 'high') => {
+  const currentBalance = (wallet?.real_balance || 0) + (wallet?.bonus_balance || 0);
+
+  const handleGameResult = useCallback(async (result: 'green' | 'yellow' | 'miss', difficulty: 'low' | 'mid' | 'high') => {
     const multipliers = {
       low: { green: 2, yellow: 0.5 },
       mid: { green: 5, yellow: 0.5 },
@@ -22,24 +23,34 @@ function App() {
     };
 
     const multiplier = result === 'miss' ? 0 : multipliers[difficulty][result];
-    const winnings = betAmount * multiplier;
+    const winAmount = betAmount * multiplier;
     
-    setBalance(prev => prev + winnings - betAmount);
+    // Process game result through TransactionService
+    if (user) {
+      try {
+        await TransactionService.processGameResult(user.id, betAmount, winAmount, {
+          gameType: 'minesweeper',
+          result,
+          difficulty,
+          mineCount
+        });
+        refreshWallet();
+      } catch (error) {
+        console.error('Error processing game result:', error);
+      }
+    }
+    
     setGameHistory(prev => [{
       result,
       amount: betAmount,
-      winnings: winnings - betAmount,
+      winnings: winAmount - betAmount,
       timestamp: new Date(),
       difficulty
     }, ...prev].slice(0, 5));
-  }, [betAmount]);
-
-  const handleStarActivate = useCallback((winRate: number) => {
-    setBalance(prev => prev + Math.floor(winRate * 1000));
-  }, []);
+  }, [betAmount, user, refreshWallet]);
 
   const startGame = () => {
-    if (balance < betAmount) return;
+    if (currentBalance < betAmount) return;
     
     // Generate mine positions
     const mines = [];
@@ -57,7 +68,6 @@ function App() {
     setRevealedTiles(Array(25).fill(false));
     setGameActive(true);
     setCurrentMultiplier(1.0);
-    setBalance(prev => prev - betAmount);
   };
 
   const revealTile = (index: number) => {
@@ -72,6 +82,7 @@ function App() {
       setGameActive(false);
       // Reveal all mines
       setRevealedTiles(Array(25).fill(true));
+      handleGameResult('miss', 'mid');
     } else {
       // Safe tile
       const safeTilesRevealed = newRevealed.filter((revealed, i) => revealed && !gameGrid[i]).length;
@@ -80,37 +91,32 @@ function App() {
     }
   };
 
-  const cashOut = () => {
+  const cashOut = async () => {
     if (!gameActive) return;
     
-    const winnings = betAmount * currentMultiplier;
-    setBalance(prev => prev + winnings);
+    const winAmount = betAmount * currentMultiplier;
+    
+    // Process game result through TransactionService
+    if (user) {
+      try {
+        await TransactionService.processGameResult(user.id, betAmount, winAmount, {
+          gameType: 'minesweeper',
+          result: 'cashout',
+          multiplier: currentMultiplier,
+          mineCount
+        });
+        refreshWallet();
+      } catch (error) {
+        console.error('Error processing game result:', error);
+      }
+    }
+    
     setGameActive(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-[#1a2332] to-[#0f1923] p-6 border-b border-blue-500/20">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => window.history.back()}
-              className="p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-xl border border-blue-500/30 transition-all"
-            >
-              ←
-            </button>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Cosmic Mines
-            </h1>
-          </div>
-          <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl px-6 py-3">
-            <span className="text-blue-400 font-medium">₹{balance.toLocaleString()}</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto p-6">
+    <div className="p-6">
+      <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Game Grid */}
           <div className="lg:col-span-2">
@@ -231,13 +237,13 @@ function App() {
                 </div>
                 
                 <div className="text-xs text-gray-400 text-center">
-                  Min: ₹1 • Max: ₹{balance.toLocaleString()}
+                  Min: ₹1 • Max: ₹{currentBalance.toLocaleString()}
                 </div>
 
                 {!gameActive ? (
                   <button
                     onClick={startGame}
-                    disabled={betAmount > balance}
+                    disabled={betAmount > currentBalance}
                     className="premium-action-btn w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-green-500/30 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
                   >
                     Start Game - ₹{betAmount}
@@ -254,11 +260,47 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
 
-      {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
+        {/* Game Info */}
+        <div className="mt-8 bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
+          <div className="flex items-center gap-3 mb-4">
+            <Info className="w-6 h-6 text-blue-400" />
+            <h3 className="text-xl font-bold text-white">How to Play Cosmic Minesweeper</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-[#0f1923]/50 rounded-lg p-4 border border-blue-500/20">
+              <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Set mine count (1-24)</li>
+                <li>• Place your bet</li>
+                <li>• Click tiles to reveal</li>
+                <li>• Avoid mines</li>
+                <li>• Cash out anytime</li>
+              </ul>
+            </div>
+            <div className="bg-[#0f1923]/50 rounded-lg p-4 border border-blue-500/20">
+              <h4 className="font-bold text-green-400 mb-2">Strategy Tips</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Start with fewer mines</li>
+                <li>• Cash out early for safety</li>
+                <li>• More mines = higher risk</li>
+                <li>• Trust your instincts</li>
+                <li>• Set profit targets</li>
+              </ul>
+            </div>
+            <div className="bg-[#0f1923]/50 rounded-lg p-4 border border-blue-500/20">
+              <h4 className="font-bold text-purple-400 mb-2">Multipliers</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Each safe tile increases multiplier</li>
+                <li>• More mines = higher multipliers</li>
+                <li>• Risk vs reward balance</li>
+                <li>• Cash out before hitting mine</li>
+                <li>• Maximum potential: 100x+</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
-
-export default App;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Grid, ArrowLeft, Menu, Search, Filter } from 'lucide-react';
+import { Grid, ArrowLeft, Menu, Search } from 'lucide-react';
 import { GameGrid } from '../GameGrid';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';

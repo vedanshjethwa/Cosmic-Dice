@@ -1,20 +1,20 @@
 import React, { useState, useCallback } from 'react';
-import GameArea from './components/GameArea';
-import RecentBets from './components/RecentBets';
-import HelpModal from './components/HelpModal';
-import { StarToggle } from './components/StarToggle';
+import { Info } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import { TransactionService } from '../transactions/TransactionService';
 
-function App() {
-  const [balance, setBalance] = useState(1000);
+export default function PredictionPulseGame() {
+  const { user, wallet, refreshWallet } = useAuth();
   const [betAmount, setBetAmount] = useState(10);
   const [gameHistory, setGameHistory] = useState([]);
-  const [showHelp, setShowHelp] = useState(false);
   const [gameState, setGameState] = useState<'idle' | 'running' | 'result'>('idle');
   const [position, setPosition] = useState(0);
   const [difficulty, setDifficulty] = useState<'low' | 'mid' | 'high'>('low');
   const [message, setMessage] = useState('');
 
-  const handleGameResult = useCallback((result: 'green' | 'yellow' | 'miss', difficulty: 'low' | 'mid' | 'high') => {
+  const currentBalance = (wallet?.real_balance || 0) + (wallet?.bonus_balance || 0);
+
+  const handleGameResult = useCallback(async (result: 'green' | 'yellow' | 'miss', difficulty: 'low' | 'mid' | 'high') => {
     const multipliers = {
       low: { green: 2, yellow: 0.5 },
       mid: { green: 5, yellow: 0.5 },
@@ -22,45 +22,35 @@ function App() {
     };
 
     const multiplier = result === 'miss' ? 0 : multipliers[difficulty][result];
-    const winnings = betAmount * multiplier;
+    const winAmount = betAmount * multiplier;
     
-    setBalance(prev => prev + winnings - betAmount);
+    // Process game result through TransactionService
+    if (user) {
+      try {
+        await TransactionService.processGameResult(user.id, betAmount, winAmount, {
+          gameType: 'prediction_pulse',
+          result,
+          difficulty,
+          position
+        });
+        refreshWallet();
+      } catch (error) {
+        console.error('Error processing game result:', error);
+      }
+    }
+    
     setGameHistory(prev => [{
       result,
       amount: betAmount,
-      winnings: winnings - betAmount,
+      winnings: winAmount - betAmount,
       timestamp: new Date(),
       difficulty
     }, ...prev].slice(0, 5));
-  }, [betAmount]);
-
-  const handleStarActivate = useCallback((winRate: number) => {
-    setBalance(prev => prev + Math.floor(winRate * 1000));
-  }, []);
+  }, [betAmount, user, refreshWallet, position]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-[#1a2332] to-[#0f1923] p-6 border-b border-blue-500/20">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => window.history.back()}
-              className="p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-xl border border-blue-500/30 transition-all"
-            >
-              ←
-            </button>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Cosmic Tap Zone
-            </h1>
-          </div>
-          <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl px-6 py-3">
-            <span className="text-blue-400 font-medium">₹{balance.toLocaleString()}</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto p-6">
+    <div className="p-6">
+      <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Game Area */}
           <div className="premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-3xl p-8 border border-blue-500/20 shadow-2xl">
@@ -129,11 +119,11 @@ function App() {
                     disabled={gameState === 'running'}
                     className="w-24 bg-transparent text-center font-bold focus:outline-none text-white text-lg"
                     min="1"
-                    max={balance}
+                    max={currentBalance}
                   />
                 </div>
                 <button
-                  onClick={() => setBetAmount(Math.min(balance, betAmount * 2))}
+                  onClick={() => setBetAmount(Math.min(currentBalance, betAmount * 2))}
                   disabled={gameState === 'running'}
                   className="premium-control-btn px-4 py-2 bg-gradient-to-br from-[#2a3441] to-[#1a2332] hover:from-[#3a4451] hover:to-[#2a3441] rounded-xl border border-blue-500/30 hover:border-blue-400/50 transition-all disabled:opacity-50"
                 >
@@ -151,9 +141,9 @@ function App() {
                     setPosition(0);
                   }
                 }}
-                disabled={betAmount <= 0 || betAmount > balance}
+                disabled={betAmount <= 0 || betAmount > currentBalance}
                 className={`premium-action-btn w-full py-4 rounded-xl font-bold text-lg transition-all shadow-xl relative group overflow-hidden ${
-                  betAmount <= 0 || betAmount > balance
+                  betAmount <= 0 || betAmount > currentBalance
                     ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
                     : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white hover:scale-105 shadow-blue-500/40'
                 }`}
@@ -189,16 +179,49 @@ function App() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
 
-            <RecentBets history={gameHistory} />
+        {/* Game Info Section */}
+        <div className="mt-8 bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
+          <div className="flex items-center gap-3 mb-4">
+            <Info className="w-6 h-6 text-blue-400" />
+            <h3 className="text-xl font-bold text-white">How to Play Prediction Pulse</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-[#0f1923]/50 rounded-lg p-4 border border-blue-500/20">
+              <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Watch the pulse move</li>
+                <li>• Tap when in colored zones</li>
+                <li>• Green zone = maximum reward</li>
+                <li>• Yellow zone = partial reward</li>
+                <li>• Miss = lose bet</li>
+              </ul>
+            </div>
+            <div className="bg-[#0f1923]/50 rounded-lg p-4 border border-blue-500/20">
+              <h4 className="font-bold text-green-400 mb-2">Difficulty Levels</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Low: 2x reward, wider zones</li>
+                <li>• Mid: 5x reward, medium zones</li>
+                <li>• High: 10x reward, narrow zones</li>
+                <li>• Higher difficulty = bigger rewards</li>
+                <li>• Timing is everything</li>
+              </ul>
+            </div>
+            <div className="bg-[#0f1923]/50 rounded-lg p-4 border border-blue-500/20">
+              <h4 className="font-bold text-purple-400 mb-2">Strategy Tips</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Practice timing on low difficulty</li>
+                <li>• Watch pulse speed patterns</li>
+                <li>• Start with small bets</li>
+                <li>• Focus on green zones</li>
+                <li>• Stay calm and focused</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-
-      {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
-      <StarToggle onActivate={handleStarActivate} />
     </div>
   );
 }
-
-export default App;

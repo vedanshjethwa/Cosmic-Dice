@@ -1,17 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { Hand, Scroll, Scissors, Minus, Plus, ArrowLeft, Info } from 'lucide-react';
+import { Hand, Scroll, Scissors, Minus, Plus, Info } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { StarToggle } from './star/StarToggle';
+import { useAuth } from '../../contexts/AuthContext';
+import { TransactionService } from '../transactions/TransactionService';
 
 type Choice = 'rock' | 'paper' | 'scissors' | null;
-
-const AUDIO_URLS = {
-  rock: 'https://cdn.freesound.org/previews/240/240876_4107740-lq.mp3',
-  paper: 'https://cdn.freesound.org/previews/240/240877_4107740-lq.mp3',
-  scissors: 'https://cdn.freesound.org/previews/240/240878_4107740-lq.mp3',
-  win: 'https://cdn.freesound.org/previews/270/270404_5123851-lq.mp3',
-  lose: 'https://cdn.freesound.org/previews/76/76376_877451-lq.mp3',
-};
 
 const BETTING_TIERS = [
   { amount: 1, winChance: 0.5 },
@@ -32,71 +25,6 @@ const BETTING_TIERS = [
   { amount: 100000, winChance: 0.01 },
 ];
 
-class AudioManager {
-  private sounds: { [key: string]: HTMLAudioElement } = {};
-  private loaded: { [key: string]: boolean } = {};
-  private initialized: boolean = false;
-  private currentSound: HTMLAudioElement | null = null;
-
-  constructor() {
-    Object.entries(AUDIO_URLS).forEach(([key, url]) => {
-      const audio = new Audio();
-      audio.preload = 'auto';
-      audio.src = url;
-      this.sounds[key] = audio;
-      this.loaded[key] = false;
-
-      audio.addEventListener('canplaythrough', () => {
-        this.loaded[key] = true;
-      });
-    });
-  }
-
-  initialize() {
-    if (this.initialized) return;
-    Object.values(this.sounds).forEach(audio => audio.load());
-    this.initialized = true;
-  }
-
-  play(key: string) {
-    if (!this.initialized) {
-      this.initialize();
-    }
-
-    if (!this.loaded[key] || !this.sounds[key]) return;
-
-    try {
-      if (this.currentSound) {
-        this.currentSound.pause();
-        this.currentSound.currentTime = 0;
-      }
-
-      const sound = this.sounds[key];
-      sound.currentTime = 0;
-      this.currentSound = sound;
-      
-      const playPromise = sound.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          console.warn(`Error playing sound ${key}:`, error);
-        });
-      }
-    } catch (error) {
-      console.warn(`Error playing sound ${key}:`, error);
-    }
-  }
-
-  stopAll() {
-    if (this.currentSound) {
-      this.currentSound.pause();
-      this.currentSound.currentTime = 0;
-      this.currentSound = null;
-    }
-  }
-}
-
-const audioManager = new AudioManager();
-
 interface BetHistoryEntry {
   id: string;
   timestamp: number;
@@ -107,17 +35,17 @@ interface BetHistoryEntry {
   isWin: boolean;
 }
 
-function App() {
+export default function RPSGame() {
+  const { user, wallet, refreshWallet } = useAuth();
   const [playerChoice, setPlayerChoice] = useState<Choice>(null);
   const [computerChoice, setComputerChoice] = useState<Choice>(null);
   const [betAmount, setBetAmount] = useState(10);
-  const [balance, setBalance] = useState(1000);
   const [result, setResult] = useState<string>('');
   const [potentialWin, setPotentialWin] = useState(20);
   const [showHowToPlay, setShowHowToPlay] = useState(false);
-  const [isTestMode, setIsTestMode] = useState(false);
-  const [testWinRate, setTestWinRate] = useState(0);
   const [betHistory, setBetHistory] = useState<BetHistoryEntry[]>([]);
+
+  const currentBalance = (wallet?.real_balance || 0) + (wallet?.bonus_balance || 0);
 
   const stats = useMemo(() => {
     return betHistory.reduce(
@@ -131,7 +59,6 @@ function App() {
   }, [betHistory]);
 
   const getWinChance = (bet: number): number => {
-    if (isTestMode) return testWinRate;
     for (let i = BETTING_TIERS.length - 1; i >= 0; i--) {
       if (bet >= BETTING_TIERS[i].amount) {
         return BETTING_TIERS[i].winChance;
@@ -185,24 +112,23 @@ function App() {
 
     const newBet = Math.min(
       parseFloat(numericValue.toFixed(2)),
-      Math.min(100000, balance)
+      Math.min(100000, currentBalance)
     );
 
     setBetAmount(newBet);
     const calculatedWin = newBet * 2;
-    setPotentialWin(Math.min(calculatedWin, balance));
+    setPotentialWin(Math.min(calculatedWin, currentBalance));
   };
 
   const incrementBet = () => handleBetChange(betAmount + 1);
   const decrementBet = () => handleBetChange(betAmount - 1);
 
-  const determineWinner = (player: Choice, computer: Choice) => {
+  const determineWinner = async (player: Choice, computer: Choice) => {
     const timestamp = Date.now();
     const id = `${timestamp}-${Math.random()}`;
 
     if (player === computer) {
       setResult('Draw!');
-      setBalance((prev) => prev);
       setBetHistory((prev) => [
         {
           id,
@@ -220,9 +146,24 @@ function App() {
       (player === 'paper' && computer === 'rock') ||
       (player === 'scissors' && computer === 'paper')
     ) {
-      const winAmount = Math.min(betAmount * 2, balance);
+      const winAmount = Math.min(betAmount * 2, currentBalance);
       setResult('You Win!');
-      setBalance((prev) => prev + winAmount);
+      
+      // Process game result through TransactionService
+      if (user) {
+        try {
+          await TransactionService.processGameResult(user.id, betAmount, winAmount, {
+            gameType: 'rps',
+            playerChoice: player,
+            computerChoice: computer,
+            result: 'win'
+          });
+          refreshWallet();
+        } catch (error) {
+          console.error('Error processing game result:', error);
+        }
+      }
+
       setBetHistory((prev) => [
         {
           id,
@@ -235,10 +176,24 @@ function App() {
         },
         ...prev,
       ]);
-      audioManager.play('win');
     } else {
       setResult('Computer Wins!');
-      setBalance((prev) => prev - betAmount);
+      
+      // Process game result through TransactionService
+      if (user) {
+        try {
+          await TransactionService.processGameResult(user.id, betAmount, 0, {
+            gameType: 'rps',
+            playerChoice: player,
+            computerChoice: computer,
+            result: 'loss'
+          });
+          refreshWallet();
+        } catch (error) {
+          console.error('Error processing game result:', error);
+        }
+      }
+
       setBetHistory((prev) => [
         {
           id,
@@ -251,16 +206,12 @@ function App() {
         },
         ...prev,
       ]);
-      audioManager.play('lose');
     }
   };
 
   const handleChoice = (choice: Choice) => {
-    if (betAmount < 0 || betAmount > balance || !choice) return;
+    if (betAmount < 0 || betAmount > currentBalance || !choice) return;
 
-    audioManager.initialize();
-    audioManager.stopAll();
-    audioManager.play(choice);
     setPlayerChoice(choice);
     const computerMove = makeComputerChoice();
     setComputerChoice(computerMove);
@@ -268,29 +219,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white border-4 border-blue-500/30 rounded-2xl m-4">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-[#1a2332] to-[#0f1923] p-6 border-b border-blue-500/20">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => window.history.back()}
-              className="p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-xl border border-blue-500/30 transition-all flex items-center gap-2"
-            >
-              <ArrowLeft size={20} />
-              <span className="hidden sm:inline">Back</span>
-            </button>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Cosmic RPS
-            </h1>
-          </div>
-          <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl px-6 py-3 flex items-center gap-3">
-            <span className="text-blue-400 font-medium">Balance: ₹{balance.toLocaleString()}</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto p-6">
+    <div className="p-6">
+      <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Game Area */}
           <div className="lg:col-span-2">
@@ -303,7 +233,7 @@ function App() {
                     key={choice}
                     onClick={() => handleChoice(choice as Choice)}
                     className="premium-game-button bg-gradient-to-br from-[#2a3441] to-[#1a2332] hover:from-[#3a4451] hover:to-[#2a3441] p-8 rounded-2xl transition-all border border-blue-500/30 hover:border-blue-400/50 relative group overflow-hidden"
-                    disabled={betAmount < 0 || betAmount > balance}
+                    disabled={betAmount < 0 || betAmount > currentBalance}
                     whileHover={{ scale: 1.05, y: -4 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -378,7 +308,7 @@ function App() {
                       className="premium-input w-full bg-gradient-to-br from-[#2a3441] to-[#1a2332] text-white text-center py-4 px-6 rounded-xl outline-none border border-blue-500/30 focus:border-blue-400/50 transition-all text-xl font-bold"
                       min="0"
                       step="0.01"
-                      max={Math.min(100000, balance)}
+                      max={Math.min(100000, currentBalance)}
                     />
                   </div>
                   
@@ -395,13 +325,9 @@ function App() {
                   <span className="text-green-400 font-bold">₹{potentialWin.toFixed(2)}</span>
                 </div>
 
-                <button
-                  onClick={() => handleChoice(playerChoice)}
-                  className="premium-action-btn w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-blue-500/30 transform hover:scale-105"
-                  disabled={betAmount < 0 || betAmount > balance}
-                >
-                  Place Bet
-                </button>
+                <div className="text-sm text-gray-400 text-center">
+                  Win Chance: {(getWinChance(betAmount) * 100).toFixed(1)}%
+                </div>
               </div>
             </div>
 
@@ -517,15 +443,6 @@ function App() {
           </div>
         </div>
       </div>
-
-      <StarToggle
-        onActivate={(winRate) => {
-          setIsTestMode(true);
-          setTestWinRate(winRate);
-        }}
-      />
     </div>
   );
 }
-
-export default App;

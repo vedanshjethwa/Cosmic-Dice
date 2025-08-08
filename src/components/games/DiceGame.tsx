@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { DivideCircle, Plus, HelpCircle } from 'lucide-react';
-import { Border } from './border/Border';
+import { DivideCircle, Plus, Info } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import { TransactionService } from '../transactions/TransactionService';
 
 // Betting tiers with their corresponding win chances
 const BETTING_TIERS = [
@@ -24,39 +25,6 @@ const BETTING_TIERS = [
 
 const MAX_BET = 100000;
 
-// Instructions Modal Component
-function InstructionsModal({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) {
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-[#0f172a] text-white p-8 rounded-xl max-w-md w-full mx-4 relative border border-[#1a2942]">
-        <h2 className="text-2xl font-bold mb-4 text-[#3b82f6]">How to Play</h2>
-        <div className="space-y-4">
-          <p>1. Choose your bet amount (₹1 - ₹100,000)</p>
-          <p>2. Select a number (1-6) that you think the dice will land on.</p>
-          <p>3. Click "ROLL DICE" to start the game.</p>
-          <p>4. Win chances vary based on your bet amount!</p>
-          <p className="text-sm text-gray-400">Note: Maximum winnings cannot exceed your wallet balance.</p>
-        </div>
-        <button
-          onClick={onClose}
-          className="w-full mt-6 bg-[#3b82f6] hover:bg-[#60a5fa] text-white font-bold py-3 rounded-lg transition-colors"
-        >
-          Got it
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// Define bet history type
 interface BetHistoryItem {
   betAmount: number;
   targetMultiplier: number;
@@ -65,24 +33,19 @@ interface BetHistoryItem {
   profit: number;
 }
 
-// Define stats type
 interface GameStats {
   totalWins: number;
   totalLosses: number;
   totalProfit: number;
 }
 
-function App() {
+export default function DiceGame() {
+  const { user, wallet, refreshWallet } = useAuth();
   const [selectedDice, setSelectedDice] = useState(4);
   const [betAmount, setBetAmount] = useState('1');
-  const [balance, setBalance] = useState(518.0);
   const [isRolling, setIsRolling] = useState(false);
   const [diceResult, setDiceResult] = useState<number | null>(null);
   const [showWinMessage, setShowWinMessage] = useState(false);
-  const [showInstructions, setShowInstructions] = useState(false);
-  const [isBalanceAnimating, setIsBalanceAnimating] = useState(false);
-  const [modalClosed, setModalClosed] = useState(false);
-  
   const [betHistory, setBetHistory] = useState<BetHistoryItem[]>([]);
   const [stats, setStats] = useState<GameStats>({
     totalWins: 0,
@@ -90,38 +53,7 @@ function App() {
     totalProfit: 0
   });
 
-  const [rollSound] = useState(() => {
-    const audio = new Audio();
-    audio.src = 'https://cdn.freesound.org/previews/220/220773_4107740-lq.mp3';
-    audio.onerror = () => {
-      audio.src = 'https://cdn.freesound.org/previews/240/240776_4107740-lq.mp3';
-    };
-    return audio;
-  });
-
-  const [winSound] = useState(() => {
-    const audio = new Audio();
-    audio.src = 'https://cdn.freesound.org/previews/456/456966_9497047-lq.mp3';
-    audio.onerror = () => {
-      audio.src = 'https://cdn.freesound.org/previews/270/270404_5123851-lq.mp3';
-    };
-    return audio;
-  });
-
-  const handleCloseModal = () => {
-    setShowInstructions(false);
-    setModalClosed(true);
-  };
-
-  const playSound = (audio: HTMLAudioElement) => {
-    audio.currentTime = 0;
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // Ignore playback errors
-      });
-    }
-  };
+  const currentBalance = (wallet?.real_balance || 0) + (wallet?.bonus_balance || 0);
 
   const getWinChance = (amount: number): number => {
     for (let i = BETTING_TIERS.length - 1; i >= 0; i--) {
@@ -133,33 +65,27 @@ function App() {
   };
 
   const calculateMaxWin = (betAmount: number): number => {
-    return Math.min(betAmount * 5, balance);
+    return Math.min(betAmount * 5, currentBalance);
   };
 
   const adjustBet = (multiplier: number) => {
     const currentBet = parseFloat(betAmount) || 0;
     const newBet = Math.min(
       Math.max(Math.floor(currentBet * multiplier * 100) / 100, 1),
-      Math.min(MAX_BET, balance)
+      Math.min(MAX_BET, currentBalance)
     );
     setBetAmount(newBet.toString());
   };
 
-  const rollDice = () => {
+  const rollDice = async () => {
     const bet = parseFloat(betAmount);
-    if (isNaN(bet) || bet <= 0 || bet > balance || bet > MAX_BET) return;
+    if (isNaN(bet) || bet <= 0 || bet > currentBalance || bet > MAX_BET) return;
 
     setIsRolling(true);
     setDiceResult(null);
     setShowWinMessage(false);
 
-    setIsBalanceAnimating(true);
-    setBalance((prev) => prev - bet);
-    setTimeout(() => setIsBalanceAnimating(false), 300);
-
-    playSound(rollSound);
-
-    setTimeout(() => {
+    setTimeout(async () => {
       const winChance = getWinChance(bet);
       const randomValue = Math.random();
       const isWin = randomValue < winChance && selectedDice === Math.floor(Math.random() * 6) + 1;
@@ -169,8 +95,24 @@ function App() {
       setIsRolling(false);
 
       const maxWin = calculateMaxWin(bet);
-      const profit = isWin ? Math.min(bet * 5, maxWin) - bet : -bet;
+      const winAmount = isWin ? Math.min(bet * 5, maxWin) : 0;
+      const profit = winAmount - bet;
       
+      // Process game result through TransactionService
+      if (user) {
+        try {
+          await TransactionService.processGameResult(user.id, bet, winAmount, {
+            gameType: 'dice',
+            selectedNumber: selectedDice,
+            diceResult: result,
+            isWin
+          });
+          refreshWallet();
+        } catch (error) {
+          console.error('Error processing game result:', error);
+        }
+      }
+
       const newBet: BetHistoryItem = {
         betAmount: bet,
         targetMultiplier: 5,
@@ -188,42 +130,18 @@ function App() {
       }));
 
       if (isWin) {
-        playSound(winSound);
         setShowWinMessage(true);
-        setIsBalanceAnimating(true);
-        setBalance((prev) => prev + Math.min(bet * 5, maxWin));
-        setTimeout(() => setIsBalanceAnimating(false), 300);
       }
     }, 200);
   };
-
-  useEffect(() => {
-    rollSound.load();
-    winSound.load();
-
-    return () => {
-      rollSound.pause();
-      winSound.pause();
-      rollSound.src = '';
-      winSound.src = '';
-    };
-  }, [rollSound, winSound]);
 
   // Calculate current win chance based on bet amount
   const currentWinChance = getWinChance(parseFloat(betAmount) || 0);
   const maxPossibleWin = calculateMaxWin(parseFloat(betAmount) || 0);
 
   return (
-    <div
-      className={`min-h-screen ${
-        modalClosed
-          ? 'bg-gradient-to-b from-black via-[#0a0f1a] to-[#020817]'
-          : 'bg-gradient-to-b from-[#0f172a] via-[#0a0f1a] to-[#020817]'
-      } text-white`}
-    >
-
-      {/* Main Game Area */}
-      <main className="container mx-auto px-2 md:px-4 py-3 md:py-8 flex flex-col gap-4 md:gap-8">
+    <div className="p-6">
+      <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row gap-4 md:gap-8">
           {/* Left Side - Dice Display */}
           <div className="flex-1 flex flex-col items-center justify-center gap-3 md:gap-6">
@@ -255,12 +173,7 @@ function App() {
             </div>
             {showWinMessage && (
               <div className="text-xl md:text-3xl font-bold text-[#3b82f6] animate-bounce">
-                You Win! {new Intl.NumberFormat('en-IN', {
-                  style: 'currency',
-                  currency: 'INR',
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2
-                }).format(maxPossibleWin)}
+                You Win! ₹{maxPossibleWin.toFixed(2)}
               </div>
             )}
           </div>
@@ -289,13 +202,13 @@ function App() {
                       if (isNaN(value)) {
                         setBetAmount('');
                       } else {
-                        setBetAmount(Math.min(value, Math.min(MAX_BET, balance)).toString());
+                        setBetAmount(Math.min(value, Math.min(MAX_BET, currentBalance)).toString());
                       }
                     }}
                     className="bg-[#0f172a] border border-[#1a2942] rounded px-3 py-2 md:px-4 md:py-3 w-full text-base md:text-lg focus:outline-none focus:border-[#3b82f6] transition-colors"
                     placeholder="Bet Amount"
                     min="1"
-                    max={Math.min(MAX_BET, balance)}
+                    max={Math.min(MAX_BET, currentBalance)}
                     step="1"
                   />
                   <button
@@ -307,12 +220,7 @@ function App() {
                   </button>
                 </div>
                 <div className="text-xs text-gray-400">
-                  Max possible win: {new Intl.NumberFormat('en-IN', {
-                    style: 'currency',
-                    currency: 'INR',
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                  }).format(maxPossibleWin)}
+                  Max possible win: ₹{maxPossibleWin.toFixed(2)}
                 </div>
               </div>
 
@@ -345,7 +253,7 @@ function App() {
                 onClick={rollDice}
                 disabled={
                   isRolling ||
-                  parseFloat(betAmount) > balance ||
+                  parseFloat(betAmount) > currentBalance ||
                   parseFloat(betAmount) <= 0 ||
                   parseFloat(betAmount) > MAX_BET
                 }
@@ -370,7 +278,7 @@ function App() {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-lg font-bold">{bet.multiplier.toFixed(2)}×</span>
                   <span className={`font-bold ${bet.isWin ? 'text-green-500' : 'text-red-500'}`}>
-                    {bet.profit >= 0 ? '+' : ''}{bet.profit.toFixed(2)}
+                    {bet.profit >= 0 ? '+' : ''}₹{bet.profit.toFixed(2)}
                   </span>
                 </div>
                 <div className="text-sm text-gray-400">
@@ -441,10 +349,7 @@ function App() {
             </div>
           </div>
         </div>
-      </main>
-
-      {/* Instructions Modal */}
-      <InstructionsModal isOpen={showInstructions} onClose={handleCloseModal} />
+      </div>
     </div>
   );
 }
@@ -463,5 +368,3 @@ function DiceFace({ number }: { number: number }) {
     </div>
   );
 }
-
-export default App;
