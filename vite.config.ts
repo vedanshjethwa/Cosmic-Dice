@@ -5,6 +5,15 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
   root: path.resolve(__dirname),
   server: {
     proxy: {
