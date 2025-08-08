@@ -82,9 +82,7 @@ function App() {
 
             {/* Protected Routes - Auth Required */}
             <Route path="/" element={
-              <AuthGuard>
                 <HomePage />
-              </AuthGuard>
             } />
 
             {/* Game Routes - Auth + Balance Required */}
