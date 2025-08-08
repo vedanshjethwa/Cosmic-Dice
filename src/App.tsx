@@ -681,98 +681,96 @@ function App() {
 
   return (
     <AuthProvider>
-      <AuthGuard>
-        <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
-          <NotificationCenter />
+      <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
+        <NotificationCenter />
+        
+        <Routes>
+          {/* Main Route */}
+          <Route path="/" element={<HomePage />} />
+
+          {/* Game Routes with proper wrappers */}
+          <Route path="/game/rps" element={
+            <GameWrapper gameTitle="Cosmic RPS">
+              <RPSApp />
+            </GameWrapper>
+          } />
+          <Route path="/game/dice" element={
+            <GameWrapper gameTitle="Cosmic Dice">
+              <DiceApp />
+            </GameWrapper>
+          } />
+          <Route path="/game/limbo" element={
+            <GameWrapper gameTitle="Cosmic Limbo">
+              <LimboApp />
+            </GameWrapper>
+          } />
+          <Route path="/game/snakes" element={
+            <GameWrapper gameTitle="Cosmic Snakes">
+              <SnakesApp />
+            </GameWrapper>
+          } />
+          <Route path="/game/card" element={
+            <GameWrapper gameTitle="Cosmic Cards">
+              <CardApp />
+            </GameWrapper>
+          } />
+          <Route path="/game/prediction-pulse" element={
+            <GameWrapper gameTitle="Prediction Pulse">
+              <PredictionPulseApp />
+            </GameWrapper>
+          } />
+          <Route path="/game/balloon" element={
+            <GameWrapper gameTitle="Cosmic Balloon">
+              <BalloonApp />
+            </GameWrapper>
+          } />
+          <Route path="/game/minesweeper" element={
+            <GameWrapper gameTitle="Cosmic Minesweeper">
+              <MinesweeperApp />
+            </GameWrapper>
+          } />
+          <Route path="/game/toss" element={
+            <GameWrapper gameTitle="Cosmic Heads & Tails">
+              <TossApp />
+            </GameWrapper>
+          } />
+
+          {/* User Dashboard Routes */}
+          <Route path="/all-games" element={<AllGamesPage />} />
+          <Route path="/popular" element={<PopularPage />} />
+          <Route path="/offers" element={<OffersPage />} />
+          <Route path="/new-games" element={<NewGamesPage />} />
+          <Route path="/upcoming" element={<UpcomingGamesPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/transactions" element={<TransactionsPage />} />
+          <Route path="/wallet" element={<WalletPage />} />
+          <Route path="/deposit" element={<DepositPage />} />
+          <Route path="/withdrawal" element={<WithdrawalPage />} />
+          <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           
-          <Routes>
-            {/* Main Route */}
-            <Route path="/" element={<HomePage />} />
+          {/* Info Pages */}
+          <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
+          <Route path="/vault-guide" element={<VaultGuidePage />} />
+          <Route path="/betting-guide" element={<BettingGuidePage />} />
+          <Route path="/how-to-guides" element={<HowToGuidesPage />} />
+          <Route path="/casino-guide" element={<CasinoGuidePage />} />
+          <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
+          <Route path="/security-tips" element={<SecurityTipsPage />} />
+          <Route path="/payment-methods" element={<PaymentMethodsPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/support" element={<SupportPage />} />
+          <Route path="/calculator" element={<CalculatorPage />} />
 
-            {/* Game Routes with proper wrappers */}
-            <Route path="/game/rps" element={
-              <GameWrapper gameTitle="Cosmic RPS">
-                <RPSApp />
-              </GameWrapper>
-            } />
-            <Route path="/game/dice" element={
-              <GameWrapper gameTitle="Cosmic Dice">
-                <DiceApp />
-              </GameWrapper>
-            } />
-            <Route path="/game/limbo" element={
-              <GameWrapper gameTitle="Cosmic Limbo">
-                <LimboApp />
-              </GameWrapper>
-            } />
-            <Route path="/game/snakes" element={
-              <GameWrapper gameTitle="Cosmic Snakes">
-                <SnakesApp />
-              </GameWrapper>
-            } />
-            <Route path="/game/card" element={
-              <GameWrapper gameTitle="Cosmic Cards">
-                <CardApp />
-              </GameWrapper>
-            } />
-            <Route path="/game/prediction-pulse" element={
-              <GameWrapper gameTitle="Prediction Pulse">
-                <PredictionPulseApp />
-              </GameWrapper>
-            } />
-            <Route path="/game/balloon" element={
-              <GameWrapper gameTitle="Cosmic Balloon">
-                <BalloonApp />
-              </GameWrapper>
-            } />
-            <Route path="/game/minesweeper" element={
-              <GameWrapper gameTitle="Cosmic Minesweeper">
-                <MinesweeperApp />
-              </GameWrapper>
-            } />
-            <Route path="/game/toss" element={
-              <GameWrapper gameTitle="Cosmic Heads & Tails">
-                <TossApp />
-              </GameWrapper>
-            } />
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminDashboard />} />
 
-            {/* User Dashboard Routes */}
-            <Route path="/all-games" element={<AllGamesPage />} />
-            <Route path="/popular" element={<PopularPage />} />
-            <Route path="/offers" element={<OffersPage />} />
-            <Route path="/new-games" element={<NewGamesPage />} />
-            <Route path="/upcoming" element={<UpcomingGamesPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/transactions" element={<TransactionsPage />} />
-            <Route path="/wallet" element={<WalletPage />} />
-            <Route path="/deposit" element={<DepositPage />} />
-            <Route path="/withdrawal" element={<WithdrawalPage />} />
-            <Route path="/feedback" element={<FeedbackPage />} />
-            <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            
-            {/* Info Pages */}
-            <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
-            <Route path="/vault-guide" element={<VaultGuidePage />} />
-            <Route path="/betting-guide" element={<BettingGuidePage />} />
-            <Route path="/how-to-guides" element={<HowToGuidesPage />} />
-            <Route path="/casino-guide" element={<CasinoGuidePage />} />
-            <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
-            <Route path="/security-tips" element={<SecurityTipsPage />} />
-            <Route path="/payment-methods" element={<PaymentMethodsPage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms" element={<TermsOfServicePage />} />
-            <Route path="/support" element={<SupportPage />} />
-            <Route path="/calculator" element={<CalculatorPage />} />
-
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminDashboard />} />
-
-            {/* Public Routes - No Auth Required */}
-            <Route path="/about" element={<AboutPage />} />
-          </Routes>
-        </div>
-      </AuthGuard>
+          {/* Public Routes - No Auth Required */}
+          <Route path="/about" element={<AboutPage />} />
+        </Routes>
+      </div>
     </AuthProvider>
   );
 }
