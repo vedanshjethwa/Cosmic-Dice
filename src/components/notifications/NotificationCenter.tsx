@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, X, Check, Info, AlertTriangle, CheckCircle, Gift } from 'lucide-react';
 import { api } from '../../lib/api';
-import { useSocket } from '../../hooks/useSocket';
 
 interface Notification {
   id: string;
@@ -17,20 +16,11 @@ export function NotificationCenter() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const { on, off } = useSocket();
 
   useEffect(() => {
     fetchNotifications();
 
-    // Listen for real-time notifications
-    on('notification', (notification: Notification) => {
-      setNotifications(prev => [notification, ...prev]);
-    });
-
-    return () => {
-      off('notification');
-    };
-  }, [on, off]);
+  }, []);
 
   const fetchNotifications = async () => {
     try {
