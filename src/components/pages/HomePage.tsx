@@ -184,9 +184,9 @@ export function HomePage() {
 
   const banners = [
     {
-      title: "Welcome to Cosmic Gaming",
-      subtitle: "Experience the future of online gaming",
-      image: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=1200&h=400",
+      title: "Featured Offers",
+      subtitle: "Get 10% free on your first recharge",
+      image: "/Screenshot (483) copy.png",
       cta: "Start Playing",
       action: () => navigate('/all-games')
     },

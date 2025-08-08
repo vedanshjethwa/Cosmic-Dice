@@ -87,13 +87,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           .eq('id', data.user.id)
           .single();
 
-        if (profileError) throw profileError;
+        if (profileError) {
+          // If profile doesn't exist, create a basic user object
+          const basicUser = {
+            id: data.user.id,
+            email: data.user.email || email,
+            username: data.user.user_metadata?.username || email.split('@')[0],
+            created_at: new Date().toISOString()
+          };
+          setUser(basicUser);
+          return;
+        }
 
         setUser(profile);
         await fetchWallet(profile.id);
       }
     } catch (error) {
-      throw error;
+      // Provide more helpful error messages
+      if (error instanceof Error) {
+        if (error.message.includes('connect to Supabase')) {
+          throw new Error('Please set up Supabase connection first. Click "Connect to Supabase" in the top right corner.');
+        }
+        throw error;
+      }
+      throw new Error('Login failed. Please check your credentials and try again.');
     }
   };
 
