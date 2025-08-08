@@ -161,12 +161,12 @@ export function Sidebar({
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full bg-[#0A1929] shadow-lg z-50 transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`fixed top-0 left-0 h-full sidebar-enhanced shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden ${
           isOpen ? 'w-64' : 'w-0 lg:w-16 hover:w-64'
-        } border-r border-blue-500/20`}
+        }`}
       >
         {/* Header */}
-        <div className="p-3 lg:p-4 border-b border-blue-900/30 flex items-center justify-between">
+        <div className="p-4 border-b border-blue-500/30 flex items-center justify-between bg-gradient-to-r from-blue-600/10 to-purple-600/10">
           <button
             onClick={onClose}
             className="text-white hover:text-gray-300 focus:outline-none lg:hidden"
@@ -193,9 +193,9 @@ export function Sidebar({
             {menuItems.map((item, index) => (
               <li key={index}>
                 <button
-                  className={`flex items-center gap-3 p-3 rounded-lg transition-all whitespace-nowrap group w-full ${
+                  className={`sidebar-item flex items-center gap-3 p-3 transition-all whitespace-nowrap group w-full ${
                     isActivePage(item)
-                      ? 'bg-blue-600 text-white relative border-l-4 border-blue-300'
+                      ? 'active text-white'
                       : `text-gray-300 hover:bg-blue-900/30 hover:text-white ${item.className || ''}`
                   }`}
                   onClick={() => {
@@ -203,10 +203,6 @@ export function Sidebar({
                     if (window.innerWidth < 1024) onClose();
                   }}
                 >
-                  {/* Active indicator */}
-                  {isActivePage(item) && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-400 rounded-r-full animate-pulse" />
-                  )}
                   <span className="min-w-[24px] group-hover:scale-110 transition-transform">
                     {item.icon}
                   </span>

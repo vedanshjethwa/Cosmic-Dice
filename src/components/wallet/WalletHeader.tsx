@@ -1,6 +1,6 @@
 import React from 'react';
 import { Wallet, Eye, EyeOff } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 
 interface WalletHeaderProps {
   showBalance: boolean;
@@ -8,14 +8,15 @@ interface WalletHeaderProps {
 }
 
 export const WalletHeader: React.FC<WalletHeaderProps> = ({ showBalance, onToggleBalance }) => {
-  const { wallet } = useAuth();
+  const { user } = useAuth();
 
-  if (!wallet) return null;
+  if (!user) return null;
 
-  const totalBalance = wallet.real_balance + wallet.bonus_balance;
+  // Mock balance for demo - replace with actual wallet data
+  const totalBalance = 5000;
 
   return (
-    <div className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors border border-blue-500/30 flex items-center gap-2">
+    <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 hover:from-blue-600/30 hover:to-purple-600/30 text-blue-400 px-4 py-2 rounded-xl transition-all border border-blue-500/30 flex items-center gap-2 shadow-lg">
       <Wallet size={20} />
       <span className="font-medium">
         {showBalance ? `₹${totalBalance.toLocaleString()}` : '₹••••••'}

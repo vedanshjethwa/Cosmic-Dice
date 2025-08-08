@@ -39,16 +39,17 @@ export function GameCard({
     const gameId = route.split('/').pop();
     navigate(`/game-detail/${gameId}`);
   };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className={`relative bg-[#0A1929] rounded-xl overflow-hidden group cursor-pointer border transition-all duration-300 ${
+      className={`relative bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden group cursor-pointer border transition-all duration-300 shadow-xl hover:shadow-2xl ${
         isFeatured 
-          ? 'border-yellow-500/30 shadow-lg shadow-yellow-500/10' 
-          : 'border-transparent hover:border-blue-500/20'
+          ? 'border-yellow-500/30 hover:shadow-yellow-500/20' 
+          : 'border-blue-500/20 hover:border-blue-400/40 hover:shadow-blue-500/20'
       }`}
       onClick={handlePlay}
     >
@@ -61,27 +62,35 @@ export function GameCard({
         />
         
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A1929] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent opacity-80" />
         
         {/* Badges */}
         <div className="absolute top-3 left-3 flex gap-2">
           {isNew && (
-            <span className="px-2 py-1 bg-green-500 text-white text-xs font-bold rounded-full">
+            <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full shadow-lg animate-pulse">
               NEW
             </span>
           )}
           {isFeatured && (
-            <span className="px-2 py-1 bg-yellow-500 text-black text-xs font-bold rounded-full">
+            <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold rounded-full shadow-lg">
               FEATURED
             </span>
           )}
+        </div>
+
+        {/* Play button overlay on hover */}
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform shadow-lg">
+            <Play size={20} />
+            Play Now
+          </div>
         </div>
       </div>
 
       {/* Content */}
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded-full font-medium">
+          <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
             {category}
           </span>
           <div className="flex items-center gap-3 text-xs text-gray-400">
@@ -96,7 +105,7 @@ export function GameCard({
           </div>
         </div>
 
-        <h3 className="font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
+        <h3 className="font-bold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
           {title}
         </h3>
         
@@ -107,14 +116,14 @@ export function GameCard({
         <div className="flex gap-2">
           <button 
             onClick={handlePlay}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors font-medium"
+            className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-xl transition-all font-medium shadow-lg hover:shadow-blue-500/30 transform hover:scale-105"
           >
             Play Now
           </button>
           {(isNew || isFeatured) && (
             <button
               onClick={handleShowDetails}
-              className="px-3 py-2 bg-gray-600/20 hover:bg-gray-600/30 text-gray-300 rounded-lg transition-colors text-sm"
+              className="px-4 py-3 bg-gray-600/20 hover:bg-gray-600/30 text-gray-300 rounded-xl transition-colors text-sm border border-gray-500/30"
             >
               Info
             </button>

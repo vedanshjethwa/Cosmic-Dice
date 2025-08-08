@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AuthProvider } from './contexts/AuthContext';
 import {
   Search,
   User,
@@ -16,7 +17,8 @@ import {
   EyeOff,
   LogIn,
   UserPlus,
-  Sparkles
+  Sparkles,
+  Wallet
 } from 'lucide-react';
 
 // Import components
@@ -62,7 +64,13 @@ import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
 import { SupportPage } from './components/pages/SupportPage';
 import { CalculatorPage } from './components/pages/CalculatorPage';
 
-// Import game components
+import { useChatStore } from './components/ChatSupport/ChatStore';
+import { AuthGuard } from './components/auth/AuthGuard';
+import { GameGuard } from './components/game/GameGuard';
+import { NotificationCenter } from './components/notifications/NotificationCenter';
+import { AdminDashboard } from './components/admin/AdminDashboard';
+
+// Import game components with proper wrappers
 import RPSApp from '../rps/src/App';
 import DiceApp from '../dice/src/App';
 import LimboApp from '../limbo/src/App';
@@ -73,9 +81,7 @@ import MinesweeperApp from '../minesweeper/src/App';
 import TossApp from '../toss game/src/App';
 import PredictionPulseApp from '../prediction-pulse/src/App';
 
-import { useChatStore } from './components/ChatSupport/ChatStore';
-
-// Game data with proper routing
+// Game data with enhanced information
 const gameCards = [
   {
     label: 'Cosmic RPS',
@@ -166,12 +172,15 @@ const gameCards = [
   },
 ];
 
-// Simple authentication state
-interface User {
-  id: string;
-  email: string;
-  username: string;
-  balance: number;
+// Game wrapper component for consistent integration
+function GameWrapper({ children, gameTitle }: { children: React.ReactNode; gameTitle: string }) {
+  return (
+    <GameGuard minBalance={1}>
+      <div className="game-container min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929]">
+        {children}
+      </div>
+    </GameGuard>
+  );
 }
 
 function HomePage() {
@@ -186,22 +195,7 @@ function HomePage() {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [showBalance, setShowBalance] = useState(true);
   const [currentBannerSlide, setCurrentBannerSlide] = useState(0);
-  
-  // Authentication state
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
-  const [authData, setAuthData] = useState({
-    email: '',
-    password: '',
-    username: '',
-    confirmPassword: ''
-  });
-  const [showPassword, setShowPassword] = useState(false);
-  const [authError, setAuthError] = useState('');
-  const [showGameInfo, setShowGameInfo] = useState<string | null>(null);
 
   // Auto-advance banner
   useEffect(() => {
@@ -232,87 +226,12 @@ function HomePage() {
         setRedeemOpen(false);
         setScratchOpen(false);
         setFeedbackOpen(false);
-        setShowGameInfo(null);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [sidebarOpen]);
-
-  // Authentication functions
-  const handleAuthSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setAuthError('');
-
-    try {
-      if (authMode === 'login') {
-        // Simulate login - replace with actual API call
-        if (authData.email && authData.password) {
-          const mockUser = {
-            id: '1',
-            email: authData.email,
-            username: authData.email.split('@')[0],
-            balance: 5000
-          };
-          setUser(mockUser);
-          localStorage.setItem('cosmic_user', JSON.stringify(mockUser));
-        } else {
-          throw new Error('Please enter email and password');
-        }
-      } else {
-        // Simulate registration
-        if (authData.password !== authData.confirmPassword) {
-          throw new Error('Passwords do not match');
-        }
-        if (authData.password.length < 8) {
-          throw new Error('Password must be at least 8 characters long');
-        }
-        if (!authData.username) {
-          throw new Error('Username is required');
-        }
-        
-        const mockUser = {
-          id: '1',
-          email: authData.email,
-          username: authData.username,
-          balance: 1000
-        };
-        setUser(mockUser);
-        localStorage.setItem('cosmic_user', JSON.stringify(mockUser));
-      }
-    } catch (err) {
-      setAuthError(err instanceof Error ? err.message : 'Authentication failed');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAuthData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-    setAuthError('');
-  };
-
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('cosmic_user');
-  };
-
-  // Check for existing user on load
-  useEffect(() => {
-    const savedUser = localStorage.getItem('cosmic_user');
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (error) {
-        localStorage.removeItem('cosmic_user');
-      }
-    }
-  }, []);
 
   const allCategories = ['all', 'Strategy', 'Luck', 'Risk', 'Adventure', 'Timing'];
 
@@ -352,170 +271,6 @@ function HomePage() {
     }
   ];
 
-  // If not logged in, show login form
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white flex items-center justify-center p-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          className="bg-[#132F4C]/95 backdrop-blur-sm rounded-2xl p-8 border border-blue-500/20 max-w-md w-full"
-        >
-          {/* Header */}
-          <div className="text-center mb-8">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", bounce: 0.4 }}
-              className="flex items-center justify-center gap-2 mb-4"
-            >
-              <Sparkles className="w-8 h-8 text-blue-400" />
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                COSMIC
-              </h1>
-            </motion.div>
-            <h2 className="text-2xl font-bold text-white mb-2">
-              {authMode === 'login' ? 'Welcome Back' : 'Join the Universe'}
-            </h2>
-            <p className="text-gray-400">
-              {authMode === 'login' 
-                ? 'Sign in to your cosmic gaming account' 
-                : 'Create your cosmic gaming account'
-              }
-            </p>
-          </div>
-
-          {/* Form */}
-          <form onSubmit={handleAuthSubmit} className="space-y-6">
-            {authError && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-red-500/10 border border-red-500/20 rounded-lg p-4"
-              >
-                <p className="text-red-400 text-sm">{authError}</p>
-              </motion.div>
-            )}
-
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                <input
-                  type="email"
-                  name="email"
-                  value={authData.email}
-                  onChange={handleAuthChange}
-                  className="w-full bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 transition-colors"
-                  placeholder="Enter your email"
-                  required
-                />
-              </div>
-            </div>
-
-            {authMode === 'register' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Username
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                  <input
-                    type="text"
-                    name="username"
-                    value={authData.username}
-                    onChange={handleAuthChange}
-                    className="w-full bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 transition-colors"
-                    placeholder="Choose a username"
-                    required
-                  />
-                </div>
-              </div>
-            )}
-
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  value={authData.password}
-                  onChange={handleAuthChange}
-                  className="w-full bg-[#0A1929] text-white rounded-lg pl-10 pr-12 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 transition-colors"
-                  placeholder={authMode === 'login' ? 'Enter your password' : 'Create a password'}
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
-                >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-            </div>
-
-            {authMode === 'register' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Confirm Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    name="confirmPassword"
-                    value={authData.confirmPassword}
-                    onChange={handleAuthChange}
-                    className="w-full bg-[#0A1929] text-white rounded-lg pl-10 pr-12 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 transition-colors"
-                    placeholder="Confirm your password"
-                    required
-                  />
-                </div>
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 text-white py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-2"
-            >
-              {isLoading ? (
-                <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
-              ) : (
-                <>
-                  {authMode === 'login' ? <LogIn size={20} /> : <UserPlus size={20} />}
-                  {authMode === 'login' ? 'Sign In' : 'Create Account'}
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* Switch Mode */}
-          <div className="mt-6 text-center">
-            <p className="text-gray-400">
-              {authMode === 'login' ? "Don't have an account?" : 'Already have an account?'}{' '}
-              <button
-                onClick={() => {
-                  setAuthMode(authMode === 'login' ? 'register' : 'login');
-                  setAuthError('');
-                  setAuthData({ email: '', password: '', username: '', confirmPassword: '' });
-                }}
-                className="text-blue-400 hover:text-blue-300 transition-colors font-medium"
-              >
-                {authMode === 'login' ? 'Sign up' : 'Sign in'}
-              </button>
-            </p>
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
   return (
     <>
       {/* Sidebar */}
@@ -525,7 +280,7 @@ function HomePage() {
         onWalletClick={() => setWalletOpen(true)}
         onWithdrawalClick={() => navigate('/withdrawal')}
         onDepositClick={() => navigate('/deposit')}
-        currentPath={location.pathname}
+        currentPath="/"
       />
 
       {/* Main Content */}
@@ -581,31 +336,19 @@ function HomePage() {
                 <Search size={20} />
               </button>
               
-              <div className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors border border-blue-500/30 flex items-center gap-2">
-                <span className="font-medium">
-                  {showBalance ? `₹${user.balance.toLocaleString()}` : '₹••••••'}
-                </span>
-                <button
-                  onClick={() => setShowBalance(!showBalance)}
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  {showBalance ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              </div>
+              <button
+                onClick={() => setWalletOpen(true)}
+                className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors border border-blue-500/30 flex items-center gap-2"
+              >
+                <Wallet size={16} />
+                <span className="font-medium">Wallet</span>
+              </button>
 
               <button
                 onClick={() => navigate('/profile')}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
               >
                 <User size={20} />
-              </button>
-              
-              <button
-                onClick={logout}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors text-red-400"
-                title="Logout"
-              >
-                <LogIn size={20} />
               </button>
             </div>
           </div>
@@ -621,7 +364,7 @@ function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               className="mb-8"
             >
-              <div className="relative h-64 rounded-2xl overflow-hidden">
+              <div className="relative h-64 lg:h-80 rounded-2xl overflow-hidden shadow-2xl">
                 <div className="flex transition-transform duration-500 ease-in-out h-full"
                      style={{ transform: `translateX(-${currentBannerSlide * 100}%)` }}>
                   {banners.map((banner, index) => (
@@ -638,7 +381,7 @@ function HomePage() {
                           <p className="text-lg mb-6 text-gray-200">{banner.subtitle}</p>
                           <button
                             onClick={banner.action}
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105"
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg hover:shadow-blue-500/30"
                           >
                             {banner.cta}
                           </button>
@@ -654,7 +397,7 @@ function HomePage() {
                     <button
                       key={index}
                       onClick={() => setCurrentBannerSlide(index)}
-                      className={`w-3 h-3 rounded-full transition-all ${
+                      className={`w-4 h-4 rounded-full transition-all ${
                         currentBannerSlide === index ? 'bg-white' : 'bg-white/50'
                       }`}
                     />
@@ -677,7 +420,7 @@ function HomePage() {
                 </h3>
                 <button
                   onClick={() => navigate('/popular')}
-                  className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
+                  className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors flex items-center gap-2 border border-blue-500/30"
                 >
                   View All
                   <ChevronRight size={16} />
@@ -686,7 +429,7 @@ function HomePage() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {popularGames.slice(0, 4).map((game, index) => (
-                  <GameCard key={game.route} game={game} index={index} />
+                  <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
               </div>
             </motion.section>
@@ -707,7 +450,7 @@ function HomePage() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {featuredGames.map((game, index) => (
-                  <GameCard key={game.route} game={game} index={index} />
+                  <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
               </div>
             </motion.section>
@@ -723,7 +466,7 @@ function HomePage() {
                 <h3 className="text-3xl font-bold text-white">All Games ({gameCards.length})</h3>
                 <button
                   onClick={() => navigate('/all-games')}
-                  className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
+                  className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors flex items-center gap-2 border border-blue-500/30"
                 >
                   View All
                   <ChevronRight size={16} />
@@ -731,15 +474,15 @@ function HomePage() {
               </div>
 
               {/* Category Filters */}
-              <div className="flex gap-2 mb-6 overflow-x-auto pb-2 games-scroll">
+              <div className="flex gap-3 mb-8 overflow-x-auto pb-2 games-scroll">
                 {allCategories.map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all ${
+                    className={`px-6 py-3 rounded-xl font-medium whitespace-nowrap transition-all shadow-lg ${
                       selectedCategory === category
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-[#132F4C] text-gray-300 hover:bg-blue-600/20'
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-blue-500/30'
+                        : 'bg-[#132F4C] text-gray-300 hover:bg-blue-600/20 border border-blue-500/20'
                     }`}
                   >
                     {category === 'all' ? 'All Games' : category}
@@ -752,7 +495,7 @@ function HomePage() {
                 <div className="flex gap-6 overflow-x-auto pb-4 games-scroll">
                   {filteredGames.map((game, index) => (
                     <div key={game.route} className="flex-shrink-0 w-80">
-                      <GameCard game={game} index={index} />
+                      <EnhancedGameCard game={game} index={index} />
                     </div>
                   ))}
                 </div>
@@ -770,19 +513,19 @@ function HomePage() {
               className="mb-8 lg:mb-12"
             >
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                <div className="bg-[#132F4C] rounded-xl p-4 lg:p-6 border border-blue-500/20 text-center">
+                <div className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-xl p-4 lg:p-6 border border-blue-500/20 text-center shadow-lg hover:shadow-blue-500/20 transition-all">
                   <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-2">9</div>
                   <div className="text-gray-400 text-sm lg:text-base">Total Games</div>
                 </div>
-                <div className="bg-[#132F4C] rounded-xl p-4 lg:p-6 border border-blue-500/20 text-center">
+                <div className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-xl p-4 lg:p-6 border border-green-500/20 text-center shadow-lg hover:shadow-green-500/20 transition-all">
                   <div className="text-2xl lg:text-3xl font-bold text-green-400 mb-2">15K+</div>
                   <div className="text-gray-400 text-sm lg:text-base">Active Players</div>
                 </div>
-                <div className="bg-[#132F4C] rounded-xl p-4 lg:p-6 border border-blue-500/20 text-center">
+                <div className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-xl p-4 lg:p-6 border border-purple-500/20 text-center shadow-lg hover:shadow-purple-500/20 transition-all">
                   <div className="text-2xl lg:text-3xl font-bold text-purple-400 mb-2">₹2.1M+</div>
                   <div className="text-gray-400 text-sm lg:text-base">Total Winnings</div>
                 </div>
-                <div className="bg-[#132F4C] rounded-xl p-4 lg:p-6 border border-blue-500/20 text-center">
+                <div className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-xl p-4 lg:p-6 border border-yellow-500/20 text-center shadow-lg hover:shadow-yellow-500/20 transition-all">
                   <div className="text-2xl lg:text-3xl font-bold text-yellow-400 mb-2">98.5%</div>
                   <div className="text-gray-400 text-sm lg:text-base">Average RTP</div>
                 </div>
@@ -830,14 +573,12 @@ function HomePage() {
       />
 
       {/* Chat Support */}
-      <ChatButton />
-      <ChatWindow />
     </>
   );
 }
 
-// Enhanced Game Card Component
-function GameCard({ game, index }: { game: any; index: number }) {
+// Enhanced Game Card Component with premium styling
+function EnhancedGameCard({ game, index }: { game: any; index: number }) {
   const navigate = useNavigate();
   
   return (
@@ -846,7 +587,7 @@ function GameCard({ game, index }: { game: any; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 * index }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group game-card-arcade h-full"
+      className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group game-card-arcade h-full shadow-xl hover:shadow-2xl hover:shadow-blue-500/20"
       onClick={() => window.location.href = game.route}
     >
       <div className="relative h-48">
@@ -856,17 +597,17 @@ function GameCard({ game, index }: { game: any; index: number }) {
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent opacity-80" />
         
         {/* Badges */}
         <div className="absolute top-3 left-3 flex gap-2">
           {game.isNew && (
-            <span className="px-2 py-1 bg-green-500 text-white text-xs font-bold rounded-full animate-pulse">
+            <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full animate-pulse shadow-lg">
               NEW
             </span>
           )}
           {game.isFeatured && (
-            <span className="px-2 py-1 bg-yellow-500 text-black text-xs font-bold rounded-full">
+            <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold rounded-full shadow-lg">
               FEATURED
             </span>
           )}
@@ -883,16 +624,24 @@ function GameCard({ game, index }: { game: any; index: number }) {
             <span>{game.players}</span>
           </div>
         </div>
+
+        {/* Play button overlay on hover */}
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform">
+            <Play size={20} />
+            Play Now
+          </div>
+        </div>
       </div>
 
       <div className="p-4 flex flex-col h-full">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded-full font-medium">
+          <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
             {game.category}
           </span>
         </div>
 
-        <h4 className="font-bold text-white mb-2 text-lg group-hover:text-blue-400 transition-colors">
+        <h4 className="font-bold text-white mb-2 text-lg group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
           {game.label}
         </h4>
         
@@ -905,7 +654,7 @@ function GameCard({ game, index }: { game: any; index: number }) {
             e.stopPropagation();
             window.location.href = game.route;
           }}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors font-medium cosmic-button mt-auto"
+          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-xl transition-all font-medium cosmic-button mt-auto shadow-lg hover:shadow-blue-500/30 transform hover:scale-105"
         >
           Play Now
         </button>
@@ -931,98 +680,100 @@ function App() {
   }
 
   return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
-        <Routes>
-          {/* Public Routes - No Auth Required */}
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms" element={<TermsOfServicePage />} />
-          <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
-          <Route path="/security-tips" element={<SecurityTipsPage />} />
-          <Route path="/casino-guide" element={<CasinoGuidePage />} />
-          <Route path="/how-to-guides" element={<HowToGuidesPage />} />
-
-          {/* Main Route */}
-          <Route path="/" element={<HomePage />} />
-
-          {/* Game Routes */}
-          <Route path="/game/rps" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <RPSApp />
-            </div>
-          } />
-          <Route path="/game/dice" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <DiceApp />
-            </div>
-          } />
-          <Route path="/game/limbo" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <LimboApp />
-            </div>
-          } />
-          <Route path="/game/snakes" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <SnakesApp />
-            </div>
-          } />
-          <Route path="/game/card" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <CardApp />
-            </div>
-          } />
-          <Route path="/game/prediction-pulse" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <PredictionPulseApp />
-            </div>
-          } />
-          <Route path="/game/balloon" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <BalloonApp />
-            </div>
-          } />
-          <Route path="/game/minesweeper" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <MinesweeperApp />
-            </div>
-          } />
-          <Route path="/game/toss" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <TossApp />
-            </div>
-          } />
-
-          {/* User Dashboard Routes */}
-          <Route path="/all-games" element={<AllGamesPage />} />
-          <Route path="/popular" element={<PopularPage />} />
-          <Route path="/offers" element={<OffersPage />} />
-          <Route path="/new-games" element={<NewGamesPage />} />
-          <Route path="/upcoming" element={<UpcomingGamesPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/transactions" element={<TransactionsPage />} />
-          <Route path="/wallet" element={<WalletPage />} />
-          <Route path="/deposit" element={<DepositPage />} />
-          <Route path="/withdrawal" element={<WithdrawalPage />} />
-          <Route path="/feedback" element={<FeedbackPage />} />
-          <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+    <AuthProvider>
+      <AuthGuard>
+        <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
+          <NotificationCenter />
           
-          {/* Info Pages */}
-          <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
-          <Route path="/vault-guide" element={<VaultGuidePage />} />
-          <Route path="/betting-guide" element={<BettingGuidePage />} />
-          <Route path="/payment-methods" element={<PaymentMethodsPage />} />
-          <Route path="/deposit-withdrawals" element={<DepositPage />} />
-          
-          {/* Support Routes */}
-          <Route path="/support" element={<SupportPage />} />
-          <Route path="/help-center" element={<HowToGuidesPage />} />
-          <Route path="/gambling-helpline" element={<ResponsibleGamingPage />} />
-          <Route path="/live-support" element={<SupportPage />} />
-          <Route path="/self-exclusion" element={<ResponsibleGamingPage />} />
-          <Route path="/calculator" element={<CalculatorPage />} />
-        </Routes>
-      </div>
+          <Routes>
+            {/* Main Route */}
+            <Route path="/" element={<HomePage />} />
+
+            {/* Game Routes with proper wrappers */}
+            <Route path="/game/rps" element={
+              <GameWrapper gameTitle="Cosmic RPS">
+                <RPSApp />
+              </GameWrapper>
+            } />
+            <Route path="/game/dice" element={
+              <GameWrapper gameTitle="Cosmic Dice">
+                <DiceApp />
+              </GameWrapper>
+            } />
+            <Route path="/game/limbo" element={
+              <GameWrapper gameTitle="Cosmic Limbo">
+                <LimboApp />
+              </GameWrapper>
+            } />
+            <Route path="/game/snakes" element={
+              <GameWrapper gameTitle="Cosmic Snakes">
+                <SnakesApp />
+              </GameWrapper>
+            } />
+            <Route path="/game/card" element={
+              <GameWrapper gameTitle="Cosmic Cards">
+                <CardApp />
+              </GameWrapper>
+            } />
+            <Route path="/game/prediction-pulse" element={
+              <GameWrapper gameTitle="Prediction Pulse">
+                <PredictionPulseApp />
+              </GameWrapper>
+            } />
+            <Route path="/game/balloon" element={
+              <GameWrapper gameTitle="Cosmic Balloon">
+                <BalloonApp />
+              </GameWrapper>
+            } />
+            <Route path="/game/minesweeper" element={
+              <GameWrapper gameTitle="Cosmic Minesweeper">
+                <MinesweeperApp />
+              </GameWrapper>
+            } />
+            <Route path="/game/toss" element={
+              <GameWrapper gameTitle="Cosmic Heads & Tails">
+                <TossApp />
+              </GameWrapper>
+            } />
+
+            {/* User Dashboard Routes */}
+            <Route path="/all-games" element={<AllGamesPage />} />
+            <Route path="/popular" element={<PopularPage />} />
+            <Route path="/offers" element={<OffersPage />} />
+            <Route path="/new-games" element={<NewGamesPage />} />
+            <Route path="/upcoming" element={<UpcomingGamesPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/transactions" element={<TransactionsPage />} />
+            <Route path="/wallet" element={<WalletPage />} />
+            <Route path="/deposit" element={<DepositPage />} />
+            <Route path="/withdrawal" element={<WithdrawalPage />} />
+            <Route path="/feedback" element={<FeedbackPage />} />
+            <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            
+            {/* Info Pages */}
+            <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
+            <Route path="/vault-guide" element={<VaultGuidePage />} />
+            <Route path="/betting-guide" element={<BettingGuidePage />} />
+            <Route path="/how-to-guides" element={<HowToGuidesPage />} />
+            <Route path="/casino-guide" element={<CasinoGuidePage />} />
+            <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
+            <Route path="/security-tips" element={<SecurityTipsPage />} />
+            <Route path="/payment-methods" element={<PaymentMethodsPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsOfServicePage />} />
+            <Route path="/support" element={<SupportPage />} />
+            <Route path="/calculator" element={<CalculatorPage />} />
+
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminDashboard />} />
+
+            {/* Public Routes - No Auth Required */}
+            <Route path="/about" element={<AboutPage />} />
+          </Routes>
+        </div>
+      </AuthGuard>
+    </AuthProvider>
   );
 }
 
