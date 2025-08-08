@@ -6,6 +6,15 @@ import path from 'path';
 export default defineConfig(({ command }) => ({
   plugins: [react()],
   root: path.resolve(__dirname),
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
+  },
   build: {
     rollupOptions: {
       input: path.resolve(__dirname, 'index.html')
