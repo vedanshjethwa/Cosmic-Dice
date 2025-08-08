@@ -16,7 +16,11 @@ import {
   EyeOff,
   LogIn,
   UserPlus,
-  Sparkles
+  Sparkles,
+  Zap,
+  Crown,
+  Gift,
+  Gamepad2
 } from 'lucide-react';
 
 // Import components
@@ -34,7 +38,7 @@ import { ProfilePage } from './components/ProfilePage';
 import { WithdrawalPage } from './components/WithdrawalPage';
 import { Footer } from './components/Footer';
 import { LoadingScreen } from './components/LoadingScreen';
-import { GameLayout } from './components/GameLayout';
+import { GameCard } from './components/GameCard';
 
 // Import page components
 import { AllGamesPage } from './components/pages/AllGamesPage';
@@ -75,7 +79,7 @@ import PredictionPulseApp from '../prediction-pulse/src/App';
 
 import { useChatStore } from './components/ChatSupport/ChatStore';
 
-// Game data with proper routing
+// Enhanced game data with proper routing
 const gameCards = [
   {
     label: 'Cosmic RPS',
@@ -86,6 +90,7 @@ const gameCards = [
     players: '2.5K',
     rating: 4.8,
     isFeatured: true,
+    isHot: true,
   },
   {
     label: 'Cosmic Dice',
@@ -96,6 +101,7 @@ const gameCards = [
     players: '3.2K',
     rating: 4.9,
     isFeatured: true,
+    isHot: true,
   },
   {
     label: 'Cosmic Limbo',
@@ -133,6 +139,7 @@ const gameCards = [
     category: 'Timing',
     players: '1.3K',
     rating: 4.3,
+    isNew: true,
   },
   {
     label: 'Cosmic Balloon',
@@ -162,7 +169,7 @@ const gameCards = [
     category: 'Luck',
     players: '2.3K',
     rating: 4.7,
-    isNew: true,
+    isHot: true,
   },
 ];
 
@@ -201,7 +208,6 @@ function HomePage() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState('');
-  const [showGameInfo, setShowGameInfo] = useState<string | null>(null);
 
   // Auto-advance banner
   useEffect(() => {
@@ -232,7 +238,6 @@ function HomePage() {
         setRedeemOpen(false);
         setScratchOpen(false);
         setFeedbackOpen(false);
-        setShowGameInfo(null);
       }
     };
 
@@ -248,7 +253,6 @@ function HomePage() {
 
     try {
       if (authMode === 'login') {
-        // Simulate login - replace with actual API call
         if (authData.email && authData.password) {
           const mockUser = {
             id: '1',
@@ -262,7 +266,6 @@ function HomePage() {
           throw new Error('Please enter email and password');
         }
       } else {
-        // Simulate registration
         if (authData.password !== authData.confirmPassword) {
           throw new Error('Passwords do not match');
         }
@@ -325,41 +328,68 @@ function HomePage() {
   });
 
   // Featured games for carousel
-  const featuredGames = gameCards.filter(game => game.isFeatured || game.isNew);
-  const popularGames = gameCards.filter(game => game.isFeatured);
+  const featuredGames = gameCards.filter(game => game.isFeatured);
+  const popularGames = gameCards.filter(game => game.isHot);
+  const newGames = gameCards.filter(game => game.isNew);
 
   const banners = [
     {
-      title: "Welcome to Cosmic Gaming",
-      subtitle: "Experience the future of online gaming",
-      image: "/Screenshot (483).png",
-      cta: "Start Playing",
-      action: () => navigate('/all-games')
+      title: "🚀 Welcome to the Future of Gaming",
+      subtitle: "Experience next-generation cosmic games with stunning graphics and fair play",
+      gradient: "from-blue-600 via-purple-600 to-pink-600",
+      cta: "Start Your Journey",
+      action: () => navigate('/all-games'),
+      icon: <Sparkles className="w-8 h-8" />
     },
     {
-      title: "24/7 Live Support",
-      subtitle: "Get help anytime, anywhere",
-      image: "https://images.unsplash.com/photo-1551431009-a802eeec77b1?auto=format&fit=crop&q=80&w=1200&h=400",
-      cta: "Contact Support",
-      action: () => setChatOpen(true)
+      title: "💎 VIP Rewards & Bonuses",
+      subtitle: "Unlock exclusive rewards, daily bonuses, and premium gaming experiences",
+      gradient: "from-yellow-500 via-orange-500 to-red-500",
+      cta: "Claim Rewards",
+      action: () => navigate('/offers'),
+      icon: <Crown className="w-8 h-8" />
     },
     {
-      title: "Exclusive VIP Rewards",
-      subtitle: "Unlock premium benefits",
-      image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200&h=400",
-      cta: "View Offers",
-      action: () => navigate('/offers')
+      title: "🎯 24/7 Live Support",
+      subtitle: "Get instant help from our expert support team anytime, anywhere",
+      gradient: "from-green-500 via-teal-500 to-blue-500",
+      cta: "Get Support",
+      action: () => setChatOpen(true),
+      icon: <Zap className="w-8 h-8" />
     }
   ];
 
-  // If not logged in, show login form
+  // If not logged in, show enhanced login form
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-[#0A0A23] via-[#1a1a3e] to-[#0A0A23] text-white flex items-center justify-center p-4 relative overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0">
+          {Array.from({ length: 50 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-blue-400/20 rounded-full"
+              initial={{
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+              }}
+              animate={{
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+              }}
+              transition={{
+                duration: 20 + Math.random() * 10,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+          ))}
+        </div>
+
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          className="bg-[#132F4C]/95 backdrop-blur-sm rounded-2xl p-8 border border-blue-500/20 max-w-md w-full"
+          className="bg-gradient-to-br from-[#1a1a3e]/95 via-[#2a2a5e]/95 to-[#1a1a3e]/95 backdrop-blur-xl rounded-3xl p-8 border border-blue-500/30 max-w-md w-full relative z-10 shadow-2xl"
         >
           {/* Header */}
           <div className="text-center mb-8">
@@ -367,20 +397,23 @@ function HomePage() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring", bounce: 0.4 }}
-              className="flex items-center justify-center gap-2 mb-4"
+              className="flex items-center justify-center gap-3 mb-6"
             >
-              <Sparkles className="w-8 h-8 text-blue-400" />
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              <div className="relative">
+                <Sparkles className="w-12 h-12 text-blue-400 animate-pulse" />
+                <div className="absolute inset-0 bg-blue-400/20 blur-xl rounded-full animate-ping" />
+              </div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
                 COSMIC
               </h1>
             </motion.div>
-            <h2 className="text-2xl font-bold text-white mb-2">
-              {authMode === 'login' ? 'Welcome Back' : 'Join the Universe'}
+            <h2 className="text-3xl font-bold text-white mb-3">
+              {authMode === 'login' ? 'Welcome Back, Gamer!' : 'Join the Cosmic Universe'}
             </h2>
-            <p className="text-gray-400">
+            <p className="text-gray-300 text-lg">
               {authMode === 'login' 
-                ? 'Sign in to your cosmic gaming account' 
-                : 'Create your cosmic gaming account'
+                ? 'Ready for another cosmic adventure?' 
+                : 'Create your account and start winning today!'
               }
             </p>
           </div>
@@ -391,7 +424,7 @@ function HomePage() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-red-500/10 border border-red-500/20 rounded-lg p-4"
+                className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 backdrop-blur-sm"
               >
                 <p className="text-red-400 text-sm">{authError}</p>
               </motion.div>
@@ -402,13 +435,13 @@ function HomePage() {
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <input
                   type="email"
                   name="email"
                   value={authData.email}
                   onChange={handleAuthChange}
-                  className="w-full bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 transition-colors"
+                  className="w-full bg-[#0A0A23]/50 text-white rounded-xl pl-12 pr-4 py-4 border border-blue-500/30 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all backdrop-blur-sm"
                   placeholder="Enter your email"
                   required
                 />
@@ -421,13 +454,13 @@ function HomePage() {
                   Username
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                   <input
                     type="text"
                     name="username"
                     value={authData.username}
                     onChange={handleAuthChange}
-                    className="w-full bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 transition-colors"
+                    className="w-full bg-[#0A0A23]/50 text-white rounded-xl pl-12 pr-4 py-4 border border-blue-500/30 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all backdrop-blur-sm"
                     placeholder="Choose a username"
                     required
                   />
@@ -440,20 +473,20 @@ function HomePage() {
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={authData.password}
                   onChange={handleAuthChange}
-                  className="w-full bg-[#0A1929] text-white rounded-lg pl-10 pr-12 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 transition-colors"
+                  className="w-full bg-[#0A0A23]/50 text-white rounded-xl pl-12 pr-12 py-4 border border-blue-500/30 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all backdrop-blur-sm"
                   placeholder={authMode === 'login' ? 'Enter your password' : 'Create a password'}
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -466,13 +499,13 @@ function HomePage() {
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     name="confirmPassword"
                     value={authData.confirmPassword}
                     onChange={handleAuthChange}
-                    className="w-full bg-[#0A1929] text-white rounded-lg pl-10 pr-12 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 transition-colors"
+                    className="w-full bg-[#0A0A23]/50 text-white rounded-xl pl-12 pr-12 py-4 border border-blue-500/30 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all backdrop-blur-sm"
                     placeholder="Confirm your password"
                     required
                   />
@@ -480,35 +513,37 @@ function HomePage() {
               </div>
             )}
 
-            <button
+            <motion.button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 text-white py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-2"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 disabled:opacity-50 text-white py-4 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-blue-500/25"
             >
               {isLoading ? (
-                <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
+                <div className="animate-spin w-6 h-6 border-2 border-white border-t-transparent rounded-full" />
               ) : (
                 <>
-                  {authMode === 'login' ? <LogIn size={20} /> : <UserPlus size={20} />}
-                  {authMode === 'login' ? 'Sign In' : 'Create Account'}
+                  {authMode === 'login' ? <LogIn size={24} /> : <UserPlus size={24} />}
+                  {authMode === 'login' ? 'Enter the Cosmos' : 'Join the Adventure'}
                 </>
               )}
-            </button>
+            </motion.button>
           </form>
 
           {/* Switch Mode */}
-          <div className="mt-6 text-center">
+          <div className="mt-8 text-center">
             <p className="text-gray-400">
-              {authMode === 'login' ? "Don't have an account?" : 'Already have an account?'}{' '}
+              {authMode === 'login' ? "New to Cosmic Gaming?" : 'Already have an account?'}{' '}
               <button
                 onClick={() => {
                   setAuthMode(authMode === 'login' ? 'register' : 'login');
                   setAuthError('');
                   setAuthData({ email: '', password: '', username: '', confirmPassword: '' });
                 }}
-                className="text-blue-400 hover:text-blue-300 transition-colors font-medium"
+                className="text-blue-400 hover:text-blue-300 transition-colors font-semibold"
               >
-                {authMode === 'login' ? 'Sign up' : 'Sign in'}
+                {authMode === 'login' ? 'Create Account' : 'Sign In'}
               </button>
             </p>
           </div>
@@ -516,6 +551,7 @@ function HomePage() {
       </div>
     );
   }
+
   return (
     <>
       {/* Sidebar */}
@@ -532,57 +568,66 @@ function HomePage() {
       <div className={`transition-all duration-300 ${
         sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'
       }`}>
-        {/* Top Navigation */}
+        {/* Enhanced Top Navigation */}
         <motion.header
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="sticky top-0 z-40 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20"
+          className="sticky top-0 z-40 bg-gradient-to-r from-[#0A0A23]/95 via-[#1a1a3e]/95 to-[#0A0A23]/95 backdrop-blur-xl border-b border-blue-500/30 shadow-lg"
         >
           <div className="flex items-center justify-between p-4 lg:px-8">
             {/* Left side */}
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-3 hover:bg-white/10 rounded-xl transition-all hover:scale-105"
               >
                 <Menu size={24} />
               </button>
               
-              <motion.h1
-                className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent transition-all duration-300"
-                style={{ fontFamily: "'Orbitron', sans-serif" }}
+              <motion.div
+                className="flex items-center gap-3"
                 whileHover={{ scale: 1.05 }}
               >
-                COSMIC
-              </motion.h1>
+                <div className="relative">
+                  <Sparkles className="w-8 h-8 text-blue-400 animate-pulse" />
+                  <div className="absolute inset-0 bg-blue-400/20 blur-lg rounded-full animate-ping" />
+                </div>
+                <h1
+                  className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+                  style={{ fontFamily: "'Orbitron', sans-serif" }}
+                >
+                  COSMIC
+                </h1>
+              </motion.div>
             </div>
 
-            {/* Center - Search */}
-            <div className="hidden md:flex flex-1 max-w-md mx-8">
+            {/* Center - Enhanced Search */}
+            <div className="hidden md:flex flex-1 max-w-lg mx-8">
               <button
                 onClick={() => setSearchOpen(true)}
-                className="w-full bg-[#132F4C] text-gray-400 rounded-lg px-4 py-2 text-left flex items-center gap-3 hover:bg-[#1A243D] transition-colors border border-blue-500/20"
+                className="w-full bg-gradient-to-r from-[#1a1a3e]/80 to-[#2a2a5e]/80 text-gray-300 rounded-xl px-6 py-3 text-left flex items-center gap-4 hover:from-[#2a2a5e]/80 hover:to-[#3a3a7e]/80 transition-all border border-blue-500/30 backdrop-blur-sm"
               >
-                <Search size={20} />
-                <span>Search games...</span>
+                <Search size={20} className="text-blue-400" />
+                <span>Search cosmic games...</span>
                 <div className="ml-auto flex gap-1">
-                  <kbd className="px-2 py-1 bg-gray-700 rounded text-xs">⌘</kbd>
-                  <kbd className="px-2 py-1 bg-gray-700 rounded text-xs">K</kbd>
+                  <kbd className="px-2 py-1 bg-blue-500/20 rounded text-xs border border-blue-500/30">⌘</kbd>
+                  <kbd className="px-2 py-1 bg-blue-500/20 rounded text-xs border border-blue-500/30">K</kbd>
                 </div>
               </button>
             </div>
 
             {/* Right side */}
-            <div className="flex items-center gap-2 lg:gap-4">
+            <div className="flex items-center gap-3 lg:gap-4">
               <button
                 onClick={() => setSearchOpen(true)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors md:hidden"
+                className="p-3 hover:bg-white/10 rounded-xl transition-all md:hidden hover:scale-105"
               >
                 <Search size={20} />
               </button>
               
-              <div className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors border border-blue-500/30 flex items-center gap-2">
-                <span className="font-medium">
+              <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 hover:from-blue-600/30 hover:to-purple-600/30 text-blue-400 px-6 py-3 rounded-xl transition-all border border-blue-500/30 flex items-center gap-3 backdrop-blur-sm">
+                <Sparkles className="w-5 h-5" />
+                <span className="font-bold text-lg">
                   {showBalance ? `₹${user.balance.toLocaleString()}` : '₹••••••'}
                 </span>
                 <button
@@ -595,14 +640,14 @@ function HomePage() {
 
               <button
                 onClick={() => navigate('/profile')}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-3 hover:bg-white/10 rounded-xl transition-all hover:scale-105"
               >
                 <User size={20} />
               </button>
               
               <button
                 onClick={logout}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors text-red-400"
+                className="p-3 hover:bg-red-500/20 rounded-xl transition-all text-red-400 hover:scale-105"
                 title="Logout"
               >
                 <LogIn size={20} />
@@ -615,47 +660,81 @@ function HomePage() {
         <main className="p-4 lg:p-8">
           <div className="max-w-7xl mx-auto">
 
-            {/* Hero Banner Section */}
+            {/* Enhanced Hero Banner Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-8"
+              className="mb-12"
             >
-              <div className="relative h-64 rounded-2xl overflow-hidden">
-                <div className="flex transition-transform duration-500 ease-in-out h-full"
+              <div className="relative h-80 rounded-3xl overflow-hidden shadow-2xl">
+                <div className="flex transition-transform duration-700 ease-in-out h-full"
                      style={{ transform: `translateX(-${currentBannerSlide * 100}%)` }}>
                   {banners.map((banner, index) => (
                     <div key={index} className="min-w-full h-full relative">
-                      <img 
-                        src={banner.image} 
-                        alt={banner.title}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
-                      <div className="absolute inset-0 flex items-center justify-start p-8">
-                        <div className="text-white max-w-lg">
-                          <h2 className="text-3xl lg:text-4xl font-bold mb-2">{banner.title}</h2>
-                          <p className="text-lg mb-6 text-gray-200">{banner.subtitle}</p>
-                          <button
+                      <div className={`absolute inset-0 bg-gradient-to-br ${banner.gradient} opacity-90`} />
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
+                      <div className="absolute inset-0 flex items-center justify-between p-8 lg:p-12">
+                        <div className="text-white max-w-2xl">
+                          <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="flex items-center gap-4 mb-4"
+                          >
+                            {banner.icon}
+                            <h2 className="text-3xl lg:text-5xl font-bold">{banner.title}</h2>
+                          </motion.div>
+                          <motion.p
+                            initial={{ opacity: 0, x: -50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.5 }}
+                            className="text-xl lg:text-2xl mb-8 text-gray-100"
+                          >
+                            {banner.subtitle}
+                          </motion.p>
+                          <motion.button
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.7 }}
                             onClick={banner.action}
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-bold text-lg transition-all border border-white/30 hover:border-white/50 shadow-lg"
                           >
                             {banner.cta}
-                          </button>
+                          </motion.button>
+                        </div>
+                        <div className="hidden lg:block">
+                          <motion.div
+                            animate={{ 
+                              rotate: [0, 360],
+                              scale: [1, 1.1, 1]
+                            }}
+                            transition={{ 
+                              duration: 10, 
+                              repeat: Infinity,
+                              ease: "linear"
+                            }}
+                            className="w-32 h-32 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20"
+                          >
+                            <Gamepad2 className="w-16 h-16 text-white" />
+                          </motion.div>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
                 
-                {/* Banner indicators */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                {/* Enhanced Banner indicators */}
+                <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-3">
                   {banners.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentBannerSlide(index)}
-                      className={`w-3 h-3 rounded-full transition-all ${
-                        currentBannerSlide === index ? 'bg-white' : 'bg-white/50'
+                      className={`w-4 h-4 rounded-full transition-all ${
+                        currentBannerSlide === index 
+                          ? 'bg-white shadow-lg scale-125' 
+                          : 'bg-white/50 hover:bg-white/70'
                       }`}
                     />
                   ))}
@@ -663,30 +742,35 @@ function HomePage() {
               </div>
             </motion.section>
 
-            {/* Popular Games Section */}
+            {/* Hot Games Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               className="mb-12"
             >
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-3xl font-bold text-white flex items-center gap-2">
-                  <TrendingUp className="text-blue-400" />
-                  Popular Games
-                </h3>
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <Zap className="w-8 h-8 text-orange-400" />
+                    <div className="absolute inset-0 bg-orange-400/20 blur-lg rounded-full animate-pulse" />
+                  </div>
+                  <h3 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
+                    🔥 Hot Games
+                  </h3>
+                </div>
                 <button
                   onClick={() => navigate('/popular')}
-                  className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
+                  className="text-orange-400 hover:text-orange-300 transition-colors flex items-center gap-2 font-semibold"
                 >
                   View All
-                  <ChevronRight size={16} />
+                  <ChevronRight size={20} />
                 </button>
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {popularGames.slice(0, 4).map((game, index) => (
-                  <GameCard key={game.route} game={game} index={index} />
+                {popularGames.map((game, index) => (
+                  <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
               </div>
             </motion.section>
@@ -698,48 +782,66 @@ function HomePage() {
               transition={{ delay: 0.3 }}
               className="mb-12"
             >
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-3xl font-bold text-white flex items-center gap-2">
-                  <Star className="text-yellow-400" />
-                  Featured Games
-                </h3>
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <Crown className="w-8 h-8 text-yellow-400" />
+                    <div className="absolute inset-0 bg-yellow-400/20 blur-lg rounded-full animate-pulse" />
+                  </div>
+                  <h3 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+                    ⭐ Featured Games
+                  </h3>
+                </div>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {featuredGames.map((game, index) => (
-                  <GameCard key={game.route} game={game} index={index} />
-                ))}
+              {/* Mobile: 3 games side by side with horizontal scroll */}
+              <div className="relative">
+                <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+                  {featuredGames.map((game, index) => (
+                    <div key={game.route} className="flex-shrink-0 w-80 sm:w-72 md:w-80 snap-start">
+                      <EnhancedGameCard game={game} index={index} />
+                    </div>
+                  ))}
+                </div>
               </div>
             </motion.section>
 
-            {/* All Games Section */}
+            {/* All Games Section - Single Horizontal Row */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
               className="mb-12"
             >
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-3xl font-bold text-white">All Games ({gameCards.length})</h3>
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <Gamepad2 className="w-8 h-8 text-blue-400" />
+                    <div className="absolute inset-0 bg-blue-400/20 blur-lg rounded-full animate-pulse" />
+                  </div>
+                  <h3 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                    🎮 All Games ({gameCards.length})
+                  </h3>
+                </div>
                 <button
                   onClick={() => navigate('/all-games')}
-                  className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
+                  className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2 font-semibold"
                 >
                   View All
-                  <ChevronRight size={16} />
+                  <ChevronRight size={20} />
                 </button>
               </div>
 
               {/* Category Filters */}
-              <div className="flex gap-2 mb-6 overflow-x-auto pb-2 games-scroll">
+              <div className="flex gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide">
                 {allCategories.map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all ${
+                    className={`px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all ${
                       selectedCategory === category
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-[#132F4C] text-gray-300 hover:bg-blue-600/20'
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                        : 'bg-[#132F4C] text-gray-300 hover:bg-blue-600/20 border border-blue-500/20'
                     }`}
                   >
                     {category === 'all' ? 'All Games' : category}
@@ -747,44 +849,76 @@ function HomePage() {
                 ))}
               </div>
               
-              {/* Horizontal Scrolling Games */}
+              {/* Single Horizontal Row with Scroll */}
               <div className="relative">
-                <div className="flex gap-6 overflow-x-auto pb-4 games-scroll">
+                <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory cosmic-games-scroll">
                   {filteredGames.map((game, index) => (
-                    <div key={game.route} className="flex-shrink-0 w-80">
-                      <GameCard game={game} index={index} />
+                    <div key={game.route} className="flex-shrink-0 w-80 snap-start">
+                      <EnhancedGameCard game={game} index={index} />
                     </div>
                   ))}
                 </div>
               </div>
             </motion.section>
 
-            {/* Analytics & Trending Section */}
-            <StatsSection />
+            {/* New Games Section */}
+            {newGames.length > 0 && (
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="mb-12"
+              >
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-4">
+                    <div className="relative">
+                      <Gift className="w-8 h-8 text-green-400" />
+                      <div className="absolute inset-0 bg-green-400/20 blur-lg rounded-full animate-pulse" />
+                    </div>
+                    <h3 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent">
+                      🆕 New Games
+                    </h3>
+                  </div>
+                  <button
+                    onClick={() => navigate('/new-games')}
+                    className="text-green-400 hover:text-green-300 transition-colors flex items-center gap-2 font-semibold"
+                  >
+                    View All
+                    <ChevronRight size={20} />
+                  </button>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {newGames.map((game, index) => (
+                    <EnhancedGameCard key={game.route} game={game} index={index} />
+                  ))}
+                </div>
+              </motion.section>
+            )}
 
-            {/* Quick Stats */}
+            {/* Enhanced Stats Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="mb-8 lg:mb-12"
+              transition={{ delay: 0.6 }}
+              className="mb-12"
             >
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                <div className="bg-[#132F4C] rounded-xl p-4 lg:p-6 border border-blue-500/20 text-center">
-                  <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-2">9</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Total Games</div>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="bg-gradient-to-br from-blue-600/20 to-blue-800/20 rounded-2xl p-6 border border-blue-500/30 text-center backdrop-blur-sm">
+                  <div className="text-3xl lg:text-4xl font-bold text-blue-400 mb-2">9</div>
+                  <div className="text-gray-300 font-medium">Total Games</div>
                 </div>
-                <div className="bg-[#132F4C] rounded-xl p-4 lg:p-6 border border-blue-500/20 text-center">
-                  <div className="text-2xl lg:text-3xl font-bold text-green-400 mb-2">15K+</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Active Players</div>
+                <div className="bg-gradient-to-br from-green-600/20 to-green-800/20 rounded-2xl p-6 border border-green-500/30 text-center backdrop-blur-sm">
+                  <div className="text-3xl lg:text-4xl font-bold text-green-400 mb-2">25K+</div>
+                  <div className="text-gray-300 font-medium">Active Players</div>
                 </div>
-                <div className="bg-[#132F4C] rounded-xl p-4 lg:p-6 border border-blue-500/20 text-center">
-                  <div className="text-2xl lg:text-3xl font-bold text-purple-400 mb-2">₹2.1M+</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Total Winnings</div>
+                <div className="bg-gradient-to-br from-purple-600/20 to-purple-800/20 rounded-2xl p-6 border border-purple-500/30 text-center backdrop-blur-sm">
+                  <div className="text-3xl lg:text-4xl font-bold text-purple-400 mb-2">₹5.2M+</div>
+                  <div className="text-gray-300 font-medium">Total Winnings</div>
                 </div>
-                <div className="bg-[#132F4C] rounded-xl p-4 lg:p-6 border border-blue-500/20 text-center">
-                  <div className="text-2xl lg:text-3xl font-bold text-yellow-400 mb-2">98.5%</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Average RTP</div>
+                <div className="bg-gradient-to-br from-yellow-600/20 to-yellow-800/20 rounded-2xl p-6 border border-yellow-500/30 text-center backdrop-blur-sm">
+                  <div className="text-3xl lg:text-4xl font-bold text-yellow-400 mb-2">98.5%</div>
+                  <div className="text-gray-300 font-medium">Average RTP</div>
                 </div>
               </div>
             </motion.section>
@@ -829,86 +963,131 @@ function HomePage() {
         onClose={() => setFeedbackOpen(false)}
       />
 
-      {/* Chat Support */}
+      {/* Enhanced Chat Support */}
       <ChatButton />
       <ChatWindow />
     </>
   );
 }
 
-// Enhanced Game Card Component
-function GameCard({ game, index }: { game: any; index: number }) {
+// Enhanced Game Card Component with Premium Design
+function EnhancedGameCard({ game, index }: { game: any; index: number }) {
   const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
   
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 * index }}
-      whileHover={{ scale: 1.02, y: -4 }}
-      className="bg-[#132F4C] rounded-xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group game-card-arcade h-full"
-      onClick={() => window.location.href = game.route}
+      whileHover={{ scale: 1.03, y: -8 }}
+      className="bg-gradient-to-br from-[#1a1a3e]/80 to-[#2a2a5e]/80 rounded-2xl overflow-hidden cursor-pointer border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group backdrop-blur-xl shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 h-full"
+      onClick={() => navigate(game.route)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative h-48">
+      <div className="relative h-48 overflow-hidden">
         <img
           src={game.image}
           alt={game.label}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a3e] via-transparent to-transparent" />
         
-        {/* Badges */}
-        <div className="absolute top-3 left-3 flex gap-2">
+        {/* Enhanced Badges */}
+        <div className="absolute top-4 left-4 flex flex-col gap-2">
           {game.isNew && (
-            <span className="px-2 py-1 bg-green-500 text-white text-xs font-bold rounded-full animate-pulse">
-              NEW
-            </span>
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full shadow-lg animate-pulse"
+            >
+              ✨ NEW
+            </motion.span>
           )}
           {game.isFeatured && (
-            <span className="px-2 py-1 bg-yellow-500 text-black text-xs font-bold rounded-full">
-              FEATURED
-            </span>
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.1 }}
+              className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold rounded-full shadow-lg"
+            >
+              ⭐ FEATURED
+            </motion.span>
+          )}
+          {game.isHot && (
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="px-3 py-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold rounded-full shadow-lg animate-bounce"
+            >
+              🔥 HOT
+            </motion.span>
           )}
         </div>
 
-        {/* Stats overlay */}
-        <div className="absolute top-3 right-3 flex items-center gap-2 text-xs text-white">
-          <div className="flex items-center gap-1 bg-black/50 px-2 py-1 rounded-full backdrop-blur-sm">
-            <Star size={10} className="text-yellow-400 fill-current" />
-            <span>{game.rating}</span>
+        {/* Enhanced Stats overlay */}
+        <div className="absolute top-4 right-4 flex flex-col gap-2">
+          <div className="flex items-center gap-1 bg-black/60 px-3 py-1 rounded-full backdrop-blur-sm border border-white/20">
+            <Star size={12} className="text-yellow-400 fill-current" />
+            <span className="text-white text-xs font-bold">{game.rating}</span>
           </div>
-          <div className="flex items-center gap-1 bg-black/50 px-2 py-1 rounded-full backdrop-blur-sm">
-            <Users size={10} />
-            <span>{game.players}</span>
+          <div className="flex items-center gap-1 bg-black/60 px-3 py-1 rounded-full backdrop-blur-sm border border-white/20">
+            <Users size={12} className="text-blue-400" />
+            <span className="text-white text-xs font-bold">{game.players}</span>
           </div>
         </div>
+
+        {/* Hover overlay */}
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-gradient-to-t from-blue-600/80 via-purple-600/40 to-transparent flex items-center justify-center"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+                className="bg-white/20 backdrop-blur-sm rounded-full p-4 border border-white/30"
+              >
+                <Play className="w-8 h-8 text-white" />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      <div className="p-4 flex flex-col h-full">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded-full font-medium">
+      <div className="p-6 flex flex-col h-full">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs text-blue-400 bg-blue-500/20 px-3 py-1 rounded-full font-semibold border border-blue-500/30">
             {game.category}
           </span>
         </div>
 
-        <h4 className="font-bold text-white mb-2 text-lg group-hover:text-blue-400 transition-colors">
+        <h4 className="font-bold text-white mb-3 text-xl group-hover:text-blue-400 transition-colors">
           {game.label}
         </h4>
         
-        <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
+        <p className="text-gray-400 text-sm mb-6 line-clamp-2 flex-grow leading-relaxed">
           {game.description}
         </p>
 
-        <button 
+        <motion.button 
           onClick={(e) => {
             e.stopPropagation();
-            window.location.href = game.route;
+            navigate(game.route);
           }}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors font-medium cosmic-button mt-auto"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white py-3 rounded-xl transition-all font-bold text-lg shadow-lg hover:shadow-blue-500/25 mt-auto"
         >
           Play Now
-        </button>
+        </motion.button>
       </div>
     </motion.div>
   );
@@ -918,111 +1097,70 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate initial loading
+    // Simulate initial loading with cosmic effect
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
 
   if (isLoading) {
-    return <LoadingScreen message="Loading Cosmic Casino..." />;
+    return <LoadingScreen message="Initializing Cosmic Gaming Universe..." />;
   }
 
   return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
-        <Routes>
-          {/* Public Routes - No Auth Required */}
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms" element={<TermsOfServicePage />} />
-          <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
-          <Route path="/security-tips" element={<SecurityTipsPage />} />
-          <Route path="/casino-guide" element={<CasinoGuidePage />} />
-          <Route path="/how-to-guides" element={<HowToGuidesPage />} />
+    <div className="min-h-screen bg-gradient-to-br from-[#0A0A23] via-[#1a1a3e] to-[#0A0A23] text-white">
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms" element={<TermsOfServicePage />} />
+        <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
+        <Route path="/security-tips" element={<SecurityTipsPage />} />
+        <Route path="/casino-guide" element={<CasinoGuidePage />} />
+        <Route path="/how-to-guides" element={<HowToGuidesPage />} />
 
-          {/* Main Route */}
-          <Route path="/" element={<HomePage />} />
+        {/* Main Route */}
+        <Route path="/" element={<HomePage />} />
 
-          {/* Game Routes */}
-          <Route path="/game/rps" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <RPSApp />
-            </div>
-          } />
-          <Route path="/game/dice" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <DiceApp />
-            </div>
-          } />
-          <Route path="/game/limbo" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <LimboApp />
-            </div>
-          } />
-          <Route path="/game/snakes" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <SnakesApp />
-            </div>
-          } />
-          <Route path="/game/card" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <CardApp />
-            </div>
-          } />
-          <Route path="/game/prediction-pulse" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <PredictionPulseApp />
-            </div>
-          } />
-          <Route path="/game/balloon" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <BalloonApp />
-            </div>
-          } />
-          <Route path="/game/minesweeper" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <MinesweeperApp />
-            </div>
-          } />
-          <Route path="/game/toss" element={
-            <div className="min-h-screen bg-gradient-to-br from-[#0f1923] via-[#182838] to-[#0f1923] text-white">
-              <TossApp />
-            </div>
-          } />
+        {/* Game Routes - Direct Component Integration */}
+        <Route path="/game/rps" element={<RPSApp />} />
+        <Route path="/game/dice" element={<DiceApp />} />
+        <Route path="/game/limbo" element={<LimboApp />} />
+        <Route path="/game/snakes" element={<SnakesApp />} />
+        <Route path="/game/card" element={<CardApp />} />
+        <Route path="/game/prediction-pulse" element={<PredictionPulseApp />} />
+        <Route path="/game/balloon" element={<BalloonApp />} />
+        <Route path="/game/minesweeper" element={<MinesweeperApp />} />
+        <Route path="/game/toss" element={<TossApp />} />
 
-          {/* User Dashboard Routes */}
-          <Route path="/all-games" element={<AllGamesPage />} />
-          <Route path="/popular" element={<PopularPage />} />
-          <Route path="/offers" element={<OffersPage />} />
-          <Route path="/new-games" element={<NewGamesPage />} />
-          <Route path="/upcoming" element={<UpcomingGamesPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/transactions" element={<TransactionsPage />} />
-          <Route path="/wallet" element={<WalletPage />} />
-          <Route path="/deposit" element={<DepositPage />} />
-          <Route path="/withdrawal" element={<WithdrawalPage />} />
-          <Route path="/feedback" element={<FeedbackPage />} />
-          <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          
-          {/* Info Pages */}
-          <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
-          <Route path="/vault-guide" element={<VaultGuidePage />} />
-          <Route path="/betting-guide" element={<BettingGuidePage />} />
-          <Route path="/payment-methods" element={<PaymentMethodsPage />} />
-          <Route path="/deposit-withdrawals" element={<DepositPage />} />
-          
-          {/* Support Routes */}
-          <Route path="/support" element={<SupportPage />} />
-          <Route path="/help-center" element={<HowToGuidesPage />} />
-          <Route path="/gambling-helpline" element={<ResponsibleGamingPage />} />
-          <Route path="/live-support" element={<SupportPage />} />
-          <Route path="/self-exclusion" element={<ResponsibleGamingPage />} />
-          <Route path="/calculator" element={<CalculatorPage />} />
-        </Routes>
-      </div>
+        {/* User Dashboard Routes */}
+        <Route path="/all-games" element={<AllGamesPage />} />
+        <Route path="/popular" element={<PopularPage />} />
+        <Route path="/offers" element={<OffersPage />} />
+        <Route path="/new-games" element={<NewGamesPage />} />
+        <Route path="/upcoming" element={<UpcomingGamesPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/transactions" element={<TransactionsPage />} />
+        <Route path="/wallet" element={<WalletPage />} />
+        <Route path="/deposit" element={<DepositPage />} />
+        <Route path="/withdrawal" element={<WithdrawalPage />} />
+        <Route path="/feedback" element={<FeedbackPage />} />
+        <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        
+        {/* Info Pages */}
+        <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
+        <Route path="/vault-guide" element={<VaultGuidePage />} />
+        <Route path="/betting-guide" element={<BettingGuidePage />} />
+        <Route path="/payment-methods" element={<PaymentMethodsPage />} />
+        
+        {/* Support Routes */}
+        <Route path="/support" element={<SupportPage />} />
+        <Route path="/calculator" element={<CalculatorPage />} />
+      </Routes>
+    </div>
   );
 }
 
