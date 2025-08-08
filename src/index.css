@@ -368,6 +368,9 @@ img {
 .game-card-arcade {
   position: relative;
   overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .game-card-arcade::before {
@@ -556,6 +559,11 @@ img {
     padding: 1rem;
     margin: 0.5rem;
   }
+}
+
+/* Grid auto-rows for equal height cards */
+.auto-rows-fr {
+  grid-auto-rows: 1fr;
 }
 
 /* Performance optimizations */

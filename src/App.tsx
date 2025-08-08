@@ -18,7 +18,8 @@ import {
   LogIn,
   UserPlus,
   Sparkles,
-  Wallet
+  Wallet,
+  Bell
 } from 'lucide-react';
 
 // Import components
@@ -336,6 +337,14 @@ function HomePage() {
                 <Search size={20} />
               </button>
               
+              {/* Notification Bell */}
+              <button className="relative p-2 hover:bg-white/10 rounded-lg transition-colors">
+                <Bell size={20} className="text-white" />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  3
+                </span>
+              </button>
+              
               <button
                 onClick={() => setWalletOpen(true)}
                 className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors border border-blue-500/30 flex items-center gap-2"
@@ -427,7 +436,7 @@ function HomePage() {
                 </button>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
                 {popularGames.slice(0, 4).map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
@@ -448,7 +457,7 @@ function HomePage() {
                 </h3>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
                 {featuredGames.map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
@@ -463,7 +472,7 @@ function HomePage() {
               className="mb-12"
             >
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-3xl font-bold text-white">All Games ({gameCards.length})</h3>
+                <h3 className="text-3xl font-bold text-white">All Games ({filteredGames.length})</h3>
                 <button
                   onClick={() => navigate('/all-games')}
                   className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors flex items-center gap-2 border border-blue-500/30"
@@ -490,15 +499,11 @@ function HomePage() {
                 ))}
               </div>
               
-              {/* Horizontal Scrolling Games */}
-              <div className="relative">
-                <div className="flex gap-6 overflow-x-auto pb-4 games-scroll">
-                  {filteredGames.map((game, index) => (
-                    <div key={game.route} className="flex-shrink-0 w-80">
-                      <EnhancedGameCard game={game} index={index} />
-                    </div>
-                  ))}
-                </div>
+              {/* All Games Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
+                {filteredGames.map((game, index) => (
+                  <EnhancedGameCard key={game.route} game={game} index={index} />
+                ))}
               </div>
             </motion.section>
 
@@ -587,7 +592,7 @@ function EnhancedGameCard({ game, index }: { game: any; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 * index }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group game-card-arcade h-full shadow-xl hover:shadow-2xl hover:shadow-blue-500/20"
+      className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group game-card-arcade shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col"
       onClick={() => window.location.href = game.route}
     >
       <div className="relative h-48">
@@ -634,7 +639,7 @@ function EnhancedGameCard({ game, index }: { game: any; index: number }) {
         </div>
       </div>
 
-      <div className="p-4 flex flex-col h-full">
+      <div className="p-4 flex flex-col flex-1">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
             {game.category}
