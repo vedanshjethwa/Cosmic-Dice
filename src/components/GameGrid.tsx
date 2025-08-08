@@ -53,7 +53,7 @@ export function GameGrid({ games, title = "Games", searchTerm = "" }: GameGridPr
           <p className="text-gray-500">Try adjusting your search terms</p>
         </motion.div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
           {filteredGames.map((game, index) => (
             <div key={game.route} className="game-card">
               <GameCard

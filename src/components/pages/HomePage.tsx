@@ -271,14 +271,6 @@ export function HomePage() {
                 <Search size={20} />
               </button>
               
-              {/* Notification Bell */}
-              <button className="relative p-2 hover:bg-white/10 rounded-lg transition-colors">
-                <Bell size={20} className="text-white" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                  3
-                </span>
-              </button>
-              
               <button
                 onClick={() => setWalletOpen(true)}
                 className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors border border-blue-500/30 flex items-center gap-2"
@@ -289,6 +281,14 @@ export function HomePage() {
                 </span>
               </button>
 
+              {/* Notification Bell */}
+              <button className="relative p-2 hover:bg-white/10 rounded-lg transition-colors">
+                <Bell size={20} className="text-white" />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  3
+                </span>
+              </button>
+              
               <button
                 onClick={() => navigate('/profile')}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
@@ -451,7 +451,7 @@ export function HomePage() {
               </div>
               
               {/* All Games Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredGames.map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}

@@ -566,6 +566,23 @@ img {
   grid-auto-rows: 1fr;
 }
 
+/* Ensure game cards have consistent height */
+.game-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.game-card > div:last-child {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-card button {
+  margin-top: auto;
+}
+
 /* Performance optimizations */
 .will-change-transform {
   will-change: transform;

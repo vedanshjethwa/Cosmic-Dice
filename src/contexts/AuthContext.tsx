@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { supabase } from '../lib/supabase';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface User {
   id: string;
@@ -43,171 +42,43 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [wallet, setWallet] = useState<Wallet | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // Default dummy user - everyone is "logged in"
+  const [user] = useState<User>({
+    id: 'dummy-user-id',
+    email: 'player@cosmic.casino',
+    username: 'CosmicPlayer',
+    created_at: new Date().toISOString()
+  });
 
-  const isAuthenticated = !!user;
+  // Default dummy wallet
+  const [wallet] = useState<Wallet>({
+    real_balance: 1000,
+    bonus_balance: 500,
+    total_deposited: 2000,
+    total_withdrawn: 500,
+    total_wagered: 5000,
+    total_won: 3500
+  });
 
-  const fetchWallet = async (userId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('wallets')
-        .select('*')
-        .eq('user_id', userId)
-        .single();
+  const [isLoading] = useState(false);
+  const isAuthenticated = true; // Always authenticated
 
-      if (error) throw error;
-      setWallet(data);
-    } catch (error) {
-      console.error('Error fetching wallet:', error);
-    }
-  };
-
-  const refreshWallet = async () => {
-    if (user) {
-      await fetchWallet(user.id);
-    }
-  };
-
+  // Dummy functions - no actual authentication
   const login = async (email: string, password: string) => {
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) throw error;
-
-      if (data.user) {
-        // Get user profile
-        const { data: profile, error: profileError } = await supabase
-          .from('users')
-          .select('*')
-          .eq('id', data.user.id)
-          .single();
-
-        if (profileError) {
-          // If profile doesn't exist, create a basic user object
-          const basicUser = {
-            id: data.user.id,
-            email: data.user.email || email,
-            username: data.user.user_metadata?.username || email.split('@')[0],
-            created_at: new Date().toISOString()
-          };
-          setUser(basicUser);
-          return;
-        }
-
-        setUser(profile);
-        await fetchWallet(profile.id);
-      }
-    } catch (error) {
-      // Provide more helpful error messages
-      if (error instanceof Error) {
-        if (error.message.includes('connect to Supabase')) {
-          throw new Error('Please set up Supabase connection first. Click "Connect to Supabase" in the top right corner.');
-        }
-        throw error;
-      }
-      throw new Error('Login failed. Please check your credentials and try again.');
-    }
+    // No-op
   };
 
   const register = async (email: string, password: string, username: string) => {
-    try {
-      // Check if username is already taken
-      const { data: existingUser } = await supabase
-        .from('users')
-        .select('id')
-        .eq('username', username)
-        .single();
-
-      if (existingUser) {
-        throw new Error('Username already taken');
-      }
-
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            username,
-          }
-        }
-      });
-
-      if (error) throw error;
-
-      if (data.user) {
-        // Create user profile
-        const { data: profile, error: profileError } = await supabase
-          .from('users')
-          .insert({
-            id: data.user.id,
-            email,
-            username,
-          })
-          .select()
-          .single();
-
-        if (profileError) throw profileError;
-
-        setUser(profile);
-        await fetchWallet(profile.id);
-      }
-    } catch (error) {
-      throw error;
-    }
+    // No-op
   };
 
   const logout = async () => {
-    try {
-      await supabase.auth.signOut();
-      setUser(null);
-      setWallet(null);
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }
+    // No-op
   };
 
-  useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        
-        if (session?.user) {
-          const { data: profile, error } = await supabase
-            .from('users')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
-
-          if (!error && profile) {
-            setUser(profile);
-            await fetchWallet(profile.id);
-          }
-        }
-      } catch (error) {
-        console.error('Error initializing auth:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initializeAuth();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (event === 'SIGNED_OUT') {
-          setUser(null);
-          setWallet(null);
-        }
-      }
-    );
-
-    return () => subscription.unsubscribe();
-  }, []);
+  const refreshWallet = async () => {
+    // No-op
+  };
 
   return (
     <AuthContext.Provider

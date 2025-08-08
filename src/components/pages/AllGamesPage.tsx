@@ -202,7 +202,6 @@ export function AllGamesPage() {
               <GameGrid 
                 games={filteredGames} 
                 title="All Available Games"
-                searchTerm={searchTerm}
               />
             </motion.div>
           </div>
