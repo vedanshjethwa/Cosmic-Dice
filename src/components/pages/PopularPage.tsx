@@ -172,6 +172,11 @@ export function PopularPage() {
                     {game.isNew && (
                       <div className="absolute top-3 left-3">
                         <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full animate-pulse shadow-lg">
+                          NEW
+                        </span>
+                      </div>
+                    )}
+                    
                     {game.isFeatured && (
                       <div className="absolute top-3 right-3">
                         <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold rounded-full shadow-lg">
@@ -179,40 +184,20 @@ export function PopularPage() {
                         </span>
                       </div>
                     )}
-                          NEW
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform shadow-lg">
-                        <Play size={20} />
-                        Play Now
-                      </div>
-                    </div>
                   </div>
-                        </span>
                   <div className="p-4 flex flex-col flex-1">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
                         {game.category}
                       </span>
-                      <div className="flex items-center gap-3 text-xs text-gray-400">
-                        <div className="flex items-center gap-1">
-                          <Star size={12} className="text-yellow-400 fill-current" />
-                          <span>{game.rating}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Users size={12} />
-                          <span>{game.players}</span>
-                        </div>
-                      </div>
                     </div>
-                      </div>
                     <h3 className="font-bold text-white mb-2 text-lg group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
                       {game.label}
                     </h3>
                     
                     <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
-                      Premium gaming experience with cosmic rewards
+                      {game.description}
                     </p>
-                    )}
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
