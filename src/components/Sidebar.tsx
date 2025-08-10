@@ -214,18 +214,18 @@ export function Sidebar({
 
         {/* Navigation */}
         <nav
-          className={`sidebar-scrollbar ${
+          className={`${
             isOpen ? 'block' : 'hidden lg:block'
-          } p-3 lg:p-4 overflow-y-auto h-[calc(100vh-80px)]`}
+          } p-2 lg:p-4 overflow-y-auto h-[calc(100vh-60px)] custom-scrollbar`}
         >
-          <ul className="space-y-1">
+          <ul className="space-y-2">
             {menuItems.map((item, index) => (
               <li key={index}>
                 <button
-                  className={`sidebar-item flex items-center gap-3 transition-all whitespace-nowrap group w-full text-left rounded-xl ${
+                  className={`sidebar-item flex items-center gap-3 p-3 transition-all whitespace-nowrap group w-full ${
                     isActivePage(item)
-                      ? 'active text-white bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-l-4 border-blue-500'
-                      : `text-gray-300 hover:text-white ${item.className || ''}`
+                      ? 'active text-white'
+                      : `text-gray-300 hover:bg-blue-900/30 hover:text-white ${item.className || ''}`
                   }`}
                   onClick={() => {
                     item.onClick();
@@ -236,7 +236,7 @@ export function Sidebar({
                     {item.icon}
                   </span>
                   <span
-                    className={`font-medium ${
+                    className={`${
                       isOpen || window.innerWidth >= 1024
                         ? 'opacity-100'
                         : 'opacity-0'
@@ -246,13 +246,13 @@ export function Sidebar({
                   </span>
                   {/* Arrow icon */}
                   <ChevronRight 
-                    className={`w-4 h-4 transition-all duration-300 ml-auto ${
+                    className={`w-4 h-4 transition-all duration-200 ${
                       isOpen || window.innerWidth >= 1024
                         ? 'opacity-100'
                         : 'opacity-0'
                     } ${
                       isActivePage(item) 
-                        ? 'text-white transform rotate-90' 
+                        ? 'text-white' 
                         : 'text-gray-400 group-hover:text-white'
                     }`}
                   />

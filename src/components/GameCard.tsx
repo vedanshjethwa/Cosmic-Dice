@@ -39,74 +39,70 @@ export function GameCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      whileHover={{ scale: 1.03, y: -8 }}
-      className="card-hover-effect premium-game-card bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden group cursor-pointer border border-blue-500/20 hover:border-blue-400/50 transition-all duration-400 shadow-xl hover:shadow-2xl hover:shadow-blue-500/30 flex flex-col h-full"
+      whileHover={{ scale: 1.02, y: -4 }}
+      className="premium-game-card bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden group cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col h-full"
       onClick={handlePlay}
     >
       {/* Image Container - Fixed Height */}
-      <div className="relative h-48 overflow-hidden flex-shrink-0 bg-gradient-to-t from-[#132F4C]/50 to-transparent">
+      <div className="relative h-48 overflow-hidden flex-shrink-0">
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-115 group-hover:brightness-110"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
           loading="lazy"
         />
         
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent opacity-80" />
         
         {/* Badges */}
-        <div className="absolute top-4 left-4 flex gap-2">
+        <div className="absolute top-3 left-3 flex gap-2">
           {isNew && (
-            <span className="px-3 py-1.5 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full shadow-lg animate-pulse border border-white/20">
+            <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full shadow-lg animate-pulse">
               NEW
             </span>
           )}
           {isFeatured && (
-            <span className="px-3 py-1.5 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold rounded-full shadow-lg border border-white/20">
+            <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold rounded-full shadow-lg">
               FEATURED
             </span>
           )}
         </div>
 
         {/* Stats overlay */}
-        <div className="absolute top-4 right-4 flex items-center gap-2 text-xs text-white">
-          <div className="flex items-center gap-1 bg-black/60 px-3 py-1.5 rounded-full backdrop-blur-sm border border-white/10">
+        <div className="absolute top-3 right-3 flex items-center gap-2 text-xs text-white">
+          <div className="flex items-center gap-1 bg-black/50 px-2 py-1 rounded-full backdrop-blur-sm">
             <Star size={10} className="text-yellow-400 fill-current" />
-            <span className="font-medium">{rating}</span>
+            <span>{rating}</span>
           </div>
-          <div className="flex items-center gap-1 bg-black/60 px-3 py-1.5 rounded-full backdrop-blur-sm border border-white/10">
+          <div className="flex items-center gap-1 bg-black/50 px-2 py-1 rounded-full backdrop-blur-sm">
             <Users size={10} />
-            <span className="font-medium">{players}</span>
+            <span>{players}</span>
           </div>
         </div>
 
         {/* Play button overlay on hover */}
-        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center justify-center backdrop-blur-sm">
-          <motion.div 
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileHover={{ scale: 1.05 }}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-bold flex items-center gap-3 transform scale-90 group-hover:scale-100 transition-all duration-300 shadow-2xl border border-white/20"
-          >
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform shadow-lg">
             <Play size={20} />
-            <span className="text-lg">Play Now</span>
-          </motion.div>
+            Play Now
+          </div>
         </div>
       </div>
 
       {/* Content - Flexible Height */}
-      <div className="p-6 flex flex-col flex-1">
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1.5 rounded-full font-semibold border border-blue-500/30 tracking-wide">
+      <div className="p-4 flex flex-col flex-1">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
             {category}
           </span>
         </div>
 
-        <h3 className="text-heading-3 text-white mb-3 group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
+        <h3 className="font-bold text-white mb-2 text-lg group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
           {title}
         </h3>
         
-        <p className="text-body-small text-gray-400 mb-6 line-clamp-2 flex-grow leading-relaxed">
+        <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
           {description}
         </p>
 
@@ -115,9 +111,9 @@ export function GameCard({
             e.stopPropagation();
             navigate(route);
           }}
-          className="btn-hover-effect w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 rounded-xl font-semibold cosmic-button mt-auto shadow-lg hover:shadow-blue-500/40 border border-blue-500/20 hover:border-blue-400/40"
+          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-xl transition-all font-medium cosmic-button mt-auto shadow-lg hover:shadow-blue-500/30 transform hover:scale-105"
         >
-          <span className="text-base">Play Now</span>
+          Play Now
         </button>
       </div>
     </motion.div>
