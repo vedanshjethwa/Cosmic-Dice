@@ -23,6 +23,8 @@ import {
   ArrowLeft,
   ChevronRight,
   Calculator,
+  Shield,
+  BookOpen,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useChatStore } from './ChatSupport/ChatStore';
