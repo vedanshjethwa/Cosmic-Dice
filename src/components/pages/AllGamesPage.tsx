@@ -206,8 +206,8 @@ export function AllGamesPage() {
                     game={game}
                     index={index}
                   />
-                  />
                 ))}
+              </div>
             </motion.div>
           </div>
         </div>
