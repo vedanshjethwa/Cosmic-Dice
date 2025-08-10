@@ -281,5 +281,10 @@ export function AllGamesPage() {
                   </motion.div>
                 ))}
               </div>
+            )
+            )
+            }
             </motion.div>
                       {game.description}
+  )
+}
