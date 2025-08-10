@@ -7,7 +7,7 @@ import { GameGuard } from './components/game/GameGuard';
 import { LoadingScreen } from './components/LoadingScreen';
 
 // Import page components
-import { HomePage } from './components/pages/HomePage';
+import HomePage from './components/pages/HomePage';
 import { AllGamesPage } from './components/pages/AllGamesPage';
 import { PopularPage } from './components/pages/PopularPage';
 import { OffersPage } from './components/pages/OffersPage';
