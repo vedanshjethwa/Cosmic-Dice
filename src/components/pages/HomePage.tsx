@@ -388,7 +388,7 @@ export function HomePage() {
               </div>
               
               {/* Desktop: 3 games per row, Mobile: 2 games per row */}
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 auto-rows-fr">
                 {popularGames.slice(0, 3).map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
@@ -417,7 +417,7 @@ export function HomePage() {
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 auto-rows-fr">
                 {featuredGames.map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}

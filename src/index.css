@@ -591,20 +591,20 @@ img {
 /* Ensure all game cards have equal height */
 .premium-game-card {
   height: 100%;
-  min-height: 400px;
+  min-height: 380px;
 }
 
 .premium-game-card .relative {
-  height: 192px; /* Fixed height for all images */
+  height: 160px; /* Fixed height for all images */
 }
 
 @media (max-width: 768px) {
   .premium-game-card {
-    min-height: 350px;
+    min-height: 320px;
   }
   
   .premium-game-card .relative {
-    height: 160px;
+    height: 140px;
   }
 }
 
