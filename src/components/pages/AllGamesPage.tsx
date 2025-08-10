@@ -205,9 +205,9 @@ export function AllGamesPage() {
                     key={game.route}
                     game={game}
                     index={index}
+                  />
                 ))}
               </div>
-            )
             </motion.div>
           </div>
         </div>
@@ -216,6 +216,4 @@ export function AllGamesPage() {
       </div>
     </div>
   );
-}
-  )
 }
