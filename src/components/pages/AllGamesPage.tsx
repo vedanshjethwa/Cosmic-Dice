@@ -157,7 +157,7 @@ export function AllGamesPage() {
             animate={{ opacity: 1, y: 0 }}
             className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20 mb-8"
           >
-            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
               {/* Search Bar */}
               <div className="relative w-full lg:w-auto">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
@@ -234,7 +234,7 @@ export function AllGamesPage() {
                           </span>
                         </div>
                       )}
-
+                  <div className="relative h-48 flex-shrink-0">
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform shadow-lg">
                           <Play size={20} />
@@ -282,11 +282,4 @@ export function AllGamesPage() {
                 ))}
               </div>
             </motion.div>
-          </div>
-        </div>
-
-        <Footer />
-      </div>
-    </div>
-  );
-}
+                      {game.description}

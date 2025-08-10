@@ -44,7 +44,7 @@ export function GameCard({
       onClick={handlePlay}
     >
       {/* Image Container - Fixed Height */}
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-48 overflow-hidden flex-shrink-0">
         <img
           src={image}
           alt={title}
@@ -103,7 +103,7 @@ export function GameCard({
         </h3>
         
         <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
-          Premium gaming experience with cosmic rewards
+          {description}
         </p>
 
         <button 

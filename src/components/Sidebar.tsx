@@ -146,7 +146,7 @@ export function Sidebar({
       onClick: () => navigate('/calculator'),
     },
     {
-      icon: <Info size={20} />,
+      icon: <HelpCircle size={20} />,
       label: 'Help Center',
       path: '/how-to-guides',
       onClick: () => navigate('/how-to-guides'),
@@ -159,7 +159,7 @@ export function Sidebar({
       className: 'text-red-400 hover:text-red-300',
     },
     {
-      icon: <Wallet size={20} />,
+      icon: <CreditCard size={20} />,
       label: 'Payment Info',
       path: '/payment-methods',
       onClick: () => navigate('/payment-methods'),

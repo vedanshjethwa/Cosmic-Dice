@@ -149,7 +149,7 @@ export function PopularPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
               {popularGames.map((game, index) => (
                 <motion.div
                   key={game.route}
@@ -160,7 +160,7 @@ export function PopularPage() {
                   className="premium-game-card bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col h-full"
                   onClick={() => navigate(game.route)}
                 >
-                  <div className="relative h-48">
+                  <div className="relative h-48 flex-shrink-0">
                     <img
                       src={game.image}
                       alt={game.label}

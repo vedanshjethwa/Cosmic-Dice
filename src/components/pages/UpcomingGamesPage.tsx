@@ -175,7 +175,7 @@ export function UpcomingGamesPage() {
               <h3 className="text-2xl font-bold text-white">In Development ({upcomingGames.length})</h3>
             </div>
             
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
               {upcomingGames.map((game, index) => (
                 <motion.div
                   key={game.label}
@@ -185,7 +185,7 @@ export function UpcomingGamesPage() {
                   whileHover={{ scale: 1.02, y: -4 }}
                   className="premium-game-card bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden border border-orange-500/20 hover:border-orange-400/40 transition-all duration-300 group shadow-xl hover:shadow-2xl hover:shadow-orange-500/20 flex flex-col h-full"
                 >
-                  <div className="relative h-48">
+                  <div className="relative h-48 flex-shrink-0">
                     <img
                       src={game.image}
                       alt={game.label}
@@ -232,7 +232,7 @@ export function UpcomingGamesPage() {
                     </h4>
                     
                     <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
-                      Premium gaming experience coming soon
+                      {game.description}
                     </p>
 
                     <button 

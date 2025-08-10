@@ -459,8 +459,8 @@ export function HomePage() {
                 ))}
               </div>
               
-              {/* All Games Grid */}
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+              {/* All Games Grid - Fixed alignment */}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
                 {filteredGames.map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}

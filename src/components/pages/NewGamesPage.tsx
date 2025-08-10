@@ -135,7 +135,7 @@ export default function NewGamesPage() {
               <h3 className="text-2xl font-bold text-white">Recently Added ({newGames.length})</h3>
             </div>
             
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
               {newGames.map((game, index) => (
                 <motion.div
                   key={game.route}
@@ -146,7 +146,7 @@ export default function NewGamesPage() {
                   className="premium-game-card bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden cursor-pointer border border-green-500/20 hover:border-green-400/40 transition-all duration-300 group shadow-xl hover:shadow-2xl hover:shadow-green-500/20 flex flex-col h-full"
                   onClick={() => navigate(game.route)}
                 >
-                  <div className="relative h-48">
+                  <div className="relative h-48 flex-shrink-0">
                     <img
                       src={game.image}
                       alt={game.label}
@@ -194,7 +194,7 @@ export default function NewGamesPage() {
                     </h4>
                     
                     <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
-                      Premium gaming experience with cosmic rewards
+                      {game.description}
                     </p>
 
                     <button 
