@@ -25,6 +25,8 @@ import {
   Calculator,
   Shield,
   BookOpen,
+  HelpCircle,
+  CreditCard,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useChatStore } from './ChatSupport/ChatStore';
