@@ -135,7 +135,7 @@ export default function NewGamesPage() {
               <h3 className="text-2xl font-bold text-white">Recently Added ({newGames.length})</h3>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
               {newGames.map((game, index) => (
                 <motion.div
                   key={game.route}
@@ -143,7 +143,7 @@ export default function NewGamesPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * index }}
                   whileHover={{ scale: 1.02, y: -4 }}
-                  className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden cursor-pointer border border-green-500/20 hover:border-green-400/40 transition-all duration-300 group shadow-xl hover:shadow-2xl hover:shadow-green-500/20"
+                  className="premium-game-card bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden cursor-pointer border border-green-500/20 hover:border-green-400/40 transition-all duration-300 group shadow-xl hover:shadow-2xl hover:shadow-green-500/20 flex flex-col h-full"
                   onClick={() => navigate(game.route)}
                 >
                   <div className="relative h-48">
@@ -179,7 +179,7 @@ export default function NewGamesPage() {
                     </div>
                   </div>
 
-                  <div className="p-4">
+                  <div className="p-4 flex flex-col flex-1">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs text-green-400 bg-gradient-to-r from-green-500/20 to-emerald-500/20 px-3 py-1 rounded-full font-medium border border-green-500/30">
                         {game.category}
@@ -193,24 +193,16 @@ export default function NewGamesPage() {
                       {game.label}
                     </h4>
                     
-                    <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                      {game.description}
+                    <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
+                      Premium gaming experience with cosmic rewards
                     </p>
-
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-xs text-gray-400">{game.players} players</span>
-                      <div className="flex items-center gap-1">
-                        <Star size={12} className="text-yellow-400 fill-current" />
-                        <span className="text-xs text-gray-300">{game.rating}</span>
-                      </div>
-                    </div>
 
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(game.route);
                       }}
-                      className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-3 rounded-xl transition-all font-medium shadow-lg hover:shadow-green-500/30 transform hover:scale-105"
+                      className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-3 rounded-xl transition-all font-medium shadow-lg hover:shadow-green-500/30 transform hover:scale-105 mt-auto"
                     >
                       Play Now
                     </button>

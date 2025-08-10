@@ -175,7 +175,7 @@ export function UpcomingGamesPage() {
               <h3 className="text-2xl font-bold text-white">In Development ({upcomingGames.length})</h3>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
               {upcomingGames.map((game, index) => (
                 <motion.div
                   key={game.label}
@@ -183,7 +183,7 @@ export function UpcomingGamesPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * index }}
                   whileHover={{ scale: 1.02, y: -4 }}
-                  className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden border border-orange-500/20 hover:border-orange-400/40 transition-all duration-300 group shadow-xl hover:shadow-2xl hover:shadow-orange-500/20"
+                  className="premium-game-card bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden border border-orange-500/20 hover:border-orange-400/40 transition-all duration-300 group shadow-xl hover:shadow-2xl hover:shadow-orange-500/20 flex flex-col h-full"
                 >
                   <div className="relative h-48">
                     <img
@@ -217,7 +217,7 @@ export function UpcomingGamesPage() {
                     </div>
                   </div>
 
-                  <div className="p-4">
+                  <div className="p-4 flex flex-col flex-1">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs text-orange-400 bg-gradient-to-r from-orange-500/20 to-red-500/20 px-3 py-1 rounded-full font-medium border border-orange-500/30">
                         {game.category}
@@ -231,39 +231,13 @@ export function UpcomingGamesPage() {
                       {game.label}
                     </h4>
                     
-                    <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                      {game.description}
+                    <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
+                      Premium gaming experience coming soon
                     </p>
-
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <Users size={12} className="text-gray-400" />
-                        <span className="text-xs text-gray-400">{game.expectedPlayers} expected</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Star size={12} className="text-yellow-400" />
-                        <span className="text-xs text-gray-300">{game.rating}</span>
-                      </div>
-                    </div>
-
-                    {/* Features */}
-                    <div className="mb-4">
-                      <h5 className="text-xs font-semibold text-gray-300 mb-2">Key Features:</h5>
-                      <div className="flex flex-wrap gap-1">
-                        {game.features.map((feature, idx) => (
-                          <span
-                            key={idx}
-                            className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded border border-blue-500/30"
-                          >
-                            {feature}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
 
                     <button 
                       disabled
-                      className="w-full bg-gray-600/50 text-gray-400 py-3 rounded-xl font-medium cursor-not-allowed"
+                      className="w-full bg-gray-600/50 text-gray-400 py-3 rounded-xl font-medium cursor-not-allowed mt-auto"
                     >
                       Coming Soon
                     </button>

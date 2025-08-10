@@ -387,8 +387,9 @@ export function HomePage() {
                 </button>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
-                {popularGames.slice(0, 4).map((game, index) => (
+              {/* Desktop: 3 games per row, Mobile: 2 games per row */}
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                {popularGames.slice(0, 3).map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
               </div>
@@ -406,9 +407,17 @@ export function HomePage() {
                   <Star className="text-yellow-400" />
                   Featured Games
                 </h3>
+                <div className="flex items-center gap-2">
+                  <button className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg transition-colors">
+                    ←
+                  </button>
+                  <button className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg transition-colors">
+                    →
+                  </button>
+                </div>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                 {featuredGames.map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
@@ -451,7 +460,7 @@ export function HomePage() {
               </div>
               
               {/* All Games Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                 {filteredGames.map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}

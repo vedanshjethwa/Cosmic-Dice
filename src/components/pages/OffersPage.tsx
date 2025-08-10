@@ -246,7 +246,7 @@ export function OffersPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * index }}
-                  className="bg-[#132F4C] rounded-xl overflow-hidden border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group"
+                  className="premium-game-card bg-[#132F4C] rounded-xl overflow-hidden border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group flex flex-col h-full"
                 >
                   {/* Offer Image */}
                   <div className="relative h-48 overflow-hidden">
@@ -284,7 +284,7 @@ export function OffersPage() {
                   </div>
 
                   {/* Offer Content */}
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-1">
                     <div className="mb-3">
                       <span className="text-sm text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">
                         {offer.type}
@@ -295,12 +295,12 @@ export function OffersPage() {
                       {offer.title}
                     </h3>
                     
-                    <p className="text-gray-400 mb-4 text-sm leading-relaxed">
-                      {offer.description}
+                    <p className="text-gray-400 mb-4 text-sm leading-relaxed flex-grow">
+                      Exclusive offer with premium rewards
                     </p>
 
                     {/* Action Button */}
-                    <div className="mt-auto">
+                    <div>
                       {activeTab === 'active' && (
                         <button
                           className={`w-full py-3 rounded-lg font-medium transition-all duration-300 ${

@@ -143,6 +143,31 @@ export function Sidebar({
       path: '/calculator',
       onClick: () => navigate('/calculator'),
     },
+    {
+      icon: <Info size={20} />,
+      label: 'Help Center',
+      path: '/how-to-guides',
+      onClick: () => navigate('/how-to-guides'),
+    },
+    {
+      icon: <Shield size={20} />,
+      label: 'Self Exclusion',
+      path: '/responsible-gaming',
+      onClick: () => navigate('/responsible-gaming'),
+      className: 'text-red-400 hover:text-red-300',
+    },
+    {
+      icon: <Wallet size={20} />,
+      label: 'Payment Info',
+      path: '/payment-methods',
+      onClick: () => navigate('/payment-methods'),
+    },
+    {
+      icon: <BookOpen size={20} />,
+      label: 'Guides',
+      path: '/casino-guide',
+      onClick: () => navigate('/casino-guide'),
+    },
   ];
 
   const isActivePage = (item: any) => {

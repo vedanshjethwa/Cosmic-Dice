@@ -364,39 +364,6 @@ img {
   transform: translateY(-4px);
 }
 
-/* Arcade-style game card effects */
-.game-card-arcade {
-  position: relative;
-  overflow: hidden;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.game-card-arcade::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-  transition: left 0.5s;
-  z-index: 1;
-}
-
-.game-card-arcade:hover::before {
-  left: 100%;
-}
-
-.game-card-arcade:hover {
-  box-shadow: 
-    0 0 20px rgba(59, 130, 246, 0.3),
-    0 0 40px rgba(59, 130, 246, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transform: translateY(-4px) scale(1.02);
-}
-
 /* Premium game card styling */
 .premium-game-card {
   background: linear-gradient(135deg, rgba(26, 47, 76, 0.9), rgba(15, 23, 42, 0.95));
@@ -461,6 +428,39 @@ img {
     0 4px 16px rgba(59, 130, 246, 0.2),
     0 0 0 1px rgba(255, 255, 255, 0.1) inset,
     0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Arcade-style game card effects */
+.game-card-arcade {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-card-arcade::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+  transition: left 0.5s;
+  z-index: 1;
+}
+
+.game-card-arcade:hover::before {
+  left: 100%;
+}
+
+.game-card-arcade:hover {
+  box-shadow: 
+    0 0 20px rgba(59, 130, 246, 0.3),
+    0 0 40px rgba(59, 130, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-4px) scale(1.02);
 }
 
 /* Enhanced cosmic button effects */
