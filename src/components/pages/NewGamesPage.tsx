@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Menu, Sparkles, Calendar, Star } from 'lucide-react';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
+import { GameCard } from '../GameCard';
 
 export default function NewGamesPage() {
   const navigate = useNavigate();
