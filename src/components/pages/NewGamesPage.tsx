@@ -135,79 +135,21 @@ export default function NewGamesPage() {
               <h3 className="text-2xl font-bold text-white">Recently Added ({newGames.length})</h3>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
+            <div className="cosmic-game-grid">
               {newGames.map((game, index) => (
-                <motion.div
+                <GameCard
                   key={game.route}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * index }}
-                  whileHover={{ scale: 1.02, y: -4 }}
-                  className="premium-game-card bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden cursor-pointer border border-green-500/20 hover:border-green-400/40 transition-all duration-300 group shadow-xl hover:shadow-2xl hover:shadow-green-500/20 flex flex-col h-full"
-                  onClick={() => navigate(game.route)}
-                >
-                  <div className="relative h-48 flex-shrink-0">
-                    <img
-                      src={game.image}
-                      alt={game.label}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent opacity-80" />
-                    
-                    {/* NEW Badge */}
-                    <div className="absolute top-3 left-3">
-                      <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full animate-pulse shadow-lg">
-                        NEW
-                      </span>
-                    </div>
-
-                    {/* Stats */}
-                    <div className="absolute top-3 right-3 flex items-center gap-2 text-xs text-white">
-                      <div className="flex items-center gap-1 bg-black/50 px-2 py-1 rounded-full backdrop-blur-sm">
-                        <Star size={10} className="text-yellow-400 fill-current" />
-                        <span>{game.rating}</span>
-                      </div>
-                    </div>
-
-                    {/* Play button overlay */}
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform">
-                        <Sparkles size={20} />
-                        Play Now
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 flex flex-col flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs text-green-400 bg-gradient-to-r from-green-500/20 to-emerald-500/20 px-3 py-1 rounded-full font-medium border border-green-500/30">
-                        {game.category}
-                      </span>
-                      <span className="text-xs text-gray-400">
-                        {new Date(game.releaseDate).toLocaleDateString()}
-                      </span>
-                    </div>
-
-                    <h4 className="font-bold text-white mb-2 text-lg group-hover:bg-gradient-to-r group-hover:from-green-400 group-hover:to-emerald-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
-                      {game.label}
-                    </h4>
-                    
-                    <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
-                      {game.description}
-                    </p>
-
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(game.route);
-                      }}
-                      className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-3 rounded-xl transition-all font-medium shadow-lg hover:shadow-green-500/30 transform hover:scale-105 mt-auto"
-                    >
-                      Play Now
-                    </button>
-                  </div>
-                </motion.div>
+                  title={game.label}
+                  description={game.description}
+                  image={game.image}
+                  route={game.route}
+                  category={game.category}
+                  rating={game.rating}
+                  players={game.players}
+                  isNew={game.isNew}
+                  isFeatured={game.isFeatured}
+                  index={index}
+                />
               ))}
             </div>
           </motion.div>

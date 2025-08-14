@@ -11,7 +11,9 @@ import {
   Info, 
   Target,
   Award,
-  Wallet
+  Wallet,
+  Clock,
+  Trophy
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
@@ -64,7 +66,72 @@ export function GamePreview({ gameId }: GamePreviewProps) {
       minBet: 1,
       maxBet: 50000,
     },
-    // Add more games as needed
+    'limbo': {
+      title: 'Cosmic Limbo',
+      description: 'How low can you go?',
+      image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=800&h=400',
+      category: 'Risk',
+      rating: 4.7,
+      players: '1.8K',
+      rtp: '97.2%',
+      minBet: 1,
+      maxBet: 100000,
+    },
+    'card': {
+      title: 'Cosmic Cards',
+      description: 'Pick your fortune card',
+      image: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&q=80&w=800&h=400',
+      category: 'Luck',
+      rating: 4.4,
+      players: '1.5K',
+      rtp: '96.5%',
+      minBet: 1,
+      maxBet: 50000,
+    },
+    'snakes': {
+      title: 'Cosmic Snakes',
+      description: 'Navigate the cosmic maze',
+      image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800&h=400',
+      category: 'Adventure',
+      rating: 4.6,
+      players: '2.1K',
+      rtp: '97.0%',
+      minBet: 1,
+      maxBet: 75000,
+    },
+    'minesweeper': {
+      title: 'Cosmic Minesweeper',
+      description: 'Navigate the cosmic minefield',
+      image: 'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?auto=format&fit=crop&q=80&w=800&h=400',
+      category: 'Strategy',
+      rating: 4.2,
+      players: '1.1K',
+      rtp: '96.2%',
+      minBet: 1,
+      maxBet: 25000,
+    },
+    'toss': {
+      title: 'Cosmic Heads & Tails',
+      description: 'Classic coin flip with cosmic rewards',
+      image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=800&h=400',
+      category: 'Luck',
+      rating: 4.7,
+      players: '2.3K',
+      rtp: '98.0%',
+      minBet: 1,
+      maxBet: 100000,
+    },
+    'prediction-pulse': {
+      title: 'Prediction Pulse',
+      description: 'Time your predictions perfectly',
+      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&q=80&w=800&h=400',
+      category: 'Timing',
+      rating: 4.3,
+      players: '1.3K',
+      rtp: '96.8%',
+      minBet: 1,
+      maxBet: 50000,
+    },
   };
 
   const game = gameData[gameId as keyof typeof gameData];
@@ -72,11 +139,11 @@ export function GamePreview({ gameId }: GamePreviewProps) {
   if (!game) {
     return (
       <div className="min-h-screen bg-[#0A1929] flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Game Not Found</h1>
+        <div className="cosmic-panel p-8 text-center max-w-md">
+          <h1 className="cosmic-heading-secondary text-white mb-4">Game Not Found</h1>
           <button
             onClick={() => navigate('/')}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors"
+            className="cosmic-button-primary text-white px-6 py-3 rounded-xl transition-colors"
           >
             Back to Games
           </button>
@@ -96,25 +163,25 @@ export function GamePreview({ gameId }: GamePreviewProps) {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => navigate('/')}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                className="cosmic-button-primary p-3 rounded-xl transition-colors flex items-center gap-2"
               >
                 <ArrowLeft size={20} />
                 <span className="hidden sm:inline">Back</span>
               </button>
-              <h1 className="text-xl sm:text-2xl font-bold text-white">
+              <h1 className="cosmic-heading-secondary text-white">
                 {game.title}
               </h1>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg px-4 py-2 flex items-center gap-2">
+            <div className="flex items-center gap-4">
+              <div className="cosmic-panel px-4 py-2 flex items-center gap-2">
                 <Wallet size={16} className="text-blue-400" />
-                <span className="text-blue-400 font-medium">
+                <span className="cosmic-text-accent font-medium">
                   ₹{totalBalance.toLocaleString()}
                 </span>
               </div>
               <button
                 onClick={() => navigate(`/game/${gameId}`)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
+                className="cosmic-button-primary text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center gap-2"
               >
                 <Play size={20} />
                 Play Now
@@ -129,7 +196,7 @@ export function GamePreview({ gameId }: GamePreviewProps) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative h-64 lg:h-80 rounded-2xl overflow-hidden mb-8"
+          className="relative h-64 lg:h-80 rounded-2xl overflow-hidden mb-8 cosmic-game-card"
         >
           <img
             src={game.image}
@@ -137,12 +204,18 @@ export function GamePreview({ gameId }: GamePreviewProps) {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A1929] via-transparent to-transparent" />
-          <div className="absolute bottom-6 left-6">
-            <h2 className="text-4xl font-bold text-white mb-2">{game.title}</h2>
-            <p className="text-gray-300 text-lg">{game.description}</p>
+          <div className="absolute bottom-6 left-6 right-6">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="cosmic-category-tag">{game.category}</span>
+              <span className="cosmic-category-tag bg-green-500/20 text-green-400 border-green-500/30">
+                {game.rtp} RTP
+              </span>
+            </div>
+            <h2 className="cosmic-heading-primary text-white mb-2">{game.title}</h2>
+            <p className="text-gray-300 text-lg mb-4">{game.description}</p>
             <button
               onClick={() => navigate(`/game/${gameId}`)}
-              className="mt-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-blue-500/30 flex items-center gap-2"
+              className="cosmic-play-button shadow-lg hover:shadow-blue-500/30"
             >
               <Play size={24} />
               Start Playing
@@ -156,9 +229,12 @@ export function GamePreview({ gameId }: GamePreviewProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl"
+            className="cosmic-panel p-6"
           >
-            <h3 className="text-xl font-bold text-white mb-6">Game Stats</h3>
+            <h3 className="cosmic-heading-secondary text-white mb-6 flex items-center gap-2">
+              <Trophy className="text-yellow-400" />
+              Game Stats
+            </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -196,14 +272,17 @@ export function GamePreview({ gameId }: GamePreviewProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl"
+            className="cosmic-panel p-6"
           >
-            <h3 className="text-xl font-bold text-white mb-6">Recent Bets</h3>
-            <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
+            <h3 className="cosmic-heading-secondary text-white mb-6 flex items-center gap-2">
+              <Clock className="text-blue-400" />
+              Recent Bets
+            </h3>
+            <div className="space-y-3 max-h-64 overflow-y-auto cosmic-scrollbar">
               {recentBets.map((bet) => (
                 <div
                   key={bet.id}
-                  className={`premium-bet-record p-3 rounded-xl border transition-all ${
+                  className={`p-4 rounded-xl border transition-all hover:scale-102 ${
                     bet.result === 'win'
                       ? 'bg-green-500/10 border-green-500/30 hover:bg-green-500/20'
                       : 'bg-red-500/10 border-red-500/30 hover:bg-red-500/20'
@@ -235,29 +314,77 @@ export function GamePreview({ gameId }: GamePreviewProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl"
+            className="cosmic-panel p-6"
           >
-            <h3 className="text-xl font-bold text-white mb-6">Your Stats</h3>
+            <h3 className="cosmic-heading-secondary text-white mb-6 flex items-center gap-2">
+              <Award className="text-purple-400" />
+              Your Stats
+            </h3>
             <div className="space-y-4">
-              <div className="premium-stat-card bg-gradient-to-br from-[#2a3441] to-[#1a2332] rounded-xl p-4 border border-blue-500/20 text-center">
+              <div className="cosmic-panel p-4 text-center">
                 <div className="text-sm text-gray-400 mb-1">Total Profit</div>
                 <div className="text-xl font-bold text-green-400">+₹1,250</div>
               </div>
-              <div className="premium-stat-card bg-gradient-to-br from-[#2a3441] to-[#1a2332] rounded-xl p-4 border border-green-500/20 text-center">
+              <div className="cosmic-panel p-4 text-center">
                 <div className="text-sm text-gray-400 mb-1">Games Won</div>
                 <div className="text-xl font-bold text-green-400">24</div>
               </div>
-              <div className="premium-stat-card bg-gradient-to-br from-[#2a3441] to-[#1a2332] rounded-xl p-4 border border-red-500/20 text-center">
+              <div className="cosmic-panel p-4 text-center">
                 <div className="text-sm text-gray-400 mb-1">Games Lost</div>
                 <div className="text-xl font-bold text-red-400">18</div>
               </div>
-              <div className="premium-stat-card bg-gradient-to-br from-[#2a3441] to-[#1a2332] rounded-xl p-4 border border-purple-500/20 text-center">
+              <div className="cosmic-panel p-4 text-center">
                 <div className="text-sm text-gray-400 mb-1">Win Rate</div>
                 <div className="text-xl font-bold text-purple-400">57%</div>
               </div>
             </div>
           </motion.div>
         </div>
+
+        {/* Game Info Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mt-8 cosmic-panel p-6"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <Info className="w-6 h-6 text-blue-400" />
+            <h3 className="cosmic-heading-secondary text-white">Game Information</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="cosmic-panel p-4">
+              <h4 className="font-bold text-blue-400 mb-3">Game Rules</h4>
+              <ul className="text-gray-300 text-sm space-y-2">
+                <li>• Easy to learn, fun to master</li>
+                <li>• Provably fair algorithms</li>
+                <li>• Instant results</li>
+                <li>• Multiple betting options</li>
+                <li>• Real-time statistics</li>
+              </ul>
+            </div>
+            <div className="cosmic-panel p-4">
+              <h4 className="font-bold text-green-400 mb-3">Strategy Tips</h4>
+              <ul className="text-gray-300 text-sm space-y-2">
+                <li>• Start with small bets</li>
+                <li>• Understand the odds</li>
+                <li>• Set win/loss limits</li>
+                <li>• Take regular breaks</li>
+                <li>• Play responsibly</li>
+              </ul>
+            </div>
+            <div className="cosmic-panel p-4">
+              <h4 className="font-bold text-purple-400 mb-3">Game Features</h4>
+              <ul className="text-gray-300 text-sm space-y-2">
+                <li>• High RTP: {game.rtp}</li>
+                <li>• Min bet: ₹{game.minBet}</li>
+                <li>• Max bet: ₹{game.maxBet.toLocaleString()}</li>
+                <li>• Instant payouts</li>
+                <li>• Mobile optimized</li>
+              </ul>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

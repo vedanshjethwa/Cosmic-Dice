@@ -190,12 +190,12 @@ export function Sidebar({
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full sidebar-enhanced shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`fixed top-0 left-0 h-full cosmic-sidebar shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden ${
           isOpen ? 'w-64' : 'w-0 lg:w-16 hover:w-64'
         }`}
       >
         {/* Header */}
-        <div className="p-4 border-b border-blue-500/30 flex items-center justify-between bg-gradient-to-r from-blue-600/10 to-purple-600/10">
+        <div className="p-4 border-b border-blue-500/30 flex items-center justify-between bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm">
           <button
             onClick={onClose}
             className="text-white hover:text-gray-300 focus:outline-none lg:hidden"
@@ -216,15 +216,15 @@ export function Sidebar({
         <nav
           className={`${
             isOpen ? 'block' : 'hidden lg:block'
-          } p-2 lg:p-4 overflow-y-auto h-[calc(100vh-60px)] custom-scrollbar`}
+          } p-2 lg:p-4 overflow-y-auto h-[calc(100vh-60px)] cosmic-scrollbar`}
         >
           <ul className="space-y-2">
             {menuItems.map((item, index) => (
               <li key={index}>
                 <button
-                  className={`sidebar-item flex items-center gap-3 p-3 transition-all whitespace-nowrap group w-full ${
+                  className={`cosmic-sidebar-item flex items-center gap-3 p-3 transition-all whitespace-nowrap group w-full relative ${
                     isActivePage(item)
-                      ? 'active text-white'
+                      ? 'active text-white bg-gradient-to-r from-blue-600/30 to-purple-600/30'
                       : `text-gray-300 hover:bg-blue-900/30 hover:text-white ${item.className || ''}`
                   }`}
                   onClick={() => {
@@ -240,7 +240,7 @@ export function Sidebar({
                       isOpen || window.innerWidth >= 1024
                         ? 'opacity-100'
                         : 'opacity-0'
-                    } transition-opacity`}
+                    } transition-opacity relative z-10 font-medium`}
                   >
                     {item.label}
                   </span>

@@ -182,16 +182,16 @@ export function OffersPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20 mb-8"
+            className="cosmic-panel p-6 mb-8"
           >
             <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
               {/* Tab Filters */}
-              <div className="flex gap-2 bg-[#0A1929] rounded-lg p-1">
+              <div className="flex gap-2 cosmic-panel rounded-lg p-1">
                 <button
                   onClick={() => setActiveTab('active')}
-                  className={`px-6 py-2 rounded-lg transition-colors font-medium ${
+                  className={`px-6 py-3 rounded-lg transition-colors font-bold ${
                     activeTab === 'active'
-                      ? 'bg-blue-600 text-white'
+                      ? 'cosmic-button-primary text-white'
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
@@ -199,9 +199,9 @@ export function OffersPage() {
                 </button>
                 <button
                   onClick={() => setActiveTab('expired')}
-                  className={`px-6 py-2 rounded-lg transition-colors font-medium ${
+                  className={`px-6 py-3 rounded-lg transition-colors font-bold ${
                     activeTab === 'expired'
-                      ? 'bg-blue-600 text-white'
+                      ? 'cosmic-button-primary text-white'
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
@@ -217,7 +217,7 @@ export function OffersPage() {
                   placeholder="Search offers..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full lg:w-64 bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400"
+                  className="w-full lg:w-64 cosmic-input pl-10 pr-4 py-3"
                 />
               </div>
             </div>
@@ -246,7 +246,7 @@ export function OffersPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * index }}
-                  className="premium-game-card bg-[#132F4C] rounded-xl overflow-hidden border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group flex flex-col h-full"
+                  className="cosmic-game-card flex flex-col h-full"
                 >
                   {/* Offer Image */}
                   <div className="relative h-48 overflow-hidden">

@@ -155,9 +155,9 @@ export function AllGamesPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20 mb-8"
+            className="cosmic-panel p-6 mb-8"
           >
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
+            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
               {/* Search Bar */}
               <div className="relative w-full lg:w-auto">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
@@ -166,20 +166,20 @@ export function AllGamesPage() {
                   placeholder="Search games..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full lg:w-64 bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400"
+                  className="w-full lg:w-64 cosmic-input pl-10 pr-4 py-3"
                 />
               </div>
 
               {/* Category Filters */}
-              <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0">
+              <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0 cosmic-scrollbar">
                 {categories.map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all ${
+                    className={`px-6 py-3 rounded-xl font-bold whitespace-nowrap transition-all ${
                       selectedCategory === category
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-[#0A1929] text-gray-300 hover:bg-blue-600/20'
+                        ? 'cosmic-button-primary text-white'
+                        : 'cosmic-panel text-gray-300 hover:bg-blue-600/20'
                     }`}
                   >
                     {category === 'all' ? 'All Games' : category}
@@ -199,11 +199,19 @@ export function AllGamesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
             >
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+              <div className="cosmic-game-grid">
                 {filteredGames.map((game, index) => (
                   <GameCard
                     key={game.route}
-                    game={game}
+                    title={game.label}
+                    description={game.description}
+                    image={game.image}
+                    route={game.route}
+                    category={game.category}
+                    rating={game.rating}
+                    players={game.players}
+                    isNew={game.isNew}
+                    isFeatured={game.isFeatured}
                     index={index}
                   />
                 ))}
