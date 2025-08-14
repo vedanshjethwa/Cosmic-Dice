@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { TrendingUp, ArrowLeft, Menu } from 'lucide-react';
 import { GameGrid } from '../GameGrid';
+import { GameCard } from '../GameCard';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
 
