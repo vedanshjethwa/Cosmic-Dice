@@ -9,21 +9,23 @@ import {
   Users,
   ChevronRight,
   Play,
+  Menu,
   TrendingUp,
   Wallet,
-  Bell,
-  ChevronLeft
+  Bell
 } from 'lucide-react';
 
 // Import components
+import { Sidebar } from '../Sidebar';
 import { SearchSystem } from '../SearchSystem';
 import { WalletModal } from '../WalletModal';
 import { RedeemModal } from '../RedeemModal';
 import { ScratchCard } from '../ScratchCard';
 import { FeedbackModal } from '../FeedbackModal';
-import { GameCard } from '../GameCard';
+import { GameGrid } from '../GameGrid';
 import { StatsSection } from '../StatsSection';
 import { Footer } from '../Footer';
+import { useChatStore } from '../ChatSupport/ChatStore';
 
 // Game data with enhanced information
 const gameCards = [
@@ -119,12 +121,24 @@ const gameCards = [
 export function HomePage() {
   const navigate = useNavigate();
   const { user, wallet } = useAuth();
+  const { setIsOpen: setChatOpen } = useChatStore();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [walletOpen, setWalletOpen] = useState(false);
   const [redeemOpen, setRedeemOpen] = useState(false);
   const [scratchOpen, setScratchOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
-  const [currentGameSlide, setCurrentGameSlide] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [currentBannerSlide, setCurrentBannerSlide] = useState(0);
+
+  // Auto-advance banner
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBannerSlide((prev) => (prev + 1) % 3);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Handle keyboard shortcuts
   useEffect(() => {
@@ -134,6 +148,10 @@ export function HomePage() {
           case 'k':
             e.preventDefault();
             setSearchOpen(true);
+            break;
+          case 'b':
+            e.preventDefault();
+            setSidebarOpen(!sidebarOpen);
             break;
         }
       }
@@ -148,28 +166,62 @@ export function HomePage() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [sidebarOpen]);
 
-  const gamesPerSlide = 3;
-  const totalSlides = Math.ceil(gameCards.length / gamesPerSlide);
+  const allCategories = ['all', 'Strategy', 'Luck', 'Risk', 'Adventure', 'Timing'];
 
-  const nextSlide = () => {
-    setCurrentGameSlide((prev) => (prev + 1) % totalSlides);
-  };
+  // Filter games based on search and category
+  const filteredGames = gameCards.filter(game => {
+    const matchesSearch = game.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         game.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'all' || game.category.toLowerCase() === selectedCategory.toLowerCase();
+    return matchesSearch && matchesCategory;
+  });
 
-  const prevSlide = () => {
-    setCurrentGameSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
-  };
+  // Featured games for carousel
+  const featuredGames = gameCards.filter(game => game.isFeatured || game.isNew);
+  const popularGames = gameCards.filter(game => game.isFeatured);
 
-  const getCurrentGames = () => {
-    const startIndex = currentGameSlide * gamesPerSlide;
-    return gameCards.slice(startIndex, startIndex + gamesPerSlide);
-  };
+  const banners = [
+    {
+      title: "Featured Offers",
+      subtitle: "Get 10% free on your first recharge",
+      image: "/Screenshot (483) copy.png",
+      cta: "Start Playing",
+      action: () => navigate('/all-games')
+    },
+    {
+      title: "24/7 Live Support",
+      subtitle: "Get help anytime, anywhere",
+      image: "https://images.unsplash.com/photo-1551431009-a802eeec77b1?auto=format&fit=crop&q=80&w=1200&h=400",
+      cta: "Contact Support",
+      action: () => setChatOpen(true)
+    },
+    {
+      title: "Exclusive VIP Rewards",
+      subtitle: "Unlock premium benefits",
+      image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200&h=400",
+      cta: "View Offers",
+      action: () => navigate('/offers')
+    }
+  ];
 
   return (
     <>
-      {/* Main Content - No Sidebar on Homepage */}
-      <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
+      {/* Sidebar */}
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        onWalletClick={() => setWalletOpen(true)}
+        onWithdrawalClick={() => navigate('/withdrawal')}
+        onDepositClick={() => navigate('/deposit')}
+        currentPath="/"
+      />
+
+      {/* Main Content */}
+      <div className={`transition-all duration-300 ${
+        sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'
+      }`}>
         {/* Top Navigation */}
         <motion.header
           initial={{ y: -100, opacity: 0 }}
@@ -179,6 +231,13 @@ export function HomePage() {
           <div className="flex items-center justify-between p-4 lg:px-8">
             {/* Left side */}
             <div className="flex items-center gap-4">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+              >
+                <Menu size={24} />
+              </button>
+              
               <motion.h1
                 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent transition-all duration-300"
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
@@ -192,13 +251,13 @@ export function HomePage() {
             <div className="hidden md:flex flex-1 max-w-md mx-8">
               <button
                 onClick={() => setSearchOpen(true)}
-                className="w-full bg-[#132F4C] text-gray-400 px-4 py-2 text-left flex items-center gap-3 hover:bg-[#1A243D] transition-colors border border-blue-500/20"
+                className="w-full bg-[#132F4C] text-gray-400 rounded-lg px-4 py-2 text-left flex items-center gap-3 hover:bg-[#1A243D] transition-colors border border-blue-500/20"
               >
                 <Search size={20} />
                 <span>Search games...</span>
                 <div className="ml-auto flex gap-1">
-                  <kbd className="px-2 py-1 bg-gray-700 text-xs">⌘</kbd>
-                  <kbd className="px-2 py-1 bg-gray-700 text-xs">K</kbd>
+                  <kbd className="px-2 py-1 bg-gray-700 rounded text-xs">⌘</kbd>
+                  <kbd className="px-2 py-1 bg-gray-700 rounded text-xs">K</kbd>
                 </div>
               </button>
             </div>
@@ -207,14 +266,22 @@ export function HomePage() {
             <div className="flex items-center gap-2 lg:gap-4">
               <button
                 onClick={() => setSearchOpen(true)}
-                className="p-2 hover:bg-white/10 transition-colors md:hidden"
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors md:hidden"
               >
                 <Search size={20} />
               </button>
               
+              {/* Notification Bell */}
+              <button className="relative p-2 hover:bg-white/10 rounded-lg transition-colors">
+                <Bell size={20} className="text-white" />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  3
+                </span>
+              </button>
+              
               <button
                 onClick={() => setWalletOpen(true)}
-                className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 transition-colors border border-blue-500/30 flex items-center gap-2"
+                className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors border border-blue-500/30 flex items-center gap-2"
               >
                 <Wallet size={16} />
                 <span className="font-medium">
@@ -222,17 +289,9 @@ export function HomePage() {
                 </span>
               </button>
 
-              {/* Notification Bell - Next to Profile */}
-              <button className="relative p-2 hover:bg-white/10 transition-colors">
-                <Bell size={20} className="text-white" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center">
-                  3
-                </span>
-              </button>
-              
               <button
                 onClick={() => navigate('/profile')}
-                className="p-2 hover:bg-white/10 transition-colors"
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
               >
                 <User size={20} />
               </button>
@@ -243,38 +302,71 @@ export function HomePage() {
         {/* Main Content Area */}
         <main className="p-4 lg:p-8">
           <div className="max-w-7xl mx-auto">
-            {/* Big Banner at Top */}
+            {/* Welcome Message */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="mb-8"
             >
-              <div className="relative h-64 lg:h-80 overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600">
-                <img 
-                  src="https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&q=80&w=1200&h=400" 
-                  alt="Cosmic Gaming"
-                  className="w-full h-full object-cover opacity-30"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-purple-900/80" />
-                <div className="absolute inset-0 flex items-center justify-center text-center">
-                  <div>
-                    <h2 className="text-4xl lg:text-6xl font-bold text-white mb-4">
-                      Welcome to COSMIC777
-                    </h2>
-                    <p className="text-xl lg:text-2xl text-blue-200 mb-6">
-                      Experience the Future of Gaming
-                    </p>
-                    <div className="flex items-center justify-center gap-2 text-green-400 bg-green-500/20 px-4 py-2 border border-green-500/30">
-                      <div className="w-2 h-2 bg-green-400 animate-pulse"></div>
-                      <span className="font-medium">24/7 Live Support Available</span>
+              <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-2xl p-8 border border-blue-500/20">
+                <h2 className="text-3xl font-bold text-white mb-2">
+                  Welcome back, {user?.username}!
+                </h2>
+                <p className="text-gray-300 text-lg">
+                  Ready to explore the cosmic gaming universe? Your balance: ₹{((wallet?.real_balance || 0) + (wallet?.bonus_balance || 0)).toLocaleString()}
+                </p>
+              </div>
+            </motion.section>
+
+            {/* Hero Banner Section */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-8"
+            >
+              <div className="relative h-64 lg:h-80 rounded-2xl overflow-hidden shadow-2xl">
+                <div className="flex transition-transform duration-500 ease-in-out h-full"
+                     style={{ transform: `translateX(-${currentBannerSlide * 100}%)` }}>
+                  {banners.map((banner, index) => (
+                    <div key={index} className="min-w-full h-full relative">
+                      <img 
+                        src={banner.image} 
+                        alt={banner.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
+                      <div className="absolute inset-0 flex items-center justify-start p-8">
+                        <div className="text-white max-w-lg">
+                          <h2 className="text-3xl lg:text-4xl font-bold mb-2">{banner.title}</h2>
+                          <p className="text-lg mb-6 text-gray-200">{banner.subtitle}</p>
+                          <button
+                            onClick={banner.action}
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg hover:shadow-blue-500/30"
+                          >
+                            {banner.cta}
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ))}
+                </div>
+                
+                {/* Banner indicators */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                  {banners.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentBannerSlide(index)}
+                      className={`w-4 h-4 rounded-full transition-all ${
+                        currentBannerSlide === index ? 'bg-white' : 'bg-white/50'
+                      }`}
+                    />
+                  ))}
                 </div>
               </div>
             </motion.section>
 
-            {/* All Games Section with Navigation */}
+            {/* Popular Games Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -282,85 +374,123 @@ export function HomePage() {
               className="mb-12"
             >
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold text-white">All Games ({gameCards.length})</h3>
+                <h3 className="text-3xl font-bold text-white flex items-center gap-2">
+                  <TrendingUp className="text-blue-400" />
+                  Popular Games
+                </h3>
                 <button
-                  onClick={() => navigate('/all-games')}
-                  className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2"
+                  onClick={() => navigate('/popular')}
+                  className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors flex items-center gap-2 border border-blue-500/30"
                 >
                   View All
                   <ChevronRight size={16} />
                 </button>
               </div>
               
-              {/* Game Cards with Navigation */}
-              <div className="relative">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {getCurrentGames().map((game, index) => (
-                    <GameCard
-                      key={game.route}
-                      title={game.label}
-                      description={game.description}
-                      image={game.image}
-                      route={game.route}
-                      category={game.category}
-                      rating={game.rating}
-                      players={game.players}
-                      isNew={game.isNew}
-                      isFeatured={game.isFeatured}
-                      index={index}
-                    />
-                  ))}
-                </div>
-
-                {/* Navigation Arrows */}
-                {totalSlides > 1 && (
-                  <>
-                    <button
-                      onClick={prevSlide}
-                      className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-blue-600/80 hover:bg-blue-600 text-white p-3 transition-colors z-10"
-                    >
-                      <ChevronLeft size={24} />
-                    </button>
-                    <button
-                      onClick={nextSlide}
-                      className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-blue-600/80 hover:bg-blue-600 text-white p-3 transition-colors z-10"
-                    >
-                      <ChevronRight size={24} />
-                    </button>
-                  </>
-                )}
-
-                {/* Slide Indicators */}
-                <div className="flex justify-center mt-6 gap-2">
-                  {Array.from({ length: totalSlides }).map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentGameSlide(index)}
-                      className={`w-3 h-3 transition-all ${
-                        currentGameSlide === index ? 'bg-blue-400' : 'bg-gray-600'
-                      }`}
-                    />
-                  ))}
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
+                {popularGames.slice(0, 4).map((game, index) => (
+                  <EnhancedGameCard key={game.route} game={game} index={index} />
+                ))}
               </div>
-
-              {/* Footer under games section */}
-              <Footer />
             </motion.section>
 
-            {/* Stats/Graph Section */}
+            {/* Featured Games Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               className="mb-12"
             >
-              <StatsSection />
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-3xl font-bold text-white flex items-center gap-2">
+                  <Star className="text-yellow-400" />
+                  Featured Games
+                </h3>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
+                {featuredGames.map((game, index) => (
+                  <EnhancedGameCard key={game.route} game={game} index={index} />
+                ))}
+              </div>
+            </motion.section>
+
+            {/* All Games Section */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="mb-12"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-3xl font-bold text-white">All Games ({filteredGames.length})</h3>
+                <button
+                  onClick={() => navigate('/all-games')}
+                  className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg transition-colors flex items-center gap-2 border border-blue-500/30"
+                >
+                  View All
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+
+              {/* Category Filters */}
+              <div className="flex gap-3 mb-8 overflow-x-auto pb-2 games-scroll">
+                {allCategories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-6 py-3 rounded-xl font-medium whitespace-nowrap transition-all shadow-lg ${
+                      selectedCategory === category
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-blue-500/30'
+                        : 'bg-[#132F4C] text-gray-300 hover:bg-blue-600/20 border border-blue-500/20'
+                    }`}
+                  >
+                    {category === 'all' ? 'All Games' : category}
+                  </button>
+                ))}
+              </div>
+              
+              {/* All Games Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
+                {filteredGames.map((game, index) => (
+                  <EnhancedGameCard key={game.route} game={game} index={index} />
+                ))}
+              </div>
+            </motion.section>
+
+            {/* Analytics & Trending Section */}
+            <StatsSection />
+
+            {/* Quick Stats */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mb-8 lg:mb-12"
+            >
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+                <div className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-xl p-4 lg:p-6 border border-blue-500/20 text-center shadow-lg hover:shadow-blue-500/20 transition-all">
+                  <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-2">9</div>
+                  <div className="text-gray-400 text-sm lg:text-base">Total Games</div>
+                </div>
+                <div className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-xl p-4 lg:p-6 border border-green-500/20 text-center shadow-lg hover:shadow-green-500/20 transition-all">
+                  <div className="text-2xl lg:text-3xl font-bold text-green-400 mb-2">15K+</div>
+                  <div className="text-gray-400 text-sm lg:text-base">Active Players</div>
+                </div>
+                <div className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-xl p-4 lg:p-6 border border-purple-500/20 text-center shadow-lg hover:shadow-purple-500/20 transition-all">
+                  <div className="text-2xl lg:text-3xl font-bold text-purple-400 mb-2">₹2.1M+</div>
+                  <div className="text-gray-400 text-sm lg:text-base">Total Winnings</div>
+                </div>
+                <div className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-xl p-4 lg:p-6 border border-yellow-500/20 text-center shadow-lg hover:shadow-yellow-500/20 transition-all">
+                  <div className="text-2xl lg:text-3xl font-bold text-yellow-400 mb-2">98.5%</div>
+                  <div className="text-gray-400 text-sm lg:text-base">Average RTP</div>
+                </div>
+              </div>
             </motion.section>
           </div>
         </main>
 
-        {/* Main Footer */}
+        {/* Footer */}
         <Footer />
       </div>
 
@@ -398,5 +528,91 @@ export function HomePage() {
         onClose={() => setFeedbackOpen(false)}
       />
     </>
+  );
+}
+
+// Enhanced Game Card Component with premium styling
+function EnhancedGameCard({ game, index }: { game: any; index: number }) {
+  const navigate = useNavigate();
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.1 * index }}
+      whileHover={{ scale: 1.02, y: -4 }}
+      className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group game-card-arcade shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col"
+      onClick={() => navigate(game.route)}
+    >
+      <div className="relative h-48">
+        <img
+          src={game.image}
+          alt={game.label}
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent opacity-80" />
+        
+        {/* Badges */}
+        <div className="absolute top-3 left-3 flex gap-2">
+          {game.isNew && (
+            <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full animate-pulse shadow-lg">
+              NEW
+            </span>
+          )}
+          {game.isFeatured && (
+            <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold rounded-full shadow-lg">
+              FEATURED
+            </span>
+          )}
+        </div>
+
+        {/* Stats overlay */}
+        <div className="absolute top-3 right-3 flex items-center gap-2 text-xs text-white">
+          <div className="flex items-center gap-1 bg-black/50 px-2 py-1 rounded-full backdrop-blur-sm">
+            <Star size={10} className="text-yellow-400 fill-current" />
+            <span>{game.rating}</span>
+          </div>
+          <div className="flex items-center gap-1 bg-black/50 px-2 py-1 rounded-full backdrop-blur-sm">
+            <Users size={10} />
+            <span>{game.players}</span>
+          </div>
+        </div>
+
+        {/* Play button overlay on hover */}
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform">
+            <Play size={20} />
+            Play Now
+          </div>
+        </div>
+      </div>
+
+      <div className="p-4 flex flex-col flex-1">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
+            {game.category}
+          </span>
+        </div>
+
+        <h4 className="font-bold text-white mb-2 text-lg group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
+          {game.label}
+        </h4>
+        
+        <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
+          {game.description}
+        </p>
+
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(game.route);
+          }}
+          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-xl transition-all font-medium cosmic-button mt-auto shadow-lg hover:shadow-blue-500/30 transform hover:scale-105"
+        >
+          Play Now
+        </button>
+      </div>
+    </motion.div>
   );
 }

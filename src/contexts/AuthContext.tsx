@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { supabase } from '../lib/supabase';
 
 interface User {
   id: string;
@@ -44,123 +45,169 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [wallet, setWallet] = useState<Wallet | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Initialize with mock data if no user is logged in
-  useEffect(() => {
-    const savedUser = localStorage.getItem('cosmic_user');
-    const savedWallet = localStorage.getItem('cosmic_wallet');
-    
-    if (savedUser && savedWallet) {
-      setUser(JSON.parse(savedUser));
-      setWallet(JSON.parse(savedWallet));
-    }
-  }, []);
+  const isAuthenticated = !!user;
 
-  const login = async (email: string, password: string) => {
-    setIsLoading(true);
-    
+  const fetchWallet = async (userId: string) => {
     try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock successful login
-      const mockUser: User = {
-        id: 'user_' + Date.now(),
-        email: email,
-        username: email.split('@')[0],
-        created_at: new Date().toISOString()
-      };
+      const { data, error } = await supabase
+        .from('wallets')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
 
-      const mockWallet: Wallet = {
-        real_balance: 100,
-        bonus_balance: 100,
-        total_deposited: 1000,
-        total_withdrawn: 0,
-        total_wagered: 0,
-        total_won: 0
-      };
-
-      // Save to localStorage
-      localStorage.setItem('cosmic_user', JSON.stringify(mockUser));
-      localStorage.setItem('cosmic_wallet', JSON.stringify(mockWallet));
-      localStorage.setItem('auth_token', 'mock_token_' + Date.now());
-
-      setUser(mockUser);
-      setWallet(mockWallet);
+      if (error) throw error;
+      setWallet(data);
     } catch (error) {
-      throw new Error('Login failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const register = async (email: string, password: string, username: string) => {
-    setIsLoading(true);
-    
-    try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock successful registration
-      const mockUser: User = {
-        id: 'user_' + Date.now(),
-        email: email,
-        username: username,
-        created_at: new Date().toISOString()
-      };
-
-      const mockWallet: Wallet = {
-        real_balance: 100,
-        bonus_balance: 100,
-        total_deposited: 0,
-        total_withdrawn: 0,
-        total_wagered: 0,
-        total_won: 0
-      };
-
-      // Save to localStorage
-      localStorage.setItem('cosmic_user', JSON.stringify(mockUser));
-      localStorage.setItem('cosmic_wallet', JSON.stringify(mockWallet));
-      localStorage.setItem('auth_token', 'mock_token_' + Date.now());
-
-      setUser(mockUser);
-      setWallet(mockWallet);
-    } catch (error) {
-      throw new Error('Registration failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const logout = async () => {
-    setIsLoading(true);
-    
-    try {
-      // Clear localStorage
-      localStorage.removeItem('cosmic_user');
-      localStorage.removeItem('cosmic_wallet');
-      localStorage.removeItem('auth_token');
-      
-      setUser(null);
-      setWallet(null);
-    } catch (error) {
-      console.error('Logout error:', error);
-    } finally {
-      setIsLoading(false);
+      console.error('Error fetching wallet:', error);
     }
   };
 
   const refreshWallet = async () => {
-    // Mock wallet refresh - in a real app this would fetch from API
-    if (wallet) {
-      const updatedWallet = { ...wallet };
-      setWallet(updatedWallet);
-      localStorage.setItem('cosmic_wallet', JSON.stringify(updatedWallet));
+    if (user) {
+      await fetchWallet(user.id);
     }
   };
 
-  const isAuthenticated = !!user;
+  const login = async (email: string, password: string) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        // Get user profile
+        const { data: profile, error: profileError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', data.user.id)
+          .single();
+
+        if (profileError) {
+          // If profile doesn't exist, create a basic user object
+          const basicUser = {
+            id: data.user.id,
+            email: data.user.email || email,
+            username: data.user.user_metadata?.username || email.split('@')[0],
+            created_at: new Date().toISOString()
+          };
+          setUser(basicUser);
+          return;
+        }
+
+        setUser(profile);
+        await fetchWallet(profile.id);
+      }
+    } catch (error) {
+      // Provide more helpful error messages
+      if (error instanceof Error) {
+        if (error.message.includes('connect to Supabase')) {
+          throw new Error('Please set up Supabase connection first. Click "Connect to Supabase" in the top right corner.');
+        }
+        throw error;
+      }
+      throw new Error('Login failed. Please check your credentials and try again.');
+    }
+  };
+
+  const register = async (email: string, password: string, username: string) => {
+    try {
+      // Check if username is already taken
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('id')
+        .eq('username', username)
+        .single();
+
+      if (existingUser) {
+        throw new Error('Username already taken');
+      }
+
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            username,
+          }
+        }
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        // Create user profile
+        const { data: profile, error: profileError } = await supabase
+          .from('users')
+          .insert({
+            id: data.user.id,
+            email,
+            username,
+          })
+          .select()
+          .single();
+
+        if (profileError) throw profileError;
+
+        setUser(profile);
+        await fetchWallet(profile.id);
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await supabase.auth.signOut();
+      setUser(null);
+      setWallet(null);
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session?.user) {
+          const { data: profile, error } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
+
+          if (!error && profile) {
+            setUser(profile);
+            await fetchWallet(profile.id);
+          }
+        }
+      } catch (error) {
+        console.error('Error initializing auth:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === 'SIGNED_OUT') {
+          setUser(null);
+          setWallet(null);
+        }
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <AuthContext.Provider

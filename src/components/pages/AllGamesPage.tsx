@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Grid, ArrowLeft, Menu, Search, Play, Star, Users } from 'lucide-react';
-import { GameCard } from '../GameCard';
+import { Grid, ArrowLeft, Menu, Search } from 'lucide-react';
+import { GameGrid } from '../GameGrid';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
 
@@ -122,7 +122,7 @@ export function AllGamesPage() {
       />
 
       {/* Main Content */}
-      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
         {/* Header */}
         <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
           <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
@@ -155,7 +155,7 @@ export function AllGamesPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="cosmic-panel p-6 mb-8"
+            className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20 mb-8"
           >
             <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
               {/* Search Bar */}
@@ -166,20 +166,20 @@ export function AllGamesPage() {
                   placeholder="Search games..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full lg:w-64 cosmic-input pl-10 pr-4 py-3"
+                  className="w-full lg:w-64 bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400"
                 />
               </div>
 
               {/* Category Filters */}
-              <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0 cosmic-scrollbar">
+              <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0">
                 {categories.map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`px-6 py-3 rounded-xl font-bold whitespace-nowrap transition-all ${
+                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all ${
                       selectedCategory === category
-                        ? 'cosmic-button-primary text-white'
-                        : 'cosmic-panel text-gray-300 hover:bg-blue-600/20'
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-[#0A1929] text-gray-300 hover:bg-blue-600/20'
                     }`}
                   >
                     {category === 'all' ? 'All Games' : category}
@@ -189,38 +189,27 @@ export function AllGamesPage() {
             </div>
           </motion.div>
           
-
-          <p className="text-gray-400 text-lg mb-6">
-            Explore our complete collection of cosmic games ({filteredGames.length} games)
-          </p>
-          
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <div className="cosmic-game-grid">
-              {filteredGames.map((game, index) => (
-                <GameCard
-                  key={game.route}
-                  title={game.label}
-                  description={game.description}
-                  image={game.image}
-                  route={game.route}
-                  category={game.category}
-                  rating={game.rating}
-                  players={game.players}
-                  isNew={game.isNew}
-                  isFeatured={game.isFeatured}
-                  index={index}
-                />
-              ))}
-            </div>
-          </motion.div>
+          <div className="mb-8">
+            <p className="text-gray-400 text-lg mb-6">
+              Explore our complete collection of cosmic games ({filteredGames.length} games)
+            </p>
+            
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <GameGrid 
+                games={filteredGames} 
+                title="All Available Games"
+                searchTerm={searchTerm}
+              />
+            </motion.div>
+          </div>
         </div>
-      </div>
 
-      <Footer />
+        <Footer />
+      </div>
     </div>
   );
 }

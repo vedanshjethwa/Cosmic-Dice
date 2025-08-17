@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useState } from 'react';
+import { ArrowLeft, Star, Clock, Menu } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Menu, Sparkles, Calendar, Star } from 'lucide-react';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
-import { GameCard } from '../GameCard';
 
 export default function NewGamesPage() {
   const navigate = useNavigate();
@@ -12,53 +12,36 @@ export default function NewGamesPage() {
 
   const newGames = [
     {
-      label: 'Cosmic Limbo',
-      image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=400&h=225',
-      route: '/game/limbo',
-      description: 'How low can you go in this thrilling multiplier game',
-      category: 'Risk',
-      players: '1.8K',
-      rating: 4.7,
-      releaseDate: '2024-01-15',
-      isNew: true,
-    },
-    {
       label: 'Cosmic Balloon',
       image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&q=80&w=400&h=225',
       route: '/game/balloon',
-      description: 'Pop balloons for cosmic rewards and multipliers',
+      description: 'Pop balloons for cosmic rewards',
       category: 'Luck',
-      players: '1.9K',
-      rating: 4.5,
-      releaseDate: '2024-01-10',
       isNew: true,
+      releaseDate: '2 days ago'
+    },
+    {
+      label: 'Prediction Pulse',
+      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&q=80&w=400&h=225',
+      route: '/game/prediction-pulse',
+      description: 'Time your predictions perfectly',
+      category: 'Timing',
+      isNew: true,
+      releaseDate: '1 week ago'
     },
     {
       label: 'Cosmic Minesweeper',
       image: 'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?auto=format&fit=crop&q=80&w=400&h=225',
       route: '/game/minesweeper',
-      description: 'Navigate the cosmic minefield and claim your rewards',
+      description: 'Navigate the cosmic minefield',
       category: 'Strategy',
-      players: '1.1K',
-      rating: 4.2,
-      releaseDate: '2024-01-05',
       isNew: true,
-    },
-    {
-      label: 'Cosmic Heads & Tails',
-      image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400&h=225',
-      route: '/game/toss',
-      description: 'Classic coin flip with cosmic rewards and fast-paced action',
-      category: 'Luck',
-      players: '2.3K',
-      rating: 4.7,
-      releaseDate: '2024-01-01',
-      isNew: true,
-    },
+      releaseDate: '2 weeks ago'
+    }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
+    <div className="min-h-screen text-white">
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
@@ -70,127 +53,117 @@ export default function NewGamesPage() {
       />
 
       {/* Main Content */}
-      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
-        {/* Header */}
-        <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
-          <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-              >
-                <Menu size={24} />
-              </button>
-              <button
-                onClick={() => navigate('/')}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
-              >
-                <ArrowLeft size={20} />
-                <span className="hidden sm:inline">Back</span>
-              </button>
-              <h1
-                className="text-xl sm:text-2xl font-bold text-white transition-all duration-300 flex items-center gap-2"
-                style={{ fontFamily: "'Orbitron', sans-serif" }}
-              >
-                <Sparkles className="text-green-400" />
-                New Games
-              </h1>
-            </div>
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
+      {/* Single Header */}
+      <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors lg:hidden"
+            >
+              <Menu size={24} />
+            </button>
+            <button
+              onClick={() => navigate('/')}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+            >
+              <ArrowLeft size={20} />
+              <span className="hidden sm:inline">Back</span>
+            </button>
+            <h1
+              className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
+              style={{
+                 fontFamily: "'Orbitron', sans-serif"
+                }}
+            >
+              Cosmic - New Games
+            </h1>
           </div>
         </div>
+      </div>
 
-        <div className="max-w-6xl mx-auto p-6">
-          {/* Hero Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-r from-green-900/30 to-blue-900/30 rounded-2xl p-8 border border-green-500/20 mb-8"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <Sparkles className="text-green-400" size={32} />
-              <h2 className="text-3xl font-bold text-white">Latest Releases</h2>
-            </div>
-            <p className="text-gray-300 text-lg mb-4">
-              Discover our newest cosmic games with cutting-edge features and exciting gameplay mechanics.
-            </p>
-            <div className="flex items-center gap-4 text-sm text-gray-400">
-              <div className="flex items-center gap-2">
-                <Calendar size={16} />
-                <span>Updated Weekly</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Star size={16} />
-                <span>Premium Quality</span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* New Games Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="mb-8"
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-white">Recently Added ({newGames.length})</h3>
-            </div>
-            
-            <div className="cosmic-game-grid">
-              {newGames.map((game, index) => (
-                <GameCard
-                  key={game.route}
-                  title={game.label}
-                  description={game.description}
-                  image={game.image}
-                  route={game.route}
-                  category={game.category}
-                  rating={game.rating}
-                  players={game.players}
-                  isNew={game.isNew}
-                  isFeatured={game.isFeatured}
-                  index={index}
-                />
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Coming Soon Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-gradient-to-r from-purple-900/30 to-pink-900/30 rounded-2xl p-8 border border-purple-500/20"
-          >
-            <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-              <Calendar className="text-purple-400" />
-              Coming Soon
-            </h3>
-            <p className="text-gray-300 mb-4">
-              Stay tuned for more exciting games launching soon! Follow us for updates on new releases.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-[#132F4C]/50 rounded-xl p-4 border border-purple-500/20">
-                <h4 className="font-bold text-purple-400 mb-2">Cosmic Slots</h4>
-                <p className="text-gray-400 text-sm">Revolutionary slot machine experience</p>
-                <span className="text-xs text-gray-500 mt-2 block">Q2 2024</span>
-              </div>
-              <div className="bg-[#132F4C]/50 rounded-xl p-4 border border-purple-500/20">
-                <h4 className="font-bold text-purple-400 mb-2">Space Poker</h4>
-                <p className="text-gray-400 text-sm">Multiplayer cosmic poker tournaments</p>
-                <span className="text-xs text-gray-500 mt-2 block">Q3 2024</span>
-              </div>
-              <div className="bg-[#132F4C]/50 rounded-xl p-4 border border-purple-500/20">
-                <h4 className="font-bold text-purple-400 mb-2">Galaxy Roulette</h4>
-                <p className="text-gray-400 text-sm">Interstellar roulette with cosmic rewards</p>
-                <span className="text-xs text-gray-500 mt-2 block">Q4 2024</span>
-              </div>
-            </div>
-          </motion.div>
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="mb-8">
+          <p className="text-gray-300 text-lg">
+            Discover our latest cosmic gaming experiences! These games have been recently added to our platform.
+          </p>
         </div>
 
-        <Footer />
+        {/* New Games Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {newGames.map((game, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ scale: 1.02, y: -4 }}
+              className="bg-[#132F4C] rounded-xl p-4 relative overflow-hidden group cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300"
+              onClick={() => navigate(game.route)}
+            >
+              {/* New Badge */}
+              <div className="absolute top-4 right-4 z-10">
+                <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                  <Star size={12} />
+                  NEW
+                </div>
+              </div>
+
+              <div className="flex flex-col h-full">
+                <div className="w-full h-40 mb-4 overflow-hidden rounded-lg">
+                  <img
+                    src={game.image}
+                    alt={game.label}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-xs text-blue-400 font-medium">
+                      {game.category}
+                    </div>
+                    <div className="flex items-center gap-1 text-xs text-gray-400">
+                      <Clock size={12} />
+                      {game.releaseDate}
+                    </div>
+                  </div>
+                  <h3 className="font-bold text-white mb-2 text-lg">
+                    {game.label}
+                  </h3>
+                  <p className="text-gray-400 text-sm mb-4">
+                    {game.description}
+                  </p>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(game.route);
+                    }}
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg transition-all duration-300 w-full font-medium transform hover:scale-105"
+                  >
+                    Play Now
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Coming Soon Section */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-white mb-6">Coming Soon</h2>
+          <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20 text-center">
+            <div className="text-6xl mb-4">🚀</div>
+            <h3 className="text-xl font-bold text-white mb-2">More Games on the Way!</h3>
+            <p className="text-gray-400">
+              We're constantly working on new and exciting games. Stay tuned for more cosmic adventures!
+            </p>
+          </div>
+        </div>
       </div>
+      
+      <Footer />
+    </div>
     </div>
   );
 }

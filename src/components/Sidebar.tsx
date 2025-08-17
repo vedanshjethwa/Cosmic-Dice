@@ -23,10 +23,6 @@ import {
   ArrowLeft,
   ChevronRight,
   Calculator,
-  Shield,
-  BookOpen,
-  HelpCircle,
-  CreditCard,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useChatStore } from './ChatSupport/ChatStore';
@@ -73,23 +69,15 @@ export function Sidebar({
     },
     {
       icon: <Gift size={20} />,
-      label: 'Bonuses',
-      path: '/bonuses',
-      onClick: () => navigate('/bonuses'),
-      className: 'text-yellow-400 hover:text-yellow-300',
+      label: 'Offers',
+      path: '/offers',
+      onClick: () => navigate('/offers'),
     },
     {
-      icon: <BookOpen size={20} />,
-      label: 'Guides',
-      path: '/how-to-guides',
-      onClick: () => navigate('/how-to-guides'),
-    },
-    {
-      icon: <Shield size={20} />,
-      label: 'Responsible Gaming',
-      path: '/responsible-gaming',
-      onClick: () => navigate('/responsible-gaming'),
-      className: 'text-red-400 hover:text-red-300',
+      icon: <Clock size={20} />,
+      label: 'Upcoming Games',
+      path: '/upcoming',
+      onClick: () => navigate('/upcoming'),
     },
     {
       icon: <Sparkles size={20} />,
@@ -173,12 +161,12 @@ export function Sidebar({
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full cosmic-sidebar shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpen ? 'w-64' : 'w-0 lg:w-20 hover:w-64'
+        className={`fixed top-0 left-0 h-full sidebar-enhanced shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden ${
+          isOpen ? 'w-64' : 'w-0 lg:w-16 hover:w-64'
         }`}
       >
         {/* Header */}
-        <div className="p-4 border-b border-blue-500/30 flex items-center justify-between bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm">
+        <div className="p-4 border-b border-blue-500/30 flex items-center justify-between bg-gradient-to-r from-blue-600/10 to-purple-600/10">
           <button
             onClick={onClose}
             className="text-white hover:text-gray-300 focus:outline-none lg:hidden"
@@ -199,22 +187,23 @@ export function Sidebar({
         <nav
           className={`${
             isOpen ? 'block' : 'hidden lg:block'
-          } p-2 lg:p-4 overflow-y-auto h-[calc(100vh-60px)] sidebar-scrollbar`}
+          } p-2 lg:p-4 overflow-y-auto h-[calc(100vh-60px)] custom-scrollbar`}
         >
           <ul className="space-y-2">
             {menuItems.map((item, index) => (
               <li key={index}>
                 <button
-                  className={`cosmic-sidebar-item flex items-center gap-3 p-3 transition-all whitespace-nowrap group w-full relative ${
+                  className={`sidebar-item flex items-center gap-3 p-3 transition-all whitespace-nowrap group w-full ${
                     isActivePage(item)
-                      ? 'active text-white bg-gradient-to-r from-blue-600/30 to-purple-600/30'
+                      ? 'active text-white'
                       : `text-gray-300 hover:bg-blue-900/30 hover:text-white ${item.className || ''}`
                   }`}
                   onClick={() => {
                     item.onClick();
+                    if (window.innerWidth < 1024) onClose();
                   }}
                 >
-                  <span className="min-w-[24px] flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <span className="min-w-[24px] group-hover:scale-110 transition-transform">
                     {item.icon}
                   </span>
                   <span
@@ -222,7 +211,7 @@ export function Sidebar({
                       isOpen || window.innerWidth >= 1024
                         ? 'opacity-100'
                         : 'opacity-0'
-                    } transition-opacity relative z-10 font-medium`}
+                    } transition-opacity`}
                   >
                     {item.label}
                   </span>

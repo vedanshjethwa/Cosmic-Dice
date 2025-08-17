@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { TrendingUp, ArrowLeft, Menu } from 'lucide-react';
 import { GameGrid } from '../GameGrid';
-import { GameCard } from '../GameCard';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
 
@@ -111,7 +110,7 @@ export function PopularPage() {
       />
 
       {/* Main Content */}
-      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
         {/* Header */}
         <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
           <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
@@ -150,23 +149,10 @@ export function PopularPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <div className="cosmic-game-grid">
-              {popularGames.map((game, index) => (
-                <GameCard
-                  key={game.route}
-                  title={game.label}
-                  description={game.description}
-                  image={game.image}
-                  route={game.route}
-                  category={game.category}
-                  rating={game.rating}
-                  players={game.players}
-                  isNew={game.isNew}
-                  isFeatured={game.isFeatured}
-                  index={index}
-                />
-              ))}
-            </div>
+            <GameGrid 
+              games={popularGames} 
+              title="Most Popular Games"
+            />
           </motion.div>
         </div>
         

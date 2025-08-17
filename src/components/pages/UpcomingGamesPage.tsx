@@ -1,103 +1,113 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, Clock, Calendar, Star, Users, Bell, Menu } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Menu, Clock, Calendar, Star, Users, Zap } from 'lucide-react';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
 
 export function UpcomingGamesPage() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [notifiedGames, setNotifiedGames] = useState<number[]>([]);
 
   const upcomingGames = [
     {
-      label: 'Cosmic Slots',
-      image: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&q=80&w=400&h=225',
-      description: 'Revolutionary slot machine experience with cosmic themes and massive jackpots',
-      category: 'Slots',
-      expectedPlayers: '10K+',
-      rating: 'TBA',
-      releaseDate: '2024-04-15',
-      status: 'In Development',
-      features: ['Progressive Jackpots', 'Bonus Rounds', 'Free Spins'],
-    },
-    {
-      label: 'Space Poker',
-      image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=80&w=400&h=225',
-      description: 'Multiplayer cosmic poker tournaments with interstellar prizes',
-      category: 'Card Games',
-      expectedPlayers: '5K+',
-      rating: 'TBA',
-      releaseDate: '2024-06-20',
-      status: 'Beta Testing',
-      features: ['Multiplayer', 'Tournaments', 'Live Chat'],
-    },
-    {
-      label: 'Galaxy Roulette',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&q=80&w=400&h=225',
-      description: 'Interstellar roulette with cosmic rewards and special betting options',
-      category: 'Table Games',
-      expectedPlayers: '8K+',
-      rating: 'TBA',
-      releaseDate: '2024-08-10',
-      status: 'Concept',
-      features: ['Live Dealers', 'Special Bets', 'VIP Tables'],
-    },
-    {
-      label: 'Nebula Blackjack',
-      image: 'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?auto=format&fit=crop&q=80&w=400&h=225',
-      description: 'Classic blackjack with a cosmic twist and side bet options',
-      category: 'Card Games',
-      expectedPlayers: '6K+',
-      rating: 'TBA',
-      releaseDate: '2024-09-05',
-      status: 'Planning',
-      features: ['Side Bets', 'Insurance', 'Double Down'],
-    },
-    {
-      label: 'Asteroid Crash',
-      image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=400&h=225',
-      description: 'High-risk, high-reward crash game set in an asteroid field',
-      category: 'Crash Games',
-      expectedPlayers: '12K+',
-      rating: 'TBA',
-      releaseDate: '2024-10-15',
-      status: 'Early Development',
-      features: ['Auto Cashout', 'Statistics', 'Chat'],
-    },
-    {
-      label: 'Cosmic Bingo',
+      id: 1,
+      title: 'Cosmic Legends',
       image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=400&h=225',
-      description: 'Space-themed bingo with multiple rooms and special patterns',
-      category: 'Bingo',
-      expectedPlayers: '4K+',
-      rating: 'TBA',
-      releaseDate: '2024-11-20',
-      status: 'Concept',
-      features: ['Multiple Rooms', 'Special Patterns', 'Jackpots'],
+      releaseTime: '24:41',
+      status: 'Coming Soon',
+      players: '2.5K',
+      rating: 4.8,
+      description: 'Epic space adventure with legendary rewards',
+      category: 'Adventure'
     },
+    {
+      id: 2,
+      title: 'Dragon Quest',
+      image: 'https://images.unsplash.com/photo-1642479755619-1e75b5cf2d0e?auto=format&fit=crop&q=80&w=400&h=225',
+      releaseTime: '54:12',
+      status: 'Under Development',
+      players: '1.8K',
+      rating: 4.5,
+      description: 'Mythical dragon battles with cosmic powers',
+      category: 'Fantasy'
+    },
+    {
+      id: 3,
+      title: 'Space Warriors',
+      image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=400&h=225',
+      releaseTime: '3 Jul',
+      status: 'Pre-Register',
+      players: '3.2K',
+      rating: 4.9,
+      description: 'Intergalactic warfare in the cosmic realm',
+      category: 'Action'
+    },
+    {
+      id: 4,
+      title: 'Cosmic Poker',
+      image: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&q=80&w=400&h=225',
+      releaseTime: '15 Jul',
+      status: 'Beta Testing',
+      players: '1.2K',
+      rating: 4.6,
+      description: 'Classic poker with cosmic twists and multipliers',
+      category: 'Strategy'
+    },
+    {
+      id: 5,
+      title: 'Nebula Rush',
+      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&q=80&w=400&h=225',
+      releaseTime: '1 Aug',
+      status: 'Concept',
+      players: '890',
+      rating: 4.3,
+      description: 'Fast-paced cosmic racing through nebula fields',
+      category: 'Racing'
+    },
+    {
+      id: 6,
+      title: 'Stellar Slots',
+      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&q=80&w=400&h=225',
+      releaseTime: '20 Aug',
+      status: 'Planning',
+      players: '2.1K',
+      rating: 4.7,
+      description: 'Revolutionary slot machine with cosmic themes',
+      category: 'Slots'
+    }
   ];
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Beta Testing': return 'text-green-400 bg-green-500/20 border-green-500/30';
-      case 'In Development': return 'text-blue-400 bg-blue-500/20 border-blue-500/30';
-      case 'Planning': return 'text-yellow-400 bg-yellow-500/20 border-yellow-500/30';
-      case 'Early Development': return 'text-purple-400 bg-purple-500/20 border-purple-500/30';
-      default: return 'text-gray-400 bg-gray-500/20 border-gray-500/30';
+  const handleNotifyMe = (gameId: number) => {
+    if (notifiedGames.includes(gameId)) {
+      setNotifiedGames(prev => prev.filter(id => id !== gameId));
+    } else {
+      setNotifiedGames(prev => [...prev, gameId]);
     }
   };
 
-  const getDaysUntilRelease = (releaseDate: string) => {
-    const today = new Date();
-    const release = new Date(releaseDate);
-    const diffTime = release.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays > 0 ? diffDays : 0;
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Coming Soon':
+        return 'bg-green-500/20 text-green-400';
+      case 'Under Development':
+        return 'bg-blue-500/20 text-blue-400';
+      case 'Pre-Register':
+        return 'bg-purple-500/20 text-purple-400';
+      case 'Beta Testing':
+        return 'bg-yellow-500/20 text-yellow-400';
+      case 'Concept':
+        return 'bg-gray-500/20 text-gray-400';
+      case 'Planning':
+        return 'bg-orange-500/20 text-orange-400';
+      default:
+        return 'bg-gray-500/20 text-gray-400';
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
+    <div className="min-h-screen bg-[#0A1929] text-white">
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
@@ -110,169 +120,164 @@ export function UpcomingGamesPage() {
 
       {/* Main Content */}
       <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
-        {/* Header */}
-        <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
-          <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-              >
-                <Menu size={24} />
-              </button>
-              <button
-                onClick={() => navigate('/')}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
-              >
-                <ArrowLeft size={20} />
-                <span className="hidden sm:inline">Back</span>
-              </button>
-              <h1
-                className="text-xl sm:text-2xl font-bold text-white transition-all duration-300 flex items-center gap-2"
-                style={{ fontFamily: "'Orbitron', sans-serif" }}
-              >
-                <Clock className="text-orange-400" />
-                Upcoming Games
-              </h1>
-            </div>
+      {/* Single Header */}
+      <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors lg:hidden"
+            >
+              <Menu size={24} />
+            </button>
+            <button
+              onClick={() => navigate('/')}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+            >
+              <ArrowLeft size={20} />
+              <span className="hidden sm:inline">Back</span>
+            </button>
+            <h1
+              className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
+              style={{
+                 fontFamily: "'Orbitron', sans-serif"
+                }}
+            >
+              Cosmic - Upcoming Games
+            </h1>
           </div>
         </div>
-
-        <div className="max-w-6xl mx-auto p-6">
-          {/* Hero Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-r from-orange-900/30 to-red-900/30 rounded-2xl p-8 border border-orange-500/20 mb-8"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <Clock className="text-orange-400" size={32} />
-              <h2 className="text-3xl font-bold text-white">Coming Soon</h2>
-            </div>
-            <p className="text-gray-300 text-lg mb-4">
-              Get ready for the next generation of cosmic gaming experiences. These exciting new games are currently in development and will be launching soon!
-            </p>
-            <div className="flex items-center gap-4 text-sm text-gray-400">
-              <div className="flex items-center gap-2">
-                <Calendar size={16} />
-                <span>Regular Updates</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Zap size={16} />
-                <span>Cutting-edge Features</span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Upcoming Games Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="mb-8"
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-white">In Development ({upcomingGames.length})</h3>
-            </div>
-            
-            <div className="cosmic-game-grid">
-              {upcomingGames.map((game, index) => (
-                <motion.div
-                  key={game.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * index }}
-                  whileHover={{ scale: 1.02, y: -4 }}
-                  className="cosmic-game-card border-orange-500/30 hover:border-orange-400/50 hover:shadow-orange-500/20 flex flex-col h-full"
-                >
-                  <div className="relative h-48 flex-shrink-0">
-                    <img
-                      src={game.image}
-                      alt={game.label}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 opacity-75"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent opacity-90" />
-                    
-                    {/* Status Badge */}
-                    <div className="absolute top-3 left-3">
-                      <span className={`px-3 py-1 text-xs font-bold rounded-full border ${getStatusColor(game.status)}`}>
-                        {game.status}
-                      </span>
-                    </div>
-
-                    {/* Days Until Release */}
-                    <div className="absolute top-3 right-3">
-                      <div className="bg-black/50 px-2 py-1 rounded-full backdrop-blur-sm text-xs text-white">
-                        {getDaysUntilRelease(game.releaseDate)} days
-                      </div>
-                    </div>
-
-                    {/* Coming Soon Overlay */}
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                      <div className="bg-gradient-to-r from-orange-600/80 to-red-600/80 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 backdrop-blur-sm">
-                        <Clock size={20} />
-                        Coming Soon
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 flex flex-col flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs text-orange-400 bg-gradient-to-r from-orange-500/20 to-red-500/20 px-3 py-1 rounded-full font-medium border border-orange-500/30">
-                        {game.category}
-                      </span>
-                      <span className="text-xs text-gray-400">
-                        {new Date(game.releaseDate).toLocaleDateString()}
-                      </span>
-                    </div>
-
-                    <h4 className="font-bold text-white mb-2 text-lg">
-                      {game.label}
-                    </h4>
-                    
-                    <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
-                      {game.description}
-                    </p>
-
-                    <button 
-                      disabled
-                      className="w-full bg-gray-600/50 text-gray-400 py-3 rounded-xl font-medium cursor-not-allowed mt-auto"
-                    >
-                      Coming Soon
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Newsletter Signup */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-2xl p-8 border border-blue-500/20 text-center"
-          >
-            <h3 className="text-2xl font-bold text-white mb-4">Stay Updated</h3>
-            <p className="text-gray-300 mb-6">
-              Be the first to know when new games launch! Get exclusive early access and special bonuses.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 bg-[#132F4C] text-white rounded-lg px-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400"
-              />
-              <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-all">
-                Subscribe
-              </button>
-            </div>
-          </motion.div>
-        </div>
-
-        <Footer />
       </div>
+
+      <div className="max-w-6xl mx-auto p-6">
+        {/* Hero Section */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+            Upcoming Games
+          </h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Discover exciting new games coming to our platform. Be the first to play when they launch!
+          </p>
+        </motion.div>
+
+        {/* Games Grid */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          {upcomingGames.map((game, index) => (
+            <motion.div
+              key={game.id}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ scale: 1.02 }}
+              className="bg-[#132F4C] rounded-xl overflow-hidden border border-blue-500/20 hover:border-blue-500/40 transition-colors"
+            >
+              <div className="relative h-48">
+                <img
+                  src={game.image}
+                  alt={game.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] to-transparent" />
+                
+                {/* Category Badge */}
+                <div className="absolute top-3 left-3">
+                  <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm font-medium backdrop-blur-sm">
+                    {game.category}
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-bold text-white">{game.title}</h3>
+                  <div className="flex items-center gap-1">
+                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                    <span className="text-gray-300">{game.rating}</span>
+                  </div>
+                </div>
+
+                <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+                  {game.description}
+                </p>
+
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <Clock className="w-4 h-4" />
+                    <span>Release in {game.releaseTime}</span>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <Users className="w-4 h-4" />
+                    <span>{game.players} Interested</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(game.status)}`}>
+                      {game.status}
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  className={`mt-6 w-full rounded-lg py-3 transition-colors flex items-center justify-center gap-2 font-medium ${
+                    notifiedGames.includes(game.id)
+                      ? 'bg-green-600/20 text-green-400 border border-green-500/30'
+                      : 'bg-blue-600 hover:bg-blue-700 text-white'
+                  }`}
+                  onClick={() => handleNotifyMe(game.id)}
+                >
+                  {notifiedGames.includes(game.id) ? (
+                    <>
+                      <Bell className="w-4 h-4" />
+                      Notifications On
+                    </>
+                  ) : (
+                    <>
+                      <Calendar className="w-4 h-4" />
+                      Notify Me
+                    </>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Newsletter Signup */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mt-12 bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-2xl p-8 border border-blue-500/20 text-center"
+        >
+          <h3 className="text-2xl font-bold text-white mb-4">Stay Updated</h3>
+          <p className="text-gray-300 mb-6">
+            Subscribe to our newsletter to get notified about new game releases, updates, and exclusive previews.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 bg-[#0A1929] text-white border border-blue-500/30 rounded-lg py-3 px-4 focus:outline-none focus:border-blue-400"
+            />
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+              Subscribe
+            </button>
+          </div>
+        </motion.div>
+      </div>
+      
+      <Footer />
+    </div>
     </div>
   );
 }

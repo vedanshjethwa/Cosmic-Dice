@@ -41,11 +41,17 @@ export const AuthModal: React.FC = () => {
         if (formData.password.length < 8) {
           throw new Error('Password must be at least 8 characters long');
         }
-        await register(formData.username, formData.email, formData.password);
+        await register(formData.email, formData.password, formData.username);
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Authentication failed';
-      setError(errorMessage);
+      
+      // Show helpful error for Supabase connection issues
+      if (errorMessage.includes('connect to Supabase') || errorMessage.includes('Failed to fetch')) {
+        setError('Database connection required. Please click "Connect to Supabase" in the top right corner to set up your database.');
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }

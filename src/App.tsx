@@ -21,7 +21,6 @@ import { DepositPage } from './components/pages/DepositPage';
 import { GameDetailPage } from './components/pages/GameDetailPage';
 import FeedbackPage from './components/FeedbackPage';
 import { AffiliateProgramPage } from './components/pages/AffiliateProgramPage';
-import { CosmicDicePage } from './components/pages/CosmicDicePage';
 import { VaultGuidePage } from './components/pages/VaultGuidePage';
 import { BettingGuidePage } from './components/pages/BettingGuidePage';
 import { HowToGuidesPage } from './components/pages/HowToGuidesPage';
@@ -83,128 +82,195 @@ function App() {
 
             {/* Protected Routes - Auth Required */}
             <Route path="/" element={
-              <HomePage />
+                <HomePage />
             } />
 
             {/* Game Routes - Auth + Balance Required */}
             <Route path="/game/rps" element={
-              <GameLayout gameTitle="Cosmic RPS">
-                <RPSGame />
-              </GameLayout>
+              <AuthGuard>
+                <GameGuard minBalance={1}>
+                  <GameLayout gameTitle="Cosmic RPS">
+                    <RPSGame />
+                  </GameLayout>
+                </GameGuard>
+              </AuthGuard>
             } />
             <Route path="/game/dice" element={
-              <GameLayout gameTitle="Cosmic Dice">
-                <DiceGame />
-              </GameLayout>
+              <AuthGuard>
+                <GameGuard minBalance={1}>
+                  <GameLayout gameTitle="Cosmic Dice">
+                    <DiceGame />
+                  </GameLayout>
+                </GameGuard>
+              </AuthGuard>
             } />
             <Route path="/game/limbo" element={
-              <GameLayout gameTitle="Cosmic Limbo">
-                <LimboGame />
-              </GameLayout>
+              <AuthGuard>
+                <GameGuard minBalance={1}>
+                  <GameLayout gameTitle="Cosmic Limbo">
+                    <LimboGame />
+                  </GameLayout>
+                </GameGuard>
+              </AuthGuard>
             } />
             <Route path="/game/snakes" element={
-              <GameLayout gameTitle="Cosmic Snakes">
-                <SnakesGame />
-              </GameLayout>
+              <AuthGuard>
+                <GameGuard minBalance={1}>
+                  <GameLayout gameTitle="Cosmic Snakes">
+                    <SnakesGame />
+                  </GameLayout>
+                </GameGuard>
+              </AuthGuard>
             } />
             <Route path="/game/card" element={
-              <GameLayout gameTitle="Cosmic Cards">
-                <CardGame />
-              </GameLayout>
+              <AuthGuard>
+                <GameGuard minBalance={1}>
+                  <GameLayout gameTitle="Cosmic Cards">
+                    <CardGame />
+                  </GameLayout>
+                </GameGuard>
+              </AuthGuard>
             } />
             <Route path="/game/balloon" element={
-              <GameLayout gameTitle="Cosmic Balloon">
-                <BalloonGame />
-              </GameLayout>
+              <AuthGuard>
+                <GameGuard minBalance={1}>
+                  <GameLayout gameTitle="Cosmic Balloon">
+                    <BalloonGame />
+                  </GameLayout>
+                </GameGuard>
+              </AuthGuard>
             } />
             <Route path="/game/minesweeper" element={
-              <GameLayout gameTitle="Cosmic Minesweeper">
-                <MinesweeperGame />
-              </GameLayout>
+              <AuthGuard>
+                <GameGuard minBalance={1}>
+                  <GameLayout gameTitle="Cosmic Minesweeper">
+                    <MinesweeperGame />
+                  </GameLayout>
+                </GameGuard>
+              </AuthGuard>
             } />
             <Route path="/game/toss" element={
-              <GameLayout gameTitle="Cosmic Heads & Tails">
-                <TossGame />
-              </GameLayout>
+              <AuthGuard>
+                <GameGuard minBalance={1}>
+                  <GameLayout gameTitle="Cosmic Heads & Tails">
+                    <TossGame />
+                  </GameLayout>
+                </GameGuard>
+              </AuthGuard>
             } />
             <Route path="/game/prediction-pulse" element={
-              <GameLayout gameTitle="Prediction Pulse">
-                <PredictionPulseGame />
-              </GameLayout>
+              <AuthGuard>
+                <GameGuard minBalance={1}>
+                  <GameLayout gameTitle="Prediction Pulse">
+                    <PredictionPulseGame />
+                  </GameLayout>
+                </GameGuard>
+              </AuthGuard>
             } />
 
             {/* User Dashboard Routes - Auth Required */}
             <Route path="/all-games" element={
-              <AllGamesPage />
+              <AuthGuard>
+                <AllGamesPage />
+              </AuthGuard>
             } />
             <Route path="/popular" element={
-              <PopularPage />
+              <AuthGuard>
+                <PopularPage />
+              </AuthGuard>
             } />
             <Route path="/offers" element={
-              <OffersPage />
-            } />
-            <Route path="/bonuses" element={
-              <OffersPage />
+              <AuthGuard>
+                <OffersPage />
+              </AuthGuard>
             } />
             <Route path="/new-games" element={
-              <NewGamesPage />
+              <AuthGuard>
+                <NewGamesPage />
+              </AuthGuard>
             } />
             <Route path="/upcoming" element={
-              <UpcomingGamesPage />
+              <AuthGuard>
+                <UpcomingGamesPage />
+              </AuthGuard>
             } />
             <Route path="/settings" element={
-              <SettingsPage />
+              <AuthGuard>
+                <SettingsPage />
+              </AuthGuard>
             } />
             <Route path="/transactions" element={
-              <TransactionsPage />
+              <AuthGuard>
+                <TransactionsPage />
+              </AuthGuard>
             } />
             <Route path="/wallet" element={
-              <WalletPage />
+              <AuthGuard>
+                <WalletPage />
+              </AuthGuard>
             } />
             <Route path="/deposit" element={
-              <DepositPage />
+              <AuthGuard>
+                <DepositPage />
+              </AuthGuard>
             } />
             <Route path="/withdrawal" element={
-              <WithdrawalPage />
+              <AuthGuard>
+                <WithdrawalPage />
+              </AuthGuard>
             } />
             <Route path="/feedback" element={
-              <FeedbackPage />
+              <AuthGuard>
+                <FeedbackPage />
+              </AuthGuard>
             } />
             <Route path="/game-detail/:gameId" element={
-              <GameDetailPage />
+              <AuthGuard>
+                <GameDetailPage />
+              </AuthGuard>
             } />
             <Route path="/profile" element={
-              <ProfilePage />
+              <AuthGuard>
+                <ProfilePage />
+              </AuthGuard>
             } />
             
             {/* Info Pages - Auth Required */}
             <Route path="/affiliate-program" element={
-              <AffiliateProgramPage />
+              <AuthGuard>
+                <AffiliateProgramPage />
+              </AuthGuard>
             } />
             <Route path="/vault-guide" element={
-              <VaultGuidePage />
+              <AuthGuard>
+                <VaultGuidePage />
+              </AuthGuard>
             } />
             <Route path="/betting-guide" element={
-              <BettingGuidePage />
+              <AuthGuard>
+                <BettingGuidePage />
+              </AuthGuard>
             } />
             <Route path="/how-to-guides" element={
-              <HowToGuidesPage />
+              <AuthGuard>
+                <HowToGuidesPage />
+              </AuthGuard>
             } />
             <Route path="/casino-guide" element={
-              <CasinoGuidePage />
+              <AuthGuard>
+                <CasinoGuidePage />
+              </AuthGuard>
             } />
             <Route path="/support" element={
-              <SupportPage />
+              <AuthGuard>
+                <SupportPage />
+              </AuthGuard>
             } />
             <Route path="/calculator" element={
-              <CalculatorPage />
+              <AuthGuard>
+                <CalculatorPage />
+              </AuthGuard>
             } />
-            
-            {/* Cosmic Dice Landing Page - Public Route */}
-            <Route path="/cosmic-dice" element={<CosmicDicePage />} />
-            
-            {/* Redirect /cosmic-dice to main cosmic dice page */}
-            <Route path="/dice" element={<CosmicDicePage />} />
           </Routes>
         </AnimatePresence>
 

@@ -182,16 +182,16 @@ export function OffersPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="cosmic-panel p-6 mb-8"
+            className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20 mb-8"
           >
             <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
               {/* Tab Filters */}
-              <div className="flex gap-2 cosmic-panel rounded-lg p-1">
+              <div className="flex gap-2 bg-[#0A1929] rounded-lg p-1">
                 <button
                   onClick={() => setActiveTab('active')}
-                  className={`px-6 py-3 rounded-lg transition-colors font-bold ${
+                  className={`px-6 py-2 rounded-lg transition-colors font-medium ${
                     activeTab === 'active'
-                      ? 'cosmic-button-primary text-white'
+                      ? 'bg-blue-600 text-white'
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
@@ -199,9 +199,9 @@ export function OffersPage() {
                 </button>
                 <button
                   onClick={() => setActiveTab('expired')}
-                  className={`px-6 py-3 rounded-lg transition-colors font-bold ${
+                  className={`px-6 py-2 rounded-lg transition-colors font-medium ${
                     activeTab === 'expired'
-                      ? 'cosmic-button-primary text-white'
+                      ? 'bg-blue-600 text-white'
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
@@ -217,7 +217,7 @@ export function OffersPage() {
                   placeholder="Search offers..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full lg:w-64 cosmic-input pl-10 pr-4 py-3"
+                  className="w-full lg:w-64 bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400"
                 />
               </div>
             </div>
@@ -246,7 +246,7 @@ export function OffersPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * index }}
-                  className="cosmic-game-card flex flex-col h-full"
+                  className="bg-[#132F4C] rounded-xl overflow-hidden border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group"
                 >
                   {/* Offer Image */}
                   <div className="relative h-48 overflow-hidden">
@@ -284,7 +284,7 @@ export function OffersPage() {
                   </div>
 
                   {/* Offer Content */}
-                  <div className="p-6 flex flex-col flex-1">
+                  <div className="p-6">
                     <div className="mb-3">
                       <span className="text-sm text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">
                         {offer.type}
@@ -295,12 +295,12 @@ export function OffersPage() {
                       {offer.title}
                     </h3>
                     
-                    <p className="text-gray-400 mb-4 text-sm leading-relaxed flex-grow">
-                      Exclusive offer with premium rewards
+                    <p className="text-gray-400 mb-4 text-sm leading-relaxed">
+                      {offer.description}
                     </p>
 
                     {/* Action Button */}
-                    <div>
+                    <div className="mt-auto">
                       {activeTab === 'active' && (
                         <button
                           className={`w-full py-3 rounded-lg font-medium transition-all duration-300 ${

@@ -351,6 +351,39 @@ export function TransactionsPage() {
           )}
         </motion.div>
 
+        {/* Transaction Summary */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-8 bg-[#132F4C] rounded-xl p-6 border border-blue-500/20"
+        >
+          <h3 className="text-lg font-bold text-white mb-4">Quick Stats</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-white">{mockTransactions.length}</div>
+              <div className="text-sm text-gray-400">Total Transactions</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-green-400">
+                {mockTransactions.filter(tx => tx.status === 'completed').length}
+              </div>
+              <div className="text-sm text-gray-400">Completed</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-yellow-400">
+                {mockTransactions.filter(tx => tx.status === 'pending').length}
+              </div>
+              <div className="text-sm text-gray-400">Pending</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-red-400">
+                {mockTransactions.filter(tx => tx.status === 'failed').length}
+              </div>
+              <div className="text-sm text-gray-400">Failed</div>
+            </div>
+          </div>
+        </motion.div>
       </div>
       
       <Footer />
