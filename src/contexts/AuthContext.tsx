@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface User {
   id: string;
@@ -42,43 +42,125 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  // Default dummy user - everyone is "logged in"
-  const [user] = useState<User>({
-    id: 'dummy-user-id',
-    email: 'player@cosmic.casino',
-    username: 'CosmicPlayer',
-    created_at: new Date().toISOString()
-  });
+  const [user, setUser] = useState<User | null>(null);
+  const [wallet, setWallet] = useState<Wallet | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Default dummy wallet
-  const [wallet] = useState<Wallet>({
-    real_balance: 100,
-    bonus_balance: 0,
-    total_deposited: 100,
-    total_withdrawn: 0,
-    total_wagered: 0,
-    total_won: 0
-  });
+  // Initialize with mock data if no user is logged in
+  useEffect(() => {
+    const savedUser = localStorage.getItem('cosmic_user');
+    const savedWallet = localStorage.getItem('cosmic_wallet');
+    
+    if (savedUser && savedWallet) {
+      setUser(JSON.parse(savedUser));
+      setWallet(JSON.parse(savedWallet));
+    }
+  }, []);
 
-  const [isLoading] = useState(false);
-  const isAuthenticated = true; // Always authenticated
-
-  // Dummy functions - no actual authentication
   const login = async (email: string, password: string) => {
-    // No-op
+    setIsLoading(true);
+    
+    try {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Mock successful login
+      const mockUser: User = {
+        id: 'user_' + Date.now(),
+        email: email,
+        username: email.split('@')[0],
+        created_at: new Date().toISOString()
+      };
+
+      const mockWallet: Wallet = {
+        real_balance: 1000,
+        bonus_balance: 100,
+        total_deposited: 1000,
+        total_withdrawn: 0,
+        total_wagered: 0,
+        total_won: 0
+      };
+
+      // Save to localStorage
+      localStorage.setItem('cosmic_user', JSON.stringify(mockUser));
+      localStorage.setItem('cosmic_wallet', JSON.stringify(mockWallet));
+      localStorage.setItem('auth_token', 'mock_token_' + Date.now());
+
+      setUser(mockUser);
+      setWallet(mockWallet);
+    } catch (error) {
+      throw new Error('Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const register = async (email: string, password: string, username: string) => {
-    // No-op
+    setIsLoading(true);
+    
+    try {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Mock successful registration
+      const mockUser: User = {
+        id: 'user_' + Date.now(),
+        email: email,
+        username: username,
+        created_at: new Date().toISOString()
+      };
+
+      const mockWallet: Wallet = {
+        real_balance: 500, // Welcome bonus
+        bonus_balance: 100,
+        total_deposited: 0,
+        total_withdrawn: 0,
+        total_wagered: 0,
+        total_won: 0
+      };
+
+      // Save to localStorage
+      localStorage.setItem('cosmic_user', JSON.stringify(mockUser));
+      localStorage.setItem('cosmic_wallet', JSON.stringify(mockWallet));
+      localStorage.setItem('auth_token', 'mock_token_' + Date.now());
+
+      setUser(mockUser);
+      setWallet(mockWallet);
+    } catch (error) {
+      throw new Error('Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = async () => {
-    // No-op
+    setIsLoading(true);
+    
+    try {
+      // Clear localStorage
+      localStorage.removeItem('cosmic_user');
+      localStorage.removeItem('cosmic_wallet');
+      localStorage.removeItem('auth_token');
+      
+      setUser(null);
+      setWallet(null);
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const refreshWallet = async () => {
-    // No-op
+    // Mock wallet refresh - in a real app this would fetch from API
+    if (wallet) {
+      const updatedWallet = { ...wallet };
+      setWallet(updatedWallet);
+      localStorage.setItem('cosmic_wallet', JSON.stringify(updatedWallet));
+    }
   };
+
+  const isAuthenticated = !!user;
 
   return (
     <AuthContext.Provider

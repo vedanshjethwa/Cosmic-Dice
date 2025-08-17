@@ -309,24 +309,36 @@ export function HomePage() {
               >
                 <Wallet size={16} />
                 <span className="font-medium">
-                  ₹{((wallet?.real_balance || 0) + (wallet?.bonus_balance || 0)).toLocaleString()}
+                  {user ? `₹${((wallet?.real_balance || 0) + (wallet?.bonus_balance || 0)).toLocaleString()}` : 'Login'}
                 </span>
               </button>
 
               {/* Notification Bell */}
-              <button className="relative p-2 hover:bg-white/10 rounded-lg transition-colors">
+              {user && (
+                <button className="relative p-2 hover:bg-white/10 rounded-lg transition-colors">
                 <Bell size={20} className="text-white" />
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                   3
                 </span>
-              </button>
+                </button>
+              )}
               
-              <button
+              {user ? (
+                <button
                 onClick={() => navigate('/profile')}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-              >
+                >
                 <User size={20} />
-              </button>
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowAuthModal(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+                >
+                  <User size={16} />
+                  Login
+                </button>
+              )}
             </div>
           </div>
         </motion.header>
