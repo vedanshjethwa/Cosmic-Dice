@@ -122,16 +122,12 @@ export function GameCard({
           {title}
         </h3>
         
-        <p className="cosmic-game-description flex-grow">
-          {description}
-        </p>
-
         <button 
           onClick={(e) => {
             e.stopPropagation();
             navigate(route);
           }}
-          className="cosmic-action-button mt-auto"
+          className="cosmic-action-button mt-4"
         >
           <span className="relative z-10">Play Now</span>
         </button>
