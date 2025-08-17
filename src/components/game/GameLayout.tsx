@@ -214,6 +214,6 @@ export function GameLayout({
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

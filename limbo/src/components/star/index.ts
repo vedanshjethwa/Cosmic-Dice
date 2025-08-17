@@ -1,1 +1,0 @@
-export { StarToggle } from './Star';

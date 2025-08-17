@@ -189,7 +189,7 @@ export function AllGamesPage() {
             </div>
           </motion.div>
           
-          <div className="mb-8">
+        
             <p className="text-gray-400 text-lg mb-6">
               Explore our complete collection of cosmic games ({filteredGames.length} games)
             </p>
