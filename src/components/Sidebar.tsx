@@ -73,22 +73,23 @@ export function Sidebar({
     },
     {
       icon: <Gift size={20} />,
-      label: 'Offers',
-      path: '/offers',
-      onClick: () => navigate('/offers'),
-    },
-    {
-      icon: <Gift size={20} />,
       label: 'Bonuses',
       path: '/bonuses',
-      onClick: () => navigate('/offers'),
+      onClick: () => navigate('/bonuses'),
       className: 'text-yellow-400 hover:text-yellow-300',
     },
     {
-      icon: <Clock size={20} />,
-      label: 'Upcoming Games',
-      path: '/upcoming',
-      onClick: () => navigate('/upcoming'),
+      icon: <BookOpen size={20} />,
+      label: 'Guides',
+      path: '/how-to-guides',
+      onClick: () => navigate('/how-to-guides'),
+    },
+    {
+      icon: <Shield size={20} />,
+      label: 'Responsible Gaming',
+      path: '/responsible-gaming',
+      onClick: () => navigate('/responsible-gaming'),
+      className: 'text-red-400 hover:text-red-300',
     },
     {
       icon: <Sparkles size={20} />,
@@ -154,38 +155,6 @@ export function Sidebar({
       path: '/calculator',
       onClick: () => navigate('/calculator'),
     },
-    {
-      icon: <HelpCircle size={20} />,
-      label: 'Help Center',
-      path: '/how-to-guides',
-      onClick: () => navigate('/how-to-guides'),
-    },
-    {
-      icon: <Shield size={20} />,
-      label: 'Self Exclusion',
-      path: '/responsible-gaming',
-      onClick: () => navigate('/responsible-gaming'),
-      className: 'text-red-400 hover:text-red-300',
-    },
-    {
-      icon: <CreditCard size={20} />,
-      label: 'Payment Info',
-      path: '/payment-methods',
-      onClick: () => navigate('/payment-methods'),
-    },
-    {
-      icon: <BookOpen size={20} />,
-      label: 'Guides',
-      path: '/casino-guide',
-      onClick: () => navigate('/casino-guide'),
-    },
-    {
-      icon: <Shield size={20} />,
-      label: 'Responsible Gaming',
-      path: '/responsible-gaming',
-      onClick: () => navigate('/responsible-gaming'),
-      className: 'text-red-400 hover:text-red-300',
-    },
   ];
 
   const isActivePage = (item: any) => {
@@ -230,7 +199,7 @@ export function Sidebar({
         <nav
           className={`${
             isOpen ? 'block' : 'hidden lg:block'
-          } p-2 lg:p-4 overflow-y-auto h-[calc(100vh-60px)] cosmic-scrollbar`}
+          } p-2 lg:p-4 overflow-y-auto h-[calc(100vh-60px)] sidebar-scrollbar`}
         >
           <ul className="space-y-2">
             {menuItems.map((item, index) => (

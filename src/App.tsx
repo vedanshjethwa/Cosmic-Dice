@@ -185,6 +185,11 @@ function App() {
                 <OffersPage />
               </AuthGuard>
             } />
+            <Route path="/bonuses" element={
+              <AuthGuard>
+                <OffersPage />
+              </AuthGuard>
+            } />
             <Route path="/new-games" element={
               <AuthGuard>
                 <NewGamesPage />

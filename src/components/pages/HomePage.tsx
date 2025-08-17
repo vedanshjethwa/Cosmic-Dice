@@ -341,29 +341,48 @@ export function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               className="mb-8"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {smallBanners.map((banner, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="relative h-32 rounded-xl overflow-hidden group cursor-pointer"
-                    onClick={banner.action}
-                  >
-                    <img 
-                      src={banner.image} 
-                      alt={banner.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    <div className="absolute inset-0 p-4 flex flex-col justify-end">
-                      <h3 className="text-white font-bold text-sm mb-1">{banner.title}</h3>
-                      <p className="text-gray-200 text-xs">{banner.subtitle}</p>
+              <div className="relative overflow-hidden rounded-xl">
+                <div 
+                  className="banner-carousel will-change-transform"
+                  style={{ transform: `translateX(-${currentBannerSlide * 100}%)` }}
+                >
+                  {smallBanners.slice(0, 3).map((banner, index) => (
+                    <div key={index} className="banner-slide">
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="relative h-48 group cursor-pointer"
+                        onClick={banner.action}
+                      >
+                        <img 
+                          src={banner.image} 
+                          alt={banner.title}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                        <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                          <h3 className="text-white font-bold text-xl mb-2">{banner.title}</h3>
+                          <p className="text-gray-200 text-sm">{banner.subtitle}</p>
+                        </div>
+                        <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/10 transition-colors duration-300" />
+                      </motion.div>
                     </div>
-                    <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/10 transition-colors duration-300" />
-                  </motion.div>
-                ))}
+                  ))}
+                </div>
+                
+                {/* Carousel indicators */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                  {[0, 1, 2].map((index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentBannerSlide(index)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        currentBannerSlide === index ? 'bg-white' : 'bg-white/50'
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
             </motion.section>
 
@@ -376,13 +395,6 @@ export function HomePage() {
             >
               <div className="flex items-center justify-between mb-6">
                 <h3 className="cosmic-heading-secondary">All Games ({gameCards.length})</h3>
-                <button
-                  onClick={() => navigate('/all-games')}
-                  className="cosmic-button-primary text-white px-6 py-3 rounded-xl transition-colors flex items-center gap-2"
-                >
-                  View All
-                  <ChevronRight size={16} />
-                </button>
               </div>
               
               <div className="cosmic-game-grid">
@@ -401,74 +413,6 @@ export function HomePage() {
                     index={index}
                   />
                 ))}
-              </div>
-            </motion.section>
-
-            {/* Featured Games Section */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="mb-12"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="cosmic-heading-secondary flex items-center gap-2">
-                  <Star className="text-yellow-400" />
-                  Featured Games
-                </h3>
-              </div>
-              
-              <div className="relative">
-                <div className="overflow-x-auto pb-4">
-                  <div className="flex gap-4 w-max">
-                    {featuredGames.map((game, index) => (
-                      <div key={game.route} className="w-80 flex-shrink-0">
-                        <GameCard
-                          title={game.label}
-                          description={game.description}
-                          image={game.image}
-                          route={game.route}
-                          category={game.category}
-                          rating={game.rating}
-                          players={game.players}
-                          isNew={game.isNew}
-                          isFeatured={game.isFeatured}
-                          index={index}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.section>
-
-            {/* Analytics & Trending Section */}
-            <StatsSection />
-
-            {/* Quick Stats */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="mb-8 lg:mb-12"
-            >
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                <div className="cosmic-panel p-4 lg:p-6 text-center shadow-lg hover:shadow-blue-500/20 transition-all hover:scale-105">
-                  <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-2">9</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Total Games</div>
-                </div>
-                <div className="cosmic-panel p-4 lg:p-6 text-center shadow-lg hover:shadow-green-500/20 transition-all hover:scale-105">
-                  <div className="text-2xl lg:text-3xl font-bold text-green-400 mb-2">15K+</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Active Players</div>
-                </div>
-                <div className="cosmic-panel p-4 lg:p-6 text-center shadow-lg hover:shadow-purple-500/20 transition-all hover:scale-105">
-                  <div className="text-2xl lg:text-3xl font-bold text-purple-400 mb-2">₹2.1M+</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Total Winnings</div>
-                </div>
-                <div className="cosmic-panel p-4 lg:p-6 text-center shadow-lg hover:shadow-yellow-500/20 transition-all hover:scale-105">
-                  <div className="text-2xl lg:text-3xl font-bold text-yellow-400 mb-2">98.5%</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Average RTP</div>
-                </div>
               </div>
             </motion.section>
           </div>
