@@ -252,7 +252,7 @@ export function HomePage() {
 
       {/* Main Content */}
       <div className={`transition-all duration-300 ${
-        sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'
+        sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'
       }`}>
         {/* Top Navigation */}
         <motion.header
@@ -395,24 +395,43 @@ export function HomePage() {
             >
               <div className="flex items-center justify-between mb-6">
                 <h3 className="cosmic-heading-secondary">All Games ({gameCards.length})</h3>
+                <button
+                  onClick={() => navigate('/all-games')}
+                  className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2"
+                >
+                  View All
+                  <ChevronRight size={16} />
+                </button>
               </div>
               
-              <div className="cosmic-game-grid">
-                {gameCards.map((game, index) => (
-                  <GameCard
-                    key={game.route}
-                    title={game.label}
-                    description={game.description}
-                    image={game.image}
-                    route={game.route}
-                    category={game.category}
-                    rating={game.rating}
-                    players={game.players}
-                    isNew={game.isNew}
-                    isFeatured={game.isFeatured}
-                    index={index}
-                  />
-                ))}
+              {/* Horizontal Scrolling Game Carousel */}
+              <div className="relative">
+                <div className="flex gap-6 overflow-x-auto pb-4 cosmic-scrollbar snap-x snap-mandatory">
+                  {gameCards.map((game, index) => (
+                    <div key={game.route} className="flex-shrink-0 w-80 snap-start">
+                      <GameCard
+                        title={game.label}
+                        description={game.description}
+                        image={game.image}
+                        route={game.route}
+                        category={game.category}
+                        rating={game.rating}
+                        players={game.players}
+                        isNew={game.isNew}
+                        isFeatured={game.isFeatured}
+                        index={index}
+                      />
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Scroll indicators */}
+                <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 pointer-events-none">
+                  <div className="flex justify-between px-4">
+                    <div className="w-8 h-8 bg-gradient-to-r from-[#0A1929] to-transparent pointer-events-auto" />
+                    <div className="w-8 h-8 bg-gradient-to-l from-[#0A1929] to-transparent pointer-events-auto" />
+                  </div>
+                </div>
               </div>
             </motion.section>
           </div>

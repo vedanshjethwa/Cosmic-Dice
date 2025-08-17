@@ -174,7 +174,7 @@ export function Sidebar({
       {/* Sidebar */}
       <div
         className={`fixed top-0 left-0 h-full cosmic-sidebar shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpen ? 'w-64' : 'w-0 lg:w-16 hover:w-64'
+          isOpen ? 'w-64' : 'w-0 lg:w-20 hover:w-64'
         }`}
       >
         {/* Header */}
@@ -212,10 +212,9 @@ export function Sidebar({
                   }`}
                   onClick={() => {
                     item.onClick();
-                    if (window.innerWidth < 1024) onClose();
                   }}
                 >
-                  <span className="min-w-[24px] group-hover:scale-110 transition-transform">
+                  <span className="min-w-[24px] flex items-center justify-center group-hover:scale-110 transition-transform">
                     {item.icon}
                   </span>
                   <span
