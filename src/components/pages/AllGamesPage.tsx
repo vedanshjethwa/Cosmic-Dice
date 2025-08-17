@@ -189,39 +189,38 @@ export function AllGamesPage() {
             </div>
           </motion.div>
           
-        
-            <p className="text-gray-400 text-lg mb-6">
-              Explore our complete collection of cosmic games ({filteredGames.length} games)
-            </p>
-            
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <div className="cosmic-game-grid">
-                {filteredGames.map((game, index) => (
-                  <GameCard
-                    key={game.route}
-                    title={game.label}
-                    description={game.description}
-                    image={game.image}
-                    route={game.route}
-                    category={game.category}
-                    rating={game.rating}
-                    players={game.players}
-                    isNew={game.isNew}
-                    isFeatured={game.isFeatured}
-                    index={index}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
 
-        <Footer />
+          <p className="text-gray-400 text-lg mb-6">
+            Explore our complete collection of cosmic games ({filteredGames.length} games)
+          </p>
+          
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <div className="cosmic-game-grid">
+              {filteredGames.map((game, index) => (
+                <GameCard
+                  key={game.route}
+                  title={game.label}
+                  description={game.description}
+                  image={game.image}
+                  route={game.route}
+                  category={game.category}
+                  rating={game.rating}
+                  players={game.players}
+                  isNew={game.isNew}
+                  isFeatured={game.isFeatured}
+                  index={index}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
