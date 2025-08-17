@@ -78,6 +78,13 @@ export function Sidebar({
       onClick: () => navigate('/offers'),
     },
     {
+      icon: <Gift size={20} />,
+      label: 'Bonuses',
+      path: '/bonuses',
+      onClick: () => navigate('/offers'),
+      className: 'text-yellow-400 hover:text-yellow-300',
+    },
+    {
       icon: <Clock size={20} />,
       label: 'Upcoming Games',
       path: '/upcoming',
@@ -171,6 +178,13 @@ export function Sidebar({
       label: 'Guides',
       path: '/casino-guide',
       onClick: () => navigate('/casino-guide'),
+    },
+    {
+      icon: <Shield size={20} />,
+      label: 'Responsible Gaming',
+      path: '/responsible-gaming',
+      onClick: () => navigate('/responsible-gaming'),
+      className: 'text-red-400 hover:text-red-300',
     },
   ];
 

@@ -123,7 +123,7 @@ export function GameCard({
         </h3>
         
         <p className="cosmic-game-description flex-grow">
-          Premium gaming experience with cosmic rewards
+          {description}
         </p>
 
         <button 

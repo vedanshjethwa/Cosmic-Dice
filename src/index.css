@@ -868,21 +868,21 @@ img {
 /* ===== GAME GRID IMPROVEMENTS ===== */
 .cosmic-game-grid {
   display: grid;
-  gap: 1.5rem;
+  gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 @media (min-width: 640px) {
   .cosmic-game-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.5rem;
+    gap: 1rem;
   }
 }
 
 @media (min-width: 1024px) {
   .cosmic-game-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
   }
 }
 

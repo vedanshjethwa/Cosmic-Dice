@@ -184,26 +184,57 @@ export function HomePage() {
   const popularGames = gameCards.filter(game => game.isFeatured);
 
   const banners = [
+    // Removed - replaced with smallBanners
+  ];
+
+  const smallBanners = [
     {
-      title: "Featured Offers",
-      subtitle: "Get 10% free on your first recharge",
-      image: "/Screenshot (483) copy.png",
-      cta: "Start Playing",
-      action: () => navigate('/all-games')
+      title: "Welcome Bonus",
+      subtitle: "100% First Deposit",
+      image: "https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&q=80&w=400&h=200",
+      action: () => navigate('/offers')
     },
     {
-      title: "24/7 Live Support",
-      subtitle: "Get help anytime, anywhere",
-      image: "https://images.unsplash.com/photo-1551431009-a802eeec77b1?auto=format&fit=crop&q=80&w=1200&h=400",
-      cta: "Contact Support",
+      title: "Daily Rewards",
+      subtitle: "Login & Earn",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=400&h=200",
+      action: () => navigate('/offers')
+    },
+    {
+      title: "VIP Program",
+      subtitle: "Exclusive Benefits",
+      image: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?auto=format&fit=crop&q=80&w=400&h=200",
+      action: () => navigate('/offers')
+    },
+    {
+      title: "Live Support",
+      subtitle: "24/7 Help",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400&h=200",
       action: () => setChatOpen(true)
     },
     {
-      title: "Exclusive VIP Rewards",
-      subtitle: "Unlock premium benefits",
-      image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200&h=400",
-      cta: "View Offers",
+      title: "Referral Bonus",
+      subtitle: "Invite Friends",
+      image: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=400&h=200",
+      action: () => navigate('/affiliate-program')
+    },
+    {
+      title: "Cashback",
+      subtitle: "Weekly Returns",
+      image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&q=80&w=400&h=200",
       action: () => navigate('/offers')
+    },
+    {
+      title: "Tournament",
+      subtitle: "Compete & Win",
+      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&q=80&w=400&h=200",
+      action: () => navigate('/all-games')
+    },
+    {
+      title: "Security",
+      subtitle: "Safe Gaming",
+      image: "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?auto=format&fit=crop&q=80&w=400&h=200",
+      action: () => navigate('/security-tips')
     }
   ];
 
@@ -304,70 +335,39 @@ export function HomePage() {
         <main className="p-4 lg:p-8">
           <div className="max-w-7xl mx-auto">
             {/* Welcome Message */}
+            {/* Small Banners Grid */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="mb-8"
             >
-              <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-2xl p-8 border border-blue-500/20">
-                <h2 className="text-3xl font-bold text-white mb-2">
-                  Welcome back, {user?.username}!
-                </h2>
-                <p className="text-gray-300 text-lg">
-                  Ready to explore the cosmic gaming universe? Your balance: ₹{((wallet?.real_balance || 0) + (wallet?.bonus_balance || 0)).toLocaleString()}
-                </p>
-              </div>
-            </motion.section>
-
-            {/* Hero Banner Section */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-8"
-            >
-              <div className="relative h-64 lg:h-80 rounded-2xl overflow-hidden shadow-2xl">
-                <div className="flex transition-transform duration-500 ease-in-out h-full"
-                     style={{ transform: `translateX(-${currentBannerSlide * 100}%)` }}>
-                  {banners.map((banner, index) => (
-                    <div key={index} className="min-w-full h-full relative">
-                      <img 
-                        src={banner.image} 
-                        alt={banner.title}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
-                      <div className="absolute inset-0 flex items-center justify-start p-8">
-                        <div className="text-white max-w-lg">
-                          <h2 className="text-3xl lg:text-4xl font-bold mb-2">{banner.title}</h2>
-                          <p className="text-lg mb-6 text-gray-200">{banner.subtitle}</p>
-                          <button
-                            onClick={banner.action}
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg hover:shadow-blue-500/30"
-                          >
-                            {banner.cta}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                {/* Banner indicators */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-                  {banners.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentBannerSlide(index)}
-                      className={`w-4 h-4 rounded-full transition-all ${
-                        currentBannerSlide === index ? 'bg-white' : 'bg-white/50'
-                      }`}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {smallBanners.map((banner, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="relative h-32 rounded-xl overflow-hidden group cursor-pointer"
+                    onClick={banner.action}
+                  >
+                    <img 
+                      src={banner.image} 
+                      alt={banner.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                     />
-                  ))}
-                </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    <div className="absolute inset-0 p-4 flex flex-col justify-end">
+                      <h3 className="text-white font-bold text-sm mb-1">{banner.title}</h3>
+                      <p className="text-gray-200 text-xs">{banner.subtitle}</p>
+                    </div>
+                    <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/10 transition-colors duration-300" />
+                  </motion.div>
+                ))}
               </div>
             </motion.section>
 
-            {/* Popular Games Section */}
+            {/* All Games Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -375,12 +375,9 @@ export function HomePage() {
               className="mb-12"
             >
               <div className="flex items-center justify-between mb-6">
-                <h3 className="cosmic-heading-secondary flex items-center gap-2">
-                  <TrendingUp className="text-blue-400" />
-                  Popular Games
-                </h3>
+                <h3 className="cosmic-heading-secondary">All Games ({gameCards.length})</h3>
                 <button
-                  onClick={() => navigate('/popular')}
+                  onClick={() => navigate('/all-games')}
                   className="cosmic-button-primary text-white px-6 py-3 rounded-xl transition-colors flex items-center gap-2"
                 >
                   View All
@@ -389,7 +386,7 @@ export function HomePage() {
               </div>
               
               <div className="cosmic-game-grid">
-                {popularGames.slice(0, 3).map((game, index) => (
+                {gameCards.map((game, index) => (
                   <GameCard
                     key={game.route}
                     title={game.label}
@@ -419,86 +416,29 @@ export function HomePage() {
                   <Star className="text-yellow-400" />
                   Featured Games
                 </h3>
-                <div className="flex items-center gap-3">
-                  <button className="cosmic-button-primary p-3 rounded-xl transition-colors">
-                    ←
-                  </button>
-                  <button className="cosmic-button-primary p-3 rounded-xl transition-colors">
-                    →
-                  </button>
+              </div>
+              
+              <div className="relative">
+                <div className="overflow-x-auto pb-4">
+                  <div className="flex gap-4 w-max">
+                    {featuredGames.map((game, index) => (
+                      <div key={game.route} className="w-80 flex-shrink-0">
+                        <GameCard
+                          title={game.label}
+                          description={game.description}
+                          image={game.image}
+                          route={game.route}
+                          category={game.category}
+                          rating={game.rating}
+                          players={game.players}
+                          isNew={game.isNew}
+                          isFeatured={game.isFeatured}
+                          index={index}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              
-              <div className="cosmic-game-grid">
-                {featuredGames.map((game, index) => (
-                  <GameCard
-                    key={game.route}
-                    title={game.label}
-                    description={game.description}
-                    image={game.image}
-                    route={game.route}
-                    category={game.category}
-                    rating={game.rating}
-                    players={game.players}
-                    isNew={game.isNew}
-                    isFeatured={game.isFeatured}
-                    index={index}
-                  />
-                ))}
-              </div>
-            </motion.section>
-
-            {/* All Games Section */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="mb-12"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="cosmic-heading-secondary">All Games ({filteredGames.length})</h3>
-                <button
-                  onClick={() => navigate('/all-games')}
-                  className="cosmic-button-primary text-white px-6 py-3 rounded-xl transition-colors flex items-center gap-2"
-                >
-                  View All
-                  <ChevronRight size={16} />
-                </button>
-              </div>
-
-              {/* Category Filters */}
-              <div className="flex gap-3 mb-8 overflow-x-auto pb-2 cosmic-scrollbar">
-                {allCategories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-6 py-3 rounded-xl font-bold whitespace-nowrap transition-all shadow-lg ${
-                      selectedCategory === category
-                        ? 'cosmic-button-primary text-white shadow-blue-500/30'
-                        : 'cosmic-panel text-gray-300 hover:bg-blue-600/20'
-                    }`}
-                  >
-                    {category === 'all' ? 'All Games' : category}
-                  </button>
-                ))}
-              </div>
-              
-              <div className="cosmic-game-grid">
-                {filteredGames.map((game, index) => (
-                  <GameCard
-                    key={game.route}
-                    title={game.label}
-                    description={game.description}
-                    image={game.image}
-                    route={game.route}
-                    category={game.category}
-                    rating={game.rating}
-                    players={game.players}
-                    isNew={game.isNew}
-                    isFeatured={game.isFeatured}
-                    index={index}
-                  />
-                ))}
               </div>
             </motion.section>
 

@@ -52,12 +52,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Default dummy wallet
   const [wallet] = useState<Wallet>({
-    real_balance: 1000,
-    bonus_balance: 500,
-    total_deposited: 2000,
-    total_withdrawn: 500,
-    total_wagered: 5000,
-    total_won: 3500
+    real_balance: 0,
+    bonus_balance: 0,
+    total_deposited: 0,
+    total_withdrawn: 0,
+    total_wagered: 0,
+    total_won: 0
   });
 
   const [isLoading] = useState(false);
