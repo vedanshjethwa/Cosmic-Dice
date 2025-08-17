@@ -21,6 +21,7 @@ import { DepositPage } from './components/pages/DepositPage';
 import { GameDetailPage } from './components/pages/GameDetailPage';
 import FeedbackPage from './components/FeedbackPage';
 import { AffiliateProgramPage } from './components/pages/AffiliateProgramPage';
+import { CosmicDicePage } from './components/pages/CosmicDicePage';
 import { VaultGuidePage } from './components/pages/VaultGuidePage';
 import { BettingGuidePage } from './components/pages/BettingGuidePage';
 import { HowToGuidesPage } from './components/pages/HowToGuidesPage';
@@ -271,6 +272,9 @@ function App() {
                 <CalculatorPage />
               </AuthGuard>
             } />
+            
+            {/* Cosmic Dice Landing Page - Public Route */}
+            <Route path="/cosmic-dice" element={<CosmicDicePage />} />
           </Routes>
         </AnimatePresence>
 
