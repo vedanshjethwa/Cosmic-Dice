@@ -275,6 +275,9 @@ function App() {
             
             {/* Cosmic Dice Landing Page - Public Route */}
             <Route path="/cosmic-dice" element={<CosmicDicePage />} />
+            
+            {/* Redirect /cosmic-dice to main cosmic dice page */}
+            <Route path="/dice" element={<CosmicDicePage />} />
           </Routes>
         </AnimatePresence>
 
