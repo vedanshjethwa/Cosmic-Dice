@@ -73,7 +73,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       };
 
       const mockWallet: Wallet = {
-        real_balance: 1000,
+        real_balance: 100,
         bonus_balance: 100,
         total_deposited: 1000,
         total_withdrawn: 0,
@@ -111,7 +111,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       };
 
       const mockWallet: Wallet = {
-        real_balance: 500, // Welcome bonus
+        real_balance: 100,
         bonus_balance: 100,
         total_deposited: 0,
         total_withdrawn: 0,

@@ -622,7 +622,7 @@ img {
   background: linear-gradient(135deg, rgba(19, 47, 76, 0.95), rgba(10, 25, 41, 0.98));
   backdrop-filter: blur(16px);
   border: 2px solid rgba(59, 130, 246, 0.3);
-  border-radius: 1rem;
+  border-radius: 0;
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.4),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset,
@@ -790,7 +790,7 @@ img {
 
 .cosmic-sidebar-item {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 0.75rem;
+  border-radius: 0;
   position: relative;
   overflow: hidden;
   margin: 0.25rem 0;
@@ -873,6 +873,7 @@ img {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  border-radius: 0;
 }
 
 .cosmic-button-primary::before {
@@ -1000,7 +1001,7 @@ img {
   background: linear-gradient(135deg, rgba(26, 47, 76, 0.9), rgba(15, 23, 42, 0.95));
   backdrop-filter: blur(16px);
   border: 1px solid rgba(59, 130, 246, 0.3);
-  border-radius: 1rem;
+  border-radius: 0;
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.3),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
@@ -1009,7 +1010,7 @@ img {
 .cosmic-input {
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(26, 47, 76, 0.6));
   border: 1px solid rgba(59, 130, 246, 0.3);
-  border-radius: 0.5rem;
+  border-radius: 0;
   color: white;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 

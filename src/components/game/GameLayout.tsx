@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Home, RotateCcw, Share2, HelpCircle, Wallet, Trophy, BarChart3 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../hooks/useAuth';
+import { Sidebar } from '../Sidebar';
+import { Footer } from '../Footer';
 
 interface GameLayoutProps {
   gameTitle: string;
@@ -21,6 +23,7 @@ export function GameLayout({
 }: GameLayoutProps) {
   const navigate = useNavigate();
   const { user, wallet } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleBack = () => {
     navigate('/');
@@ -47,7 +50,18 @@ export function GameLayout({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
+      {/* Sidebar - Only in Game Pages */}
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        onWalletClick={() => navigate('/wallet')}
+        onWithdrawalClick={() => navigate('/withdrawal')}
+        onDepositClick={() => navigate('/deposit')}
+        currentPath={window.location.pathname}
+      />
+
       {/* Game Navigation Header */}
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -55,6 +69,14 @@ export function GameLayout({
       >
         <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
           <div className="flex items-center gap-3">
+            {/* Hamburger Menu in Empty Space */}
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 hover:bg-white/10 transition-colors"
+            >
+              <Menu size={24} />
+            </button>
+            
             <button
               onClick={handleBack}
               className="cosmic-button-primary px-4 py-3 rounded-xl transition-colors flex items-center gap-2"
@@ -125,6 +147,9 @@ export function GameLayout({
               <div className="cosmic-panel p-6 mb-6">
                 {children}
               </div>
+              
+              {/* Footer under game section */}
+              <Footer />
             </div>
 
             {/* Side Panel */}
@@ -213,6 +238,7 @@ export function GameLayout({
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

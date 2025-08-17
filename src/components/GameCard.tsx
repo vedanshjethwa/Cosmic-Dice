@@ -44,11 +44,11 @@ export function GameCard({
         y: -8,
         boxShadow: "0 25px 50px -12px rgba(59, 130, 246, 0.25)"
       }}
-      className="cosmic-game-card group cursor-pointer h-full flex flex-col"
+      className="cosmic-game-card group cursor-pointer h-full flex flex-col border-0"
       onClick={handlePlay}
     >
       {/* Image Container - Fixed Height */}
-      <div className="relative h-48 overflow-hidden rounded-t-2xl">
+      <div className="relative h-48 overflow-hidden">
         <img
           src={image}
           alt={title}
@@ -66,7 +66,7 @@ export function GameCard({
             <motion.span 
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="cosmic-badge cosmic-badge-new"
+              className="cosmic-badge cosmic-badge-new border-0"
             >
               <Zap size={12} />
               NEW
@@ -77,7 +77,7 @@ export function GameCard({
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.1 }}
-              className="cosmic-badge cosmic-badge-featured"
+              className="cosmic-badge cosmic-badge-featured border-0"
             >
               <Star size={12} />
               FEATURED
@@ -111,7 +111,7 @@ export function GameCard({
       </div>
 
       {/* Content - Flexible Height */}
-      <div className="p-4 flex flex-col flex-1 bg-gradient-to-b from-[#132F4C] to-[#0A1929] rounded-b-2xl">
+      <div className="p-4 flex flex-col flex-1 bg-gradient-to-b from-[#132F4C] to-[#0A1929]">
         <div className="flex items-center justify-between mb-3">
           <span className="cosmic-category-tag">
             {category}
@@ -127,7 +127,7 @@ export function GameCard({
             e.stopPropagation();
             navigate(route);
           }}
-          className="cosmic-action-button mt-4"
+          className="cosmic-action-button mt-4 border-0"
         >
           <span className="relative z-10">Play Now</span>
         </button>
