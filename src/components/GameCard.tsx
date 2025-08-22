@@ -46,7 +46,7 @@ export function GameCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className={`relative bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden group cursor-pointer border transition-all duration-300 shadow-xl hover:shadow-2xl ${
+      className={`relative bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-3xl overflow-hidden group cursor-pointer border transition-all duration-300 shadow-xl hover:shadow-2xl ${
         isFeatured 
           ? 'border-yellow-500/30 hover:shadow-yellow-500/20' 
           : 'border-blue-500/20 hover:border-blue-400/40 hover:shadow-blue-500/20'
@@ -67,12 +67,12 @@ export function GameCard({
         {/* Badges */}
         <div className="absolute top-3 left-3 flex gap-2">
           {isNew && (
-            <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full shadow-lg animate-pulse">
+            <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold animate-pulse shadow-lg rounded-full">
               NEW
             </span>
           )}
           {isFeatured && (
-            <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold rounded-full shadow-lg">
+            <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold shadow-lg rounded-full">
               FEATURED
             </span>
           )}
@@ -108,10 +108,6 @@ export function GameCard({
         <h3 className="font-bold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
           {title}
         </h3>
-        
-        <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-          {description}
-        </p>
 
         <div className="flex gap-2">
           <button 

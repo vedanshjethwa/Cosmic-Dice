@@ -186,6 +186,9 @@ function App() {
             <Route path="/how-to-guides" element={
               <HowToGuidesPage />
             } />
+            <Route path="/bonuses" element={
+              <OffersPage />
+            } />
             <Route path="/casino-guide" element={
               <CasinoGuidePage />
             } />

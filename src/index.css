@@ -22,6 +22,7 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
+  border-radius: 0.75rem;
 }
 
 /* Optimize animations */
@@ -33,6 +34,19 @@ img {
 .animate-pulse,
 .animate-bounce {
   will-change: transform;
+}
+
+/* Global border radius for modern look */
+.rounded-modern {
+  border-radius: 1rem;
+}
+
+.rounded-modern-lg {
+  border-radius: 1.5rem;
+}
+
+.rounded-modern-xl {
+  border-radius: 2rem;
 }
 
 /* Line clamp utility */
@@ -371,6 +385,7 @@ img {
   height: 100%;
   display: flex;
   flex-direction: column;
+  border-radius: 1.5rem;
 }
 
 .game-card-arcade::before {
@@ -402,6 +417,7 @@ img {
   background: linear-gradient(135deg, rgba(26, 47, 76, 0.9), rgba(15, 23, 42, 0.95));
   backdrop-filter: blur(16px);
   border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 1.5rem;
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.4),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
@@ -421,6 +437,7 @@ img {
 .premium-button {
   background: linear-gradient(135deg, #3b82f6, #8b5cf6);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
   box-shadow: 
     0 4px 16px rgba(59, 130, 246, 0.3),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
@@ -440,6 +457,7 @@ img {
   background: linear-gradient(135deg, rgba(26, 47, 76, 0.8), rgba(15, 23, 42, 0.9));
   backdrop-filter: blur(12px);
   border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 1.5rem;
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.3),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
@@ -449,6 +467,7 @@ img {
 .premium-input {
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(26, 47, 76, 0.6));
   border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 0.75rem;
   box-shadow: 
     0 2px 8px rgba(0, 0, 0, 0.2),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
@@ -491,6 +510,33 @@ img {
 }
 
 /* Optimized scrollbars */
+.sidebar-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+  direction: rtl;
+}
+
+.sidebar-scrollbar > * {
+  direction: ltr;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3b82f6, #1e3a8a);
+  border-radius: 3px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #2563eb, #1e40af);
+}
+
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
@@ -690,6 +736,7 @@ img[loading="lazy"].loaded {
 .cosmic-button {
   position: relative;
   overflow: hidden;
+  border-radius: 0.75rem;
 }
 
 .cosmic-button::before {
@@ -710,6 +757,7 @@ img[loading="lazy"].loaded {
 /* Game card hover effects */
 .game-card {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 1.5rem;
 }
 
 .game-card:hover {
