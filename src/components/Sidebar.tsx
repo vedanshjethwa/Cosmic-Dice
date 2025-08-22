@@ -56,18 +56,6 @@ export function Sidebar({
       onClick: () => navigate('/'),
     },
     {
-      icon: <TrendingUp size={20} />,
-      label: 'Popular',
-      path: '/popular',
-      onClick: () => navigate('/popular'),
-    },
-    {
-      icon: <Gamepad size={20} />,
-      label: 'All Games',
-      path: '/all-games',
-      onClick: () => navigate('/all-games'),
-    },
-    {
       icon: <Gift size={20} />,
       label: 'Offers',
       path: '/offers',
@@ -78,6 +66,18 @@ export function Sidebar({
       label: 'Upcoming Games',
       path: '/upcoming',
       onClick: () => navigate('/upcoming'),
+    },
+    {
+      icon: <TrendingUp size={20} />,
+      label: 'Popular',
+      path: '/popular',
+      onClick: () => navigate('/popular'),
+    },
+    {
+      icon: <Gamepad size={20} />,
+      label: 'All Games',
+      path: '/all-games',
+      onClick: () => navigate('/all-games'),
     },
     {
       icon: <Sparkles size={20} />,
@@ -161,12 +161,12 @@ export function Sidebar({
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full sidebar-enhanced shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`fixed top-0 left-0 h-full bg-[#0A1929] border-r border-blue-500/20 shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden ${
           isOpen ? 'w-64' : 'w-0 lg:w-16 hover:w-64'
         }`}
       >
         {/* Header */}
-        <div className="p-4 border-b border-blue-500/30 flex items-center justify-between bg-gradient-to-r from-blue-600/10 to-purple-600/10">
+        <div className="p-4 border-b border-blue-500/30 flex items-center justify-between bg-[#132F4C]">
           <button
             onClick={onClose}
             className="text-white hover:text-gray-300 focus:outline-none lg:hidden"
@@ -193,9 +193,9 @@ export function Sidebar({
             {menuItems.map((item, index) => (
               <li key={index}>
                 <button
-                  className={`sidebar-item flex items-center gap-3 p-3 transition-all whitespace-nowrap group w-full ${
+                  className={`flex items-center gap-3 p-3 transition-all whitespace-nowrap group w-full border border-transparent hover:border-blue-500/30 hover:bg-blue-500/10 ${
                     isActivePage(item)
-                      ? 'active text-white'
+                      ? 'bg-blue-500/20 text-white border-blue-500/50'
                       : `text-gray-300 hover:bg-blue-900/30 hover:text-white ${item.className || ''}`
                   }`}
                   onClick={() => {
@@ -215,18 +215,6 @@ export function Sidebar({
                   >
                     {item.label}
                   </span>
-                  {/* Arrow icon */}
-                  <ChevronRight 
-                    className={`w-4 h-4 transition-all duration-200 ${
-                      isOpen || window.innerWidth >= 1024
-                        ? 'opacity-100'
-                        : 'opacity-0'
-                    } ${
-                      isActivePage(item) 
-                        ? 'text-white' 
-                        : 'text-gray-400 group-hover:text-white'
-                    }`}
-                  />
                 </button>
               </li>
             ))}

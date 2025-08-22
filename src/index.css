@@ -485,28 +485,9 @@ img {
 }
 
 /* Enhanced sidebar styling */
-.sidebar-enhanced {
-  background: linear-gradient(180deg, rgba(10, 25, 41, 0.95), rgba(19, 47, 76, 0.9));
-  backdrop-filter: blur(16px);
-  border-right: 1px solid rgba(59, 130, 246, 0.2);
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
-}
-
-.sidebar-item {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 12px;
-  position: relative;
-  overflow: hidden;
-}
-
-.sidebar-item:hover {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
-  transform: translateX(4px);
-}
-
-.sidebar-item.active {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2));
-  border-left: 3px solid #3b82f6;
+/* Sharp-edged design for professional look */
+.sharp-design {
+  border-radius: 0 !important;
 }
 
 /* Optimized scrollbars */
@@ -564,6 +545,15 @@ img {
 /* Grid auto-rows for equal height cards */
 .auto-rows-fr {
   grid-auto-rows: 1fr;
+}
+
+/* Sharp edges for all game elements */
+.game-card,
+.game-button,
+.game-panel,
+.sidebar,
+.modal {
+  border-radius: 0 !important;
 }
 
 /* Performance optimizations */
