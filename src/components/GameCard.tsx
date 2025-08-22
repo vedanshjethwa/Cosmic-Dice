@@ -46,15 +46,15 @@ export function GameCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className={`relative bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-3xl overflow-hidden group cursor-pointer border transition-all duration-300 shadow-xl hover:shadow-2xl ${
+      className={`game-card-bordered relative bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden group cursor-pointer border-2 transition-all duration-300 shadow-xl hover:shadow-2xl flex flex-col ${
         isFeatured 
-          ? 'border-yellow-500/30 hover:shadow-yellow-500/20' 
-          : 'border-blue-500/20 hover:border-blue-400/40 hover:shadow-blue-500/20'
+          ? 'border-yellow-500/40 hover:border-yellow-400/60 hover:shadow-yellow-500/20' 
+          : 'border-blue-500/30 hover:border-blue-400/50 hover:shadow-blue-500/20'
       }`}
       onClick={handlePlay}
     >
       {/* Image Container */}
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-48 lg:h-52 overflow-hidden">
         <img
           src={image}
           alt={title}
@@ -88,7 +88,7 @@ export function GameCard({
       </div>
 
       {/* Content */}
-      <div className="p-4">
+      <div className="p-4 flex flex-col flex-1">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
             {category}
@@ -109,10 +109,13 @@ export function GameCard({
           {title}
         </h3>
 
+        <p className="text-gray-400 text-sm mb-4 flex-1">
+          {description}
+        </p>
         <div className="flex gap-2">
           <button 
             onClick={handlePlay}
-            className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-xl transition-all font-medium shadow-lg hover:shadow-blue-500/30 transform hover:scale-105"
+            className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-xl transition-all font-medium shadow-lg hover:shadow-blue-500/30 transform hover:scale-105 mt-auto"
           >
             Play Now
           </button>
@@ -124,6 +127,16 @@ export function GameCard({
               Info
             </button>
           )}
+        </div>
+      </div>
+
+      {/* Game Footer */}
+      <div className="px-4 pb-4">
+        <div className="border-t border-blue-500/20 pt-3">
+          <div className="flex items-center justify-between text-xs text-gray-400">
+            <span>Min Bet: ₹1</span>
+            <span>Max Win: ₹100K</span>
+          </div>
         </div>
       </div>
     </motion.div>

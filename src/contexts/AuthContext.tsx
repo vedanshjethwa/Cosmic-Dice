@@ -25,6 +25,7 @@ interface AuthContextType {
   register: (email: string, password: string, username: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshWallet: () => Promise<void>;
+  updateBalance: (amount: number) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -50,7 +51,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     created_at: new Date().toISOString()
   });
 
-  const [wallet] = useState<Wallet>({
+  const [wallet, setWallet] = useState<Wallet>({
     real_balance: 75,
     bonus_balance: 25,
     total_deposited: 1000,
@@ -82,6 +83,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return Promise.resolve();
   };
 
+  const updateBalance = (amount: number) => {
+    setWallet(prev => ({
+      ...prev,
+      real_balance: Math.max(0, prev.real_balance + amount),
+      total_wagered: amount < 0 ? prev.total_wagered + Math.abs(amount) : prev.total_wagered,
+      total_won: amount > 0 ? prev.total_won + amount : prev.total_won
+    }));
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -93,6 +102,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         register,
         logout,
         refreshWallet,
+        updateBalance,
       }}
     >
       {children}
