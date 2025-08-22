@@ -234,7 +234,6 @@ export function PopularPage() {
                           </div>
                         </div>
                       </div>
-                          </span>
                       <h3 className="font-bold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
                         {game.label}
                       </h3>
