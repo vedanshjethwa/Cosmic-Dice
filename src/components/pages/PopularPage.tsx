@@ -204,15 +204,19 @@ export function PopularPage() {
                         )}
                         {game.isFeatured && (
                           <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold shadow-lg rounded-full">
-                      {/* Play button overlay on hover */}
-                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform shadow-lg">
-                          <Play size={20} />
-                          Play Now
-                        </div>
-                      </div>
-                    </div>
                             FEATURED
+                           </span>
+                         )}
+                       </div>
+                       
+                       {/* Play button overlay on hover */}
+                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                         <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform shadow-lg">
+                           <Play size={20} />
+                           Play Now
+                         </div>
+                       </div>
+                     </div>
                     {/* Content */}
                     <div className="p-4 flex flex-col flex-1">
                       <div className="flex items-center justify-between mb-2">
@@ -238,16 +242,6 @@ export function PopularPage() {
                       <p className="text-gray-400 text-sm mb-4 flex-1">
                         {game.description}
                       </p>
-                      </div>
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(game.route);
-                        }}
-                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-xl transition-all font-medium shadow-lg hover:shadow-blue-500/30 transform hover:scale-105"
-                      >
-                        Play Now
-                      </button>
                     </div>
                   </motion.div>
                 ))}
