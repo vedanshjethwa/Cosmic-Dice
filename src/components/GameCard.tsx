@@ -46,15 +46,15 @@ export function GameCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className={`game-card-bordered relative bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden group cursor-pointer border-2 transition-all duration-300 shadow-xl hover:shadow-2xl flex flex-col ${
+      className={`game-card-bordered relative bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col ${
         isFeatured 
-          ? 'border-yellow-500/40 hover:border-yellow-400/60 hover:shadow-yellow-500/20' 
-          : 'border-blue-500/30 hover:border-blue-400/50 hover:shadow-blue-500/20'
+          ? 'border-yellow-500/50 hover:border-yellow-400/70 hover:shadow-yellow-500/30' 
+          : ''
       }`}
       onClick={handlePlay}
     >
       {/* Image Container */}
-      <div className="relative h-48 lg:h-52 overflow-hidden">
+      <div className="relative h-40 lg:h-48 overflow-hidden">
         <img
           src={image}
           alt={title}

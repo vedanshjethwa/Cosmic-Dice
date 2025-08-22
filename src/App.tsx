@@ -34,6 +34,8 @@ import { SupportPage } from './components/pages/SupportPage';
 import { CalculatorPage } from './components/pages/CalculatorPage';
 import { WithdrawalPage } from './components/WithdrawalPage';
 import { ProfilePage } from './components/ProfilePage';
+import { NotificationsPage } from './components/pages/NotificationsPage';
+import { GlobalRecentBets } from './components/shared/GlobalRecentBets';
 
 // Import game components
 import { GameLayout } from './components/game/GameLayout';

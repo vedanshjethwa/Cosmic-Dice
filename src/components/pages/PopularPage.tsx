@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { TrendingUp, ArrowLeft, Menu, Play, Star, Users } from 'lucide-react';
-import { GameGrid } from '../GameGrid';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
 
@@ -113,6 +112,7 @@ export function PopularPage() {
       </div>
     );
   }
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
       {/* Sidebar */}
@@ -173,7 +173,7 @@ export function PopularPage() {
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
                 {popularGames.map((game, index) => (
                   <motion.div
                     key={game.route}
@@ -181,11 +181,11 @@ export function PopularPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                     whileHover={{ scale: 1.02, y: -4 }}
-                    className="game-card-bordered bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col"
+                    className="game-card-bordered bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col h-full"
                     onClick={() => navigate(game.route)}
                   >
                     {/* Image Container */}
-                    <div className="relative h-48 overflow-hidden">
+                    <div className="relative h-40 lg:h-48 overflow-hidden">
                       <img
                         src={game.image}
                         alt={game.label}
@@ -251,6 +251,13 @@ export function PopularPage() {
                     </div>
                   </motion.div>
                 ))}
+              </div>
+              
+              {/* Section Footer */}
+              <div className="mt-8 pt-6 border-t border-blue-500/20">
+                <div className="text-center text-gray-400 text-sm">
+                  <p>Popular games are ranked by player activity and community ratings</p>
+                </div>
               </div>
             </div>
           </motion.div>

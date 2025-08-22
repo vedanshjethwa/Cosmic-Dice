@@ -203,9 +203,9 @@ export function Sidebar({
         }`}
       >
         {/* Header */}
-        <div className="p-6 border-b border-blue-500/30 flex items-center justify-center bg-[#132F4C]">
+        <div className="p-4 border-b border-blue-500/30 flex items-center justify-center bg-[#132F4C]">
           <h2 
-            className={`text-xl font-bold text-white transition-all duration-300 cursor-pointer hover:scale-105 ${
+            className={`text-lg font-bold text-white transition-all duration-300 cursor-pointer hover:scale-105 text-center ${
               isOpen ? 'opacity-100' : 'opacity-0 lg:opacity-0 lg:hover:opacity-100'
             }`}
             style={{ fontFamily: "'Orbitron', sans-serif" }}
@@ -216,7 +216,7 @@ export function Sidebar({
         </div>
 
         {/* Wallet Display */}
-        <div className={`p-4 border-b border-blue-500/20 ${isOpen ? 'block' : 'hidden lg:hidden lg:hover:block'}`}>
+        <div className={`p-3 border-b border-blue-500/20 ${isOpen ? 'block' : 'hidden lg:hidden lg:hover:block'}`}>
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
             <div className="flex items-center gap-2 mb-1">
               <Wallet size={16} className="text-blue-400" />
@@ -231,13 +231,13 @@ export function Sidebar({
         <nav
           className={`${
             isOpen ? 'block' : 'hidden lg:block'
-          } p-2 lg:p-4 overflow-y-auto h-[calc(100vh-140px)] custom-scrollbar`}
+          } p-2 lg:p-3 overflow-y-auto h-[calc(100vh-120px)] custom-scrollbar`}
         >
           <ul className="space-y-2">
             {menuItems.map((item, index) => (
               <li key={index}>
                 <button
-                  className={`flex items-center gap-3 p-3 rounded-xl transition-all whitespace-nowrap group w-full border border-transparent hover:border-blue-500/30 hover:bg-blue-500/10 ${
+                  className={`flex items-center gap-3 p-2.5 rounded-lg transition-all whitespace-nowrap group w-full border border-transparent hover:border-blue-500/30 hover:bg-blue-500/10 ${
                     isActivePage(item)
                       ? 'bg-blue-500/20 text-white border-blue-500/50'
                       : `text-gray-300 hover:bg-blue-900/30 hover:text-white ${item.className || ''}`

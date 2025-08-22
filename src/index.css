@@ -710,6 +710,19 @@ img[loading="lazy"].loaded {
 .game-card-arcade button {
   margin-top: auto;
 }
+.game-card-arcade:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+/* Consistent game card borders */
+.game-card-bordered {
+  border: 2px solid rgba(59, 130, 246, 0.3) !important;
+}
+
+.game-card-bordered:hover {
+  border-color: rgba(59, 130, 246, 0.5) !important;
+}
+
 /* Optimized scrollbar for sidebar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
@@ -758,11 +771,13 @@ img[loading="lazy"].loaded {
 .game-card {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 1.5rem;
+  border: 2px solid rgba(59, 130, 246, 0.3);
 }
 
 .game-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: rgba(59, 130, 246, 0.5);
 }
 
 /* Responsive optimizations */
@@ -771,4 +786,14 @@ img[loading="lazy"].loaded {
     min-height: 100vh;
     min-height: -webkit-fill-available;
   }
+  
+  .game-card {
+    min-height: 280px;
+  }
+  
+  .game-card img {
+    height: 160px;
+    object-fit: cover;
+  }
 }
+  border: 2px solid rgba(59, 130, 246, 0.3);

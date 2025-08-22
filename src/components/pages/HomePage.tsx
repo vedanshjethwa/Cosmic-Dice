@@ -302,10 +302,17 @@ export function HomePage() {
                 </button>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
                 {popularGames.slice(0, 4).map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
+              </div>
+              
+              {/* Section Footer */}
+              <div className="mt-8 pt-6 border-t border-blue-500/20">
+                <div className="text-center text-gray-400 text-sm">
+                  <p>Popular games are updated based on player activity and ratings</p>
+                </div>
               </div>
             </motion.section>
 
@@ -323,10 +330,17 @@ export function HomePage() {
                 </h3>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
                 {featuredGames.map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
+              </div>
+              
+              {/* Section Footer */}
+              <div className="mt-8 pt-6 border-t border-blue-500/20">
+                <div className="text-center text-gray-400 text-sm">
+                  <p>Featured games showcase our latest and most innovative experiences</p>
+                </div>
               </div>
             </motion.section>
 
@@ -374,7 +388,7 @@ export function HomePage() {
                   >
                     {Array.from({ length: Math.ceil(filteredGames.length / 4) }).map((_, slideIndex) => (
                       <div key={slideIndex} className="min-w-full">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
                           {filteredGames.slice(slideIndex * 4, (slideIndex + 1) * 4).map((game, index) => (
                             <EnhancedGameCard key={game.route} game={game} index={index} />
                           ))}
@@ -410,6 +424,13 @@ export function HomePage() {
                     }`}
                   />
                 ))}
+              </div>
+              
+              {/* Section Footer */}
+              <div className="mt-8 pt-6 border-t border-blue-500/20">
+                <div className="text-center text-gray-400 text-sm">
+                  <p>Explore our complete collection of cosmic gaming experiences</p>
+                </div>
               </div>
             </motion.section>
 
@@ -493,10 +514,10 @@ function EnhancedGameCard({ game, index }: { game: any; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 * index }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] overflow-hidden cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group game-card-arcade shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col rounded-2xl"
+      className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] overflow-hidden cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 group game-card-arcade shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col rounded-2xl"
       onClick={() => navigate(game.route)}
     >
-      <div className="relative h-48">
+      <div className="relative h-40 lg:h-48">
         <img
           src={game.image}
           alt={game.label}

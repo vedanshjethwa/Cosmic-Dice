@@ -90,6 +90,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       total_wagered: amount < 0 ? prev.total_wagered + Math.abs(amount) : prev.total_wagered,
       total_won: amount > 0 ? prev.total_won + amount : prev.total_won
     }));
+    
+    // Emit wallet update event for global listening
+    window.dispatchEvent(new CustomEvent('wallet-updated', {
+      detail: { 
+        newBalance: Math.max(0, (wallet?.real_balance || 0) + amount),
+        change: amount 
+      }
+    }));
   };
   return (
     <AuthContext.Provider

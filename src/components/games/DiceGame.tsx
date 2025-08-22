@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DivideCircle, Plus, Info } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { TransactionService } from '../transactions/TransactionService';
+import { GameSpecificBets } from '../shared/GameSpecificBets';
 
 // Betting tiers with their corresponding win chances
 const BETTING_TIERS = [
@@ -40,7 +40,7 @@ interface GameStats {
 }
 
 export default function DiceGame() {
-  const { user, wallet, refreshWallet } = useAuth();
+  const { user, wallet, refreshWallet, updateBalance } = useAuth();
   const [selectedDice, setSelectedDice] = useState(4);
   const [betAmount, setBetAmount] = useState('1');
   const [isRolling, setIsRolling] = useState(false);
@@ -98,20 +98,21 @@ export default function DiceGame() {
       const winAmount = isWin ? Math.min(bet * 5, maxWin) : 0;
       const profit = winAmount - bet;
       
-      // Process game result through TransactionService
-      if (user) {
-        try {
-          await TransactionService.processGameResult(user.id, bet, winAmount, {
-            gameType: 'dice',
-            selectedNumber: selectedDice,
-            diceResult: result,
-            isWin
-          });
-          refreshWallet();
-        } catch (error) {
-          console.error('Error processing game result:', error);
+      // Update wallet balance
+      updateBalance(profit);
+      
+      // Emit bet event for global tracking
+      window.dispatchEvent(new CustomEvent('cosmic-bet-placed', {
+        detail: {
+          game: 'Cosmic Dice',
+          gameType: 'dice',
+          amount: bet,
+          result: isWin ? 'win' : 'loss',
+          profit: profit,
+          multiplier: isWin ? 5 : 0,
+          gameData: { selectedNumber: selectedDice, diceResult: result }
         }
-      }
+      }));
 
       const newBet: BetHistoryItem = {
         betAmount: bet,
@@ -140,7 +141,14 @@ export default function DiceGame() {
   const maxPossibleWin = calculateMaxWin(parseFloat(betAmount) || 0);
 
   return (
-    <div className="p-6">
+    <div className="p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+      {/* Game Specific Bets - Left Side */}
+      <div className="lg:col-span-1">
+        <GameSpecificBets gameType="dice" gameName="Cosmic Dice" />
+      </div>
+      
+      {/* Main Game Area */}
+      <div className="lg:col-span-3">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row gap-4 md:gap-8">
           {/* Left Side - Dice Display */}
@@ -349,6 +357,14 @@ export default function DiceGame() {
             </div>
           </div>
         </div>
+        
+        {/* Game Footer */}
+        <div className="mt-8 pt-6 border-t border-blue-500/20">
+          <div className="text-center text-gray-400 text-sm">
+            <p>Cosmic Dice uses provably fair algorithms for transparent gameplay</p>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   );
