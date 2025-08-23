@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Minus, Plus, Info } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { TransactionService } from '../transactions/TransactionService';
+import { Footer } from '../Footer';
 
 interface Balloon {
   id: number;
@@ -409,6 +410,9 @@ export default function BalloonGame() {
         </div>
       </div>
     </div>
+    
+    {/* Game Footer */}
+    <Footer />
   );
 }
 

@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Info } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { TransactionService } from '../transactions/TransactionService';
+import { Footer } from '../Footer';
 
 export default function PredictionPulseGame() {
   const { user, wallet, refreshWallet } = useAuth();
@@ -223,5 +224,8 @@ export default function PredictionPulseGame() {
         </div>
       </div>
     </div>
+    
+    {/* Game Footer */}
+    <Footer />
   );
 }

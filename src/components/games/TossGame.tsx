@@ -3,6 +3,7 @@ import { Minus, Plus, Sparkles, Zap, Info } from 'lucide-react';
 import { NumericFormat } from 'react-number-format';
 import { useAuth } from '../../contexts/AuthContext';
 import { TransactionService } from '../transactions/TransactionService';
+import { Footer } from '../Footer';
 
 interface BetHistoryItem {
   betAmount: number;
@@ -415,5 +416,8 @@ export default function TossGame() {
         </div>
       </div>
     </div>
+    
+    {/* Game Footer */}
+    <Footer />
   );
 }

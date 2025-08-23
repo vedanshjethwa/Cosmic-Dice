@@ -444,5 +444,8 @@ export default function RPSGame() {
         </div>
       </div>
     </div>
+    
+    {/* Game Footer */}
+    <Footer />
   );
 }

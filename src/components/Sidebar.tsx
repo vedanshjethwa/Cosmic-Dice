@@ -230,7 +230,7 @@ export function Sidebar({
         {/* Navigation */}
         <nav
           className={`${
-            isOpen ? 'block' : 'hidden lg:block'
+            isOpen ? 'block' : 'block'
           } p-2 lg:p-3 overflow-y-auto h-[calc(100vh-120px)] custom-scrollbar`}
         >
           <ul className="space-y-2">
@@ -252,7 +252,7 @@ export function Sidebar({
                   </span>
                   <span
                     className={`${
-                      isOpen ? 'opacity-100' : 'opacity-0 lg:group-hover:opacity-100'
+                      isOpen ? 'opacity-100' : 'opacity-100'
                     } transition-opacity`}
                   >
                     {item.label}

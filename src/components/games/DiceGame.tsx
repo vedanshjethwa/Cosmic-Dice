@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { DivideCircle, Plus, Info } from 'lucide-react';
+import { DivideCircle, Plus, Info, Minus } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { GameSpecificBets } from '../shared/GameSpecificBets';
+import { Footer } from '../Footer';
 
 // Betting tiers with their corresponding win chances
 const BETTING_TIERS = [
@@ -47,6 +48,7 @@ export default function DiceGame() {
   const [diceResult, setDiceResult] = useState<number | null>(null);
   const [showWinMessage, setShowWinMessage] = useState(false);
   const [betHistory, setBetHistory] = useState<BetHistoryItem[]>([]);
+  const [isRolling, setIsRolling] = useState(false);
   const [stats, setStats] = useState<GameStats>({
     totalWins: 0,
     totalLosses: 0,
@@ -80,6 +82,7 @@ export default function DiceGame() {
   const rollDice = async () => {
     const bet = parseFloat(betAmount);
     if (isNaN(bet) || bet <= 0 || bet > currentBalance || bet > MAX_BET) return;
+    if (isRolling) return;
 
     setIsRolling(true);
     setDiceResult(null);
@@ -88,8 +91,8 @@ export default function DiceGame() {
     setTimeout(async () => {
       const winChance = getWinChance(bet);
       const randomValue = Math.random();
-      const isWin = randomValue < winChance && selectedDice === Math.floor(Math.random() * 6) + 1;
-      const result = isWin ? selectedDice : Math.floor(Math.random() * 6) + 1;
+      const result = Math.floor(Math.random() * 6) + 1;
+      const isWin = result === selectedDice && randomValue < winChance;
       
       setDiceResult(result);
       setIsRolling(false);
@@ -133,7 +136,7 @@ export default function DiceGame() {
       if (isWin) {
         setShowWinMessage(true);
       }
-    }, 200);
+    }, 1500);
   };
 
   // Calculate current win chance based on bet amount
@@ -199,8 +202,17 @@ export default function DiceGame() {
                     onClick={() => adjustBet(0.5)}
                     className="bg-[#0f172a] hover:bg-[#1a2942] border border-[#1a2942] rounded p-2 md:p-3 transition-colors"
                     title="Half Bet"
+                    disabled={isRolling}
                   >
                     <DivideCircle className="w-4 h-4 md:w-5 md:h-5" />
+                  </button>
+                  <button
+                    onClick={() => adjustBet(Math.max(1, betAmount - 10))}
+                    className="bg-[#0f172a] hover:bg-[#1a2942] border border-[#1a2942] rounded p-2 md:p-3 transition-colors"
+                    title="Decrease Bet"
+                    disabled={isRolling}
+                  >
+                    <Minus className="w-4 h-4 md:w-5 md:h-5" />
                   </button>
                   <input
                     type="number"
@@ -218,11 +230,13 @@ export default function DiceGame() {
                     min="1"
                     max={Math.min(MAX_BET, currentBalance)}
                     step="1"
+                    disabled={isRolling}
                   />
                   <button
                     onClick={() => adjustBet(2)}
                     className="bg-[#0f172a] hover:bg-[#1a2942] border border-[#1a2942] rounded p-2 md:p-3 transition-colors"
                     title="Double Bet"
+                    disabled={isRolling}
                   >
                     <Plus className="w-4 h-4 md:w-5 md:h-5" />
                   </button>
@@ -242,10 +256,11 @@ export default function DiceGame() {
                     <button
                       key={dice}
                       onClick={() => setSelectedDice(dice)}
+                      disabled={isRolling}
                       className={`w-10 h-10 md:w-14 md:h-14 rounded-lg bg-[#0f172a] border border-[#1a2942] flex items-center justify-center transition-all ${
                         selectedDice === dice
                           ? 'ring-2 ring-[#3b82f6] shadow-lg shadow-[#3b82f6]/20 scale-110'
-                          : 'hover:bg-[#1a2942] hover:scale-105'
+                          : !isRolling ? 'hover:bg-[#1a2942] hover:scale-105' : 'opacity-50'
                       }`}
                     >
                       <div className="text-white font-bold text-lg md:text-xl">
@@ -273,6 +288,9 @@ export default function DiceGame() {
             </div>
           </div>
         </div>
+        
+        {/* Game Footer */}
+        <Footer />
 
         {/* Recent Bets History */}
         <div className="mt-4 bg-[#0f172a] rounded-xl p-6 border border-[#1a2942]">

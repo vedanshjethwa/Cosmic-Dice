@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
+import { Footer } from '../Footer';
 
 export default function SnakesGame() {
   const { user, wallet } = useAuth();
@@ -50,6 +51,9 @@ export default function SnakesGame() {
           </button>
         </motion.div>
       </div>
+      
+      {/* Game Footer */}
+      <Footer />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart3, Info } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { TransactionService } from '../transactions/TransactionService';
+import { Footer } from '../Footer';
 
 type RiskLevel = 'low' | 'medium' | 'high';
 
@@ -451,5 +452,8 @@ export default function CardGame() {
         </div>
       </div>
     </div>
+    
+    {/* Game Footer */}
+    <Footer />
   );
 }

@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Minus, Plus, Info } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { TransactionService } from '../transactions/TransactionService';
+import { Footer } from '../Footer';
 
 export default function MinesweeperGame() {
   const { user, wallet, refreshWallet } = useAuth();
@@ -302,5 +303,8 @@ export default function MinesweeperGame() {
         </div>
       </div>
     </div>
+    
+    {/* Game Footer */}
+    <Footer />
   );
 }

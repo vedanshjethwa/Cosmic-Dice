@@ -86,6 +86,10 @@ function App() {
             <Route path="/" element={
                 <HomePage />
             } />
+            
+            <Route path="/bonuses" element={
+              <OffersPage />
+            } />
 
             {/* Game Routes - Auth + Balance Required */}
             <Route path="/game/rps" element={
