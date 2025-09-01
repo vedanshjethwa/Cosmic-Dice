@@ -48,7 +48,6 @@ export default function DiceGame() {
   const [diceResult, setDiceResult] = useState<number | null>(null);
   const [showWinMessage, setShowWinMessage] = useState(false);
   const [betHistory, setBetHistory] = useState<BetHistoryItem[]>([]);
-  const [isRolling, setIsRolling] = useState(false);
   const [stats, setStats] = useState<GameStats>({
     totalWins: 0,
     totalLosses: 0,
