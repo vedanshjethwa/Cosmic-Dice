@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AuthProvider } from './contexts/AuthContext';
-import { AuthGuard } from './components/auth/AuthGuard';
-import { GameGuard } from './components/game/GameGuard';
 import { LoadingScreen } from './components/LoadingScreen';
-import { Sidebar } from './components/Sidebar';
 
 // Import page components
 import { HomePage } from './components/pages/HomePage';
@@ -36,7 +33,6 @@ import { CalculatorPage } from './components/pages/CalculatorPage';
 import { WithdrawalPage } from './components/WithdrawalPage';
 import { ProfilePage } from './components/ProfilePage';
 import { NotificationsPage } from './components/pages/NotificationsPage';
-import { GlobalRecentBets } from './components/shared/GlobalRecentBets';
 
 // Import game components
 import { GameLayout } from './components/game/GameLayout';
@@ -73,22 +69,13 @@ function App() {
 
   return (
     <AuthProvider>
-      <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
-        {/* Global Sidebar */}
-        <Sidebar
-          isOpen={sidebarOpen}
-          onClose={() => setSidebarOpen(false)}
-          onWalletClick={() => {}}
-          onWithdrawalClick={() => {}}
-          onDepositClick={() => {}}
-          currentPath={window.location.pathname}
-        />
-
-        {/* Main Content with Sidebar Offset */}
-        <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">
         <AnimatePresence mode="wait">
           <Routes>
-            {/* Public Routes - No Auth Required */}
+            {/* Main Routes */}
+            <Route path="/" element={<HomePage />} />
+            
+            {/* Info Pages */}
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms" element={<TermsOfServicePage />} />
@@ -96,133 +83,81 @@ function App() {
             <Route path="/security-tips" element={<SecurityTipsPage />} />
             <Route path="/payment-methods" element={<PaymentMethodsPage />} />
 
-            {/* Protected Routes - Auth Required */}
-            <Route path="/" element={
-                <HomePage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            
-            <Route path="/bonuses" element={
-              <OffersPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-
-            {/* Game Routes - Auth + Balance Required */}
+            {/* Game Routes */}
             <Route path="/game/rps" element={
-              <GameLayout gameTitle="Cosmic RPS" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+              <GameLayout gameTitle="Cosmic RPS">
                 <RPSGame />
               </GameLayout>
             } />
             <Route path="/game/dice" element={
-              <GameLayout gameTitle="Cosmic Dice" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+              <GameLayout gameTitle="Cosmic Dice">
                 <DiceGame />
               </GameLayout>
             } />
             <Route path="/game/limbo" element={
-              <GameLayout gameTitle="Cosmic Limbo" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+              <GameLayout gameTitle="Cosmic Limbo">
                 <LimboGame />
               </GameLayout>
             } />
             <Route path="/game/snakes" element={
-              <GameLayout gameTitle="Cosmic Snakes" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+              <GameLayout gameTitle="Cosmic Snakes">
                 <SnakesGame />
               </GameLayout>
             } />
             <Route path="/game/card" element={
-              <GameLayout gameTitle="Cosmic Cards" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+              <GameLayout gameTitle="Cosmic Cards">
                 <CardGame />
               </GameLayout>
             } />
             <Route path="/game/balloon" element={
-              <GameLayout gameTitle="Cosmic Balloon" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+              <GameLayout gameTitle="Cosmic Balloon">
                 <BalloonGame />
               </GameLayout>
             } />
             <Route path="/game/minesweeper" element={
-              <GameLayout gameTitle="Cosmic Minesweeper" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+              <GameLayout gameTitle="Cosmic Minesweeper">
                 <MinesweeperGame />
               </GameLayout>
             } />
             <Route path="/game/toss" element={
-              <GameLayout gameTitle="Cosmic Heads & Tails" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+              <GameLayout gameTitle="Cosmic Heads & Tails">
                 <TossGame />
               </GameLayout>
             } />
             <Route path="/game/prediction-pulse" element={
-              <GameLayout gameTitle="Prediction Pulse" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+              <GameLayout gameTitle="Prediction Pulse">
                 <PredictionPulseGame />
               </GameLayout>
             } />
 
-            {/* User Dashboard Routes - Auth Required */}
-            <Route path="/all-games" element={
-              <AllGamesPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/popular" element={
-              <PopularPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/offers" element={
-              <OffersPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/new-games" element={
-              <NewGamesPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/upcoming" element={
-              <UpcomingGamesPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/settings" element={
-              <SettingsPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/transactions" element={
-              <TransactionsPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/wallet" element={
-              <WalletPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/deposit" element={
-              <DepositPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/withdrawal" element={
-              <WithdrawalPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/feedback" element={
-              <FeedbackPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/game-detail/:gameId" element={
-              <GameDetailPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/profile" element={
-              <ProfilePage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
+            {/* User Dashboard Routes */}
+            <Route path="/all-games" element={<AllGamesPage />} />
+            <Route path="/popular" element={<PopularPage />} />
+            <Route path="/offers" element={<OffersPage />} />
+            <Route path="/new-games" element={<NewGamesPage />} />
+            <Route path="/upcoming" element={<UpcomingGamesPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/transactions" element={<TransactionsPage />} />
+            <Route path="/wallet" element={<WalletPage />} />
+            <Route path="/deposit" element={<DepositPage />} />
+            <Route path="/withdrawal" element={<WithdrawalPage />} />
+            <Route path="/feedback" element={<FeedbackPage />} />
+            <Route path="/game-detail/:gameId" element={<GameDetailPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             
-            {/* Info Pages - Auth Required */}
-            <Route path="/affiliate-program" element={
-              <AffiliateProgramPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/vault-guide" element={
-              <VaultGuidePage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/betting-guide" element={
-              <BettingGuidePage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/how-to-guides" element={
-              <HowToGuidesPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/bonuses" element={
-              <OffersPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/casino-guide" element={
-              <CasinoGuidePage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/support" element={
-              <SupportPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
-            <Route path="/calculator" element={
-              <CalculatorPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            } />
+            {/* Info Pages */}
+            <Route path="/affiliate-program" element={<AffiliateProgramPage />} />
+            <Route path="/vault-guide" element={<VaultGuidePage />} />
+            <Route path="/betting-guide" element={<BettingGuidePage />} />
+            <Route path="/how-to-guides" element={<HowToGuidesPage />} />
+            <Route path="/bonuses" element={<OffersPage />} />
+            <Route path="/casino-guide" element={<CasinoGuidePage />} />
+            <Route path="/support" element={<SupportPage />} />
+            <Route path="/calculator" element={<CalculatorPage />} />
           </Routes>
         </AnimatePresence>
-        </div>
 
-        {/* Chat Support - Available after auth */}
+        {/* Chat Support */}
         <ChatButton />
         <ChatWindow />
       </div>

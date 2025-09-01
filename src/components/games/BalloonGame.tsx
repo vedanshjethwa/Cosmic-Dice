@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Minus, Plus, Info } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { GameSpecificBets } from '../shared/GameSpecificBets';
 import { Footer } from '../Footer';
 
 interface Balloon {
@@ -21,7 +20,6 @@ interface BetRecord {
 
 export default function BalloonGame() {
   const { user, wallet, refreshWallet, updateBalance } = useAuth();
-  const [balance, setBalance] = useState(1000);
   const [bet, setBet] = useState(10);
   const [isPlaying, setIsPlaying] = useState(false);
   const [totalMultiplier, setTotalMultiplier] = useState(1);
@@ -102,19 +100,6 @@ export default function BalloonGame() {
     setShowResult(true);
     setIsPlaying(false);
 
-    // Emit bet event for global tracking
-    window.dispatchEvent(new CustomEvent('cosmic-bet-placed', {
-      detail: {
-        game: 'Cosmic Balloons',
-        gameType: 'balloon',
-        amount: bet,
-        result: winnings > bet ? 'win' : 'loss',
-        profit: winnings - bet,
-        multiplier: newMultiplier,
-        gameData: { balloonId: balloon.id, multiplier: newMultiplier }
-      }
-    }));
-
     // Update bet history
     const newBet: BetRecord = {
       id: Date.now(),
@@ -160,15 +145,9 @@ export default function BalloonGame() {
   };
 
   return (
-    <div className="p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
-      {/* Game Specific Bets - Left Side */}
-      <div className="lg:col-span-1">
-        <GameSpecificBets gameType="balloon" gameName="Cosmic Balloons" />
-      </div>
-      
-      {/* Main Game Area */}
-      <div className="lg:col-span-3">
-        <div className="bg-[#1A2634] rounded-3xl p-8 shadow-2xl border border-blue-500/20 relative">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="bg-gray-800 p-8 shadow-2xl border border-blue-500/20 relative">
           {showResult && (
             <div className="absolute inset-x-0 top-8 text-center z-10 animate-fadeIn">
               <h2 className="text-3xl font-bold mb-2 text-transparent bg-clip-text 
@@ -267,15 +246,15 @@ export default function BalloonGame() {
           </div>
         </div>
 
-        <div className="mt-8 bg-[#1A2634] rounded-xl border border-blue-500/20 p-4 shadow-2xl">
+        <div className="mt-8 bg-gray-800 border border-blue-500/20 p-4 shadow-2xl">
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <div className="flex items-center gap-2 sm:gap-3 bg-[#0B1622] px-3 sm:px-6 py-2 sm:py-3 rounded-xl border border-blue-500/10 shadow-lg">
+            <div className="flex items-center gap-2 sm:gap-3 bg-black px-3 sm:px-6 py-2 sm:py-3 border border-blue-500/10 shadow-lg">
               <span className="text-base sm:text-lg font-medium text-white">Bet:</span>
               <div className="flex items-center gap-2">
                 <button
                   onClick={decrementBet}
                   disabled={isPlaying || bet <= 1}
-                  className="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-500/10 
+                  className="w-8 h-8 flex items-center justify-center bg-blue-500/10 
                     hover:bg-blue-500/20 border border-blue-500/30 text-blue-400
                     disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
@@ -288,7 +267,7 @@ export default function BalloonGame() {
                   disabled={isPlaying}
                   min={1}
                   max={currentBalance}
-                  className="w-24 bg-[#0B1622] rounded-lg px-3 py-1.5 
+                  className="w-24 bg-black px-3 py-1.5 
                     text-base sm:text-lg font-bold text-white text-center
                     border border-blue-500/30 focus:border-blue-500/50 focus:outline-none
                     disabled:opacity-50 disabled:cursor-not-allowed"
@@ -296,7 +275,7 @@ export default function BalloonGame() {
                 <button
                   onClick={incrementBet}
                   disabled={isPlaying || bet >= currentBalance}
-                  className="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-500/10 
+                  className="w-8 h-8 flex items-center justify-center bg-blue-500/10 
                     hover:bg-blue-500/20 border border-blue-500/30 text-blue-400
                     disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
@@ -309,7 +288,7 @@ export default function BalloonGame() {
               disabled={currentBalance < bet || isPlaying}
               className="w-full sm:w-auto bg-gradient-to-br from-blue-400 via-blue-500 to-indigo-600 
                 hover:from-blue-500 hover:via-blue-600 hover:to-indigo-700
-                px-8 sm:px-12 py-2 sm:py-3 rounded-xl font-bold text-base sm:text-lg
+                px-8 sm:px-12 py-2 sm:py-3 font-bold text-base sm:text-lg
                 disabled:opacity-50 transition-all duration-300 
                 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30
                 disabled:hover:shadow-none border border-white/10
@@ -321,7 +300,7 @@ export default function BalloonGame() {
         </div>
 
         {/* Recent Bets */}
-        <div className="mt-8 bg-[#1A2634] rounded-xl p-6 border border-blue-500/20 shadow-2xl">
+        <div className="mt-8 bg-gray-800 p-6 border border-blue-500/20 shadow-2xl">
           <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">Recent Bets</h2>
           {betHistory.length > 0 ? (
             <div className="overflow-x-auto">
@@ -363,20 +342,20 @@ export default function BalloonGame() {
         </div>
 
         {/* Stats Summary */}
-        <div className="mt-8 bg-[#1A2634] rounded-xl p-6 border border-blue-500/20 shadow-2xl">
+        <div className="mt-8 bg-gray-800 p-6 border border-blue-500/20 shadow-2xl">
           <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">Stats</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-[#0B1622] rounded-lg p-4 border border-blue-500/10">
+            <div className="bg-black p-4 border border-blue-500/10">
               <div className="text-sm text-gray-400">Total Profit</div>
               <div className={`text-xl font-bold ${stats.totalProfit >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                 {stats.totalProfit >= 0 ? '+' : ''}₹{stats.totalProfit}
               </div>
             </div>
-            <div className="bg-[#0B1622] rounded-lg p-4 border border-blue-500/10">
+            <div className="bg-black p-4 border border-blue-500/10">
               <div className="text-sm text-gray-400">Wins</div>
               <div className="text-xl font-bold text-green-500">{stats.totalWins}</div>
             </div>
-            <div className="bg-[#0B1622] rounded-lg p-4 border border-blue-500/10">
+            <div className="bg-black p-4 border border-blue-500/10">
               <div className="text-sm text-gray-400">Losses</div>
               <div className="text-xl font-bold text-red-500">{stats.totalLosses}</div>
             </div>
@@ -384,13 +363,13 @@ export default function BalloonGame() {
         </div>
 
         {/* Game Info Section */}
-        <div className="mt-8 bg-[#1A2634] rounded-xl p-6 border border-blue-500/20 shadow-2xl">
+        <div className="mt-8 bg-gray-800 p-6 border border-blue-500/20 shadow-2xl">
           <div className="flex items-center gap-3 mb-4">
             <Info className="w-6 h-6 text-blue-400" />
             <h3 className="text-xl font-bold text-white">How to Play Cosmic Balloons</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#0B1622] rounded-lg p-4 border border-blue-500/10">
+            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
               <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Place your bet amount</li>
@@ -400,7 +379,7 @@ export default function BalloonGame() {
                 <li>• One balloon per round</li>
               </ul>
             </div>
-            <div className="bg-[#0B1622] rounded-lg p-4 border border-blue-500/10">
+            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
               <h4 className="font-bold text-green-400 mb-2">Strategy Tips</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Start with smaller bets</li>
@@ -410,7 +389,7 @@ export default function BalloonGame() {
                 <li>• Set win/loss limits</li>
               </ul>
             </div>
-            <div className="bg-[#0B1622] rounded-lg p-4 border border-blue-500/10">
+            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
               <h4 className="font-bold text-purple-400 mb-2">Multipliers</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• 0.2x - Small loss</li>
@@ -424,13 +403,9 @@ export default function BalloonGame() {
             </div>
           </div>
         </div>
-
-        {/* Game Footer */}
-        <Footer />
-        
-        {/* Footer */}
-        <Footer />
       </div>
+
+      <Footer />
     </div>
   );
 }

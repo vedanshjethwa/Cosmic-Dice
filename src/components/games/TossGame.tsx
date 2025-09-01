@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Minus, Plus, Sparkles, Zap, Info } from 'lucide-react';
 import { NumericFormat } from 'react-number-format';
 import { useAuth } from '../../contexts/AuthContext';
-import { TransactionService } from '../transactions/TransactionService';
 import { Footer } from '../Footer';
 
 interface BetHistoryItem {
@@ -43,7 +42,7 @@ const BET_TIERS: BetTier[] = [
 ];
 
 export default function TossGame() {
-  const { user, wallet, refreshWallet } = useAuth();
+  const { user, wallet, refreshWallet, updateBalance } = useAuth();
   const [isFlipping, setIsFlipping] = useState(false);
   const [result, setResult] = useState<'heads' | 'tails' | null>(null);
   const [selectedSide, setSelectedSide] = useState<'heads' | 'tails'>('heads');
@@ -108,20 +107,7 @@ export default function TossGame() {
       const winAmount = isWin ? bet * 2 : 0;
       const profit = winAmount - bet;
 
-      // Process game result through TransactionService
-      if (user) {
-        try {
-          await TransactionService.processGameResult(user.id, bet, winAmount, {
-            gameType: 'toss',
-            selectedSide,
-            result: newResult,
-            isWin
-          });
-          refreshWallet();
-        } catch (error) {
-          console.error('Error processing game result:', error);
-        }
-      }
+      updateBalance(profit);
 
       const newBetHistoryItem = {
         betAmount: bet,
@@ -146,23 +132,22 @@ export default function TossGame() {
   };
 
   return (
-    <>
-      <div className="p-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">
+      <div className="max-w-7xl mx-auto p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Coin Section */}
-          <div className="bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-3xl p-8 border border-blue-500/20 shadow-2xl">
+          <div className="bg-gray-800/50 backdrop-blur-sm p-8 border border-blue-500/20 shadow-2xl">
             {/* Coin Display */}
             <div className="flex justify-center mb-8">
               <div className="relative">
                 <div
-                  className={`absolute inset-0 bg-blue-400/20 blur-3xl rounded-full ${
+                  className={`absolute inset-0 bg-blue-400/20 blur-3xl ${
                     showImpact ? 'animate-pulse' : ''
                   }`}
                 />
-                <div className="absolute inset-0 bg-blue-400/10 blur-2xl rounded-full animate-pulse" />
+                <div className="absolute inset-0 bg-blue-400/10 blur-2xl animate-pulse" />
                 <div
-                  className={`w-64 h-64 md:w-80 md:h-80 rounded-full flex items-center justify-center shadow-2xl transform transition-all duration-1000 relative overflow-hidden ${
+                  className={`w-64 h-64 md:w-80 md:h-80 flex items-center justify-center shadow-2xl transform transition-all duration-1000 relative overflow-hidden ${
                     isFlipping ? 'animate-spin' : ''
                   }`}
                   style={{
@@ -172,14 +157,14 @@ export default function TossGame() {
                   <img
                     src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=320&h=320"
                     alt="Heads"
-                    className={`absolute w-full h-full object-cover rounded-full border-8 border-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-opacity duration-500 ${
+                    className={`absolute w-full h-full object-cover border-8 border-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-opacity duration-500 ${
                       result === 'heads' || result === null ? 'opacity-100' : 'opacity-0'
                     }`}
                   />
                   <img
                     src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=320&h=320"
                     alt="Tails"
-                    className={`absolute w-full h-full object-cover rounded-full border-8 border-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-opacity duration-500 ${
+                    className={`absolute w-full h-full object-cover border-8 border-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-opacity duration-500 ${
                       result === 'tails' ? 'opacity-100' : 'opacity-0'
                     }`}
                   />
@@ -191,7 +176,7 @@ export default function TossGame() {
             <div className="flex justify-center gap-12 mb-8">
               <button
                 onClick={() => setSelectedSide('heads')}
-                className={`premium-side-selector group ${
+                className={`group ${
                   selectedSide === 'heads' ? 'scale-110 ring-4 ring-blue-400/50' : 'opacity-70 hover:opacity-100'
                 } transition-all duration-300`}
               >
@@ -199,7 +184,7 @@ export default function TossGame() {
                   Heads
                 </div>
                 <div
-                  className={`w-24 h-24 rounded-full overflow-hidden border-4 transition-all ${
+                  className={`w-24 h-24 overflow-hidden border-4 transition-all ${
                     selectedSide === 'heads'
                       ? 'border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.6)]'
                       : 'border-gray-600 group-hover:border-blue-400/50'
@@ -214,7 +199,7 @@ export default function TossGame() {
               </button>
               <button
                 onClick={() => setSelectedSide('tails')}
-                className={`premium-side-selector group ${
+                className={`group ${
                   selectedSide === 'tails' ? 'scale-110 ring-4 ring-blue-400/50' : 'opacity-70 hover:opacity-100'
                 } transition-all duration-300`}
               >
@@ -222,7 +207,7 @@ export default function TossGame() {
                   Tails
                 </div>
                 <div
-                  className={`w-24 h-24 rounded-full overflow-hidden border-4 transition-all ${
+                  className={`w-24 h-24 overflow-hidden border-4 transition-all ${
                     selectedSide === 'tails'
                       ? 'border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.6)]'
                       : 'border-gray-600 group-hover:border-blue-400/50'
@@ -241,7 +226,7 @@ export default function TossGame() {
           {/* Controls Section */}
           <div className="space-y-6">
             {/* Betting Controls */}
-            <div className="premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
+            <div className="bg-gray-800/50 backdrop-blur-sm p-6 border border-blue-500/20 shadow-xl">
               <h3 className="text-xl font-bold text-white mb-6">Place Your Bet</h3>
               
               <div className="space-y-6">
@@ -249,7 +234,7 @@ export default function TossGame() {
                 <div className="flex items-center gap-4 justify-center">
                   <button
                     onClick={() => adjustBet('decrease')}
-                    className="premium-control-btn w-14 h-14 bg-gradient-to-br from-[#2a3441] to-[#1a2332] hover:from-[#3a4451] hover:to-[#2a3441] rounded-xl border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group shadow-lg"
+                    className="w-14 h-14 bg-gray-700 hover:bg-gray-600 border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group shadow-lg"
                   >
                     <Minus className="w-6 h-6 text-blue-400 group-hover:text-blue-300" />
                   </button>
@@ -263,13 +248,13 @@ export default function TossGame() {
                       thousandSeparator=","
                       prefix="₹"
                       allowNegative={false}
-                      className="premium-input w-full h-14 bg-gradient-to-br from-[#2a3441] to-[#1a2332] text-blue-400 text-center text-2xl font-bold rounded-xl border border-blue-500/30 focus:border-blue-400/50 transition-all shadow-lg"
+                      className="w-full h-14 bg-gray-700 text-blue-400 text-center text-2xl font-bold border border-blue-500/30 focus:border-blue-400/50 transition-all shadow-lg"
                     />
                   </div>
                   
                   <button
                     onClick={() => adjustBet('increase')}
-                    className="premium-control-btn w-14 h-14 bg-gradient-to-br from-[#2a3441] to-[#1a2332] hover:from-[#3a4451] hover:to-[#2a3441] rounded-xl border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group shadow-lg"
+                    className="w-14 h-14 bg-gray-700 hover:bg-gray-600 border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group shadow-lg"
                   >
                     <Plus className="w-6 h-6 text-blue-400 group-hover:text-blue-300" />
                   </button>
@@ -278,10 +263,10 @@ export default function TossGame() {
                 {/* Fast Mode Toggle */}
                 <button
                   onClick={() => setIsFastMode(!isFastMode)}
-                  className={`premium-toggle-btn w-full py-4 rounded-xl text-lg font-semibold transition-all transform flex items-center justify-center gap-3 shadow-lg ${
+                  className={`w-full py-4 text-lg font-semibold transition-all transform flex items-center justify-center gap-3 shadow-lg ${
                     isFastMode
                       ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-blue-500/30'
-                      : 'bg-gradient-to-br from-[#2a3441] to-[#1a2332] text-blue-400 border border-blue-500/30 hover:border-blue-400/50'
+                      : 'bg-gray-700 text-blue-400 border border-blue-500/30 hover:border-blue-400/50'
                   }`}
                 >
                   <Zap className="w-6 h-6" />
@@ -292,7 +277,7 @@ export default function TossGame() {
                 <button
                   onClick={flipCoin}
                   disabled={isFlipping || bet > currentBalance || bet <= 0}
-                  className={`premium-action-btn w-full py-5 rounded-xl text-xl font-bold transition-all transform shadow-xl ${
+                  className={`w-full py-5 text-xl font-bold transition-all transform shadow-xl ${
                     isFlipping || bet > currentBalance || bet <= 0
                       ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
                       : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white hover:scale-105 shadow-blue-500/40'
@@ -304,10 +289,10 @@ export default function TossGame() {
             </div>
 
             {/* Stats Panel */}
-            <div className="premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
+            <div className="bg-gray-800/50 backdrop-blur-sm p-6 border border-blue-500/20 shadow-xl">
               <h3 className="text-xl font-bold text-white mb-6">Stats</h3>
               <div className="grid grid-cols-3 gap-4">
-                <div className="premium-stat-card bg-gradient-to-br from-[#2a3441] to-[#1a2332] rounded-xl p-4 border border-blue-500/20 text-center">
+                <div className="bg-gray-700 p-4 border border-blue-500/20 text-center">
                   <div className="text-sm text-gray-400 mb-1">Total Profit</div>
                   <div
                     className={`text-xl font-bold ${
@@ -319,13 +304,13 @@ export default function TossGame() {
                     ₹{stats.totalProfit.toFixed(2)}
                   </div>
                 </div>
-                <div className="premium-stat-card bg-gradient-to-br from-[#2a3441] to-[#1a2332] rounded-xl p-4 border border-green-500/20 text-center">
+                <div className="bg-gray-700 p-4 border border-green-500/20 text-center">
                   <div className="text-sm text-gray-400 mb-1">Wins</div>
                   <div className="text-xl font-bold text-green-400">
                     {stats.totalWins}
                   </div>
                 </div>
-                <div className="premium-stat-card bg-gradient-to-br from-[#2a3441] to-[#1a2332] rounded-xl p-4 border border-red-500/20 text-center">
+                <div className="bg-gray-700 p-4 border border-red-500/20 text-center">
                   <div className="text-sm text-gray-400 mb-1">Losses</div>
                   <div className="text-xl font-bold text-red-400">
                     {stats.totalLosses}
@@ -337,11 +322,11 @@ export default function TossGame() {
         </div>
 
         {/* Recent Bets Section */}
-        <div className="mt-8 premium-panel bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
+        <div className="mt-8 bg-gray-800/50 backdrop-blur-sm p-6 border border-blue-500/20 shadow-xl">
           <h3 className="text-xl font-bold text-white mb-6">Recent Bets</h3>
           <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
             {betHistory.length === 0 ? (
-              <div className="text-gray-400 text-center p-8 bg-[#0f1923]/50 rounded-xl border border-blue-500/10">
+              <div className="text-gray-400 text-center p-8 bg-gray-700/50 border border-blue-500/10">
                 No bets yet. Start playing!
               </div>
             ) : (
@@ -351,7 +336,7 @@ export default function TossGame() {
                 .map((bet, index) => (
                   <div
                     key={index}
-                    className={`premium-bet-record flex items-center justify-between p-4 rounded-xl border transition-all ${
+                    className={`flex items-center justify-between p-4 border transition-all ${
                       bet.isWin ? 'bg-green-500/10 border-green-500/30 hover:bg-green-500/20' : 'bg-red-500/10 border-red-500/30 hover:bg-red-500/20'
                     }`}
                   >
@@ -377,13 +362,13 @@ export default function TossGame() {
         </div>
 
         {/* Game Info */}
-        <div className="mt-8 bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20 shadow-xl">
+        <div className="mt-8 bg-gray-800/50 backdrop-blur-sm p-6 border border-blue-500/20 shadow-xl">
           <div className="flex items-center gap-3 mb-4">
             <Info className="w-6 h-6 text-blue-400" />
             <h3 className="text-xl font-bold text-white">How to Play Cosmic Heads & Tails</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#0f1923]/50 rounded-lg p-4 border border-blue-500/20">
+            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
               <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Choose heads or tails</li>
@@ -393,7 +378,7 @@ export default function TossGame() {
                 <li>• Wrong guess = lose bet</li>
               </ul>
             </div>
-            <div className="bg-[#0f1923]/50 rounded-lg p-4 border border-blue-500/20">
+            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
               <h4 className="font-bold text-green-400 mb-2">Features</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Fast mode for quick games</li>
@@ -403,7 +388,7 @@ export default function TossGame() {
                 <li>• Smooth animations</li>
               </ul>
             </div>
-            <div className="bg-[#0f1923]/50 rounded-lg p-4 border border-blue-500/20">
+            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
               <h4 className="font-bold text-purple-400 mb-2">Strategy Tips</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Start with small bets</li>
@@ -416,13 +401,8 @@ export default function TossGame() {
           </div>
         </div>
       </div>
-      </div>
       
-      {/* Game Footer */}
       <Footer />
-      
-      {/* Footer */}
-      <Footer />
-    </>
+    </div>
   );
 }
