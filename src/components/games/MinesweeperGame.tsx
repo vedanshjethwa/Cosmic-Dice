@@ -301,10 +301,40 @@ export default function MinesweeperGame() {
             </div>
           </div>
         </div>
+
+        {/* Recent Bets History */}
+        <div className="mt-4 bg-[#0f172a] rounded-xl p-6 border border-[#1a2942]">
+          <h3 className="text-lg font-bold text-white mb-4">Recent Games</h3>
+          <div className="space-y-2">
+            {gameHistory.length === 0 ? (
+              <p className="text-gray-400 text-center py-4">No games played yet</p>
+            ) : (
+              gameHistory.map((game, index) => (
+                <div key={index} className="flex justify-between items-center bg-[#1a2942] rounded-lg p-3">
+                  <div className="flex items-center gap-3">
+                    <span className={`w-3 h-3 rounded-full ${
+                      game.result === 'green' ? 'bg-green-500' : 
+                      game.result === 'yellow' ? 'bg-yellow-500' : 'bg-red-500'
+                    }`} />
+                    <span className="text-white">₹{game.amount}</span>
+                  </div>
+                  <div className="text-right">
+                    <div className={`font-bold ${game.winnings >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      {game.winnings >= 0 ? '+' : ''}₹{game.winnings.toFixed(2)}
+                    </div>
+                    <div className="text-xs text-gray-400">
+                      {game.timestamp.toLocaleTimeString()}
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       </div>
+      
+      {/* Game Footer */}
+      <Footer />
     </div>
-    
-    {/* Game Footer */}
-    <Footer />
   );
 }
