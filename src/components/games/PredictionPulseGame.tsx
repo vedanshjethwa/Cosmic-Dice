@@ -224,6 +224,7 @@ export default function PredictionPulseGame() {
           </div>
         </div>
       </div>
+      </div>
       
       {/* Game Footer */}
       <Footer />
