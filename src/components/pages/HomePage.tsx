@@ -12,9 +12,7 @@ import {
   TrendingUp,
   Wallet,
   Bell,
-  ChevronLeft,
   Headphones,
-  Menu,
   Gamepad2
 } from 'lucide-react';
 
@@ -119,12 +117,7 @@ const gameCards = [
   },
 ];
 
-interface HomePageProps {
-  sidebarOpen: boolean;
-  setSidebarOpen: (open: boolean) => void;
-}
-
-export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
+export function HomePage() {
   const navigate = useNavigate();
   const { user, wallet } = useAuth();
   const { setIsOpen: setChatOpen } = useChatStore();
@@ -201,17 +194,11 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
         <motion.header
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="sticky top-0 z-40 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20 rounded-b-xl"
+          className="sticky top-0 z-40 bg-black/95 backdrop-blur-sm border-b border-blue-500/20"
         >
           <div className="flex items-center justify-between p-4 lg:px-8">
             {/* Left side */}
             <div className="flex items-center gap-4">
-              <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 hover:bg-white/10 rounded-xl transition-colors"
-              >
-                <Menu size={24} />
-              </button>
               <motion.h1
                 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent transition-all duration-300"
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
@@ -225,7 +212,7 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
             <div className="hidden md:flex flex-1 max-w-md mx-8">
               <button
                 onClick={() => setSearchOpen(true)}
-                className="w-full bg-[#132F4C] text-gray-400 px-4 py-2 text-left flex items-center gap-3 hover:bg-[#1A243D] transition-colors border border-blue-500/20 rounded-xl"
+                className="w-full bg-gray-800 text-gray-400 px-4 py-2 text-left flex items-center gap-3 hover:bg-gray-700 transition-colors border border-blue-500/20"
               >
                 <Search size={20} />
                 <span>Search games...</span>
@@ -254,20 +241,20 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
               </button>
               
               <button
+                onClick={() => navigate('/profile')}
+                className="p-2 hover:bg-white/10 transition-colors"
+              >
+                <User size={20} />
+              </button>
+              
+              <button
                 onClick={() => setWalletOpen(true)}
-                className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 border border-blue-500/30 flex items-center gap-2 rounded-xl"
+                className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 border border-blue-500/30 flex items-center gap-2"
               >
                 <Wallet size={16} />
                 <span className="font-medium">
                   ₹{((wallet?.real_balance || 0) + (wallet?.bonus_balance || 0)).toLocaleString()}
                 </span>
-              </button>
-
-              <button
-                onClick={() => navigate('/profile')}
-                className="p-2 hover:bg-white/10 transition-colors"
-              >
-                <User size={20} />
               </button>
             </div>
           </div>
@@ -282,7 +269,7 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
               animate={{ opacity: 1, y: 0 }}
               className="mb-12"
             >
-              <div className="bg-[#132F4C] rounded-2xl p-6 border border-blue-500/20">
+              <div className="bg-gray-800 p-8 border border-blue-500/20 shadow-2xl">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-white">Featured Offers</h2>
                   <button 
@@ -301,18 +288,18 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
                   >
                     {featuredOffers.map((offer) => (
                       <div key={offer.id} className="w-full flex-shrink-0">
-                        <div className={`bg-gradient-to-r ${offer.color} rounded-xl p-6 text-white relative overflow-hidden`}>
+                        <div className={`bg-gradient-to-r ${offer.color} p-6 text-white relative overflow-hidden`}>
                           <div className="absolute top-4 right-4">
                             <img 
                               src="https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&q=80&w=100&h=100"
                               alt="Offer"
-                              className="w-16 h-16 rounded-lg opacity-80"
+                              className="w-16 h-16 opacity-80"
                             />
                           </div>
                           <div className="max-w-md">
                             <div className="text-sm font-medium mb-2 opacity-90">{offer.type}</div>
                             <h3 className="text-xl font-bold mb-4">{offer.title}</h3>
-                            <button className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                            <button className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 font-medium transition-colors">
                               {offer.buttonText}
                             </button>
                           </div>
@@ -327,7 +314,7 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`w-2 h-2 rounded-full transition-colors ${
+                        className={`w-2 h-2 transition-colors ${
                           currentSlide === index ? 'bg-blue-400' : 'bg-gray-600'
                         }`}
                       />
@@ -351,7 +338,7 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
                 </h3>
                 <button
                   onClick={() => navigate('/all-games')}
-                  className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 border border-blue-500/30 flex items-center gap-2 rounded-xl"
+                  className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 border border-blue-500/30 flex items-center gap-2"
                 >
                   View All
                   <ChevronRight size={16} />
@@ -364,10 +351,10 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`px-6 py-3 font-medium whitespace-nowrap transition-all shadow-lg rounded-xl ${
+                    className={`px-6 py-3 font-medium whitespace-nowrap transition-all shadow-lg ${
                       selectedCategory === category
                         ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-blue-500/30'
-                        : 'bg-[#132F4C] text-gray-300 hover:bg-blue-600/20 border border-blue-500/20'
+                        : 'bg-gray-800 text-gray-300 hover:bg-blue-600/20 border border-blue-500/20'
                     }`}
                   >
                     {category === 'all' ? 'All Games' : category}
@@ -417,7 +404,7 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
                 </h3>
                 <button
                   onClick={() => navigate('/popular')}
-                  className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 border border-blue-500/30 flex items-center gap-2 rounded-xl"
+                  className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 border border-blue-500/30 flex items-center gap-2"
                 >
                   View All
                   <ChevronRight size={16} />
@@ -439,19 +426,19 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
               className="mb-8 lg:mb-12"
             >
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                <div className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] p-4 lg:p-6 border border-blue-500/20 text-center shadow-lg hover:shadow-blue-500/20 transition-all rounded-2xl">
+                <div className="bg-gradient-to-br from-gray-800 to-black p-4 lg:p-6 border border-blue-500/20 text-center shadow-lg hover:shadow-blue-500/20 transition-all">
                   <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-2">9</div>
                   <div className="text-gray-400 text-sm lg:text-base">Total Games</div>
                 </div>
-                <div className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] p-4 lg:p-6 border border-green-500/20 text-center shadow-lg hover:shadow-green-500/20 transition-all rounded-2xl">
+                <div className="bg-gradient-to-br from-gray-800 to-black p-4 lg:p-6 border border-green-500/20 text-center shadow-lg hover:shadow-green-500/20 transition-all">
                   <div className="text-2xl lg:text-3xl font-bold text-green-400 mb-2">15K+</div>
                   <div className="text-gray-400 text-sm lg:text-base">Active Players</div>
                 </div>
-                <div className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] p-4 lg:p-6 border border-purple-500/20 text-center shadow-lg hover:shadow-purple-500/20 transition-all rounded-2xl">
+                <div className="bg-gradient-to-br from-gray-800 to-black p-4 lg:p-6 border border-purple-500/20 text-center shadow-lg hover:shadow-purple-500/20 transition-all">
                   <div className="text-2xl lg:text-3xl font-bold text-purple-400 mb-2">₹2.1M+</div>
                   <div className="text-gray-400 text-sm lg:text-base">Total Winnings</div>
                 </div>
-                <div className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] p-4 lg:p-6 border border-yellow-500/20 text-center shadow-lg hover:shadow-yellow-500/20 transition-all rounded-2xl">
+                <div className="bg-gradient-to-br from-gray-800 to-black p-4 lg:p-6 border border-yellow-500/20 text-center shadow-lg hover:shadow-yellow-500/20 transition-all">
                   <div className="text-2xl lg:text-3xl font-bold text-yellow-400 mb-2">98.5%</div>
                   <div className="text-gray-400 text-sm lg:text-base">Average RTP</div>
                 </div>
@@ -510,7 +497,7 @@ function EnhancedGameCard({ game, index }: { game: any; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 * index }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className="bg-gradient-to-br from-[#132F4C] to-[#0A1929] overflow-hidden cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 group game-card-arcade shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col rounded-2xl"
+      className="bg-gradient-to-br from-gray-800 to-black overflow-hidden cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 group game-card-arcade shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col"
       onClick={() => navigate(game.route)}
     >
       <div className="relative h-40 lg:h-48">
@@ -520,17 +507,17 @@ function EnhancedGameCard({ game, index }: { game: any; index: number }) {
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-80" />
         
         {/* Badges */}
         <div className="absolute top-3 left-3 flex gap-2">
           {game.isNew && (
-            <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold animate-pulse shadow-lg rounded-full">
+            <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold animate-pulse shadow-lg">
               NEW
             </span>
           )}
           {game.isFeatured && (
-            <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold shadow-lg rounded-full">
+            <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold shadow-lg">
               FEATURED
             </span>
           )}
@@ -550,7 +537,7 @@ function EnhancedGameCard({ game, index }: { game: any; index: number }) {
 
         {/* Play button overlay on hover */}
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform">
             <Play size={20} />
             Play Now
           </div>
@@ -559,7 +546,7 @@ function EnhancedGameCard({ game, index }: { game: any; index: number }) {
 
       <div className="p-4 flex flex-col flex-1">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
+          <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 font-medium border border-blue-500/30">
             {game.category}
           </span>
         </div>
@@ -573,7 +560,7 @@ function EnhancedGameCard({ game, index }: { game: any; index: number }) {
             e.stopPropagation();
             navigate(game.route);
           }}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-xl font-medium cosmic-button mt-auto shadow-lg hover:shadow-blue-500/30 transform hover:scale-105"
+          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 font-medium cosmic-button mt-auto shadow-lg hover:shadow-blue-500/30 transform hover:scale-105"
         >
           Play Now
         </button>
