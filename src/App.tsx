@@ -5,6 +5,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { AuthGuard } from './components/auth/AuthGuard';
 import { GameGuard } from './components/game/GameGuard';
 import { LoadingScreen } from './components/LoadingScreen';
+import { Sidebar } from './components/Sidebar';
 
 // Import page components
 import { HomePage } from './components/pages/HomePage';
