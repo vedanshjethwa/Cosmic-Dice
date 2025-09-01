@@ -55,6 +55,7 @@ import { ChatButton } from './components/ChatSupport/ChatButton';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     // Simulate initial loading
@@ -72,6 +73,18 @@ function App() {
   return (
     <AuthProvider>
       <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
+        {/* Global Sidebar */}
+        <Sidebar
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          onWalletClick={() => {}}
+          onWithdrawalClick={() => {}}
+          onDepositClick={() => {}}
+          currentPath={window.location.pathname}
+        />
+
+        {/* Main Content with Sidebar Offset */}
+        <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
         <AnimatePresence mode="wait">
           <Routes>
             {/* Public Routes - No Auth Required */}
@@ -84,128 +97,129 @@ function App() {
 
             {/* Protected Routes - Auth Required */}
             <Route path="/" element={
-                <HomePage />
+                <HomePage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             
             <Route path="/bonuses" element={
-              <OffersPage />
+              <OffersPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
 
             {/* Game Routes - Auth + Balance Required */}
             <Route path="/game/rps" element={
-              <GameLayout gameTitle="Cosmic RPS">
+              <GameLayout gameTitle="Cosmic RPS" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
                 <RPSGame />
               </GameLayout>
             } />
             <Route path="/game/dice" element={
-              <GameLayout gameTitle="Cosmic Dice">
+              <GameLayout gameTitle="Cosmic Dice" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
                 <DiceGame />
               </GameLayout>
             } />
             <Route path="/game/limbo" element={
-              <GameLayout gameTitle="Cosmic Limbo">
+              <GameLayout gameTitle="Cosmic Limbo" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
                 <LimboGame />
               </GameLayout>
             } />
             <Route path="/game/snakes" element={
-              <GameLayout gameTitle="Cosmic Snakes">
+              <GameLayout gameTitle="Cosmic Snakes" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
                 <SnakesGame />
               </GameLayout>
             } />
             <Route path="/game/card" element={
-              <GameLayout gameTitle="Cosmic Cards">
+              <GameLayout gameTitle="Cosmic Cards" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
                 <CardGame />
               </GameLayout>
             } />
             <Route path="/game/balloon" element={
-              <GameLayout gameTitle="Cosmic Balloon">
+              <GameLayout gameTitle="Cosmic Balloon" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
                 <BalloonGame />
               </GameLayout>
             } />
             <Route path="/game/minesweeper" element={
-              <GameLayout gameTitle="Cosmic Minesweeper">
+              <GameLayout gameTitle="Cosmic Minesweeper" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
                 <MinesweeperGame />
               </GameLayout>
             } />
             <Route path="/game/toss" element={
-              <GameLayout gameTitle="Cosmic Heads & Tails">
+              <GameLayout gameTitle="Cosmic Heads & Tails" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
                 <TossGame />
               </GameLayout>
             } />
             <Route path="/game/prediction-pulse" element={
-              <GameLayout gameTitle="Prediction Pulse">
+              <GameLayout gameTitle="Prediction Pulse" sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
                 <PredictionPulseGame />
               </GameLayout>
             } />
 
             {/* User Dashboard Routes - Auth Required */}
             <Route path="/all-games" element={
-              <AllGamesPage />
+              <AllGamesPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/popular" element={
-              <PopularPage />
+              <PopularPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/offers" element={
-              <OffersPage />
+              <OffersPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/new-games" element={
-              <NewGamesPage />
+              <NewGamesPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/upcoming" element={
-              <UpcomingGamesPage />
+              <UpcomingGamesPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/settings" element={
-              <SettingsPage />
+              <SettingsPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/transactions" element={
-              <TransactionsPage />
+              <TransactionsPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/wallet" element={
-              <WalletPage />
+              <WalletPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/deposit" element={
-              <DepositPage />
+              <DepositPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/withdrawal" element={
-              <WithdrawalPage />
+              <WithdrawalPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/feedback" element={
-              <FeedbackPage />
+              <FeedbackPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/game-detail/:gameId" element={
-              <GameDetailPage />
+              <GameDetailPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/profile" element={
-              <ProfilePage />
+              <ProfilePage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             
             {/* Info Pages - Auth Required */}
             <Route path="/affiliate-program" element={
-              <AffiliateProgramPage />
+              <AffiliateProgramPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/vault-guide" element={
-              <VaultGuidePage />
+              <VaultGuidePage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/betting-guide" element={
-              <BettingGuidePage />
+              <BettingGuidePage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/how-to-guides" element={
-              <HowToGuidesPage />
+              <HowToGuidesPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/bonuses" element={
-              <OffersPage />
+              <OffersPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/casino-guide" element={
-              <CasinoGuidePage />
+              <CasinoGuidePage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/support" element={
-              <SupportPage />
+              <SupportPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
             <Route path="/calculator" element={
-              <CalculatorPage />
+              <CalculatorPage sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             } />
           </Routes>
         </AnimatePresence>
+        </div>
 
         {/* Chat Support - Available after auth */}
         <ChatButton />

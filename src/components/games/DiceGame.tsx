@@ -42,6 +42,7 @@ interface GameStats {
 
 export default function DiceGame() {
   const { user, wallet, refreshWallet, updateBalance } = useAuth();
+  const [betHistory, setBetHistory] = useState<BetHistoryItem[]>([]);
   const [selectedDice, setSelectedDice] = useState(4);
   const [betAmount, setBetAmount] = useState('1');
   const [isRolling, setIsRolling] = useState(false);

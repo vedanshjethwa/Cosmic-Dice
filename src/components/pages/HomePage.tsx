@@ -120,11 +120,15 @@ const gameCards = [
   },
 ];
 
-export function HomePage() {
+interface HomePageProps {
+  sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
+}
+
+export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
   const navigate = useNavigate();
   const { user, wallet } = useAuth();
   const { setIsOpen: setChatOpen } = useChatStore();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [walletOpen, setWalletOpen] = useState(false);
   const [redeemOpen, setRedeemOpen] = useState(false);
@@ -155,18 +159,6 @@ export function HomePage() {
 
   return (
     <>
-      {/* Sidebar */}
-      <Sidebar
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        onWalletClick={() => navigate('/wallet')}
-        onWithdrawalClick={() => navigate('/withdrawal')}
-        onDepositClick={() => navigate('/deposit')}
-        currentPath="/"
-      />
-
-      {/* Main Content - No Sidebar on Homepage */}
-      <div className={`min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
         {/* Top Navigation */}
         <motion.header
           initial={{ y: -100, opacity: 0 }}
@@ -281,7 +273,7 @@ export function HomePage() {
               </div>
             </motion.section>
 
-            {/* Popular Games Section */}
+            {/* All Games Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -290,11 +282,11 @@ export function HomePage() {
             >
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-3xl font-bold text-white flex items-center gap-2">
-                  <TrendingUp className="text-blue-400" />
-                  Popular Games
+                  <Gamepad2 className="text-blue-400" />
+                  All Games ({filteredGames.length})
                 </h3>
                 <button
-                  onClick={() => navigate('/popular')}
+                  onClick={() => navigate('/all-games')}
                   className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 border border-blue-500/30 flex items-center gap-2 rounded-xl"
                 >
                   View All
@@ -302,8 +294,25 @@ export function HomePage() {
                 </button>
               </div>
               
+              {/* Category Filters */}
+              <div className="flex gap-3 mb-8 overflow-x-auto pb-2 games-scroll">
+                {allCategories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-6 py-3 font-medium whitespace-nowrap transition-all shadow-lg rounded-xl ${
+                      selectedCategory === category
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-blue-500/30'
+                        : 'bg-[#132F4C] text-gray-300 hover:bg-blue-600/20 border border-blue-500/20'
+                    }`}
+                  >
+                    {category === 'all' ? 'All Games' : category}
+                  </button>
+                ))}
+              </div>
+              
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
-                {popularGames.slice(0, 4).map((game, index) => (
+                {filteredGames.slice(0, 8).map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
               </div>
@@ -311,7 +320,7 @@ export function HomePage() {
               {/* Section Footer */}
               <div className="mt-8 pt-6 border-t border-blue-500/20">
                 <div className="text-center text-gray-400 text-sm">
-                  <p>Popular games are updated based on player activity and ratings</p>
+                  <p>Explore our complete collection of cosmic gaming experiences</p>
                 </div>
               </div>
             </motion.section>
@@ -344,7 +353,7 @@ export function HomePage() {
               </div>
             </motion.section>
 
-            {/* All Games Section */}
+            {/* Popular Games Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -352,9 +361,12 @@ export function HomePage() {
               className="mb-12"
             >
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-3xl font-bold text-white">All Games ({filteredGames.length})</h3>
+                <h3 className="text-3xl font-bold text-white flex items-center gap-2">
+                  <TrendingUp className="text-blue-400" />
+                  Popular Games
+                </h3>
                 <button
-                  onClick={() => navigate('/all-games')}
+                  onClick={() => navigate('/popular')}
                   className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 border border-blue-500/30 flex items-center gap-2 rounded-xl"
                 >
                   View All
@@ -362,74 +374,16 @@ export function HomePage() {
                 </button>
               </div>
 
-              {/* Category Filters */}
-              <div className="flex gap-3 mb-8 overflow-x-auto pb-2 games-scroll">
-                {allCategories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-6 py-3 font-medium whitespace-nowrap transition-all shadow-lg rounded-xl ${
-                      selectedCategory === category
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-blue-500/30'
-                        : 'bg-[#132F4C] text-gray-300 hover:bg-blue-600/20 border border-blue-500/20'
-                    }`}
-                  >
-                    {category === 'all' ? 'All Games' : category}
-                  </button>
-                ))}
-              </div>
-              
-              {/* Games Carousel */}
-              <div className="relative">
-                <div className="overflow-hidden">
-                  <div 
-                    className="flex transition-transform duration-500 ease-in-out"
-                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                  >
-                    {Array.from({ length: Math.ceil(filteredGames.length / 4) }).map((_, slideIndex) => (
-                      <div key={slideIndex} className="min-w-full">
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
-                          {filteredGames.slice(slideIndex * 4, (slideIndex + 1) * 4).map((game, index) => (
-                            <EnhancedGameCard key={game.route} game={game} index={index} />
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                {/* Navigation Arrows */}
-                <button
-                  onClick={prevSlide}
-                  className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 p-3 border border-blue-500/30 transition-all rounded-xl"
-                >
-                  <ChevronLeft size={24} />
-                </button>
-                <button
-                  onClick={nextSlide}
-                  className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 p-3 border border-blue-500/30 transition-all rounded-xl"
-                >
-                  <ChevronRight size={24} />
-                </button>
-              </div>
-              
-              {/* Slide Indicators */}
-              <div className="flex justify-center mt-6 gap-2">
-                {Array.from({ length: Math.ceil(filteredGames.length / 4) }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-3 h-3 transition-all rounded-full ${
-                      currentSlide === index ? 'bg-blue-400' : 'bg-gray-600'
-                    }`}
-                  />
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
+                {popularGames.slice(0, 4).map((game, index) => (
+                  <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
               </div>
               
               {/* Section Footer */}
               <div className="mt-8 pt-6 border-t border-blue-500/20">
                 <div className="text-center text-gray-400 text-sm">
-                  <p>Explore our complete collection of cosmic gaming experiences</p>
+                  <p>Popular games are updated based on player activity and ratings</p>
                 </div>
               </div>
             </motion.section>
@@ -465,7 +419,6 @@ export function HomePage() {
 
         {/* Footer */}
         <Footer />
-      </div>
 
       {/* Modals and Overlays */}
       <SearchSystem

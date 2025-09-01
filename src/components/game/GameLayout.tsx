@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Menu, Home, RotateCcw, Share2, HelpCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
-import { Sidebar } from '../Sidebar';
+import { Footer } from '../Footer';
 
 interface GameLayoutProps {
   gameTitle: string;
@@ -11,6 +11,8 @@ interface GameLayoutProps {
   onRestart?: () => void;
   showRestart?: boolean;
   onHelp?: () => void;
+  sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
 }
 
 export function GameLayout({ 
@@ -18,11 +20,12 @@ export function GameLayout({
   children, 
   onRestart, 
   showRestart = false,
-  onHelp 
+  onHelp,
+  sidebarOpen,
+  setSidebarOpen
 }: GameLayoutProps) {
   const navigate = useNavigate();
   const { wallet } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleBack = () => {
     navigate('/');
@@ -46,19 +49,7 @@ export function GameLayout({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
-      {/* Sidebar - Only visible in game pages */}
-      <Sidebar
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        onWalletClick={() => navigate('/wallet')}
-        onWithdrawalClick={() => navigate('/withdrawal')}
-        onDepositClick={() => navigate('/deposit')}
-        currentPath={window.location.pathname}
-      />
-
-      {/* Main Content */}
-      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
+    <>
         {/* Game Navigation Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -139,7 +130,9 @@ export function GameLayout({
         <div className="relative">
           {children}
         </div>
-      </div>
-    </div>
+        
+        {/* Footer */}
+        <Footer />
+    </>
   );
 }
