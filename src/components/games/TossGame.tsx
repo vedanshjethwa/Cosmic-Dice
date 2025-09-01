@@ -146,7 +146,8 @@ export default function TossGame() {
   };
 
   return (
-    <div className="p-6">
+    <>
+      <div className="p-4">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Coin Section */}
@@ -415,9 +416,10 @@ export default function TossGame() {
           </div>
         </div>
       </div>
-    </div>
-    
-    {/* Game Footer */}
-    <Footer />
+      </div>
+      
+      {/* Game Footer */}
+      <Footer />
+    </>
   );
 }

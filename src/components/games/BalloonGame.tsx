@@ -154,6 +154,7 @@ export default function BalloonGame() {
   return (
     <>
       <div className="p-6">
+      <div className="p-6">
       <div className="max-w-5xl mx-auto">
         <div className="bg-[#1A2634] rounded-3xl p-8 shadow-2xl border border-blue-500/20 relative">
           {showResult && (
@@ -409,6 +410,7 @@ export default function BalloonGame() {
             </div>
           </div>
         </div>
+      </div>
       </div>
       
       {/* Game Footer */}
