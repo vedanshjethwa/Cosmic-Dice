@@ -183,7 +183,8 @@ export default function CardGame() {
   };
 
   return (
-    <div className="p-4">
+    <>
+      <div className="p-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
           <h2 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 text-transparent bg-clip-text mb-2">
@@ -451,9 +452,9 @@ export default function CardGame() {
           </div>
         </div>
       </div>
-    </div>
-    
-    {/* Game Footer */}
-    <Footer />
+      
+      {/* Game Footer */}
+      <Footer />
+    </>
   );
 }

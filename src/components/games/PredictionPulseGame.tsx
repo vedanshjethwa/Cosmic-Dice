@@ -50,7 +50,8 @@ export default function PredictionPulseGame() {
   }, [betAmount, user, refreshWallet, position]);
 
   return (
-    <div className="p-6">
+    <>
+      <div className="p-6">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Game Area */}
@@ -223,9 +224,9 @@ export default function PredictionPulseGame() {
           </div>
         </div>
       </div>
-    </div>
-    
-    {/* Game Footer */}
-    <Footer />
+      
+      {/* Game Footer */}
+      <Footer />
+    </>
   );
 }
