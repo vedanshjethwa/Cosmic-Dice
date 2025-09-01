@@ -427,6 +427,9 @@ export default function BalloonGame() {
 
         {/* Game Footer */}
         <Footer />
+        
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );

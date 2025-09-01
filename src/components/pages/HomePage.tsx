@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
-import { Sidebar } from '../Sidebar';
 import {
   Search,
   User,
@@ -26,7 +25,6 @@ import { RedeemModal } from '../RedeemModal';
 import { ScratchCard } from '../ScratchCard';
 import { FeedbackModal } from '../FeedbackModal';
 import { GameGrid } from '../GameGrid';
-import { StatsSection } from '../StatsSection';
 import { Footer } from '../Footer';
 import { useChatStore } from '../ChatSupport/ChatStore';
 
@@ -138,6 +136,45 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Featured offers data matching the screenshot
+  const featuredOffers = [
+    {
+      id: 1,
+      type: 'COSMIC',
+      title: 'Get 10% free on your first recharge',
+      buttonText: 'Claim Now',
+      color: 'from-blue-600 to-blue-800'
+    },
+    {
+      id: 2,
+      type: 'SPECIAL',
+      title: 'Earn 2x points this weekend',
+      buttonText: 'Claim Now',
+      color: 'from-purple-600 to-purple-800'
+    },
+    {
+      id: 3,
+      type: 'LIMITED',
+      title: 'Exclusive 50% off on all games',
+      buttonText: 'Claim Now',
+      color: 'from-green-600 to-green-800'
+    },
+    {
+      id: 4,
+      type: 'GIVEAWAY',
+      title: 'Win a free game every week',
+      buttonText: 'Claim Now',
+      color: 'from-orange-600 to-orange-800'
+    }
+  ];
+
+  // Auto-advance carousel
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % featuredOffers.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [featuredOffers.length]);
   const allCategories = ['all', 'Strategy', 'Luck', 'Risk', 'Adventure', 'Timing'];
 
   // Filter games based on category
@@ -239,36 +276,62 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
         {/* Main Content Area */}
         <main className="p-4 lg:p-8">
           <div className="max-w-7xl mx-auto">
-            {/* Big Banner Section */}
+            {/* Featured Offers Banner - Matching Screenshot */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="mb-12"
             >
-              <div className="relative h-80 lg:h-96 overflow-hidden shadow-2xl rounded-3xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=1200&h=400"
-                  alt="Cosmic Gaming"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-start p-8">
-                  <div className="text-white max-w-lg">
-                    <h2 className="text-4xl lg:text-5xl font-bold mb-4">Welcome to Cosmic Gaming</h2>
-                    <p className="text-xl mb-6 text-gray-200">Experience the future of online gaming with our cosmic collection</p>
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="flex items-center gap-2 bg-green-500/20 px-4 py-2 border border-green-500/30">
-                        <div className="w-2 h-2 bg-green-400 animate-pulse"></div>
-                        <span className="text-green-400 font-medium">24/7 Live Support</span>
-                        <Headphones size={16} className="text-green-400" />
+              <div className="bg-[#132F4C] rounded-2xl p-6 border border-blue-500/20">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-white">Featured Offers</h2>
+                  <button 
+                    onClick={() => navigate('/offers')}
+                    className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
+                  >
+                    View All →
+                  </button>
+                </div>
+                
+                {/* Carousel Container */}
+                <div className="relative overflow-hidden rounded-xl">
+                  <div 
+                    className="flex transition-transform duration-500 ease-in-out"
+                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                  >
+                    {featuredOffers.map((offer) => (
+                      <div key={offer.id} className="w-full flex-shrink-0">
+                        <div className={`bg-gradient-to-r ${offer.color} rounded-xl p-6 text-white relative overflow-hidden`}>
+                          <div className="absolute top-4 right-4">
+                            <img 
+                              src="https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&q=80&w=100&h=100"
+                              alt="Offer"
+                              className="w-16 h-16 rounded-lg opacity-80"
+                            />
+                          </div>
+                          <div className="max-w-md">
+                            <div className="text-sm font-medium mb-2 opacity-90">{offer.type}</div>
+                            <h3 className="text-xl font-bold mb-4">{offer.title}</h3>
+                            <button className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                              {offer.buttonText}
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <button
-                      onClick={() => navigate('/all-games')}
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg hover:shadow-blue-500/30"
-                    >
-                      Start Playing
-                    </button>
+                    ))}
+                  </div>
+                  
+                  {/* Carousel Indicators */}
+                  <div className="flex justify-center gap-2 mt-4">
+                    {featuredOffers.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        className={`w-2 h-2 rounded-full transition-colors ${
+                          currentSlide === index ? 'bg-blue-400' : 'bg-gray-600'
+                        }`}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
@@ -317,13 +380,6 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
               </div>
-              
-              {/* Section Footer */}
-              <div className="mt-8 pt-6 border-t border-blue-500/20">
-                <div className="text-center text-gray-400 text-sm">
-                  <p>Explore our complete collection of cosmic gaming experiences</p>
-                </div>
-              </div>
             </motion.section>
 
             {/* Featured Games Section */}
@@ -344,13 +400,6 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
                 {featuredGames.map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
-              </div>
-              
-              {/* Section Footer */}
-              <div className="mt-8 pt-6 border-t border-blue-500/20">
-                <div className="text-center text-gray-400 text-sm">
-                  <p>Featured games showcase our latest and most innovative experiences</p>
-                </div>
               </div>
             </motion.section>
 
@@ -379,13 +428,6 @@ export function HomePage({ sidebarOpen, setSidebarOpen }: HomePageProps) {
                 {popularGames.slice(0, 4).map((game, index) => (
                   <EnhancedGameCard key={game.route} game={game} index={index} />
                 ))}
-              </div>
-              
-              {/* Section Footer */}
-              <div className="mt-8 pt-6 border-t border-blue-500/20">
-                <div className="text-center text-gray-400 text-sm">
-                  <p>Popular games are updated based on player activity and ratings</p>
-                </div>
               </div>
             </motion.section>
 

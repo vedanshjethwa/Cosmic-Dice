@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DivideCircle, Plus, Info, Minus } from 'lucide-react';
+import { Divide, Plus, Info, Minus } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { GameSpecificBets } from '../shared/GameSpecificBets';
 import { Footer } from '../Footer';
@@ -199,15 +199,15 @@ export default function DiceGame() {
                 <div className="flex gap-1.5 md:gap-2 items-center">
                   <button
                     onClick={() => adjustBet(0.5)}
-                    className="bg-[#0f172a] hover:bg-[#1a2942] border border-[#1a2942] rounded p-2 md:p-3 transition-colors"
+                    className="bg-[#0f172a] hover:bg-[#1a2942] border border-[#1a2942] rounded-xl p-2 md:p-3 transition-colors"
                     title="Half Bet"
                     disabled={isRolling}
                   >
-                    <DivideCircle className="w-4 h-4 md:w-5 md:h-5" />
+                    <Divide className="w-4 h-4 md:w-5 md:h-5" />
                   </button>
                   <button
                     onClick={() => adjustBet(Math.max(1, betAmount - 10))}
-                    className="bg-[#0f172a] hover:bg-[#1a2942] border border-[#1a2942] rounded p-2 md:p-3 transition-colors"
+                    className="bg-[#0f172a] hover:bg-[#1a2942] border border-[#1a2942] rounded-xl p-2 md:p-3 transition-colors"
                     title="Decrease Bet"
                     disabled={isRolling}
                   >
@@ -224,7 +224,7 @@ export default function DiceGame() {
                         setBetAmount(Math.min(value, Math.min(MAX_BET, currentBalance)).toString());
                       }
                     }}
-                    className="bg-[#0f172a] border border-[#1a2942] rounded px-3 py-2 md:px-4 md:py-3 w-full text-base md:text-lg focus:outline-none focus:border-[#3b82f6] transition-colors"
+                    className="bg-[#0f172a] border border-[#1a2942] rounded-xl px-3 py-2 md:px-4 md:py-3 w-full text-base md:text-lg focus:outline-none focus:border-[#3b82f6] transition-colors"
                     placeholder="Bet Amount"
                     min="1"
                     max={Math.min(MAX_BET, currentBalance)}
@@ -233,7 +233,7 @@ export default function DiceGame() {
                   />
                   <button
                     onClick={() => adjustBet(2)}
-                    className="bg-[#0f172a] hover:bg-[#1a2942] border border-[#1a2942] rounded p-2 md:p-3 transition-colors"
+                    className="bg-[#0f172a] hover:bg-[#1a2942] border border-[#1a2942] rounded-xl p-2 md:p-3 transition-colors"
                     title="Double Bet"
                     disabled={isRolling}
                   >
@@ -256,7 +256,7 @@ export default function DiceGame() {
                       key={dice}
                       onClick={() => setSelectedDice(dice)}
                       disabled={isRolling}
-                      className={`w-10 h-10 md:w-14 md:h-14 rounded-lg bg-[#0f172a] border border-[#1a2942] flex items-center justify-center transition-all ${
+                      className={`w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#0f172a] border border-[#1a2942] flex items-center justify-center transition-all ${
                         selectedDice === dice
                           ? 'ring-2 ring-[#3b82f6] shadow-lg shadow-[#3b82f6]/20 scale-110'
                           : !isRolling ? 'hover:bg-[#1a2942] hover:scale-105' : 'opacity-50'
@@ -279,9 +279,9 @@ export default function DiceGame() {
                   parseFloat(betAmount) <= 0 ||
                   parseFloat(betAmount) > MAX_BET
                 }
-                className="w-full bg-[#3b82f6] hover:bg-[#60a5fa] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 md:py-4 rounded-lg transition-colors text-base md:text-lg relative group"
+                className="w-full bg-[#3b82f6] hover:bg-[#60a5fa] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 md:py-4 rounded-xl transition-colors text-base md:text-lg relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
                 {isRolling ? 'ROLLING...' : 'ROLL DICE'}
               </button>
             </div>
@@ -292,13 +292,13 @@ export default function DiceGame() {
         <Footer />
 
         {/* Recent Bets History */}
-        <div className="mt-4 bg-[#0f172a] rounded-xl p-6 border border-[#1a2942]">
+        <div className="mt-4 bg-[#0f172a] rounded-2xl p-6 border border-[#1a2942]">
           <h2 className="text-xl font-bold mb-4 text-[#3b82f6]">Recent Bets</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {betHistory.slice(-6).reverse().map((bet, index) => (
               <div 
                 key={index}
-                className={`p-4 rounded-lg ${bet.isWin ? 'bg-green-500/10 border border-green-500/20' : 'bg-red-500/10 border border-red-500/20'}`}
+                className={`p-4 rounded-xl ${bet.isWin ? 'bg-green-500/10 border border-green-500/20' : 'bg-red-500/10 border border-red-500/20'}`}
               >
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-lg font-bold">{bet.multiplier.toFixed(2)}×</span>
@@ -315,20 +315,20 @@ export default function DiceGame() {
         </div>
         
         {/* Stats Summary */}
-        <div className="mt-4 bg-[#0f172a] rounded-xl p-6 border border-[#1a2942]">
+        <div className="mt-4 bg-[#0f172a] rounded-2xl p-6 border border-[#1a2942]">
           <h2 className="text-xl font-bold mb-4 text-[#3b82f6]">Stats</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-[#1a2942] rounded-lg p-4">
+            <div className="bg-[#1a2942] rounded-xl p-4">
               <div className="text-sm text-gray-400">Total Profit</div>
               <div className={`text-xl font-bold ${stats.totalProfit >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                 ₹{stats.totalProfit.toFixed(2)}
               </div>
             </div>
-            <div className="bg-[#1a2942] rounded-lg p-4">
+            <div className="bg-[#1a2942] rounded-xl p-4">
               <div className="text-sm text-gray-400">Wins</div>
               <div className="text-xl font-bold text-green-500">{stats.totalWins}</div>
             </div>
-            <div className="bg-[#1a2942] rounded-lg p-4">
+            <div className="bg-[#1a2942] rounded-xl p-4">
               <div className="text-sm text-gray-400">Losses</div>
               <div className="text-xl font-bold text-red-500">{stats.totalLosses}</div>
             </div>
@@ -336,13 +336,13 @@ export default function DiceGame() {
         </div>
 
         {/* Game Info Section */}
-        <div className="mt-4 bg-[#0f172a] rounded-xl p-6 border border-[#1a2942]">
+        <div className="mt-4 bg-[#0f172a] rounded-2xl p-6 border border-[#1a2942]">
           <div className="flex items-center gap-3 mb-4">
             <Info className="w-6 h-6 text-blue-400" />
             <h3 className="text-xl font-bold text-white">How to Play Cosmic Dice</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#1a2942] rounded-lg p-4">
+            <div className="bg-[#1a2942] rounded-xl p-4">
               <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Choose your bet amount</li>
@@ -352,7 +352,7 @@ export default function DiceGame() {
                 <li>• No match = Lose bet</li>
               </ul>
             </div>
-            <div className="bg-[#1a2942] rounded-lg p-4">
+            <div className="bg-[#1a2942] rounded-xl p-4">
               <h4 className="font-bold text-green-400 mb-2">Strategy Tips</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Start with small bets</li>
@@ -362,7 +362,7 @@ export default function DiceGame() {
                 <li>• Play responsibly</li>
               </ul>
             </div>
-            <div className="bg-[#1a2942] rounded-lg p-4">
+            <div className="bg-[#1a2942] rounded-xl p-4">
               <h4 className="font-bold text-purple-400 mb-2">Betting Tiers</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• ₹1-10: 50% win chance</li>
@@ -381,6 +381,9 @@ export default function DiceGame() {
             <p>Cosmic Dice uses provably fair algorithms for transparent gameplay</p>
           </div>
         </div>
+        
+        {/* Footer */}
+        <Footer />
       </div>
       </div>
     </div>

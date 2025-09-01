@@ -228,6 +228,9 @@ export default function PredictionPulseGame() {
       
       {/* Game Footer */}
       <Footer />
+      
+      {/* Footer */}
+      <Footer />
     </>
   );
 }

@@ -419,6 +419,9 @@ export default function LimboGame() {
           </div>
         </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </>
   );
 }

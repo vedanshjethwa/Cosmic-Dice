@@ -420,6 +420,9 @@ export default function TossGame() {
       
       {/* Game Footer */}
       <Footer />
+      
+      {/* Footer */}
+      <Footer />
     </>
   );
 }

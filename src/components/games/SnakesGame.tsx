@@ -54,6 +54,9 @@ export default function SnakesGame() {
       
       {/* Game Footer */}
       <Footer />
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

@@ -335,6 +335,9 @@ export default function MinesweeperGame() {
       
       {/* Game Footer */}
       <Footer />
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

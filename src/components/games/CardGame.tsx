@@ -395,6 +395,9 @@ export default function CardGame() {
 
           {/* Game Footer */}
           <Footer />
+          
+          {/* Footer */}
+          <Footer />
         </div>
       </div>
     </>
