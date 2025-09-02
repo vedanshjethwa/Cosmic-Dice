@@ -471,6 +471,7 @@ export function HomePage() {
               transition={{ delay: 0.3 }}
               className="mb-12"
             >
+              <div className="flex items-center justify-between mb-6">
                 <h3 className="text-3xl font-bold text-white flex items-center gap-2">
                   <TrendingUp className="text-blue-400" />
                   Popular Games
@@ -482,6 +483,7 @@ export function HomePage() {
                   View All
                   <ChevronRight size={16} />
                 </button>
+              </div>
               </motion.section>
 
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
