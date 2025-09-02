@@ -181,36 +181,11 @@ export default function BalloonGame() {
                       animate-balloon-float
                     `}
                   >
-                    <div
-                      className={`
-                        absolute inset-0
-                        bg-gradient-to-b ${balloon.color}
-                        rounded-full
-                        shadow-[0_8px_24px_rgba(0,0,0,0.4)]
-                        before:content-['']
-                        before:absolute
-                        before:inset-[8%]
-                        before:bg-gradient-to-tl
-                        before:from-transparent
-                        before:to-${colorObj?.shine || 'white'}
-                        before:opacity-40
-                        before:rounded-full
-                        after:content-['']
-                        after:absolute
-                        after:w-4
-                        after:h-4
-                        after:rounded-full
-                        after:bg-gradient-to-br
-                        after:from-white
-                        after:to-transparent
-                        after:opacity-60
-                        after:top-[15%]
-                        after:left-[15%]
-                        group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)]
-                        group-hover:before:opacity-50
-                        transition-all duration-300
-                      `}
-                    >
+                    <div className={`absolute inset-0 bg-gradient-to-b ${balloon.color} rounded-full shadow-[0_8px_24px_rgba(0,0,0,0.4)] group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)] transition-all duration-300 relative`}>
+                      {/* Balloon shine effect */}
+                      <div className="absolute inset-[8%] bg-gradient-to-tl from-transparent to-white opacity-40 rounded-full" />
+                      {/* Balloon highlight */}
+                      <div className="absolute w-4 h-4 rounded-full bg-gradient-to-br from-white to-transparent opacity-60 top-[15%] left-[15%]" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-full opacity-75"></div>
                       
                       {!balloon.revealed && isPlaying && (
@@ -227,18 +202,8 @@ export default function BalloonGame() {
                       )}
                     </div>
 
-                    <div className="absolute -bottom-6 sm:-bottom-8 left-1/2 w-[1px] h-6 sm:h-8
-                      transition-all duration-300 transform-gpu origin-top
-                      after:content-['']
-                      after:absolute
-                      after:w-full
-                      after:h-full
-                      after:bg-gradient-to-b
-                      after:from-gray-300
-                      after:to-gray-400
-                      after:animate-string-sway
-                      group-hover:h-8 sm:group-hover:h-10
-                    "></div>
+                    {/* Balloon string */}
+                    <div className="absolute -bottom-6 sm:-bottom-8 left-1/2 w-[2px] h-6 sm:h-8 bg-gradient-to-b from-gray-300 to-gray-400 transition-all duration-300 transform-gpu origin-top group-hover:h-8 sm:group-hover:h-10 animate-string-sway" />
                   </div>
                 </button>
               );

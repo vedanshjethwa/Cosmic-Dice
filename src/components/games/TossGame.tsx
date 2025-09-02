@@ -149,7 +149,7 @@ export default function TossGame() {
                 <div
                   className={`w-64 h-64 md:w-80 md:h-80 flex items-center justify-center shadow-2xl transform transition-all duration-1000 relative overflow-hidden ${
                     isFlipping ? 'animate-spin' : ''
-                  }`}
+                  } rounded-full`}
                   style={{
                     boxShadow: '0 25px 50px -12px rgba(59, 130, 246, 0.4)',
                   }}
@@ -157,14 +157,14 @@ export default function TossGame() {
                   <img
                     src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=320&h=320"
                     alt="Heads"
-                    className={`absolute w-full h-full object-cover border-8 border-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-opacity duration-500 ${
+                    className={`absolute w-full h-full object-cover rounded-full border-8 border-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-opacity duration-500 ${
                       result === 'heads' || result === null ? 'opacity-100' : 'opacity-0'
                     }`}
                   />
                   <img
                     src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=320&h=320"
                     alt="Tails"
-                    className={`absolute w-full h-full object-cover border-8 border-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-opacity duration-500 ${
+                    className={`absolute w-full h-full object-cover rounded-full border-8 border-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-opacity duration-500 ${
                       result === 'tails' ? 'opacity-100' : 'opacity-0'
                     }`}
                   />
@@ -188,12 +188,12 @@ export default function TossGame() {
                     selectedSide === 'heads'
                       ? 'border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.6)]'
                       : 'border-gray-600 group-hover:border-blue-400/50'
-                  }`}
+                  } rounded-full`}
                 >
                   <img
                     src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=96&h=96"
                     alt="Heads"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover rounded-full"
                   />
                 </div>
               </button>
@@ -211,12 +211,12 @@ export default function TossGame() {
                     selectedSide === 'tails'
                       ? 'border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.6)]'
                       : 'border-gray-600 group-hover:border-blue-400/50'
-                  }`}
+                  } rounded-full`}
                 >
                   <img
                     src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=96&h=96"
                     alt="Tails"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover rounded-full"
                   />
                 </div>
               </button>

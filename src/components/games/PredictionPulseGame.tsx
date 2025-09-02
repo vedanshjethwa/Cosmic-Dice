@@ -48,17 +48,17 @@ export default function PredictionPulseGame() {
 
             {/* Pulse Bar */}
             <div className="h-32 flex items-center justify-center relative mb-8">
-              <div className="w-full h-6 bg-[#334155] relative border-2 border-blue-500/30 shadow-lg">
+              <div className="w-full h-6 bg-[#334155] relative border-2 border-blue-500/30 shadow-lg rounded-full overflow-hidden">
                 {/* Green Zone */}
-                <div className="absolute inset-y-0 bg-gradient-to-r from-green-400/30 to-green-500/30 left-[40%] right-[40%]" />
+                <div className="absolute inset-y-0 bg-gradient-to-r from-green-400/30 to-green-500/30 left-[40%] right-[40%] rounded-full" />
                 
                 {/* Yellow Zones */}
-                <div className="absolute inset-y-0 bg-gradient-to-r from-yellow-400/30 to-yellow-500/30 left-[30%] right-[60%]" />
-                <div className="absolute inset-y-0 bg-gradient-to-r from-yellow-400/30 to-yellow-500/30 left-[60%] right-[30%]" />
+                <div className="absolute inset-y-0 bg-gradient-to-r from-yellow-400/30 to-yellow-500/30 left-[30%] right-[60%] rounded-full" />
+                <div className="absolute inset-y-0 bg-gradient-to-r from-yellow-400/30 to-yellow-500/30 left-[60%] right-[30%] rounded-full" />
                 
                 {gameState === 'running' && (
                   <div 
-                    className="absolute top-1/2 -translate-y-1/2 w-8 h-8 bg-gradient-to-r from-blue-400 to-blue-500 shadow-lg shadow-blue-400/50 transform -translate-x-1/2 animate-pulse"
+                    className="absolute top-1/2 -translate-y-1/2 w-8 h-8 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full shadow-lg shadow-blue-400/50 transform -translate-x-1/2 animate-spin-pulse"
                     style={{ left: `${position}%` }}
                   />
                 )}

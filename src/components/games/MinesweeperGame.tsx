@@ -93,13 +93,13 @@ export default function MinesweeperGame() {
           {/* Game Grid */}
           <div className="lg:col-span-2">
             <div className="cosmic-card p-8 shadow-2xl">
-              <div className="grid grid-cols-5 gap-3 mb-6">
+              <div className="grid grid-cols-5 gap-2 mb-6">
                 {Array(25).fill(null).map((_, index) => (
                   <button
                     key={index}
                     onClick={() => revealTile(index)}
                     disabled={!gameActive || revealedTiles[index]}
-                    className={`aspect-square border-2 transition-all duration-300 flex items-center justify-center text-lg font-bold relative overflow-hidden group ${
+                    className={`w-12 h-12 border-2 transition-all duration-300 flex items-center justify-center text-sm font-bold relative overflow-hidden group ${
                       revealedTiles[index]
                         ? gameGrid[index]
                           ? 'bg-gradient-to-br from-red-500 to-red-700 border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.5)]'
@@ -110,12 +110,12 @@ export default function MinesweeperGame() {
                     <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     {revealedTiles[index] ? (
                       gameGrid[index] ? (
-                        <span className="text-2xl">💣</span>
+                        <span className="text-lg">💣</span>
                       ) : (
-                        <span className="text-2xl">💎</span>
+                        <span className="text-lg">💎</span>
                       )
                     ) : (
-                      <span className="text-blue-400 opacity-70 font-bold">{index + 1}</span>
+                      <span className="text-blue-400 opacity-70 font-bold text-xs">{index + 1}</span>
                     )}
                   </button>
                 ))}

@@ -137,7 +137,7 @@ export default function DiceGame() {
             <div className="dice-container scale-75 md:scale-100">
               <div
                 className={`dice ${
-                  isRolling ? 'rolling' : diceResult ? `show-${diceResult}` : ''
+                  isRolling ? 'rolling-fast' : diceResult ? `show-${diceResult}` : ''
                 }`}
               >
                 <div className="dice-face front">

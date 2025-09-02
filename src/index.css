@@ -169,8 +169,18 @@ img {
   transition: transform 0.1s linear;
 }
 
-.dice.rolling {
-  animation: rolling 0.2s linear;
+.dice.rolling-fast {
+  animation: rolling-fast 0.8s ease-out;
+}
+
+@keyframes spin-pulse {
+  0% { transform: translateX(-50%) rotate(0deg) scale(1); }
+  50% { transform: translateX(-50%) rotate(180deg) scale(1.1); }
+  100% { transform: translateX(-50%) rotate(360deg) scale(1); }
+}
+
+.animate-spin-pulse {
+  animation: spin-pulse 1s linear infinite;
 }
 
 .dice-face {
@@ -357,12 +367,12 @@ img {
   grid-row: 3;
 }
 
-@keyframes rolling {
+@keyframes rolling-fast {
   0% { transform: rotateX(0) rotateY(0) rotateZ(0); }
-  25% { transform: rotateX(360deg) rotateY(180deg) rotateZ(90deg); }
-  50% { transform: rotateX(720deg) rotateY(360deg) rotateZ(180deg); }
-  75% { transform: rotateX(1080deg) rotateY(540deg) rotateZ(270deg); }
-  100% { transform: rotateX(1440deg) rotateY(720deg) rotateZ(360deg); }
+  25% { transform: rotateX(720deg) rotateY(360deg) rotateZ(180deg); }
+  50% { transform: rotateX(1440deg) rotateY(720deg) rotateZ(360deg); }
+  75% { transform: rotateX(2160deg) rotateY(1080deg) rotateZ(540deg); }
+  100% { transform: rotateX(2880deg) rotateY(1440deg) rotateZ(720deg); }
 }
 
 .show-1 { transform: rotateX(0) rotateY(0); }

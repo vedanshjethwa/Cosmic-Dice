@@ -278,6 +278,50 @@ export default function RPSGame() {
                       type="number"
                       value={betAmount.toFixed(2)}
                       onChange={(e) => handleBetChange(e.target.value)}
+                      className="w-full bg-[#334155] text-white text-center py-4 px-6 rounded-lg outline-none border border-blue-500/30 focus:border-blue-400/50 transition-all text-xl font-bold"
+                      min="0"
+                      step="0.01"
+                      max={Math.min(100000, currentBalance)}
+                    />
+                  </div>
+                  
+                  <button
+                    onClick={incrementBet}
+                    className="w-12 h-12 cosmic-card hover:bg-[#475569] border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group"
+                  >
+                    <Plus className="w-5 h-5 text-blue-400 group-hover:text-blue-300" />
+                  </button>
+                </div>
+
+                <div className="flex justify-between text-gray-300">
+                  <span>Potential Win</span>
+                  <span className="text-green-400 font-bold">₹{potentialWin.toFixed(2)}</span>
+                </div>
+
+                <div className="text-sm text-gray-400 text-center">
+                  Win Chance: {(getWinChance(betAmount) * 100).toFixed(1)}%
+                </div>
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="cosmic-card p-6 shadow-xl">
+              <h3 className="text-xl font-bold text-white mb-6">Place Your Bet</h3>
+              
+              <div className="space-y-6">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={decrementBet}
+                    className="w-12 h-12 cosmic-card hover:bg-[#475569] border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group"
+                  >
+                    <Minus className="w-5 h-5 text-blue-400 group-hover:text-blue-300" />
+                  </button>
+                  
+                  <div className="flex-1 relative">
+                    <input
+                      type="number"
+                      value={betAmount.toFixed(2)}
+                      onChange={(e) => handleBetChange(e.target.value)}
                       className="w-full bg-[#334155] text-white text-center py-4 px-6 outline-none border border-blue-500/30 focus:border-blue-400/50 transition-all text-xl font-bold"
                       min="0"
                       step="0.01"
@@ -417,7 +461,6 @@ export default function RPSGame() {
         </div>
       </div>
       
-      <Footer />
     </div>
   );
 }

@@ -203,12 +203,14 @@ export function Sidebar({
         }`}
       >
         {/* Header */}
-        <div className="p-4 border-b border-blue-500/30 flex items-center justify-center bg-[#334155]">
+        <div className="p-3 border-b border-blue-500/30 flex items-center justify-center bg-[#334155]">
           <button
             onClick={() => navigate('/')}
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            className="p-1 hover:bg-white/10 rounded-lg transition-colors flex items-center justify-center"
           >
-            <Menu size={24} className="text-white" />
+            <div className="text-lg font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              {isOpen ? 'COSMIC' : 'C'}
+            </div>
           </button>
         </div>
 
