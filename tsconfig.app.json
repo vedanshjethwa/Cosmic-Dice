@@ -20,5 +20,16 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "rps/src",
+    "card/src", 
+    "dice/src",
+    "limbo/src",
+    "snakes/src",
+    "toss game/src",
+    "game bollon/src",
+    "minesweeper/src",
+    "prediction-pulse/src"
+  ]
 }
