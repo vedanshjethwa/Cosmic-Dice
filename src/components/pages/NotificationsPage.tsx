@@ -1,18 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  Bell, 
-  ArrowLeft, 
-  Menu, 
-  CheckCircle, 
-  AlertTriangle, 
-  Info, 
-  Gift, 
-  X,
-  MarkAsRead,
-  Trash2
-} from 'lucide-react';
+import { Bell, ArrowLeft, Menu, CheckCircle, AlertTriangle, Info, Gift, X, BookMarked as MarkAsRead, Trash2 } from 'lucide-react';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
 
