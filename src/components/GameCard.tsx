@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Star, Users } from 'lucide-react';
+import { Star, Users, Play } from 'lucide-react';
 
 interface GameCardProps {
   title: string;
