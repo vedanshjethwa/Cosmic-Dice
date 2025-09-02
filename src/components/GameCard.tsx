@@ -46,7 +46,7 @@ export function GameCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className={`cosmic-card relative overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col ${
+      className={`cosmic-card relative overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col h-full ${
         isFeatured 
           ? 'border-yellow-500/50 hover:border-yellow-400/70 hover:shadow-yellow-500/30' 
           : ''
@@ -54,7 +54,7 @@ export function GameCard({
       onClick={handlePlay}
     >
       {/* Image Container */}
-      <div className="relative h-40 lg:h-48 overflow-hidden">
+      <div className="relative h-48 overflow-hidden flex-shrink-0">
         <img
           src={image}
           alt={title}
@@ -88,7 +88,7 @@ export function GameCard({
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col flex-1">
+      <div className="p-4 flex flex-col flex-1 min-h-0">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
             {category}
@@ -105,24 +105,25 @@ export function GameCard({
           </div>
         </div>
 
-        <h3 className="font-bold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
+        <h3 className="font-bold text-white mb-2 text-lg group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
           {title}
         </h3>
 
-        <p className="text-gray-400 text-sm mb-4 flex-1">
+        <p className="text-gray-400 text-sm mb-4 flex-1 line-clamp-2">
           {description}
         </p>
-        <div className="flex gap-2">
+        
+        <div className="flex gap-2 mt-auto">
           <button 
             onClick={handlePlay}
-            className="flex-1 cosmic-button text-white py-3 transition-all font-medium shadow-lg hover:shadow-blue-500/30 transform hover:scale-105 mt-auto"
+            className="flex-1 cosmic-button text-white py-3 transition-all font-medium shadow-lg hover:shadow-blue-500/30 transform hover:scale-105"
           >
             Play Now
           </button>
           {(isNew || isFeatured) && (
             <button
               onClick={handleShowDetails}
-              className="px-4 py-3 bg-[#475569]/20 hover:bg-[#475569]/30 text-gray-300 transition-colors text-sm border border-gray-500/30"
+              className="px-4 py-3 bg-[#475569]/20 hover:bg-[#475569]/30 text-gray-300 transition-colors text-sm border border-gray-500/30 rounded-lg"
             >
               Info
             </button>
@@ -131,7 +132,7 @@ export function GameCard({
       </div>
 
       {/* Game Footer */}
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-4 mt-auto">
         <div className="border-t border-blue-500/20 pt-3">
           <div className="flex items-center justify-between text-xs text-gray-400">
             <span>Min Bet: ₹1</span>

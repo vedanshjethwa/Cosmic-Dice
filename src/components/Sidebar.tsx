@@ -204,15 +204,12 @@ export function Sidebar({
       >
         {/* Header */}
         <div className="p-4 border-b border-blue-500/30 flex items-center justify-center bg-[#334155]">
-          <h2 
-            className={`text-lg font-bold text-white transition-all duration-300 cursor-pointer hover:scale-105 text-center ${
-              isOpen ? 'opacity-100' : 'opacity-0 lg:opacity-100'
-            }`}
-            style={{ fontFamily: "'Orbitron', sans-serif" }}
+          <button
             onClick={() => navigate('/')}
+            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
           >
-            COSMIC
-          </h2>
+            <Menu size={24} className="text-white" />
+          </button>
         </div>
 
         {/* Wallet Display */}

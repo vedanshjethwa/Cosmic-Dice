@@ -410,7 +410,7 @@ export function HomePage() {
                   style={{ transform: `translateX(-${gameCarouselIndex * 100}%)` }}
                 >
                   {Array.from({ length: Math.ceil(filteredGames.length / 4) }).map((_, slideIndex) => (
-                    <div key={slideIndex} className="min-w-full grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div key={slideIndex} className="min-w-full grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
                       {filteredGames.slice(slideIndex * 4, (slideIndex + 1) * 4).map((game, index) => (
                         <GameCard
                           key={game.route}
@@ -446,7 +446,7 @@ export function HomePage() {
                 </h3>
               </div>
               
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
                 {featuredGames.map((game, index) => (
                   <GameCard
                     key={game.route}
@@ -486,7 +486,7 @@ export function HomePage() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
                 {popularGames.slice(0, 4).map((game, index) => (
                   <GameCard
                     key={game.route}
