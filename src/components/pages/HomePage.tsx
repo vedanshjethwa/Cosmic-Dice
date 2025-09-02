@@ -465,14 +465,12 @@ export function HomePage() {
               </div>
             </motion.section>
 
-                    className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-xl border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               className="mb-12"
             >
-                    className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-xl border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
                 <h3 className="text-3xl font-bold text-white flex items-center gap-2">
                   <TrendingUp className="text-blue-400" />
                   Popular Games
@@ -484,7 +482,7 @@ export function HomePage() {
                   View All
                   <ChevronRight size={16} />
                 </button>
-              </div>
+              </motion.section>
 
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
                 {popularGames.slice(0, 4).map((game, index) => (
