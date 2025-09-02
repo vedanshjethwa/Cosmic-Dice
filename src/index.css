@@ -2,6 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global theme variables */
+:root {
+  --cosmic-bg-primary: #0F172A;
+  --cosmic-bg-secondary: #1E293B;
+  --cosmic-bg-tertiary: #334155;
+  --cosmic-blue: #3B82F6;
+  --cosmic-blue-light: #60A5FA;
+  --cosmic-blue-dark: #1D4ED8;
+  --cosmic-border: rgba(59, 130, 246, 0.2);
+  --cosmic-border-hover: rgba(59, 130, 246, 0.4);
+}
+
+/* Global rounded corners */
+* {
+  border-radius: 0.75rem !important;
+}
+
+/* Override for specific elements that need different radius */
+.rounded-none {
+  border-radius: 0 !important;
+}
+
+.rounded-sm {
+  border-radius: 0.25rem !important;
+}
+
+.rounded-md {
+  border-radius: 0.5rem !important;
+}
+
+.rounded-lg {
+  border-radius: 0.75rem !important;
+}
+
+.rounded-xl {
+  border-radius: 1rem !important;
+}
+
+.rounded-2xl {
+  border-radius: 1.5rem !important;
+}
+
+.rounded-3xl {
+  border-radius: 2rem !important;
+}
+
+/* Global background theme */
+body {
+  background: var(--cosmic-bg-primary) !important;
+  color: white;
+}
+
+/* Consistent card styling */
+.cosmic-card {
+  background: linear-gradient(135deg, var(--cosmic-bg-secondary), var(--cosmic-bg-primary));
+  border: 1px solid var(--cosmic-border);
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.cosmic-card:hover {
+  border-color: var(--cosmic-border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Consistent button styling */
+.cosmic-button {
+  background: linear-gradient(135deg, var(--cosmic-blue), var(--cosmic-blue-dark));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.cosmic-button:hover {
+  background: linear-gradient(135deg, var(--cosmic-blue-light), var(--cosmic-blue));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
 /* Performance optimizations */
 * {
   box-sizing: border-box;
@@ -22,7 +105,7 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
-  border-radius: 0.75rem;
+  border-radius: 0.75rem !important;
 }
 
 /* Optimize animations */
@@ -38,15 +121,15 @@ img {
 
 /* Global border radius for modern look */
 .rounded-modern {
-  border-radius: 1rem;
+  border-radius: 1rem !important;
 }
 
 .rounded-modern-lg {
-  border-radius: 1.5rem;
+  border-radius: 1.5rem !important;
 }
 
 .rounded-modern-xl {
-  border-radius: 2rem;
+  border-radius: 2rem !important;
 }
 
 /* Line clamp utility */

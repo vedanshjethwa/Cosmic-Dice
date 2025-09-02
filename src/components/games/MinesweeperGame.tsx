@@ -87,12 +87,12 @@ export default function MinesweeperGame() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">
+    <div className="min-h-screen bg-[#0F172A] text-white">
       <div className="max-w-7xl mx-auto p-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Game Grid */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-800/50 backdrop-blur-sm p-8 border border-blue-500/20 shadow-2xl">
+            <div className="cosmic-card p-8 shadow-2xl">
               <div className="grid grid-cols-5 gap-3 mb-6">
                 {Array(25).fill(null).map((_, index) => (
                   <button
@@ -104,7 +104,7 @@ export default function MinesweeperGame() {
                         ? gameGrid[index]
                           ? 'bg-gradient-to-br from-red-500 to-red-700 border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.5)]'
                           : 'bg-gradient-to-br from-green-500 to-green-700 border-green-400 shadow-[0_0_20px_rgba(34,197,94,0.5)]'
-                        : 'bg-gradient-to-br from-gray-700 to-gray-800 border-blue-500/30 hover:border-blue-400/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:scale-105'
+                        : 'cosmic-card border-blue-500/30 hover:border-blue-400/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:scale-105'
                     }`}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -115,7 +115,7 @@ export default function MinesweeperGame() {
                         <span className="text-2xl">💎</span>
                       )
                     ) : (
-                      <span className="text-blue-400 opacity-50">{index + 1}</span>
+                      <span className="text-blue-400 opacity-70 font-bold">{index + 1}</span>
                     )}
                   </button>
                 ))}
@@ -126,13 +126,13 @@ export default function MinesweeperGame() {
           {/* Side Panel */}
           <div className="space-y-6">
             {/* Mines Configuration */}
-            <div className="bg-gray-800/50 backdrop-blur-sm p-6 border border-blue-500/20 shadow-xl">
+            <div className="cosmic-card p-6 shadow-xl">
               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
                 🎯 Mines Configuration
               </h3>
               
               <div className="space-y-4">
-                <div className="bg-gray-900/50 p-4 border border-blue-500/20">
+                <div className="bg-[#334155] p-4 border border-blue-500/20">
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-gray-400">Mines</span>
                     <span className="text-blue-400 font-bold">{mineCount} mines</span>
@@ -144,7 +144,7 @@ export default function MinesweeperGame() {
                     value={mineCount}
                     onChange={(e) => setMineCount(parseInt(e.target.value))}
                     disabled={gameActive}
-                    className="w-full h-2 bg-gray-700 appearance-none cursor-pointer"
+                    className="w-full h-2 bg-[#475569] appearance-none cursor-pointer"
                   />
                   <div className="text-xs text-gray-400 mt-2">of 25 tiles</div>
                 </div>
@@ -152,7 +152,7 @@ export default function MinesweeperGame() {
             </div>
 
             {/* Game Status */}
-            <div className="bg-gray-800/50 backdrop-blur-sm p-6 border border-green-500/20 shadow-xl">
+            <div className="cosmic-card p-6 shadow-xl border-green-500/20">
               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
                 🟢 Game Status
               </h3>
@@ -176,7 +176,7 @@ export default function MinesweeperGame() {
             </div>
 
             {/* Bet Amount */}
-            <div className="bg-gray-800/50 backdrop-blur-sm p-6 border border-purple-500/20 shadow-xl">
+            <div className="cosmic-card p-6 shadow-xl border-purple-500/20">
               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
                 💰 Bet Amount
               </h3>
@@ -186,7 +186,7 @@ export default function MinesweeperGame() {
                   <button
                     onClick={() => setBetAmount(Math.max(1, betAmount - 10))}
                     disabled={gameActive}
-                    className="w-12 h-12 bg-gray-700 hover:bg-gray-600 border border-purple-500/30 hover:border-purple-400/50 flex items-center justify-center transition-all group disabled:opacity-50"
+                    className="w-12 h-12 cosmic-card hover:bg-[#475569] border border-purple-500/30 hover:border-purple-400/50 flex items-center justify-center transition-all group disabled:opacity-50"
                   >
                     <Minus className="w-5 h-5 text-purple-400 group-hover:text-purple-300" />
                   </button>
@@ -196,13 +196,13 @@ export default function MinesweeperGame() {
                     value={betAmount}
                     onChange={(e) => setBetAmount(Math.max(1, parseInt(e.target.value) || 1))}
                     disabled={gameActive}
-                    className="flex-1 bg-gray-700 text-white text-center py-3 px-4 border border-purple-500/30 focus:border-purple-400/50 focus:outline-none disabled:opacity-50 text-lg font-bold"
+                    className="flex-1 bg-[#334155] text-white text-center py-3 px-4 border border-purple-500/30 focus:border-purple-400/50 focus:outline-none disabled:opacity-50 text-lg font-bold"
                   />
                   
                   <button
                     onClick={() => setBetAmount(betAmount + 10)}
                     disabled={gameActive}
-                    className="w-12 h-12 bg-gray-700 hover:bg-gray-600 border border-purple-500/30 hover:border-purple-400/50 flex items-center justify-center transition-all group disabled:opacity-50"
+                    className="w-12 h-12 cosmic-card hover:bg-[#475569] border border-purple-500/30 hover:border-purple-400/50 flex items-center justify-center transition-all group disabled:opacity-50"
                   >
                     <Plus className="w-5 h-5 text-purple-400 group-hover:text-purple-300" />
                   </button>
@@ -216,14 +216,14 @@ export default function MinesweeperGame() {
                   <button
                     onClick={startGame}
                     disabled={betAmount > currentBalance}
-                    className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-4 font-bold text-lg transition-all shadow-lg hover:shadow-green-500/30 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
+                    className="w-full cosmic-button bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-4 font-bold text-lg transition-all shadow-lg hover:shadow-green-500/30 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
                   >
                     Start Game - ₹{betAmount}
                   </button>
                 ) : (
                   <button
                     onClick={cashOut}
-                    className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white py-4 font-bold text-lg transition-all shadow-lg hover:shadow-yellow-500/30 transform hover:scale-105"
+                    className="w-full cosmic-button bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white py-4 font-bold text-lg transition-all shadow-lg hover:shadow-yellow-500/30 transform hover:scale-105"
                   >
                     Cash Out - ₹{(betAmount * currentMultiplier).toFixed(2)}
                   </button>
@@ -234,13 +234,13 @@ export default function MinesweeperGame() {
         </div>
 
         {/* Game Info */}
-        <div className="mt-8 bg-gray-800/50 backdrop-blur-sm p-6 border border-blue-500/20 shadow-xl">
+        <div className="mt-8 cosmic-card p-6 shadow-xl">
           <div className="flex items-center gap-3 mb-4">
             <Info className="w-6 h-6 text-blue-400" />
             <h3 className="text-xl font-bold text-white">How to Play Cosmic Minesweeper</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
+            <div className="cosmic-card p-4">
               <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Set mine count (1-24)</li>
@@ -250,7 +250,7 @@ export default function MinesweeperGame() {
                 <li>• Cash out anytime</li>
               </ul>
             </div>
-            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
+            <div className="cosmic-card p-4">
               <h4 className="font-bold text-green-400 mb-2">Strategy Tips</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Start with fewer mines</li>
@@ -260,7 +260,7 @@ export default function MinesweeperGame() {
                 <li>• Set profit targets</li>
               </ul>
             </div>
-            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
+            <div className="cosmic-card p-4">
               <h4 className="font-bold text-purple-400 mb-2">Multipliers</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Each safe tile increases multiplier</li>
@@ -274,14 +274,14 @@ export default function MinesweeperGame() {
         </div>
 
         {/* Recent Bets History */}
-        <div className="mt-4 bg-gray-800 p-6 border border-gray-700">
+        <div className="mt-8 cosmic-card p-6">
           <h3 className="text-lg font-bold text-white mb-4">Recent Games</h3>
           <div className="space-y-2">
             {gameHistory.length === 0 ? (
               <p className="text-gray-400 text-center py-4">No games played yet</p>
             ) : (
               gameHistory.map((game, index) => (
-                <div key={index} className="flex justify-between items-center bg-gray-700 p-3">
+                <div key={index} className="flex justify-between items-center cosmic-card p-3">
                   <div className="flex items-center gap-3">
                     <span className={`w-3 h-3 ${
                       game.result === 'green' ? 'bg-green-500' : 

@@ -191,22 +191,22 @@ export function Sidebar({
       {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 lg:hidden"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300"
           onClick={onClose}
         />
       )}
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full bg-[#0A1929] border-r border-blue-500/20 shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden rounded-r-2xl ${
-          isOpen ? 'w-64' : 'w-0 lg:w-16 lg:hover:w-64'
+        className={`fixed top-0 left-0 h-full bg-[#1E293B] border-r border-blue-500/30 shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden ${
+          isOpen ? 'w-64' : 'w-0 lg:w-20'
         }`}
       >
         {/* Header */}
-        <div className="p-4 border-b border-blue-500/30 flex items-center justify-center bg-[#132F4C]">
+        <div className="p-4 border-b border-blue-500/30 flex items-center justify-center bg-[#334155]">
           <h2 
             className={`text-lg font-bold text-white transition-all duration-300 cursor-pointer hover:scale-105 text-center ${
-              isOpen ? 'opacity-100' : 'opacity-0 lg:opacity-0 lg:hover:opacity-100'
+              isOpen ? 'opacity-100' : 'opacity-0 lg:opacity-100'
             }`}
             style={{ fontFamily: "'Orbitron', sans-serif" }}
             onClick={() => navigate('/')}
@@ -216,43 +216,41 @@ export function Sidebar({
         </div>
 
         {/* Wallet Display */}
-        <div className={`p-3 border-b border-blue-500/20 ${isOpen ? 'block' : 'hidden lg:hidden lg:hover:block'}`}>
+        <div className={`p-3 border-b border-blue-500/20 ${isOpen ? 'block' : 'hidden lg:block'}`}>
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
             <div className="flex items-center gap-2 mb-1">
-              <Wallet size={16} className="text-blue-400" />
-              <span className="text-xs text-gray-400">Balance</span>
+              <Wallet size={20} className="text-blue-400" />
+              <span className={`text-xs text-gray-400 ${isOpen ? 'block' : 'hidden lg:hidden'}`}>Balance</span>
             </div>
-            <div className="text-lg font-bold text-blue-400">
+            <div className={`text-lg font-bold text-blue-400 ${isOpen ? 'block' : 'hidden lg:hidden'}`}>
               ₹{((wallet?.real_balance || 0) + (wallet?.bonus_balance || 0)).toLocaleString()}
             </div>
           </div>
         </div>
+        
         {/* Navigation */}
         <nav
-          className={`${
-            isOpen ? 'block' : 'block'
-          } p-2 lg:p-3 overflow-y-auto h-[calc(100vh-120px)] custom-scrollbar`}
+          className="p-3 overflow-y-auto h-[calc(100vh-140px)] custom-scrollbar"
         >
           <ul className="space-y-2">
             {menuItems.map((item, index) => (
               <li key={index}>
                 <button
-                  className={`flex items-center gap-3 p-2.5 rounded-lg transition-all whitespace-nowrap group w-full border border-transparent hover:border-blue-500/30 hover:bg-blue-500/10 ${
+                  className={`flex items-center gap-3 p-3 rounded-lg transition-all whitespace-nowrap group w-full border border-transparent hover:border-blue-500/30 hover:bg-blue-500/10 ${
                     isActivePage(item)
                       ? 'bg-blue-500/20 text-white border-blue-500/50'
                       : `text-gray-300 hover:bg-blue-900/30 hover:text-white ${item.className || ''}`
                   }`}
                   onClick={() => {
                     item.onClick();
-                    if (window.innerWidth < 1024) onClose();
                   }}
                 >
-                  <span className="min-w-[24px] group-hover:scale-110 transition-transform">
+                  <span className="min-w-[24px] flex items-center justify-center group-hover:scale-110 transition-transform">
                     {item.icon}
                   </span>
                   <span
-                    className={`${
-                      isOpen ? 'opacity-100' : 'opacity-100'
+                    className={`transition-opacity ${
+                      isOpen ? 'opacity-100' : 'opacity-0 lg:opacity-0'
                     } transition-opacity`}
                   >
                     {item.label}

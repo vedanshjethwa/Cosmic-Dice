@@ -192,12 +192,12 @@ export default function RPSGame() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">
+    <div className="min-h-screen bg-[#0F172A] text-white">
       <div className="max-w-7xl mx-auto p-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Game Area */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-800 p-8 border border-blue-500/20 shadow-2xl">
+            <div className="cosmic-card p-8 shadow-2xl">
               <h2 className="text-2xl font-bold text-white mb-8 text-center">Choose Your Move</h2>
               
               <div className="grid grid-cols-3 gap-6 mb-8">
@@ -205,7 +205,7 @@ export default function RPSGame() {
                   <motion.button
                     key={choice}
                     onClick={() => handleChoice(choice as Choice)}
-                    className="bg-gray-700 hover:bg-gray-600 p-8 transition-all border border-blue-500/30 hover:border-blue-400/50 relative group overflow-hidden"
+                    className="cosmic-card hover:bg-[#475569] p-8 transition-all border border-blue-500/30 hover:border-blue-400/50 relative group overflow-hidden"
                     disabled={betAmount < 0 || betAmount > currentBalance}
                     whileHover={{ scale: 1.05, y: -4 }}
                     whileTap={{ scale: 0.98 }}
@@ -227,12 +227,12 @@ export default function RPSGame() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-gray-700/60 backdrop-blur-sm p-8 border border-blue-500/20"
+                  className="cosmic-card p-8"
                 >
                   <div className="flex justify-center items-center gap-12 mb-6">
                     <div className="text-center">
                       <div className="text-lg mb-4 text-blue-300">You</div>
-                      <div className="bg-gray-800 p-6 border border-blue-500/30 shadow-lg">
+                      <div className="cosmic-card p-6 shadow-lg">
                         {playerChoice === 'rock' && <Hand className="w-16 h-16 text-blue-400" />}
                         {playerChoice === 'paper' && <Scroll className="w-16 h-16 text-blue-400" />}
                         {playerChoice === 'scissors' && <Scissors className="w-16 h-16 text-blue-400" />}
@@ -241,7 +241,7 @@ export default function RPSGame() {
                     <div className="text-white text-5xl font-bold">VS</div>
                     <div className="text-center">
                       <div className="text-lg mb-4 text-purple-300">Computer</div>
-                      <div className="bg-gray-800 p-6 border border-purple-500/30 shadow-lg">
+                      <div className="cosmic-card p-6 shadow-lg border-purple-500/30">
                         {computerChoice === 'rock' && <Hand className="w-16 h-16 text-purple-400" />}
                         {computerChoice === 'paper' && <Scroll className="w-16 h-16 text-purple-400" />}
                         {computerChoice === 'scissors' && <Scissors className="w-16 h-16 text-purple-400" />}
@@ -261,14 +261,14 @@ export default function RPSGame() {
           {/* Side Panel */}
           <div className="space-y-6">
             {/* Place Your Bet */}
-            <div className="bg-gray-800 p-6 border border-blue-500/20 shadow-xl">
+            <div className="cosmic-card p-6 shadow-xl">
               <h3 className="text-xl font-bold text-white mb-6">Place Your Bet</h3>
               
               <div className="space-y-6">
                 <div className="flex items-center gap-3">
                   <button
                     onClick={decrementBet}
-                    className="w-12 h-12 bg-gray-700 hover:bg-gray-600 border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group"
+                    className="w-12 h-12 cosmic-card hover:bg-[#475569] border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group"
                   >
                     <Minus className="w-5 h-5 text-blue-400 group-hover:text-blue-300" />
                   </button>
@@ -278,7 +278,7 @@ export default function RPSGame() {
                       type="number"
                       value={betAmount.toFixed(2)}
                       onChange={(e) => handleBetChange(e.target.value)}
-                      className="w-full bg-gray-700 text-white text-center py-4 px-6 outline-none border border-blue-500/30 focus:border-blue-400/50 transition-all text-xl font-bold"
+                      className="w-full bg-[#334155] text-white text-center py-4 px-6 outline-none border border-blue-500/30 focus:border-blue-400/50 transition-all text-xl font-bold"
                       min="0"
                       step="0.01"
                       max={Math.min(100000, currentBalance)}
@@ -287,7 +287,7 @@ export default function RPSGame() {
                   
                   <button
                     onClick={incrementBet}
-                    className="w-12 h-12 bg-gray-700 hover:bg-gray-600 border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group"
+                    className="w-12 h-12 cosmic-card hover:bg-[#475569] border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group"
                   >
                     <Plus className="w-5 h-5 text-blue-400 group-hover:text-blue-300" />
                   </button>
@@ -305,20 +305,20 @@ export default function RPSGame() {
             </div>
 
             {/* Stats */}
-            <div className="bg-gray-800 p-6 border border-blue-500/20 shadow-xl">
+            <div className="cosmic-card p-6 shadow-xl">
               <h3 className="text-xl font-bold text-white mb-6">Stats</h3>
               <div className="grid grid-cols-3 gap-4">
-                <div className="bg-gray-700 p-4 border border-blue-500/20 text-center">
+                <div className="cosmic-card p-4 text-center">
                   <div className="text-sm text-gray-400 mb-1">Total Profit</div>
                   <div className={`text-xl font-bold ${stats.totalProfit >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                     {stats.totalProfit >= 0 ? '+' : ''}₹{stats.totalProfit.toFixed(2)}
                   </div>
                 </div>
-                <div className="bg-gray-700 p-4 border border-green-500/20 text-center">
+                <div className="cosmic-card p-4 text-center border-green-500/20">
                   <div className="text-sm text-gray-400 mb-1">Wins</div>
                   <div className="text-xl font-bold text-green-400">{stats.totalWins}</div>
                 </div>
-                <div className="bg-gray-700 p-4 border border-red-500/20 text-center">
+                <div className="cosmic-card p-4 text-center border-red-500/20">
                   <div className="text-sm text-gray-400 mb-1">Losses</div>
                   <div className="text-xl font-bold text-red-400">{stats.totalLosses}</div>
                 </div>
@@ -326,7 +326,7 @@ export default function RPSGame() {
             </div>
 
             {/* Recent Bets */}
-            <div className="bg-gray-800 p-6 border border-blue-500/20 shadow-xl">
+            <div className="cosmic-card p-6 shadow-xl">
               <h3 className="text-xl font-bold text-white mb-6">Recent Bets</h3>
               <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
                 {betHistory.slice(0, 10).map((record) => (
@@ -377,13 +377,13 @@ export default function RPSGame() {
         </div>
 
         {/* Game Info Section */}
-        <div className="mt-8 bg-gray-800 p-6 border border-blue-500/20 shadow-xl">
+        <div className="mt-8 cosmic-card p-6 shadow-xl">
           <div className="flex items-center gap-3 mb-4">
             <Info className="w-6 h-6 text-blue-400" />
             <h3 className="text-xl font-bold text-white">How to Play Cosmic RPS</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
+            <div className="cosmic-card p-4">
               <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Rock beats Scissors</li>
@@ -393,7 +393,7 @@ export default function RPSGame() {
                 <li>• Draw = Get bet back</li>
               </ul>
             </div>
-            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
+            <div className="cosmic-card p-4">
               <h4 className="font-bold text-green-400 mb-2">Strategy Tips</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Start with small bets</li>
@@ -403,7 +403,7 @@ export default function RPSGame() {
                 <li>• Take regular breaks</li>
               </ul>
             </div>
-            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
+            <div className="cosmic-card p-4">
               <h4 className="font-bold text-purple-400 mb-2">Win Chances</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Higher bets = Lower win chance</li>

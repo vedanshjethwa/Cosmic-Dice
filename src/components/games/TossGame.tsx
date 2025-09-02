@@ -132,11 +132,11 @@ export default function TossGame() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">
+    <div className="min-h-screen bg-[#0F172A] text-white">
       <div className="max-w-7xl mx-auto p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Coin Section */}
-          <div className="bg-gray-800/50 backdrop-blur-sm p-8 border border-blue-500/20 shadow-2xl">
+          <div className="cosmic-card p-8 shadow-2xl">
             {/* Coin Display */}
             <div className="flex justify-center mb-8">
               <div className="relative">
@@ -226,7 +226,7 @@ export default function TossGame() {
           {/* Controls Section */}
           <div className="space-y-6">
             {/* Betting Controls */}
-            <div className="bg-gray-800/50 backdrop-blur-sm p-6 border border-blue-500/20 shadow-xl">
+            <div className="cosmic-card p-6 shadow-xl">
               <h3 className="text-xl font-bold text-white mb-6">Place Your Bet</h3>
               
               <div className="space-y-6">
@@ -234,7 +234,7 @@ export default function TossGame() {
                 <div className="flex items-center gap-4 justify-center">
                   <button
                     onClick={() => adjustBet('decrease')}
-                    className="w-14 h-14 bg-gray-700 hover:bg-gray-600 border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group shadow-lg"
+                    className="w-14 h-14 cosmic-card hover:bg-[#475569] border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group shadow-lg"
                   >
                     <Minus className="w-6 h-6 text-blue-400 group-hover:text-blue-300" />
                   </button>
@@ -248,13 +248,13 @@ export default function TossGame() {
                       thousandSeparator=","
                       prefix="₹"
                       allowNegative={false}
-                      className="w-full h-14 bg-gray-700 text-blue-400 text-center text-2xl font-bold border border-blue-500/30 focus:border-blue-400/50 transition-all shadow-lg"
+                      className="w-full h-14 bg-[#334155] text-blue-400 text-center text-2xl font-bold border border-blue-500/30 focus:border-blue-400/50 transition-all shadow-lg"
                     />
                   </div>
                   
                   <button
                     onClick={() => adjustBet('increase')}
-                    className="w-14 h-14 bg-gray-700 hover:bg-gray-600 border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group shadow-lg"
+                    className="w-14 h-14 cosmic-card hover:bg-[#475569] border border-blue-500/30 hover:border-blue-400/50 flex items-center justify-center transition-all group shadow-lg"
                   >
                     <Plus className="w-6 h-6 text-blue-400 group-hover:text-blue-300" />
                   </button>
@@ -265,8 +265,8 @@ export default function TossGame() {
                   onClick={() => setIsFastMode(!isFastMode)}
                   className={`w-full py-4 text-lg font-semibold transition-all transform flex items-center justify-center gap-3 shadow-lg ${
                     isFastMode
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-blue-500/30'
-                      : 'bg-gray-700 text-blue-400 border border-blue-500/30 hover:border-blue-400/50'
+                      ? 'cosmic-button text-white shadow-blue-500/30'
+                      : 'cosmic-card text-blue-400 border border-blue-500/30 hover:border-blue-400/50'
                   }`}
                 >
                   <Zap className="w-6 h-6" />
@@ -280,7 +280,7 @@ export default function TossGame() {
                   className={`w-full py-5 text-xl font-bold transition-all transform shadow-xl ${
                     isFlipping || bet > currentBalance || bet <= 0
                       ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white hover:scale-105 shadow-blue-500/40'
+                      : 'cosmic-button text-white hover:scale-105 shadow-blue-500/40'
                   }`}
                 >
                   {isFlipping ? 'Flipping...' : 'Flip'}
@@ -289,10 +289,10 @@ export default function TossGame() {
             </div>
 
             {/* Stats Panel */}
-            <div className="bg-gray-800/50 backdrop-blur-sm p-6 border border-blue-500/20 shadow-xl">
+            <div className="cosmic-card p-6 shadow-xl">
               <h3 className="text-xl font-bold text-white mb-6">Stats</h3>
               <div className="grid grid-cols-3 gap-4">
-                <div className="bg-gray-700 p-4 border border-blue-500/20 text-center">
+                <div className="cosmic-card p-4 text-center">
                   <div className="text-sm text-gray-400 mb-1">Total Profit</div>
                   <div
                     className={`text-xl font-bold ${
@@ -304,13 +304,13 @@ export default function TossGame() {
                     ₹{stats.totalProfit.toFixed(2)}
                   </div>
                 </div>
-                <div className="bg-gray-700 p-4 border border-green-500/20 text-center">
+                <div className="cosmic-card p-4 text-center border-green-500/20">
                   <div className="text-sm text-gray-400 mb-1">Wins</div>
                   <div className="text-xl font-bold text-green-400">
                     {stats.totalWins}
                   </div>
                 </div>
-                <div className="bg-gray-700 p-4 border border-red-500/20 text-center">
+                <div className="cosmic-card p-4 text-center border-red-500/20">
                   <div className="text-sm text-gray-400 mb-1">Losses</div>
                   <div className="text-xl font-bold text-red-400">
                     {stats.totalLosses}
@@ -322,11 +322,11 @@ export default function TossGame() {
         </div>
 
         {/* Recent Bets Section */}
-        <div className="mt-8 bg-gray-800/50 backdrop-blur-sm p-6 border border-blue-500/20 shadow-xl">
+        <div className="mt-8 cosmic-card p-6 shadow-xl">
           <h3 className="text-xl font-bold text-white mb-6">Recent Bets</h3>
           <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
             {betHistory.length === 0 ? (
-              <div className="text-gray-400 text-center p-8 bg-gray-700/50 border border-blue-500/10">
+              <div className="text-gray-400 text-center p-8 cosmic-card">
                 No bets yet. Start playing!
               </div>
             ) : (
@@ -362,13 +362,13 @@ export default function TossGame() {
         </div>
 
         {/* Game Info */}
-        <div className="mt-8 bg-gray-800/50 backdrop-blur-sm p-6 border border-blue-500/20 shadow-xl">
+        <div className="mt-8 cosmic-card p-6 shadow-xl">
           <div className="flex items-center gap-3 mb-4">
             <Info className="w-6 h-6 text-blue-400" />
             <h3 className="text-xl font-bold text-white">How to Play Cosmic Heads & Tails</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
+            <div className="cosmic-card p-4">
               <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Choose heads or tails</li>
@@ -378,7 +378,7 @@ export default function TossGame() {
                 <li>• Wrong guess = lose bet</li>
               </ul>
             </div>
-            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
+            <div className="cosmic-card p-4">
               <h4 className="font-bold text-green-400 mb-2">Features</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Fast mode for quick games</li>
@@ -388,7 +388,7 @@ export default function TossGame() {
                 <li>• Smooth animations</li>
               </ul>
             </div>
-            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
+            <div className="cosmic-card p-4">
               <h4 className="font-bold text-purple-400 mb-2">Strategy Tips</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Start with small bets</li>

@@ -36,11 +36,11 @@ export default function PredictionPulseGame() {
   }, [betAmount, updateBalance]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">
+    <div className="min-h-screen bg-[#0F172A] text-white">
       <div className="max-w-7xl mx-auto p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Game Area */}
-          <div className="bg-gray-800/50 backdrop-blur-sm p-8 border border-blue-500/20 shadow-2xl">
+          <div className="cosmic-card p-8 shadow-2xl">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-white mb-2">Time your prediction perfectly!</h2>
               <p className="text-gray-400">Tap when the pulse enters the green zone</p>
@@ -48,7 +48,7 @@ export default function PredictionPulseGame() {
 
             {/* Pulse Bar */}
             <div className="h-32 flex items-center justify-center relative mb-8">
-              <div className="w-full h-6 bg-black/50 relative border-2 border-blue-500/30 shadow-lg">
+              <div className="w-full h-6 bg-[#334155] relative border-2 border-blue-500/30 shadow-lg">
                 {/* Green Zone */}
                 <div className="absolute inset-y-0 bg-gradient-to-r from-green-400/30 to-green-500/30 left-[40%] right-[40%]" />
                 
@@ -74,10 +74,10 @@ export default function PredictionPulseGame() {
                   disabled={gameState === 'running'}
                   className={`px-6 py-3 font-medium transition-all border-2 ${
                     difficulty === level
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white border-blue-400 shadow-lg shadow-blue-500/30'
+                      ? 'cosmic-button text-white border-blue-400 shadow-lg shadow-blue-500/30'
                       : gameState === 'running'
-                      ? 'bg-gray-700/50 text-gray-500 cursor-not-allowed border-gray-600'
-                      : 'bg-gray-700 text-gray-300 hover:text-white border-blue-500/30 hover:border-blue-400/50'
+                      ? 'cosmic-card text-gray-500 cursor-not-allowed border-gray-600'
+                      : 'cosmic-card text-gray-300 hover:text-white border-blue-500/30 hover:border-blue-400/50'
                   }`}
                 >
                   {level.charAt(0).toUpperCase() + level.slice(1)}
@@ -94,11 +94,11 @@ export default function PredictionPulseGame() {
                 <button
                   onClick={() => setBetAmount(Math.max(1, Math.floor(betAmount / 2)))}
                   disabled={gameState === 'running'}
-                  className="px-4 py-2 bg-gray-700 hover:bg-gray-600 border border-blue-500/30 hover:border-blue-400/50 transition-all disabled:opacity-50"
+                  className="px-4 py-2 cosmic-card hover:bg-[#475569] border border-blue-500/30 hover:border-blue-400/50 transition-all disabled:opacity-50"
                 >
                   ½
                 </button>
-                <div className="bg-gray-700 px-6 py-3 border border-blue-500/30">
+                <div className="bg-[#334155] px-6 py-3 border border-blue-500/30">
                   <input
                     type="number"
                     value={betAmount}
@@ -112,7 +112,7 @@ export default function PredictionPulseGame() {
                 <button
                   onClick={() => setBetAmount(Math.min(currentBalance, betAmount * 2))}
                   disabled={gameState === 'running'}
-                  className="px-4 py-2 bg-gray-700 hover:bg-gray-600 border border-blue-500/30 hover:border-blue-400/50 transition-all disabled:opacity-50"
+                  className="px-4 py-2 cosmic-card hover:bg-[#475569] border border-blue-500/30 hover:border-blue-400/50 transition-all disabled:opacity-50"
                 >
                   2×
                 </button>
@@ -132,7 +132,7 @@ export default function PredictionPulseGame() {
                 className={`w-full py-4 font-bold text-lg transition-all shadow-xl relative group overflow-hidden ${
                   betAmount <= 0 || betAmount > currentBalance
                     ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white hover:scale-105 shadow-blue-500/40'
+                    : 'cosmic-button text-white hover:scale-105 shadow-blue-500/40'
                 }`}
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-blue-400/0 via-white/25 to-blue-400/0 group-hover:animate-shimmer" />
@@ -149,18 +149,18 @@ export default function PredictionPulseGame() {
 
           {/* Stats Section */}
           <div className="space-y-6">
-            <div className="bg-gray-800/50 backdrop-blur-sm p-6 border border-blue-500/20 shadow-xl">
+            <div className="cosmic-card p-6 shadow-xl">
               <h3 className="text-xl font-bold text-white mb-6">Stats</h3>
               <div className="grid grid-cols-3 gap-4">
-                <div className="bg-gray-700 p-4 border border-blue-500/20 text-center">
+                <div className="cosmic-card p-4 text-center">
                   <div className="text-sm text-gray-400 mb-1">Total Profit</div>
                   <div className="text-xl font-bold text-green-400">₹0</div>
                 </div>
-                <div className="bg-gray-700 p-4 border border-green-500/20 text-center">
+                <div className="cosmic-card p-4 text-center border-green-500/20">
                   <div className="text-sm text-gray-400 mb-1">Total Win</div>
                   <div className="text-xl font-bold text-blue-400">₹0</div>
                 </div>
-                <div className="bg-gray-700 p-4 border border-red-500/20 text-center">
+                <div className="cosmic-card p-4 text-center border-red-500/20">
                   <div className="text-sm text-gray-400 mb-1">Total Loss</div>
                   <div className="text-xl font-bold text-red-400">₹0</div>
                 </div>
@@ -170,13 +170,13 @@ export default function PredictionPulseGame() {
         </div>
 
         {/* Game Info Section */}
-        <div className="mt-8 bg-gray-800/50 backdrop-blur-sm p-6 border border-blue-500/20 shadow-xl">
+        <div className="mt-8 cosmic-card p-6 shadow-xl">
           <div className="flex items-center gap-3 mb-4">
             <Info className="w-6 h-6 text-blue-400" />
             <h3 className="text-xl font-bold text-white">How to Play Prediction Pulse</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
+            <div className="cosmic-card p-4">
               <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Watch the pulse move</li>
@@ -186,7 +186,7 @@ export default function PredictionPulseGame() {
                 <li>• Miss = lose bet</li>
               </ul>
             </div>
-            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
+            <div className="cosmic-card p-4">
               <h4 className="font-bold text-green-400 mb-2">Difficulty Levels</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Low: 2x reward, wider zones</li>
@@ -196,7 +196,7 @@ export default function PredictionPulseGame() {
                 <li>• Timing is everything</li>
               </ul>
             </div>
-            <div className="bg-gray-700/50 p-4 border border-blue-500/20">
+            <div className="cosmic-card p-4">
               <h4 className="font-bold text-purple-400 mb-2">Strategy Tips</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Practice timing on low difficulty</li>

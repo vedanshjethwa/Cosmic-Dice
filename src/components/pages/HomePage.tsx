@@ -13,7 +13,8 @@ import {
   Wallet,
   Bell,
   Headphones,
-  Gamepad2
+  Gamepad2,
+  Menu
 } from 'lucide-react';
 
 // Import components
@@ -23,7 +24,9 @@ import { RedeemModal } from '../RedeemModal';
 import { ScratchCard } from '../ScratchCard';
 import { FeedbackModal } from '../FeedbackModal';
 import { GameGrid } from '../GameGrid';
+import { GameCard } from '../GameCard';
 import { Footer } from '../Footer';
+import { Sidebar } from '../Sidebar';
 import { useChatStore } from '../ChatSupport/ChatStore';
 
 // Game data with enhanced information
@@ -121,6 +124,7 @@ export function HomePage() {
   const navigate = useNavigate();
   const { user, wallet } = useAuth();
   const { setIsOpen: setChatOpen } = useChatStore();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [walletOpen, setWalletOpen] = useState(false);
   const [redeemOpen, setRedeemOpen] = useState(false);
@@ -128,6 +132,7 @@ export function HomePage() {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [gameCarouselIndex, setGameCarouselIndex] = useState(0);
 
   // Featured offers data matching the screenshot
   const featuredOffers = [
@@ -189,16 +194,34 @@ export function HomePage() {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-[#0F172A] text-white">
+      {/* Sidebar */}
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        onWalletClick={() => navigate('/wallet')}
+        onWithdrawalClick={() => navigate('/withdrawal')}
+        onDepositClick={() => navigate('/deposit')}
+        currentPath="/"
+      />
+
+      {/* Main Content */}
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
         {/* Top Navigation */}
         <motion.header
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="sticky top-0 z-40 bg-black/95 backdrop-blur-sm border-b border-blue-500/20"
+          className="sticky top-0 z-40 bg-[#1E293B]/95 backdrop-blur-sm border-b border-blue-500/20"
         >
           <div className="flex items-center justify-between p-4 lg:px-8">
             {/* Left side */}
             <div className="flex items-center gap-4">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+              >
+                <Menu size={24} />
+              </button>
               <motion.h1
                 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent transition-all duration-300"
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
@@ -212,7 +235,7 @@ export function HomePage() {
             <div className="hidden md:flex flex-1 max-w-md mx-8">
               <button
                 onClick={() => setSearchOpen(true)}
-                className="w-full bg-gray-800 text-gray-400 px-4 py-2 text-left flex items-center gap-3 hover:bg-gray-700 transition-colors border border-blue-500/20"
+                className="w-full bg-[#334155] text-gray-400 px-4 py-2 rounded-lg text-left flex items-center gap-3 hover:bg-[#475569] transition-colors border border-blue-500/20"
               >
                 <Search size={20} />
                 <span>Search games...</span>
@@ -249,7 +272,7 @@ export function HomePage() {
               
               <button
                 onClick={() => setWalletOpen(true)}
-                className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 border border-blue-500/30 flex items-center gap-2"
+                className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg border border-blue-500/30 flex items-center gap-2"
               >
                 <Wallet size={16} />
                 <span className="font-medium">
@@ -269,19 +292,19 @@ export function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               className="mb-12"
             >
-              <div className="bg-gray-800 p-8 border border-blue-500/20 shadow-2xl">
+              <div className="cosmic-card p-8 shadow-2xl">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-white">Featured Offers</h2>
                   <button 
                     onClick={() => navigate('/offers')}
-                    className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
+                    className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 cosmic-button px-4 py-2"
                   >
                     View All →
                   </button>
                 </div>
                 
                 {/* Carousel Container */}
-                <div className="relative overflow-hidden rounded-xl">
+                <div className="relative overflow-hidden rounded-2xl">
                   <div 
                     className="flex transition-transform duration-500 ease-in-out"
                     style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -299,7 +322,7 @@ export function HomePage() {
                           <div className="max-w-md">
                             <div className="text-sm font-medium mb-2 opacity-90">{offer.type}</div>
                             <h3 className="text-xl font-bold mb-4">{offer.title}</h3>
-                            <button className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 font-medium transition-colors">
+                            <button className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-lg font-medium transition-colors">
                               {offer.buttonText}
                             </button>
                           </div>
@@ -314,7 +337,7 @@ export function HomePage() {
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`w-2 h-2 transition-colors ${
+                        className={`w-2 h-2 rounded-full transition-colors ${
                           currentSlide === index ? 'bg-blue-400' : 'bg-gray-600'
                         }`}
                       />
@@ -336,13 +359,31 @@ export function HomePage() {
                   <Gamepad2 className="text-blue-400" />
                   All Games ({filteredGames.length})
                 </h3>
-                <button
-                  onClick={() => navigate('/all-games')}
-                  className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 border border-blue-500/30 flex items-center gap-2"
-                >
-                  View All
-                  <ChevronRight size={16} />
-                </button>
+                <div className="flex items-center gap-4">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setGameCarouselIndex(Math.max(0, gameCarouselIndex - 1))}
+                      disabled={gameCarouselIndex === 0}
+                      className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      ←
+                    </button>
+                    <button
+                      onClick={() => setGameCarouselIndex(Math.min(Math.ceil(filteredGames.length / 4) - 1, gameCarouselIndex + 1))}
+                      disabled={gameCarouselIndex >= Math.ceil(filteredGames.length / 4) - 1}
+                      className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      →
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => navigate('/all-games')}
+                    className="cosmic-button px-4 py-2 flex items-center gap-2"
+                  >
+                    View All
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
               </div>
               
               {/* Category Filters */}
@@ -351,10 +392,10 @@ export function HomePage() {
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`px-6 py-3 font-medium whitespace-nowrap transition-all shadow-lg ${
+                    className={`px-6 py-3 rounded-lg font-medium whitespace-nowrap transition-all shadow-lg ${
                       selectedCategory === category
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-blue-500/30'
-                        : 'bg-gray-800 text-gray-300 hover:bg-blue-600/20 border border-blue-500/20'
+                        ? 'cosmic-button text-white shadow-blue-500/30'
+                        : 'bg-[#334155] text-gray-300 hover:bg-blue-600/20 border border-blue-500/20'
                     }`}
                   >
                     {category === 'all' ? 'All Games' : category}
@@ -362,10 +403,32 @@ export function HomePage() {
                 ))}
               </div>
               
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
-                {filteredGames.slice(0, 8).map((game, index) => (
-                  <EnhancedGameCard key={game.route} game={game} index={index} />
-                ))}
+              {/* Carousel Container */}
+              <div className="relative overflow-hidden">
+                <div 
+                  className="flex transition-transform duration-500 ease-in-out gap-6"
+                  style={{ transform: `translateX(-${gameCarouselIndex * 100}%)` }}
+                >
+                  {Array.from({ length: Math.ceil(filteredGames.length / 4) }).map((_, slideIndex) => (
+                    <div key={slideIndex} className="min-w-full grid grid-cols-2 lg:grid-cols-4 gap-6">
+                      {filteredGames.slice(slideIndex * 4, (slideIndex + 1) * 4).map((game, index) => (
+                        <GameCard
+                          key={game.route}
+                          title={game.label}
+                          description={game.description}
+                          image={game.image}
+                          route={game.route}
+                          category={game.category}
+                          rating={game.rating}
+                          players={game.players}
+                          isNew={game.isNew}
+                          isFeatured={game.isFeatured}
+                          index={index}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             </motion.section>
 
@@ -385,7 +448,19 @@ export function HomePage() {
               
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
                 {featuredGames.map((game, index) => (
-                  <EnhancedGameCard key={game.route} game={game} index={index} />
+                  <GameCard
+                    key={game.route}
+                    title={game.label}
+                    description={game.description}
+                    image={game.image}
+                    route={game.route}
+                    category={game.category}
+                    rating={game.rating}
+                    players={game.players}
+                    isNew={game.isNew}
+                    isFeatured={game.isFeatured}
+                    index={index}
+                  />
                 ))}
               </div>
             </motion.section>
@@ -404,7 +479,7 @@ export function HomePage() {
                 </h3>
                 <button
                   onClick={() => navigate('/popular')}
-                  className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 border border-blue-500/30 flex items-center gap-2"
+                  className="cosmic-button px-4 py-2 flex items-center gap-2"
                 >
                   View All
                   <ChevronRight size={16} />
@@ -413,7 +488,19 @@ export function HomePage() {
 
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
                 {popularGames.slice(0, 4).map((game, index) => (
-                  <EnhancedGameCard key={game.route} game={game} index={index} />
+                  <GameCard
+                    key={game.route}
+                    title={game.label}
+                    description={game.description}
+                    image={game.image}
+                    route={game.route}
+                    category={game.category}
+                    rating={game.rating}
+                    players={game.players}
+                    isNew={game.isNew}
+                    isFeatured={game.isFeatured}
+                    index={index}
+                  />
                 ))}
               </div>
             </motion.section>
@@ -426,19 +513,19 @@ export function HomePage() {
               className="mb-8 lg:mb-12"
             >
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                <div className="bg-gradient-to-br from-gray-800 to-black p-4 lg:p-6 border border-blue-500/20 text-center shadow-lg hover:shadow-blue-500/20 transition-all">
+                <div className="cosmic-card p-4 lg:p-6 text-center shadow-lg hover:shadow-blue-500/20 transition-all">
                   <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-2">9</div>
                   <div className="text-gray-400 text-sm lg:text-base">Total Games</div>
                 </div>
-                <div className="bg-gradient-to-br from-gray-800 to-black p-4 lg:p-6 border border-green-500/20 text-center shadow-lg hover:shadow-green-500/20 transition-all">
+                <div className="cosmic-card p-4 lg:p-6 text-center shadow-lg hover:shadow-green-500/20 transition-all">
                   <div className="text-2xl lg:text-3xl font-bold text-green-400 mb-2">15K+</div>
                   <div className="text-gray-400 text-sm lg:text-base">Active Players</div>
                 </div>
-                <div className="bg-gradient-to-br from-gray-800 to-black p-4 lg:p-6 border border-purple-500/20 text-center shadow-lg hover:shadow-purple-500/20 transition-all">
+                <div className="cosmic-card p-4 lg:p-6 text-center shadow-lg hover:shadow-purple-500/20 transition-all">
                   <div className="text-2xl lg:text-3xl font-bold text-purple-400 mb-2">₹2.1M+</div>
                   <div className="text-gray-400 text-sm lg:text-base">Total Winnings</div>
                 </div>
-                <div className="bg-gradient-to-br from-gray-800 to-black p-4 lg:p-6 border border-yellow-500/20 text-center shadow-lg hover:shadow-yellow-500/20 transition-all">
+                <div className="cosmic-card p-4 lg:p-6 text-center shadow-lg hover:shadow-yellow-500/20 transition-all">
                   <div className="text-2xl lg:text-3xl font-bold text-yellow-400 mb-2">98.5%</div>
                   <div className="text-gray-400 text-sm lg:text-base">Average RTP</div>
                 </div>
@@ -449,6 +536,7 @@ export function HomePage() {
 
         {/* Footer */}
         <Footer />
+      </div>
 
       {/* Modals and Overlays */}
       <SearchSystem
@@ -483,88 +571,6 @@ export function HomePage() {
         isOpen={feedbackOpen}
         onClose={() => setFeedbackOpen(false)}
       />
-    </>
-  );
-}
-
-// Enhanced Game Card Component with premium styling
-function EnhancedGameCard({ game, index }: { game: any; index: number }) {
-  const navigate = useNavigate();
-  
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.1 * index }}
-      whileHover={{ scale: 1.02, y: -4 }}
-      className="bg-gradient-to-br from-gray-800 to-black overflow-hidden cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 group game-card-arcade shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col"
-      onClick={() => navigate(game.route)}
-    >
-      <div className="relative h-40 lg:h-48">
-        <img
-          src={game.image}
-          alt={game.label}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-80" />
-        
-        {/* Badges */}
-        <div className="absolute top-3 left-3 flex gap-2">
-          {game.isNew && (
-            <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold animate-pulse shadow-lg">
-              NEW
-            </span>
-          )}
-          {game.isFeatured && (
-            <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold shadow-lg">
-              FEATURED
-            </span>
-          )}
-        </div>
-
-        {/* Stats overlay */}
-        <div className="absolute top-3 right-3 flex items-center gap-2 text-xs text-white">
-          <div className="flex items-center gap-1 bg-black/50 px-2 py-1 backdrop-blur-sm">
-            <Star size={10} className="text-yellow-400 fill-current" />
-            <span>{game.rating}</span>
-          </div>
-          <div className="flex items-center gap-1 bg-black/50 px-2 py-1 backdrop-blur-sm">
-            <Users size={10} />
-            <span>{game.players}</span>
-          </div>
-        </div>
-
-        {/* Play button overlay on hover */}
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform">
-            <Play size={20} />
-            Play Now
-          </div>
-        </div>
-      </div>
-
-      <div className="p-4 flex flex-col flex-1">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 font-medium border border-blue-500/30">
-            {game.category}
-          </span>
-        </div>
-
-        <h4 className="font-bold text-white mb-2 text-lg group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
-          {game.label}
-        </h4>
-
-        <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate(game.route);
-          }}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 font-medium cosmic-button mt-auto shadow-lg hover:shadow-blue-500/30 transform hover:scale-105"
-        >
-          Play Now
-        </button>
-      </div>
-    </motion.div>
+    </div>
   );
 }
