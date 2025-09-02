@@ -2,11 +2,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import { Footer } from '../Footer';
-import { useGameStore } from '../../snakes/src/store/gameStore';
-import GameGrid from '../../snakes/src/components/GameGrid';
-import GameControls from '../../snakes/src/components/GameControls';
-import StatusBar from '../../snakes/src/components/StatusBar';
-import GameHistory from '../../snakes/src/components/GameHistory';
+import { useGameStore } from '../../../snakes/src/store/gameStore';
+import GameGrid from '../../../snakes/src/components/GameGrid';
+import GameControls from '../../../snakes/src/components/GameControls';
+import StatusBar from '../../../snakes/src/components/StatusBar';
+import GameHistory from '../../../snakes/src/components/GameHistory';
 
 export default function SnakesGame() {
   const { user, wallet } = useAuth();
