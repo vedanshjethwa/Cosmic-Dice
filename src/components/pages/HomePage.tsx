@@ -503,7 +503,6 @@ export function HomePage() {
                   />
                 ))}
               </div>
-            </motion.section>
 
             {/* Quick Stats */}
             <motion.section
