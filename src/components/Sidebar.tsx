@@ -230,6 +230,7 @@ export function Sidebar({
         {/* Navigation */}
         <nav
           className="p-3 overflow-y-auto h-[calc(100vh-140px)] custom-scrollbar"
+          style={{ direction: 'ltr' }}
         >
           <ul className="space-y-2">
             {menuItems.map((item, index) => (

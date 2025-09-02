@@ -292,37 +292,37 @@ export function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               className="mb-12"
             >
-              <div className="cosmic-card p-8 shadow-2xl">
+              <div className="bg-[#132f4c] rounded-2xl p-8 shadow-2xl border border-blue-500/20">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-white">Featured Offers</h2>
                   <button 
                     onClick={() => navigate('/offers')}
-                    className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 cosmic-button px-4 py-2"
+                    className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-4 py-2 rounded-xl"
                   >
                     View All →
                   </button>
                 </div>
                 
                 {/* Carousel Container */}
-                <div className="relative overflow-hidden rounded-2xl">
+                <div className="relative overflow-hidden rounded-2xl border border-blue-500/20">
                   <div 
                     className="flex transition-transform duration-500 ease-in-out"
                     style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                   >
                     {featuredOffers.map((offer) => (
                       <div key={offer.id} className="w-full flex-shrink-0">
-                        <div className={`bg-gradient-to-r ${offer.color} p-6 text-white relative overflow-hidden`}>
+                        <div className={`bg-gradient-to-r ${offer.color} p-6 text-white relative overflow-hidden rounded-2xl`}>
                           <div className="absolute top-4 right-4">
                             <img 
                               src="https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&q=80&w=100&h=100"
                               alt="Offer"
-                              className="w-16 h-16 opacity-80"
+                              className="w-16 h-16 opacity-80 rounded-xl"
                             />
                           </div>
                           <div className="max-w-md">
-                            <div className="text-sm font-medium mb-2 opacity-90">{offer.type}</div>
+                            <div className="text-sm font-medium mb-2 opacity-90 bg-white/20 px-3 py-1 rounded-full inline-block">{offer.type}</div>
                             <h3 className="text-xl font-bold mb-4">{offer.title}</h3>
-                            <button className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                            <button className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-xl font-medium transition-colors border border-white/20">
                               {offer.buttonText}
                             </button>
                           </div>
@@ -337,7 +337,7 @@ export function HomePage() {
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`w-2 h-2 rounded-full transition-colors ${
+                        className={`w-3 h-3 rounded-full transition-colors ${
                           currentSlide === index ? 'bg-blue-400' : 'bg-gray-600'
                         }`}
                       />
@@ -351,7 +351,7 @@ export function HomePage() {
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+              transition={{ delay: 0.1 }}
               className="mb-12"
             >
               <div className="flex items-center justify-between mb-6">
@@ -392,10 +392,10 @@ export function HomePage() {
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`px-6 py-3 rounded-lg font-medium whitespace-nowrap transition-all shadow-lg ${
+                    className={`px-6 py-3 rounded-xl font-medium whitespace-nowrap transition-all shadow-lg border ${
                       selectedCategory === category
-                        ? 'cosmic-button text-white shadow-blue-500/30'
-                        : 'bg-[#334155] text-gray-300 hover:bg-blue-600/20 border border-blue-500/20'
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-blue-500/30 border-blue-400'
+                        : 'bg-[#102841] text-gray-300 hover:bg-blue-600/20 border-blue-500/20'
                     }`}
                   >
                     {category === 'all' ? 'All Games' : category}
@@ -436,7 +436,7 @@ export function HomePage() {
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
+              transition={{ delay: 0.2 }}
               className="mb-12"
             >
               <div className="flex items-center justify-between mb-6">
@@ -465,21 +465,21 @@ export function HomePage() {
               </div>
             </motion.section>
 
-            {/* Popular Games Section */}
+                    className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-xl border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.3 }}
               className="mb-12"
             >
-              <div className="flex items-center justify-between mb-6">
+                    className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-xl border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
                 <h3 className="text-3xl font-bold text-white flex items-center gap-2">
                   <TrendingUp className="text-blue-400" />
                   Popular Games
                 </h3>
                 <button
                   onClick={() => navigate('/popular')}
-                  className="cosmic-button px-4 py-2 flex items-center gap-2"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl flex items-center gap-2 transition-all"
                 >
                   View All
                   <ChevronRight size={16} />
@@ -509,23 +509,23 @@ export function HomePage() {
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.4 }}
               className="mb-8 lg:mb-12"
             >
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                <div className="cosmic-card p-4 lg:p-6 text-center shadow-lg hover:shadow-blue-500/20 transition-all">
+                <div className="bg-[#132f4c] rounded-2xl p-4 lg:p-6 text-center shadow-lg hover:shadow-blue-500/20 transition-all border border-blue-500/20">
                   <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-2">9</div>
                   <div className="text-gray-400 text-sm lg:text-base">Total Games</div>
                 </div>
-                <div className="cosmic-card p-4 lg:p-6 text-center shadow-lg hover:shadow-green-500/20 transition-all">
+                <div className="bg-[#132f4c] rounded-2xl p-4 lg:p-6 text-center shadow-lg hover:shadow-green-500/20 transition-all border border-blue-500/20">
                   <div className="text-2xl lg:text-3xl font-bold text-green-400 mb-2">15K+</div>
                   <div className="text-gray-400 text-sm lg:text-base">Active Players</div>
                 </div>
-                <div className="cosmic-card p-4 lg:p-6 text-center shadow-lg hover:shadow-purple-500/20 transition-all">
+                <div className="bg-[#132f4c] rounded-2xl p-4 lg:p-6 text-center shadow-lg hover:shadow-purple-500/20 transition-all border border-blue-500/20">
                   <div className="text-2xl lg:text-3xl font-bold text-purple-400 mb-2">₹2.1M+</div>
                   <div className="text-gray-400 text-sm lg:text-base">Total Winnings</div>
                 </div>
-                <div className="cosmic-card p-4 lg:p-6 text-center shadow-lg hover:shadow-yellow-500/20 transition-all">
+                <div className="bg-[#132f4c] rounded-2xl p-4 lg:p-6 text-center shadow-lg hover:shadow-yellow-500/20 transition-all border border-blue-500/20">
                   <div className="text-2xl lg:text-3xl font-bold text-yellow-400 mb-2">98.5%</div>
                   <div className="text-gray-400 text-sm lg:text-base">Average RTP</div>
                 </div>
