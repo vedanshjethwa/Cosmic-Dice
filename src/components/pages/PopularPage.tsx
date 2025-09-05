@@ -114,7 +114,7 @@ export function PopularPage() {
   }
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A1929] via-[#132F4C] to-[#0A1929] text-white">
+    <div className="min-h-screen bg-[#0F172A] text-white">
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
@@ -128,18 +128,18 @@ export function PopularPage() {
       {/* Main Content */}
       <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
         {/* Header */}
-        <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
-          <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+        <div className="sticky top-0 z-10 bg-[#0F172A]/95 backdrop-blur-sm border-b border-blue-500/20">
+          <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-2 hover:bg-white/10 rounded-xl transition-colors"
               >
                 <Menu size={24} />
               </button>
               <button
                 onClick={() => navigate('/')}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                className="p-2 hover:bg-white/10 rounded-xl transition-colors flex items-center gap-2"
               >
                 <ArrowLeft size={20} />
                 <span className="hidden sm:inline">Back</span>
@@ -148,7 +148,7 @@ export function PopularPage() {
                 className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
               >
-                Cosmic - Popular Games
+                ← Popular Games
               </h1>
             </div>
           </div>
@@ -237,7 +237,6 @@ export function PopularPage() {
                       <h3 className="font-bold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
                         {game.label}
                       </h3>
-                        )}
                       <p className="text-gray-400 text-sm mb-4 flex-1">
                         {game.description}
                       </p>

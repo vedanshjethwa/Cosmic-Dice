@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Minus, Plus, Info } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { TransactionService } from '../transactions/TransactionService';
+import { Footer } from '../Footer';
 
 interface Balloon {
   id: number;
@@ -19,7 +19,7 @@ interface BetRecord {
 }
 
 export default function BalloonGame() {
-  const { user, wallet, refreshWallet } = useAuth();
+  const { user, wallet, refreshWallet, updateBalance } = useAuth();
   const [bet, setBet] = useState(10);
   const [isPlaying, setIsPlaying] = useState(false);
   const [totalMultiplier, setTotalMultiplier] = useState(1);
@@ -33,7 +33,7 @@ export default function BalloonGame() {
     totalWins: 0,
     totalLosses: 0
   });
-
+  
   const currentBalance = (wallet?.real_balance || 0) + (wallet?.bonus_balance || 0);
   
   const colors = [
@@ -67,6 +67,7 @@ export default function BalloonGame() {
 
   const startGame = () => {
     if (currentBalance >= bet) {
+      updateBalance(-bet);
       setIsPlaying(true);
       setTotalMultiplier(1);
       setBalloons(generateBalloons());
@@ -75,9 +76,15 @@ export default function BalloonGame() {
     }
   };
 
-  const popBalloon = async (balloon: Balloon) => {
+  const playPopSound = () => {
+    const popSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3');
+    popSound.play().catch(console.error);
+  };
+
+  const popBalloon = (balloon: Balloon) => {
     if (!isPlaying || balloon.revealed || hasPopped) return;
 
+    playPopSound();
     setHasPopped(true);
     
     setBalloons(prev => prev.map(b => 
@@ -89,22 +96,9 @@ export default function BalloonGame() {
     
     const winnings = Math.floor(bet * newMultiplier);
     setLastWin(winnings);
+    updateBalance(winnings);
     setShowResult(true);
     setIsPlaying(false);
-
-    // Process game result through TransactionService
-    if (user) {
-      try {
-        await TransactionService.processGameResult(user.id, bet, winnings, {
-          gameType: 'balloon',
-          balloonId: balloon.id,
-          multiplier: newMultiplier
-        });
-        refreshWallet();
-      } catch (error) {
-        console.error('Error processing game result:', error);
-      }
-    }
 
     // Update bet history
     const newBet: BetRecord = {
@@ -151,9 +145,9 @@ export default function BalloonGame() {
   };
 
   return (
-    <div className="p-6">
-      <div className="max-w-5xl mx-auto">
-        <div className="bg-[#1A2634] rounded-3xl p-8 shadow-2xl border border-blue-500/20 relative">
+    <div className="min-h-screen bg-gradient-to-br from-[#0a1a2a] via-[#132f4c] to-[#0a1a2a] text-white">
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="bg-[#132f4c] rounded-2xl p-8 shadow-2xl border border-blue-500/20 relative">
           {showResult && (
             <div className="absolute inset-x-0 top-8 text-center z-10 animate-fadeIn">
               <h2 className="text-3xl font-bold mb-2 text-transparent bg-clip-text 
@@ -198,7 +192,7 @@ export default function BalloonGame() {
                         before:inset-[8%]
                         before:bg-gradient-to-tl
                         before:from-transparent
-                        before:to-${colorObj?.shine || 'white'}
+                        before:to-white
                         before:opacity-40
                         before:rounded-full
                         after:content-['']
@@ -252,9 +246,9 @@ export default function BalloonGame() {
           </div>
         </div>
 
-        <div className="mt-8 bg-[#1A2634] rounded-xl border border-blue-500/20 p-4 shadow-2xl">
+        <div className="mt-8 bg-[#132f4c] rounded-2xl border border-blue-500/20 p-4 shadow-2xl">
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <div className="flex items-center gap-2 sm:gap-3 bg-[#0B1622] px-3 sm:px-6 py-2 sm:py-3 rounded-xl border border-blue-500/10 shadow-lg">
+            <div className="flex items-center gap-2 sm:gap-3 bg-[#0f253c] px-3 sm:px-6 py-2 sm:py-3 rounded-xl border border-blue-500/10 shadow-lg">
               <span className="text-base sm:text-lg font-medium text-white">Bet:</span>
               <div className="flex items-center gap-2">
                 <button
@@ -273,7 +267,7 @@ export default function BalloonGame() {
                   disabled={isPlaying}
                   min={1}
                   max={currentBalance}
-                  className="w-24 bg-[#0B1622] rounded-lg px-3 py-1.5 
+                  className="w-24 bg-[#0f253c] rounded-lg px-3 py-1.5 
                     text-base sm:text-lg font-bold text-white text-center
                     border border-blue-500/30 focus:border-blue-500/50 focus:outline-none
                     disabled:opacity-50 disabled:cursor-not-allowed"
@@ -306,7 +300,7 @@ export default function BalloonGame() {
         </div>
 
         {/* Recent Bets */}
-        <div className="mt-8 bg-[#1A2634] rounded-xl p-6 border border-blue-500/20 shadow-2xl">
+        <div className="mt-8 bg-[#132f4c] rounded-2xl p-6 border border-blue-500/20 shadow-2xl">
           <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">Recent Bets</h2>
           {betHistory.length > 0 ? (
             <div className="overflow-x-auto">
@@ -348,70 +342,28 @@ export default function BalloonGame() {
         </div>
 
         {/* Stats Summary */}
-        <div className="mt-8 bg-[#1A2634] rounded-xl p-6 border border-blue-500/20 shadow-2xl">
+        <div className="mt-8 bg-[#132f4c] rounded-2xl p-6 border border-blue-500/20 shadow-2xl">
           <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">Stats</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-[#0B1622] rounded-lg p-4 border border-blue-500/10">
+            <div className="bg-[#0f253c] rounded-xl p-4 border border-blue-500/10">
               <div className="text-sm text-gray-400">Total Profit</div>
               <div className={`text-xl font-bold ${stats.totalProfit >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                 {stats.totalProfit >= 0 ? '+' : ''}₹{stats.totalProfit}
               </div>
             </div>
-            <div className="bg-[#0B1622] rounded-lg p-4 border border-blue-500/10">
+            <div className="bg-[#0f253c] rounded-xl p-4 border border-blue-500/10">
               <div className="text-sm text-gray-400">Wins</div>
               <div className="text-xl font-bold text-green-500">{stats.totalWins}</div>
             </div>
-            <div className="bg-[#0B1622] rounded-lg p-4 border border-blue-500/10">
+            <div className="bg-[#0f253c] rounded-xl p-4 border border-blue-500/10">
               <div className="text-sm text-gray-400">Losses</div>
               <div className="text-xl font-bold text-red-500">{stats.totalLosses}</div>
             </div>
           </div>
         </div>
-
-        {/* Game Info */}
-        <div className="mt-8 bg-[#1A2634] rounded-xl p-6 border border-blue-500/20 shadow-2xl">
-          <div className="flex items-center gap-3 mb-4">
-            <Info className="w-6 h-6 text-blue-400" />
-            <h3 className="text-xl font-bold text-white">How to Play Cosmic Balloon</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#0B1622] rounded-lg p-4 border border-blue-500/10">
-              <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
-              <ul className="text-gray-300 text-sm space-y-1">
-                <li>• Set your bet amount</li>
-                <li>• Click 'Start Game'</li>
-                <li>• Pop any balloon</li>
-                <li>• Reveal multiplier</li>
-                <li>• Win bet × multiplier</li>
-              </ul>
-            </div>
-            <div className="bg-[#0B1622] rounded-lg p-4 border border-blue-500/10">
-              <h4 className="font-bold text-green-400 mb-2">Multipliers</h4>
-              <ul className="text-gray-300 text-sm space-y-1">
-                <li>• 0.2x - 5x range</li>
-                <li>• Random distribution</li>
-                <li>• Higher multipliers rarer</li>
-                <li>• Each balloon unique</li>
-                <li>• One chance per game</li>
-              </ul>
-            </div>
-            <div className="bg-[#0B1622] rounded-lg p-4 border border-blue-500/10">
-              <h4 className="font-bold text-purple-400 mb-2">Strategy Tips</h4>
-              <ul className="text-gray-300 text-sm space-y-1">
-                <li>• Start with small bets</li>
-                <li>• Trust your instincts</li>
-                <li>• Manage your bankroll</li>
-                <li>• Set win/loss limits</li>
-                <li>• Have fun!</li>
-              </ul>
-            </div>
-          </div>
-        </div>
       </div>
+
+      <Footer />
     </div>
   );
-}
-
-function formatTime(date: Date) {
-  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }

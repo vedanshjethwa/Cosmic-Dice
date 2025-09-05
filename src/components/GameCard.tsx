@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Star, Users } from 'lucide-react';
+import { Star, Users, Play } from 'lucide-react';
 
 interface GameCardProps {
   title: string;
@@ -46,15 +46,15 @@ export function GameCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className={`game-card-bordered relative bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col ${
+      className={`bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col h-full ${
         isFeatured 
-          ? 'border-yellow-500/50 hover:border-yellow-400/70 hover:shadow-yellow-500/30' 
+          ? 'border-yellow-500/50 hover:border-yellow-400/70 hover:shadow-yellow-500/30 sharp-design' 
           : ''
-      }`}
+      } sharp-design`}
       onClick={handlePlay}
     >
       {/* Image Container */}
-      <div className="relative h-40 lg:h-48 overflow-hidden">
+      <div className="relative h-48 overflow-hidden flex-shrink-0 rounded-t-2xl">
         <img
           src={image}
           alt={title}
@@ -62,7 +62,7 @@ export function GameCard({
         />
         
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent opacity-80" />
         
         {/* Badges */}
         <div className="absolute top-3 left-3 flex gap-2">
@@ -80,7 +80,7 @@ export function GameCard({
 
         {/* Play button overlay on hover */}
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform shadow-lg">
+          <div className="cosmic-button text-white px-6 py-3 font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform shadow-lg sharp-design">
             <Play size={20} />
             Play Now
           </div>
@@ -88,7 +88,7 @@ export function GameCard({
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col flex-1">
+      <div className="p-6 flex flex-col flex-1 min-h-0">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
             {category}
@@ -105,24 +105,21 @@ export function GameCard({
           </div>
         </div>
 
-        <h3 className="font-bold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
+        <h3 className="font-bold text-white mb-3 text-lg group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
           {title}
         </h3>
 
-        <p className="text-gray-400 text-sm mb-4 flex-1">
-          {description}
-        </p>
-        <div className="flex gap-2">
+        <div className="flex gap-2 mt-auto">
           <button 
             onClick={handlePlay}
-            className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-xl transition-all font-medium shadow-lg hover:shadow-blue-500/30 transform hover:scale-105 mt-auto"
+            className="flex-1 cosmic-button text-white py-3 transition-all font-medium shadow-lg hover:shadow-blue-500/30 transform hover:scale-105 sharp-design"
           >
             Play Now
           </button>
           {(isNew || isFeatured) && (
             <button
               onClick={handleShowDetails}
-              className="px-4 py-3 bg-gray-600/20 hover:bg-gray-600/30 text-gray-300 rounded-xl transition-colors text-sm border border-gray-500/30"
+              className="px-4 py-3 bg-[#334155]/20 hover:bg-[#334155]/30 text-gray-300 transition-colors text-sm border border-gray-500/30 sharp-design"
             >
               Info
             </button>
@@ -130,15 +127,6 @@ export function GameCard({
         </div>
       </div>
 
-      {/* Game Footer */}
-      <div className="px-4 pb-4">
-        <div className="border-t border-blue-500/20 pt-3">
-          <div className="flex items-center justify-between text-xs text-gray-400">
-            <span>Min Bet: ₹1</span>
-            <span>Max Win: ₹100K</span>
-          </div>
-        </div>
-      </div>
     </motion.div>
   );
 }

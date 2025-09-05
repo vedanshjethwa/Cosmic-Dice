@@ -1,55 +1,79 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
+import { Footer } from '../Footer';
+import { useGameStore } from '../../../snakes/src/store/gameStore';
+import GameGrid from '../../../snakes/src/components/GameGrid';
+import GameControls from '../../../snakes/src/components/GameControls';
+import StatusBar from '../../../snakes/src/components/StatusBar';
+import GameHistory from '../../../snakes/src/components/GameHistory';
 
 export default function SnakesGame() {
   const { user, wallet } = useAuth();
 
   return (
-    <div className="p-6">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-[#1a2332]/80 to-[#0f1923]/80 backdrop-blur-sm rounded-3xl p-8 border border-blue-500/20 shadow-2xl text-center"
-        >
-          <div className="text-6xl mb-6">🐍</div>
-          <h2 className="text-3xl font-bold text-white mb-4">Cosmic Snakes</h2>
-          <p className="text-gray-300 text-lg mb-8">
-            Navigate through the cosmic maze and avoid the snakes to win big rewards!
-          </p>
-          
-          <div className="bg-blue-900/20 rounded-xl p-6 border border-blue-500/20 mb-8">
-            <h3 className="text-xl font-bold text-blue-400 mb-4">Game Features</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-              <div>
-                <h4 className="font-semibold text-white mb-2">🎲 Dice Movement</h4>
-                <p className="text-gray-400 text-sm">Roll dice to move 1-3 steps forward</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-white mb-2">🐍 Snake Positions</h4>
-                <p className="text-gray-400 text-sm">Fixed snake placement for strategic gameplay</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-white mb-2">💎 Progressive Multipliers</h4>
-                <p className="text-gray-400 text-sm">Higher rewards for passing more snakes</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-white mb-2">💰 Cash Out Anytime</h4>
-                <p className="text-gray-400 text-sm">Secure your winnings before hitting a snake</p>
-              </div>
+    <div className="min-h-screen bg-gradient-to-br from-[#0B0F1A] via-[#1a2332] to-[#0B0F1A] text-white">
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Left Sidebar - Game Controls */}
+          <div className="lg:col-span-1 space-y-6">
+            <StatusBar />
+            <GameControls />
+          </div>
+
+          {/* Main Game Area */}
+          <div className="lg:col-span-2">
+            <GameGrid />
+          </div>
+
+          {/* Right Sidebar - Game History */}
+          <div className="lg:col-span-1">
+            <GameHistory />
+          </div>
+        </div>
+
+        {/* Game Info Section */}
+        <div className="mt-8 bg-slate-800/50 backdrop-blur-sm p-6 border border-slate-600/50">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-6 h-6 text-blue-400">🐍</div>
+            <h3 className="text-xl font-bold text-white">How to Play Cosmic Snakes</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-slate-700/50 p-4 border border-slate-600/50">
+              <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Set your bet and snake count</li>
+                <li>• Roll dice to move 1-3 steps</li>
+                <li>• Avoid snakes on the path</li>
+                <li>• Cash out anytime for current multiplier</li>
+                <li>• Reach the end for maximum reward</li>
+              </ul>
+            </div>
+            <div className="bg-slate-700/50 p-4 border border-slate-600/50">
+              <h4 className="font-bold text-green-400 mb-2">Strategy Tips</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Start with fewer snakes</li>
+                <li>• Cash out early for safety</li>
+                <li>• More snakes = higher multipliers</li>
+                <li>• Watch your position carefully</li>
+                <li>• Don't get too greedy</li>
+              </ul>
+            </div>
+            <div className="bg-slate-700/50 p-4 border border-slate-600/50">
+              <h4 className="font-bold text-purple-400 mb-2">Risk Levels</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Low (1-5 snakes): Safe play</li>
+                <li>• Medium (6-15 snakes): Balanced</li>
+                <li>• High (16+ snakes): High risk/reward</li>
+                <li>• Each safe step increases multiplier</li>
+                <li>• Maximum potential: 25x+</li>
+              </ul>
             </div>
           </div>
-
-          <div className="text-yellow-400 font-semibold mb-4">
-            Current Balance: ₹{((wallet?.real_balance || 0) + (wallet?.bonus_balance || 0)).toLocaleString()}
-          </div>
-
-          <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-blue-500/30">
-            Start Adventure
-          </button>
-        </motion.div>
+        </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }
