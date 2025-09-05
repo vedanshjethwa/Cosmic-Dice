@@ -77,7 +77,7 @@ export default function NewGamesPage() {
                  fontFamily: "'Orbitron', sans-serif"
                 }}
             >
-              Cosmic - New Games
+              ← New Games
             </h1>
           </div>
         </div>
