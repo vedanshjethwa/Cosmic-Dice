@@ -198,45 +198,50 @@ export function Sidebar({
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full bg-[#1E293B] border-r border-blue-500/30 shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpen ? 'w-64' : 'w-0 lg:w-20'
+        className={`fixed top-0 left-0 h-full bg-[#0F172A] border-r border-blue-500/30 shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden ${
+          isOpen ? 'w-64' : 'w-0 lg:w-16'
         }`}
       >
         {/* Header */}
-        <div className="p-3 border-b border-blue-500/30 flex items-center justify-center bg-[#334155]">
+        <div className="p-4 border-b border-blue-500/30 flex items-center justify-center bg-[#1E293B]">
           <button
             onClick={() => navigate('/')}
-            className="p-1 hover:bg-white/10 rounded-lg transition-colors flex items-center justify-center"
+            className="p-2 hover:bg-white/10 rounded-xl transition-colors flex items-center justify-center"
           >
-            <div className="text-lg font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+            <div className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
               {isOpen ? 'COSMIC' : 'C'}
             </div>
           </button>
         </div>
 
         {/* Wallet Display */}
-        <div className={`p-3 border-b border-blue-500/20 ${isOpen ? 'block' : 'hidden lg:block'}`}>
-          <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
+        <div className={`p-4 border-b border-blue-500/20 ${isOpen ? 'block' : 'hidden lg:block'}`}>
+          <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-3">
             <div className="flex items-center gap-2 mb-1">
               <Wallet size={20} className="text-blue-400" />
               <span className={`text-xs text-gray-400 ${isOpen ? 'block' : 'hidden lg:hidden'}`}>Balance</span>
             </div>
-            <div className={`text-lg font-bold text-blue-400 ${isOpen ? 'block' : 'hidden lg:hidden'}`}>
+            <div className={`text-lg font-bold text-blue-400 ${isOpen ? 'block' : 'hidden'}`}>
               ₹{((wallet?.real_balance || 0) + (wallet?.bonus_balance || 0)).toLocaleString()}
             </div>
+            {!isOpen && (
+              <div className="hidden lg:block text-center">
+                <div className="text-xs text-blue-400 font-bold">₹100</div>
+              </div>
+            )}
           </div>
         </div>
         
         {/* Navigation */}
         <nav
-          className="p-3 overflow-y-auto h-[calc(100vh-140px)] custom-scrollbar"
+          className="p-4 overflow-y-auto h-[calc(100vh-160px)] custom-scrollbar"
           style={{ direction: 'ltr' }}
         >
-          <ul className="space-y-2">
+          <ul className="space-y-3">
             {menuItems.map((item, index) => (
               <li key={index}>
                 <button
-                  className={`flex items-center gap-3 p-3 rounded-lg transition-all whitespace-nowrap group w-full border border-transparent hover:border-blue-500/30 hover:bg-blue-500/10 ${
+                  className={`flex items-center gap-3 p-3 rounded-xl transition-all whitespace-nowrap group w-full border border-transparent hover:border-blue-500/30 hover:bg-blue-500/10 ${
                     isActivePage(item)
                       ? 'bg-blue-500/20 text-white border-blue-500/50'
                       : `text-gray-300 hover:bg-blue-900/30 hover:text-white ${item.className || ''}`
@@ -245,7 +250,7 @@ export function Sidebar({
                     item.onClick();
                   }}
                 >
-                  <span className="min-w-[24px] flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <span className="min-w-[24px] h-[24px] flex items-center justify-center group-hover:scale-110 transition-transform">
                     {item.icon}
                   </span>
                   <span

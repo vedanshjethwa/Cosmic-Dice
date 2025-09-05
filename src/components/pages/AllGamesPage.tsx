@@ -122,20 +122,20 @@ export function AllGamesPage() {
       />
 
       {/* Main Content */}
-      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
         {/* Header */}
-        <div className="sticky top-0 z-10 bg-[#1E293B]/95 backdrop-blur-sm border-b border-blue-500/20">
-          <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
+        <div className="sticky top-0 z-10 bg-[#0F172A]/95 backdrop-blur-sm border-b border-blue-500/20">
+          <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 hover:bg-white/10 transition-colors"
+                className="p-2 hover:bg-white/10 rounded-xl transition-colors"
               >
                 <Menu size={24} />
               </button>
               <button
                 onClick={() => navigate('/')}
-                className="p-2 hover:bg-white/10 transition-colors flex items-center gap-2"
+                className="p-2 hover:bg-white/10 rounded-xl transition-colors flex items-center gap-2"
               >
                 <ArrowLeft size={20} />
                 <span className="hidden sm:inline">Back</span>

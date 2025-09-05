@@ -4,9 +4,9 @@
 
 /* Global theme variables */
 :root {
-  --cosmic-bg-primary: #0a1a2a;
-  --cosmic-bg-secondary: #132f4c;
-  --cosmic-bg-tertiary: #112a44;
+  --cosmic-bg-primary: #0F172A;
+  --cosmic-bg-secondary: #1E293B;
+  --cosmic-bg-tertiary: #334155;
   --cosmic-blue: #3B82F6;
   --cosmic-blue-light: #60A5FA;
   --cosmic-blue-dark: #1D4ED8;
@@ -14,59 +14,27 @@
   --cosmic-border-hover: rgba(59, 130, 246, 0.4);
 }
 
-/* Global rounded corners */
-* {
-  border-radius: 0.75rem !important;
-}
-
-/* Override for specific elements that need different radius */
-.rounded-none {
-  border-radius: 0 !important;
-}
-
-.rounded-sm {
-  border-radius: 0.25rem !important;
-}
-
-.rounded-md {
-  border-radius: 0.5rem !important;
-}
-
-.rounded-lg {
-  border-radius: 0.75rem !important;
-}
-
-.rounded-xl {
-  border-radius: 1rem !important;
-}
-
-.rounded-2xl {
-  border-radius: 1.5rem !important;
-}
-
-.rounded-3xl {
-  border-radius: 2rem !important;
-}
-
 /* Global background theme */
 body {
-  background: var(--cosmic-bg-primary) !important;
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%) !important;
   color: white;
+  min-height: 100vh;
 }
 
 /* Consistent card styling */
 .cosmic-card {
-  background: linear-gradient(135deg, #132f4c, #0a1a2a);
+  background: linear-gradient(135deg, var(--cosmic-bg-secondary), var(--cosmic-bg-primary));
   border: 1px solid var(--cosmic-border);
   border-radius: 1.5rem;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .cosmic-card:hover {
   border-color: var(--cosmic-border-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.25);
 }
 
 /* Consistent button styling */
@@ -77,6 +45,7 @@ body {
   color: white;
   font-weight: 600;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
 }
 
 .cosmic-button:hover {
@@ -449,7 +418,49 @@ img {
 .game-button-enhanced {
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(147, 51, 234, 0.8));
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+}
+
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Optimize images for performance */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 1rem;
+  loading: lazy;
+}
+
+/* Optimize animations for performance */
+.animate-spin,
+.animate-pulse,
+.animate-bounce {
+  will-change: transform;
+}
+
+/* Reduce motion for accessibility and performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

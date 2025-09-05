@@ -286,59 +286,91 @@ export function HomePage() {
         {/* Main Content Area */}
         <main className="p-4 lg:p-8">
           <div className="max-w-7xl mx-auto">
-            {/* Featured Offers Banner - Matching Screenshot */}
+            {/* Featured Offers Banner - Exact Match to Screenshot */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="mb-12"
             >
-              <div className="bg-[#132f4c] rounded-2xl p-8 shadow-2xl border border-blue-500/20">
+              <div className="bg-[#1E293B] rounded-2xl p-6 shadow-2xl border border-blue-500/20">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-white">Featured Offers</h2>
                   <button 
                     onClick={() => navigate('/offers')}
-                    className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-4 py-2 rounded-xl"
+                    className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
                   >
                     View All →
                   </button>
                 </div>
                 
                 {/* Carousel Container */}
-                <div className="relative overflow-hidden rounded-2xl border border-blue-500/20">
-                  <div 
-                    className="flex transition-transform duration-500 ease-in-out"
-                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                  >
-                    {featuredOffers.map((offer) => (
-                      <div key={offer.id} className="w-full flex-shrink-0">
-                        <div className={`bg-gradient-to-r ${offer.color} p-6 text-white relative overflow-hidden rounded-2xl`}>
-                          <div className="absolute top-4 right-4">
-                            <img 
-                              src="https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&q=80&w=100&h=100"
-                              alt="Offer"
-                              className="w-16 h-16 opacity-80 rounded-xl"
-                            />
-                          </div>
-                          <div className="max-w-md">
-                            <div className="text-sm font-medium mb-2 opacity-90 bg-white/20 px-3 py-1 rounded-full inline-block">{offer.type}</div>
-                            <h3 className="text-xl font-bold mb-4">{offer.title}</h3>
-                            <button className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-xl font-medium transition-colors border border-white/20">
-                              {offer.buttonText}
-                            </button>
+                <div className="relative">
+                  <div className="overflow-hidden rounded-2xl">
+                    <div 
+                      className="flex transition-transform duration-500 ease-in-out gap-4"
+                      style={{ transform: `translateX(-${currentSlide * (100 / Math.min(4, featuredOffers.length))}%)` }}
+                    >
+                      {featuredOffers.map((offer) => (
+                        <div key={offer.id} className="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
+                          <div className="bg-[#334155] rounded-2xl p-6 h-full border border-blue-500/20 relative overflow-hidden">
+                            {/* Offer Tag */}
+                            <div className="mb-4">
+                              <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${
+                                offer.type === 'COSMIC' ? 'bg-blue-500 text-white' :
+                                offer.type === 'SPECIAL' ? 'bg-purple-500 text-white' :
+                                offer.type === 'LIMITED' ? 'bg-green-500 text-white' :
+                                'bg-orange-500 text-white'
+                              }`}>
+                                {offer.type}
+                              </span>
+                            </div>
+                            
+                            {/* Offer Content */}
+                            <div className="flex justify-between items-start mb-6">
+                              <div className="flex-1 pr-4">
+                                <h3 className="text-white font-semibold text-lg leading-tight mb-4">
+                                  {offer.title}
+                                </h3>
+                                <button className="bg-gradient-to-r from-violet-500 to-blue-500 hover:from-violet-600 hover:to-blue-600 text-white px-4 py-2 rounded-xl font-medium transition-all transform hover:scale-105">
+                                  Claim Now
+                                </button>
+                              </div>
+                              
+                              {/* Offer Icon */}
+                              <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <span className="text-2xl">🎁</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                   
+                  {/* Navigation Arrows */}
+                  <button
+                    onClick={() => setCurrentSlide(Math.max(0, currentSlide - 1))}
+                    disabled={currentSlide === 0}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    ←
+                  </button>
+                  <button
+                    onClick={() => setCurrentSlide(Math.min(featuredOffers.length - Math.min(4, featuredOffers.length), currentSlide + 1))}
+                    disabled={currentSlide >= featuredOffers.length - Math.min(4, featuredOffers.length)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    →
+                  </button>
+                  
                   {/* Carousel Indicators */}
-                  <div className="flex justify-center gap-2 mt-4">
-                    {featuredOffers.map((_, index) => (
+                  <div className="flex justify-center gap-2 mt-6">
+                    {Array.from({ length: Math.ceil(featuredOffers.length / Math.min(4, featuredOffers.length)) }).map((_, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`w-3 h-3 rounded-full transition-colors ${
-                          currentSlide === index ? 'bg-blue-400' : 'bg-gray-600'
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                          currentSlide === index ? 'bg-blue-400 scale-125' : 'bg-gray-600 hover:bg-gray-500'
                         }`}
                       />
                     ))}
