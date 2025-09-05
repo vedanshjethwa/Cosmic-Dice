@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { GameGrid } from '../GameGrid';
 import { Footer } from '../Footer';
 import { OfferBanner } from '../OfferBanner';
+import { allGames } from './AllGamesPage';
 
 export function HomePage() {
   return (
@@ -71,7 +72,7 @@ export function HomePage() {
               </p>
             </motion.div>
 
-            <GameGrid />
+            <GameGrid games={allGames} />
           </div>
         </div>
       </div>
