@@ -21,7 +21,7 @@ interface GameGridProps {
 }
 
 export function GameGrid({ games, title = "Games", searchTerm = "" }: GameGridProps) {
-  const filteredGames = (games || []).filter(game => {
+  const filteredGames = games.filter(game => {
     return game.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
     game.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
     game.category.toLowerCase().includes(searchTerm.toLowerCase());
