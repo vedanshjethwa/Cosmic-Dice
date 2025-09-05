@@ -15,16 +15,16 @@ interface Game {
 }
 
 interface GameGridProps {
-  games: Array<{
+  games: Array<Game>;
   title?: string;
   searchTerm?: string;
 }
 
 export function GameGrid({ games, title = "Games", searchTerm = "" }: GameGridProps) {
   const filteredGames = games.filter(game => {
-    game.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    return game.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
     game.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    game.category.toLowerCase().includes(searchTerm.toLowerCase())
+    game.category.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
   return (
