@@ -145,9 +145,9 @@ export default function BalloonGame() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a1a2a] via-[#132f4c] to-[#0a1a2a] text-white">
+    <div className="min-h-screen bg-[#0F172A] text-white">
       <div className="max-w-7xl mx-auto p-6">
-        <div className="bg-[#132f4c] rounded-2xl p-8 shadow-2xl border border-blue-500/20 relative">
+        <div className="cosmic-card p-8 shadow-2xl relative">
           {showResult && (
             <div className="absolute inset-x-0 top-8 text-center z-10 animate-fadeIn">
               <h2 className="text-3xl font-bold mb-2 text-transparent bg-clip-text 
@@ -181,36 +181,11 @@ export default function BalloonGame() {
                       animate-balloon-float
                     `}
                   >
-                    <div
-                      className={`
-                        absolute inset-0
-                        bg-gradient-to-b ${balloon.color}
-                        rounded-full
-                        shadow-[0_8px_24px_rgba(0,0,0,0.4)]
-                        before:content-['']
-                        before:absolute
-                        before:inset-[8%]
-                        before:bg-gradient-to-tl
-                        before:from-transparent
-                        before:to-white
-                        before:opacity-40
-                        before:rounded-full
-                        after:content-['']
-                        after:absolute
-                        after:w-4
-                        after:h-4
-                        after:rounded-full
-                        after:bg-gradient-to-br
-                        after:from-white
-                        after:to-transparent
-                        after:opacity-60
-                        after:top-[15%]
-                        after:left-[15%]
-                        group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)]
-                        group-hover:before:opacity-50
-                        transition-all duration-300
-                      `}
-                    >
+                    <div className={`absolute inset-0 bg-gradient-to-b ${balloon.color} rounded-full shadow-[0_8px_24px_rgba(0,0,0,0.4)] group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)] transition-all duration-300 relative`}>
+                      {/* Balloon shine effect */}
+                      <div className="absolute inset-[8%] bg-gradient-to-tl from-transparent to-white opacity-40 rounded-full" />
+                      {/* Balloon highlight */}
+                      <div className="absolute w-4 h-4 rounded-full bg-gradient-to-br from-white to-transparent opacity-60 top-[15%] left-[15%]" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-full opacity-75"></div>
                       
                       {!balloon.revealed && isPlaying && (
@@ -227,18 +202,8 @@ export default function BalloonGame() {
                       )}
                     </div>
 
-                    <div className="absolute -bottom-6 sm:-bottom-8 left-1/2 w-[1px] h-6 sm:h-8
-                      transition-all duration-300 transform-gpu origin-top
-                      after:content-['']
-                      after:absolute
-                      after:w-full
-                      after:h-full
-                      after:bg-gradient-to-b
-                      after:from-gray-300
-                      after:to-gray-400
-                      after:animate-string-sway
-                      group-hover:h-8 sm:group-hover:h-10
-                    "></div>
+                    {/* Balloon string */}
+                    <div className="absolute -bottom-6 sm:-bottom-8 left-1/2 w-[2px] h-6 sm:h-8 bg-gradient-to-b from-gray-300 to-gray-400 transition-all duration-300 transform-gpu origin-top group-hover:h-8 sm:group-hover:h-10 animate-string-sway" />
                   </div>
                 </button>
               );
@@ -246,15 +211,15 @@ export default function BalloonGame() {
           </div>
         </div>
 
-        <div className="mt-8 bg-[#132f4c] rounded-2xl border border-blue-500/20 p-4 shadow-2xl">
+        <div className="mt-8 cosmic-card p-4 shadow-2xl">
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <div className="flex items-center gap-2 sm:gap-3 bg-[#0f253c] px-3 sm:px-6 py-2 sm:py-3 rounded-xl border border-blue-500/10 shadow-lg">
+            <div className="flex items-center gap-2 sm:gap-3 bg-[#334155] px-3 sm:px-6 py-2 sm:py-3 border border-blue-500/10 shadow-lg">
               <span className="text-base sm:text-lg font-medium text-white">Bet:</span>
               <div className="flex items-center gap-2">
                 <button
                   onClick={decrementBet}
                   disabled={isPlaying || bet <= 1}
-                  className="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-500/10 
+                  className="w-8 h-8 flex items-center justify-center bg-blue-500/10 
                     hover:bg-blue-500/20 border border-blue-500/30 text-blue-400
                     disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
@@ -267,7 +232,7 @@ export default function BalloonGame() {
                   disabled={isPlaying}
                   min={1}
                   max={currentBalance}
-                  className="w-24 bg-[#0f253c] rounded-lg px-3 py-1.5 
+                  className="w-24 bg-[#334155] px-3 py-1.5 
                     text-base sm:text-lg font-bold text-white text-center
                     border border-blue-500/30 focus:border-blue-500/50 focus:outline-none
                     disabled:opacity-50 disabled:cursor-not-allowed"
@@ -275,7 +240,7 @@ export default function BalloonGame() {
                 <button
                   onClick={incrementBet}
                   disabled={isPlaying || bet >= currentBalance}
-                  className="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-500/10 
+                  className="w-8 h-8 flex items-center justify-center bg-blue-500/10 
                     hover:bg-blue-500/20 border border-blue-500/30 text-blue-400
                     disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
@@ -286,12 +251,11 @@ export default function BalloonGame() {
             <button
               onClick={startGame}
               disabled={currentBalance < bet || isPlaying}
-              className="w-full sm:w-auto bg-gradient-to-br from-blue-400 via-blue-500 to-indigo-600 
-                hover:from-blue-500 hover:via-blue-600 hover:to-indigo-700
-                px-8 sm:px-12 py-2 sm:py-3 rounded-xl font-bold text-base sm:text-lg
+              className="w-full sm:w-auto cosmic-button
+                px-8 sm:px-12 py-2 sm:py-3 font-bold text-base sm:text-lg
                 disabled:opacity-50 transition-all duration-300 
                 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30
-                disabled:hover:shadow-none border border-white/10
+                disabled:hover:shadow-none
                 transform hover:-translate-y-0.5 active:translate-y-0"
             >
               {isPlaying ? 'Playing...' : 'Start Game'}
@@ -300,7 +264,7 @@ export default function BalloonGame() {
         </div>
 
         {/* Recent Bets */}
-        <div className="mt-8 bg-[#132f4c] rounded-2xl p-6 border border-blue-500/20 shadow-2xl">
+        <div className="mt-8 cosmic-card p-6 shadow-2xl">
           <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">Recent Bets</h2>
           {betHistory.length > 0 ? (
             <div className="overflow-x-auto">
@@ -342,22 +306,64 @@ export default function BalloonGame() {
         </div>
 
         {/* Stats Summary */}
-        <div className="mt-8 bg-[#132f4c] rounded-2xl p-6 border border-blue-500/20 shadow-2xl">
+        <div className="mt-8 cosmic-card p-6 shadow-2xl">
           <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">Stats</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-[#0f253c] rounded-xl p-4 border border-blue-500/10">
+            <div className="bg-[#334155] p-4 border border-blue-500/10">
               <div className="text-sm text-gray-400">Total Profit</div>
               <div className={`text-xl font-bold ${stats.totalProfit >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                 {stats.totalProfit >= 0 ? '+' : ''}₹{stats.totalProfit}
               </div>
             </div>
-            <div className="bg-[#0f253c] rounded-xl p-4 border border-blue-500/10">
+            <div className="bg-[#334155] p-4 border border-blue-500/10">
               <div className="text-sm text-gray-400">Wins</div>
               <div className="text-xl font-bold text-green-500">{stats.totalWins}</div>
             </div>
-            <div className="bg-[#0f253c] rounded-xl p-4 border border-blue-500/10">
+            <div className="bg-[#334155] p-4 border border-blue-500/10">
               <div className="text-sm text-gray-400">Losses</div>
               <div className="text-xl font-bold text-red-500">{stats.totalLosses}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Game Info Section */}
+        <div className="mt-8 cosmic-card p-6 shadow-2xl">
+          <div className="flex items-center gap-3 mb-4">
+            <Info className="w-6 h-6 text-blue-400" />
+            <h3 className="text-xl font-bold text-white">How to Play Cosmic Balloons</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="cosmic-card p-4">
+              <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Place your bet amount</li>
+                <li>• Click any balloon to pop it</li>
+                <li>• Each balloon has a hidden multiplier</li>
+                <li>• Win = Bet × Multiplier</li>
+                <li>• One balloon per round</li>
+              </ul>
+            </div>
+            <div className="cosmic-card p-4">
+              <h4 className="font-bold text-green-400 mb-2">Strategy Tips</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• Start with smaller bets</li>
+                <li>• All balloons are random</li>
+                <li>• No pattern to follow</li>
+                <li>• Trust your instincts</li>
+                <li>• Set win/loss limits</li>
+              </ul>
+            </div>
+            <div className="cosmic-card p-4">
+              <h4 className="font-bold text-purple-400 mb-2">Multipliers</h4>
+              <ul className="text-gray-300 text-sm space-y-1">
+                <li>• 0.2x - Small loss</li>
+                <li>• 0.5x - Minor loss</li>
+                <li>• 1x - Break even</li>
+                <li>• 2x - Double win</li>
+                <li>• 3x - Triple win</li>
+                <li>• 4x - Quadruple win</li>
+                <li>• 5x - Maximum win</li>
+              </ul>
             </div>
           </div>
         </div>

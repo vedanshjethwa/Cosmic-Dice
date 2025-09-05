@@ -170,7 +170,7 @@ export function OffersPage() {
                 className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
               >
-                ← All Offers & Promotions
+                Cosmic - All Offers & Promotions
               </h1>
             </div>
           </div>
