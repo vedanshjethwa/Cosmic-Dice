@@ -46,11 +46,11 @@ export function GameCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className={`bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col h-full ${
+      className={`bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col h-full rounded-2xl ${
         isFeatured 
-          ? 'border-yellow-500/50 hover:border-yellow-400/70 hover:shadow-yellow-500/30 sharp-design' 
+          ? 'border-yellow-500/50 hover:border-yellow-400/70 hover:shadow-yellow-500/30' 
           : ''
-      } sharp-design`}
+      }`}
       onClick={handlePlay}
     >
       {/* Image Container */}
@@ -80,7 +80,7 @@ export function GameCard({
 
         {/* Play button overlay on hover */}
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <div className="cosmic-button text-white px-6 py-3 font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform shadow-lg sharp-design">
+          <div className="cosmic-button text-white px-6 py-3 font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform shadow-lg rounded-xl">
             <Play size={20} />
             Play Now
           </div>
@@ -112,14 +112,14 @@ export function GameCard({
         <div className="flex gap-2 mt-auto">
           <button 
             onClick={handlePlay}
-            className="flex-1 cosmic-button text-white py-3 transition-all font-medium shadow-lg hover:shadow-blue-500/30 transform hover:scale-105 sharp-design"
+            className="flex-1 cosmic-button text-white py-3 transition-all font-medium shadow-lg hover:shadow-blue-500/30 transform hover:scale-105 rounded-xl"
           >
             Play Now
           </button>
           {(isNew || isFeatured) && (
             <button
               onClick={handleShowDetails}
-              className="px-4 py-3 bg-[#334155]/20 hover:bg-[#334155]/30 text-gray-300 transition-colors text-sm border border-gray-500/30 sharp-design"
+              className="px-4 py-3 bg-[#334155]/20 hover:bg-[#334155]/30 text-gray-300 transition-colors text-sm border border-gray-500/30 rounded-xl"
             >
               Info
             </button>
