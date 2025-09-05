@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Target, Minus, Plus, Info } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Footer } from '../Footer';
+import { TransactionService } from '../transactions/TransactionService';
 
 interface BetHistory {
   multiplier: number;
@@ -18,7 +18,7 @@ const MIN_BET = 0;
 const MAX_MULTIPLIER = 100;
 
 export default function LimboGame() {
-  const { user, wallet, refreshWallet, updateBalance } = useAuth();
+  const { user, wallet, refreshWallet } = useAuth();
   const [betAmount, setBetAmount] = useState<string>('10');
   const [targetMultiplier, setTargetMultiplier] = useState<string>('2.00');
   const [currentMultiplier, setCurrentMultiplier] = useState<number | null>(null);
@@ -148,7 +148,20 @@ export default function LimboGame() {
           finalMultiplier
         );
 
-        updateBalance(profit);
+        // Process game result through TransactionService
+        if (user) {
+          const winAmount = isWin ? betAmountNum + profit : 0;
+          TransactionService.processGameResult(user.id, betAmountNum, winAmount, {
+            gameType: 'limbo',
+            targetMultiplier: targetMultiplierNum,
+            finalMultiplier,
+            isWin
+          }).then(() => {
+            refreshWallet();
+          }).catch(error => {
+            console.error('Error processing game result:', error);
+          });
+        }
 
         setStats((prev) => ({
           totalProfit: prev.totalProfit + profit,
@@ -182,11 +195,11 @@ export default function LimboGame() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">
-      <div className="max-w-7xl mx-auto p-6">
+    <div className="p-6">
+      <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left Side - Multiplier Display */}
-          <div className="bg-black/30 backdrop-blur-sm p-6 border border-blue-500/20">
+          <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20">
             {/* Moved Target Multiplier and Win Chance above the counter */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
@@ -200,7 +213,7 @@ export default function LimboGame() {
                     onChange={(e) => setTargetMultiplier(e.target.value)}
                     step="0.01"
                     min="1.01"
-                    className="w-full bg-black/50 px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none border border-blue-500/20"
+                    className="w-full bg-black/50 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none border border-blue-500/20"
                     disabled={isRolling}
                   />
                   <Target className="absolute right-3 top-3 text-blue-400" />
@@ -210,7 +223,7 @@ export default function LimboGame() {
                 <label className="block text-sm text-gray-400 mb-1">
                   Win Chance
                 </label>
-                <div className="relative bg-black/50 px-4 py-3 border border-blue-500/20">
+                <div className="relative bg-black/50 rounded-lg px-4 py-3 border border-blue-500/20">
                   <span className="text-lg font-medium text-blue-400">
                     {calculateWinChance()}%
                   </span>
@@ -231,7 +244,7 @@ export default function LimboGame() {
           {/* Right Side - Controls */}
           <div className="space-y-6">
             {/* Amount Input */}
-            <div className="bg-black/30 backdrop-blur-sm p-6 border border-blue-500/20">
+            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20">
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -240,7 +253,7 @@ export default function LimboGame() {
                   <div className="flex items-center gap-4">
                     <button
                       onClick={() => handleBetAmountChange('half')}
-                      className="p-2 bg-black/50 hover:bg-blue-500/20 transition-colors disabled:opacity-50 border border-blue-500/20"
+                      className="p-2 rounded-lg bg-black/50 hover:bg-blue-500/20 transition-colors disabled:opacity-50 border border-blue-500/20"
                       disabled={isRolling}
                     >
                       <Minus className="w-5 h-5 text-blue-400" />
@@ -249,12 +262,12 @@ export default function LimboGame() {
                       type="text"
                       value={betAmount}
                       onChange={(e) => handleBetAmountInput(e.target.value)}
-                      className="flex-1 bg-black/50 px-4 py-2 text-center focus:ring-2 focus:ring-blue-500 outline-none border border-blue-500/20"
+                      className="flex-1 bg-black/50 rounded-lg px-4 py-2 text-center focus:ring-2 focus:ring-blue-500 outline-none border border-blue-500/20"
                       disabled={isRolling}
                     />
                     <button
                       onClick={() => handleBetAmountChange('double')}
-                      className="p-2 bg-black/50 hover:bg-blue-500/20 transition-colors disabled:opacity-50 border border-blue-500/20"
+                      className="p-2 rounded-lg bg-black/50 hover:bg-blue-500/20 transition-colors disabled:opacity-50 border border-blue-500/20"
                       disabled={
                         isRolling ||
                         parseFloat(betAmount.replace(',', '.')) * 2 >
@@ -276,7 +289,7 @@ export default function LimboGame() {
                     isRolling ||
                     parseFloat(betAmount.replace(',', '.')) > Math.min(currentBalance, MAX_BET)
                   }
-                  className={`w-full py-4 font-bold text-lg transition-all ${
+                  className={`w-full py-4 rounded-lg font-bold text-lg transition-all ${
                     isRolling ||
                     parseFloat(betAmount.replace(',', '.')) > Math.min(currentBalance, MAX_BET)
                       ? 'bg-gray-700 cursor-not-allowed'
@@ -295,10 +308,10 @@ export default function LimboGame() {
             </div>
 
             {/* Stats Section */}
-            <div className="bg-black/30 backdrop-blur-sm p-6 border border-blue-500/20">
+            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20">
               <h2 className="text-xl font-bold mb-4">Stats</h2>
               <div className="grid grid-cols-3 gap-4">
-                <div className="bg-black/50 p-4 border border-blue-500/20">
+                <div className="bg-black/50 rounded-lg p-4 border border-blue-500/20">
                   <div className="text-sm text-gray-400">Total Profit</div>
                   <div
                     className={`text-xl font-bold ${
@@ -310,13 +323,13 @@ export default function LimboGame() {
                     ₹{stats.totalProfit.toFixed(2)}
                   </div>
                 </div>
-                <div className="bg-black/50 p-4 border border-blue-500/20">
+                <div className="bg-black/50 rounded-lg p-4 border border-blue-500/20">
                   <div className="text-sm text-gray-400">Wins</div>
                   <div className="text-xl font-bold text-green-500">
                     {stats.totalWins}
                   </div>
                 </div>
-                <div className="bg-black/50 p-4 border border-blue-500/20">
+                <div className="bg-black/50 rounded-lg p-4 border border-blue-500/20">
                   <div className="text-sm text-gray-400">Losses</div>
                   <div className="text-xl font-bold text-red-500">
                     {stats.totalLosses}
@@ -328,13 +341,13 @@ export default function LimboGame() {
         </div>
 
         {/* Game Info Section */}
-        <div className="mt-8 bg-black/30 backdrop-blur-sm p-6 border border-blue-500/20">
+        <div className="mt-8 bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20">
           <div className="flex items-center gap-3 mb-4">
             <Info className="w-6 h-6 text-blue-400" />
             <h3 className="text-xl font-bold text-white">How to Play Cosmic Limbo</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-black/50 p-4 border border-blue-500/20">
+            <div className="bg-black/50 rounded-lg p-4 border border-blue-500/20">
               <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Set target multiplier</li>
@@ -344,7 +357,7 @@ export default function LimboGame() {
                 <li>• Higher targets = bigger wins</li>
               </ul>
             </div>
-            <div className="bg-black/50 p-4 border border-blue-500/20">
+            <div className="bg-black/50 rounded-lg p-4 border border-blue-500/20">
               <h4 className="font-bold text-green-400 mb-2">Strategy Tips</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• Start with low multipliers</li>
@@ -354,7 +367,7 @@ export default function LimboGame() {
                 <li>• Don't chase losses</li>
               </ul>
             </div>
-            <div className="bg-black/50 p-4 border border-blue-500/20">
+            <div className="bg-black/50 rounded-lg p-4 border border-blue-500/20">
               <h4 className="font-bold text-purple-400 mb-2">Win Chances</h4>
               <ul className="text-gray-300 text-sm space-y-1">
                 <li>• 2x target: ~47% chance</li>
@@ -368,7 +381,7 @@ export default function LimboGame() {
         </div>
 
         {/* Bottom Full Width - Recent Bets */}
-        <div className="mt-8 bg-black/30 backdrop-blur-sm p-6 border border-blue-500/20">
+        <div className="mt-8 bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-blue-500/20">
           <h2 className="text-xl font-bold mb-4">Recent Bets</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {betHistory
@@ -377,7 +390,7 @@ export default function LimboGame() {
               .map((bet, index) => (
                 <div
                   key={index}
-                  className={`p-4 ${
+                  className={`p-4 rounded-lg ${
                     bet.isWin
                       ? 'bg-green-500/10 border border-green-500/20'
                       : 'bg-red-500/10 border border-red-500/20'
@@ -404,8 +417,6 @@ export default function LimboGame() {
           </div>
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 }

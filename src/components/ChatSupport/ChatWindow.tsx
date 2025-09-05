@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Send, Minimize2, Maximize2, MessageCircle, User, Bot } from 'lucide-react';
+import { X, Send, Minimize2, Maximize2, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useChatStore } from './ChatStore';
 
@@ -123,30 +123,17 @@ const ChatWindow: React.FC = () => {
                       key={message.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className={`flex items-start gap-3 ${message.sender === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
+                      className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
-                      {/* Avatar */}
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        message.sender === 'user' 
-                          ? 'bg-blue-600' 
-                          : 'bg-green-600'
-                      }`}>
-                        {message.sender === 'user' ? (
-                          <User size={16} className="text-white" />
-                        ) : (
-                          <Bot size={16} className="text-white" />
-                        )}
-                      </div>
-                      
                       <div
-                        className={`max-w-xs px-4 py-3 rounded-2xl text-sm shadow-lg ${
+                        className={`max-w-xs px-3 py-2 rounded-lg text-sm ${
                           message.sender === 'user'
                             ? 'bg-blue-600 text-white'
-                            : 'bg-[#334155] text-gray-100 border border-blue-500/20'
+                            : 'bg-[#0A1929] text-gray-100 border border-blue-500/20'
                         }`}
                       >
                         <p>{message.text}</p>
-                        <p className="text-xs opacity-70 mt-2">
+                        <p className="text-xs opacity-70 mt-1">
                           {message.timestamp.toLocaleTimeString([], { 
                             hour: '2-digit', 
                             minute: '2-digit' 
@@ -168,12 +155,12 @@ const ChatWindow: React.FC = () => {
                     onChange={(e) => setInputMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Type your message..."
-                    className="flex-1 px-4 py-3 bg-[#334155] text-white rounded-xl border border-blue-500/20 focus:outline-none focus:border-blue-500 text-sm"
+                    className="flex-1 px-3 py-2 bg-[#132F4C] text-white rounded-lg border border-blue-500/20 focus:outline-none focus:border-blue-500 text-sm"
                   />
                   <button
                     onClick={handleSendMessage}
                     disabled={!inputMessage.trim()}
-                    className="px-4 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
                     <Send size={16} />
                   </button>

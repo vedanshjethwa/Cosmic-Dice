@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Bell, ArrowLeft, Menu, CheckCircle, AlertTriangle, Info, Gift, X, BookMarked as MarkAsRead, Trash2 } from 'lucide-react';
+import { 
+  Bell, 
+  ArrowLeft, 
+  Menu, 
+  CheckCircle, 
+  AlertTriangle, 
+  Info, 
+  Gift, 
+  X,
+  MarkAsRead,
+  Trash2
+} from 'lucide-react';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
 
@@ -102,7 +113,7 @@ export function NotificationsPage() {
       />
 
       {/* Main Content */}
-      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}`}>
         {/* Header */}
         <div className="sticky top-0 z-10 bg-[#0A1929]/95 backdrop-blur-sm border-b border-blue-500/20">
           <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4">
