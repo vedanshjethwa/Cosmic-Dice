@@ -134,6 +134,17 @@ export function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [gameCarouselIndex, setGameCarouselIndex] = useState(0);
 
+  // Helper function to determine cards per slide based on screen size
+  const getCardsPerSlide = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth < 768) return 1; // Mobile
+      if (window.innerWidth < 1024) return 2; // Tablet
+      if (window.innerWidth < 1280) return 3; // Desktop
+      return 4; // Large desktop
+    }
+    return 3; // Default
+  };
+
   // Featured offers data matching the screenshot
   const featuredOffers = [
     {
@@ -169,10 +180,10 @@ export function HomePage() {
   // Auto-advance carousel
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % featuredOffers.length);
+      setCurrentSlide((prev) => (prev + 1) % Math.ceil(featuredOffers.length / getCardsPerSlide()));
     }, 4000);
     return () => clearInterval(timer);
-  }, [featuredOffers.length]);
+  }, [featuredOffers.length, getCardsPerSlide]);
   const allCategories = ['all', 'Strategy', 'Luck', 'Risk', 'Adventure', 'Timing'];
 
   // Filter games based on category
@@ -277,7 +288,7 @@ export function HomePage() {
                 <Wallet size={16} />
                 <span className="font-medium">
                   ₹{((wallet?.real_balance || 0) + (wallet?.bonus_balance || 0)).toLocaleString()}
-                </span>
+                ← Dashboard
               </button>
             </div>
           </div>
@@ -292,7 +303,7 @@ export function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               className="mb-12"
             >
-              <div className="bg-[#1E293B] rounded-2xl p-6 shadow-2xl border border-blue-500/20">
+              <div className="bg-[#0A1929] rounded-2xl p-6 shadow-2xl border border-blue-500/20">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-white">Featured Offers</h2>
                   <button 
@@ -305,67 +316,55 @@ export function HomePage() {
                 
                 {/* Carousel Container */}
                 <div className="relative">
-                  <div className="overflow-hidden rounded-2xl">
+                  <div className="overflow-hidden">
                     <div 
-                      className="flex transition-transform duration-500 ease-in-out gap-4"
-                      style={{ transform: `translateX(-${currentSlide * (100 / Math.min(4, featuredOffers.length))}%)` }}
+                      className="flex transition-transform duration-500 ease-in-out gap-6"
+                      style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                     >
-                      {featuredOffers.map((offer) => (
-                        <div key={offer.id} className="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
-                          <div className="bg-[#334155] rounded-2xl p-6 h-full border border-blue-500/20 relative overflow-hidden">
-                            {/* Offer Tag */}
-                            <div className="mb-4">
-                              <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${
-                                offer.type === 'COSMIC' ? 'bg-blue-500 text-white' :
-                                offer.type === 'SPECIAL' ? 'bg-purple-500 text-white' :
-                                offer.type === 'LIMITED' ? 'bg-green-500 text-white' :
-                                'bg-orange-500 text-white'
-                              }`}>
-                                {offer.type}
-                              </span>
-                            </div>
-                            
-                            {/* Offer Content */}
-                            <div className="flex justify-between items-start mb-6">
-                              <div className="flex-1 pr-4">
-                                <h3 className="text-white font-semibold text-lg leading-tight mb-4">
-                                  {offer.title}
-                                </h3>
-                                <button className="bg-gradient-to-r from-violet-500 to-blue-500 hover:from-violet-600 hover:to-blue-600 text-white px-4 py-2 rounded-xl font-medium transition-all transform hover:scale-105">
-                                  Claim Now
-                                </button>
+                      {Array.from({ length: Math.ceil(featuredOffers.length / getCardsPerSlide()) }).map((_, slideIndex) => (
+                        <div key={slideIndex} className="min-w-full">
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {featuredOffers.slice(slideIndex * getCardsPerSlide(), (slideIndex + 1) * getCardsPerSlide()).map((offer) => (
+                              <div key={offer.id} className="bg-[#1A2332] rounded-2xl p-6 border border-blue-500/20 relative overflow-hidden">
+                                {/* Offer Tag */}
+                                <div className="mb-4">
+                                  <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${
+                                    offer.type === 'COSMIC' ? 'bg-blue-500 text-white' :
+                                    offer.type === 'SPECIAL' ? 'bg-purple-500 text-white' :
+                                    offer.type === 'LIMITED' ? 'bg-green-500 text-white' :
+                                    'bg-orange-500 text-white'
+                                  }`}>
+                                    {offer.type}
+                                  </span>
+                                </div>
+                                
+                                {/* Offer Content */}
+                                <div className="flex justify-between items-start mb-6">
+                                  <div className="flex-1 pr-4">
+                                    <h3 className="text-white font-semibold text-lg leading-tight mb-4">
+                                      {offer.title}
+                                    </h3>
+                                    <button className="bg-gradient-to-r from-violet-500 to-blue-500 hover:from-violet-600 hover:to-blue-600 text-white px-4 py-2 rounded-xl font-medium transition-all transform hover:scale-105">
+                                      Claim Now
+                                    </button>
+                                  </div>
+                                  
+                                  {/* Offer Icon */}
+                                  <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <span className="text-2xl">🎁</span>
+                                  </div>
+                                </div>
                               </div>
-                              
-                              {/* Offer Icon */}
-                              <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                                <span className="text-2xl">🎁</span>
-                              </div>
-                            </div>
+                            ))}
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
                   
-                  {/* Navigation Arrows */}
-                  <button
-                    onClick={() => setCurrentSlide(Math.max(0, currentSlide - 1))}
-                    disabled={currentSlide === 0}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-                  >
-                    ←
-                  </button>
-                  <button
-                    onClick={() => setCurrentSlide(Math.min(featuredOffers.length - Math.min(4, featuredOffers.length), currentSlide + 1))}
-                    disabled={currentSlide >= featuredOffers.length - Math.min(4, featuredOffers.length)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-                  >
-                    →
-                  </button>
-                  
                   {/* Carousel Indicators */}
                   <div className="flex justify-center gap-2 mt-6">
-                    {Array.from({ length: Math.ceil(featuredOffers.length / Math.min(4, featuredOffers.length)) }).map((_, index) => (
+                    {Array.from({ length: Math.ceil(featuredOffers.length / getCardsPerSlide()) }).map((_, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}

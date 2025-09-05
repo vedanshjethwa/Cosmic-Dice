@@ -46,7 +46,7 @@ export function GameCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className={`cosmic-card relative overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col h-full rounded-2xl ${
+      className={`bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col h-full rounded-2xl ${
         isFeatured 
           ? 'border-yellow-500/50 hover:border-yellow-400/70 hover:shadow-yellow-500/30' 
           : ''
@@ -109,10 +109,6 @@ export function GameCard({
           {title}
         </h3>
 
-        <p className="text-gray-400 text-sm mb-6 flex-1 line-clamp-2">
-          {description}
-        </p>
-        
         <div className="flex gap-2 mt-auto">
           <button 
             onClick={handlePlay}
@@ -131,15 +127,6 @@ export function GameCard({
         </div>
       </div>
 
-      {/* Game Footer */}
-      <div className="px-6 pb-6 mt-auto">
-        <div className="border-t border-blue-500/20 pt-3">
-          <div className="flex items-center justify-between text-xs text-gray-400">
-            <span>Min Bet: ₹1</span>
-            <span>Max Win: ₹100K</span>
-          </div>
-        </div>
-      </div>
     </motion.div>
   );
 }

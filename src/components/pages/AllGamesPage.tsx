@@ -144,7 +144,7 @@ export function AllGamesPage() {
                 className="text-xl sm:text-2xl font-bold text-white transition-all duration-300"
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
               >
-                Cosmic - All Games
+                ← All Games
               </h1>
             </div>
           </div>

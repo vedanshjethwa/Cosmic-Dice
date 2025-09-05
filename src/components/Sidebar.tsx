@@ -208,9 +208,7 @@ export function Sidebar({
             onClick={() => navigate('/')}
             className="p-2 hover:bg-white/10 rounded-xl transition-colors flex items-center justify-center"
           >
-            <div className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              {isOpen ? 'COSMIC' : 'C'}
-            </div>
+            <Menu size={24} className="text-white" />
           </button>
         </div>
 
@@ -234,10 +232,10 @@ export function Sidebar({
         
         {/* Navigation */}
         <nav
-          className="p-4 overflow-y-auto h-[calc(100vh-160px)] custom-scrollbar"
-          style={{ direction: 'ltr' }}
+          className="p-4 overflow-y-auto h-[calc(100vh-160px)] custom-scrollbar-left"
+          style={{ direction: 'rtl' }}
         >
-          <ul className="space-y-3">
+          <ul className="space-y-3" style={{ direction: 'ltr' }}>
             {menuItems.map((item, index) => (
               <li key={index}>
                 <button

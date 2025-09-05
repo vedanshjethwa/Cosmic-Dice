@@ -640,6 +640,33 @@ img {
   background: linear-gradient(180deg, #2563eb, #1e40af);
 }
 
+/* Left-side scrollbar */
+.custom-scrollbar-left {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+  direction: rtl;
+}
+
+.custom-scrollbar-left::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar-left::-webkit-scrollbar-track {
+  background: rgba(15, 35, 60, 0.3);
+  border-radius: 3px;
+}
+
+.custom-scrollbar-left::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3b82f6, #1e40af);
+  border-radius: 3px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.custom-scrollbar-left::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #2563eb, #1e40af);
+}
+
 /* Game container responsive styling */
 .game-container {
   min-height: 100vh;
