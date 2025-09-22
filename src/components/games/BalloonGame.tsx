@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Minus, Plus, Info } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import { Footer } from '../Footer';
 
@@ -23,6 +22,7 @@ export default function BalloonGame() {
   const { user, wallet, refreshWallet, updateBalance } = useAuth();
   const [bet, setBet] = useState(10);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [totalMultiplier, setTotalMultiplier] = useState(1);
   const [balloons, setBalloons] = useState<Balloon[]>([]);
   const [showResult, setShowResult] = useState(false);
   const [lastWin, setLastWin] = useState(0);
@@ -36,20 +36,15 @@ export default function BalloonGame() {
   
   const currentBalance = (wallet?.real_balance || 0) + (wallet?.bonus_balance || 0);
   
-  const balloonColors = [
-    'linear-gradient(135deg, #ff6b9d, #c44569)',
-    'linear-gradient(135deg, #4ecdc4, #44a08d)',
-    'linear-gradient(135deg, #feca57, #ff9ff3)',
-    'linear-gradient(135deg, #48dbfb, #0abde3)',
-    'linear-gradient(135deg, #ff9ff3, #f368e0)',
-    'linear-gradient(135deg, #54a0ff, #2e86de)',
-    'linear-gradient(135deg, #5f27cd, #341f97)',
-    'linear-gradient(135deg, #00d2d3, #54a0ff)',
-    'linear-gradient(135deg, #ff6348, #e17055)',
-    'linear-gradient(135deg, #2ed573, #7bed9f)',
+  const colors = [
+    { gradient: 'from-pink-400 via-pink-500 to-rose-600', glow: 'pink-300', shine: 'pink-200' },
+    { gradient: 'from-cyan-400 via-cyan-500 to-blue-600', glow: 'cyan-300', shine: 'cyan-200' },
+    { gradient: 'from-yellow-400 via-amber-500 to-orange-600', glow: 'yellow-300', shine: 'yellow-200' },
+    { gradient: 'from-emerald-400 via-emerald-500 to-green-600', glow: 'emerald-300', shine: 'emerald-200' },
+    { gradient: 'from-violet-400 via-violet-500 to-purple-600', glow: 'violet-300', shine: 'violet-200' }
   ];
 
-  const multipliers = [0.2, 0.5, 1, 1.5, 2, 2.5, 3, 4, 5];
+  const multipliers = [0.2, 0.5, 1, 2, 3, 4, 5];
 
   useEffect(() => {
     setBalloons(generateBalloons());
@@ -58,11 +53,11 @@ export default function BalloonGame() {
   const generateBalloons = () => {
     const newBalloons: Balloon[] = [];
     for (let i = 0; i < 15; i++) {
-      const randomColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
       const randomMultiplier = multipliers[Math.floor(Math.random() * multipliers.length)];
       newBalloons.push({
         id: i,
-        color: randomColor,
+        color: randomColor.gradient,
         multiplier: randomMultiplier,
         revealed: false
       });
@@ -74,37 +69,49 @@ export default function BalloonGame() {
     if (currentBalance >= bet) {
       updateBalance(-bet);
       setIsPlaying(true);
+      setTotalMultiplier(1);
       setBalloons(generateBalloons());
       setHasPopped(false);
       setShowResult(false);
     }
   };
 
+  const playPopSound = () => {
+    const popSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3');
+    popSound.play().catch(console.error);
+  };
+
   const popBalloon = (balloon: Balloon) => {
     if (!isPlaying || balloon.revealed || hasPopped) return;
 
+    playPopSound();
     setHasPopped(true);
     
     setBalloons(prev => prev.map(b => 
       b.id === balloon.id ? { ...b, revealed: true } : b
     ));
     
-    const winnings = Math.floor(bet * balloon.multiplier);
+    const newMultiplier = balloon.multiplier;
+    setTotalMultiplier(prev => prev * newMultiplier);
+    
+    const winnings = Math.floor(bet * newMultiplier);
     setLastWin(winnings);
     updateBalance(winnings);
     setShowResult(true);
     setIsPlaying(false);
 
+    // Update bet history
     const newBet: BetRecord = {
       id: Date.now(),
       amount: bet,
-      multiplier: balloon.multiplier,
+      multiplier: newMultiplier,
       winAmount: winnings,
       timestamp: new Date()
     };
     
     setBetHistory(prev => [newBet, ...prev].slice(0, 10));
     
+    // Update stats
     setStats(prev => {
       const profit = winnings - bet;
       return {
@@ -133,219 +140,229 @@ export default function BalloonGame() {
     handleBetChange(bet - decrement);
   };
 
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
   return (
-    <div className="game-container">
+    <div className="min-h-screen bg-gradient-to-br from-[#0a1a2a] via-[#132f4c] to-[#0a1a2a] text-white">
       <div className="max-w-7xl mx-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Game Area */}
-          <div className="lg:col-span-2">
-            <div className="game-panel">
-              {showResult && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-center mb-8 p-6 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-lg border border-green-500/30"
+        <div className="bg-[#132f4c] rounded-2xl p-8 shadow-2xl border border-blue-500/20 relative">
+          {showResult && (
+            <div className="absolute inset-x-0 top-8 text-center z-10 animate-fadeIn">
+              <h2 className="text-3xl font-bold mb-2 text-transparent bg-clip-text 
+                bg-gradient-to-r from-blue-300 to-blue-500">
+                {lastWin > bet ? 'Congratulations! 🎉' : 'Better luck next time!'}
+              </h2>
+              <p className="text-2xl mb-4">
+                You won <span className="font-bold text-transparent bg-clip-text 
+                  bg-gradient-to-r from-blue-300 to-blue-500">₹{lastWin}</span>!
+              </p>
+            </div>
+          )}
+          
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-6 relative z-10">
+            {balloons.map(balloon => {
+              const colorObj = colors.find(c => c.gradient === balloon.color);
+              return (
+                <button
+                  key={balloon.id}
+                  onClick={() => popBalloon(balloon)}
+                  disabled={!isPlaying || balloon.revealed || hasPopped}
+                  className="relative group aspect-square p-2 sm:p-3"
                 >
-                  <h2 className="text-3xl font-bold mb-2 text-high-contrast">
-                    {lastWin > bet ? 'Congratulations! 🎉' : 'Better luck next time!'}
-                  </h2>
-                  <p className="text-2xl text-green-400 font-bold">
-                    You won ₹{lastWin}!
-                  </p>
-                </motion.div>
-              )}
-              
-              <div className="balloon-container">
-                {balloons.map((balloon, index) => (
-                  <motion.button
-                    key={balloon.id}
-                    onClick={() => popBalloon(balloon)}
-                    disabled={!isPlaying || balloon.revealed || hasPopped}
-                    className="balloon-wrapper relative group"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ scale: 1.05, y: -8 }}
-                    whileTap={{ scale: 0.95 }}
+                  <div
+                    className={`
+                      w-full h-full relative
+                      transition-all duration-500 transform-gpu
+                      ${balloon.revealed ? 'scale-0 opacity-0 rotate-12' : 'group-hover:scale-110 group-hover:-translate-y-2'}
+                      ${!isPlaying && !balloon.revealed ? 'opacity-50 scale-95' : ''}
+                      ${hasPopped && !balloon.revealed ? 'opacity-30 scale-95' : ''}
+                      animate-balloon-float
+                    `}
                   >
                     <div
-                      className={`balloon ${balloon.revealed ? 'opacity-0 scale-0' : 'animate-balloon-float'}`}
-                      style={{ background: balloon.color }}
+                      className={`
+                        absolute inset-0
+                        bg-gradient-to-b ${balloon.color}
+                        rounded-full
+                        shadow-[0_8px_24px_rgba(0,0,0,0.4)]
+                        before:content-['']
+                        before:absolute
+                        before:inset-[8%]
+                        before:bg-gradient-to-tl
+                        before:from-transparent
+                        before:to-white
+                        before:opacity-40
+                        before:rounded-full
+                        after:content-['']
+                        after:absolute
+                        after:w-4
+                        after:h-4
+                        after:rounded-full
+                        after:bg-gradient-to-br
+                        after:from-white
+                        after:to-transparent
+                        after:opacity-60
+                        after:top-[15%]
+                        after:left-[15%]
+                        group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)]
+                        group-hover:before:opacity-50
+                        transition-all duration-300
+                      `}
                     >
-                      {balloon.revealed ? (
-                        <span className="text-2xl font-bold text-white animate-bounce">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-full opacity-75"></div>
+                      
+                      {!balloon.revealed && isPlaying && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="text-xl sm:text-3xl font-bold text-white drop-shadow-lg animate-pulse">
+                            ?
+                          </div>
+                        </div>
+                      )}
+                      {balloon.revealed && (
+                        <span className="absolute inset-0 flex items-center justify-center text-2xl sm:text-4xl font-bold text-white drop-shadow-lg animate-bounce">
                           {balloon.multiplier}x
                         </span>
-                      ) : isPlaying ? (
-                        <span className="text-xl font-bold text-white animate-pulse">
-                          ?
-                        </span>
-                      ) : null}
-                      
-                      {/* Balloon highlight */}
-                      <div className="absolute top-4 left-4 w-6 h-6 bg-white/30 rounded-full blur-sm" />
+                      )}
                     </div>
-                    
-                    {/* Balloon string */}
-                    <div className="balloon-string animate-string-sway" />
-                  </motion.button>
-                ))}
-              </div>
-            </div>
+
+                    <div className="absolute -bottom-6 sm:-bottom-8 left-1/2 w-[1px] h-6 sm:h-8
+                      transition-all duration-300 transform-gpu origin-top
+                      after:content-['']
+                      after:absolute
+                      after:w-full
+                      after:h-full
+                      after:bg-gradient-to-b
+                      after:from-gray-300
+                      after:to-gray-400
+                      after:animate-string-sway
+                      group-hover:h-8 sm:group-hover:h-10
+                    "></div>
+                  </div>
+                </button>
+              );
+            })}
           </div>
+        </div>
 
-          {/* Side Panel */}
-          <div className="space-y-6">
-            {/* Betting Controls */}
-            <div className="game-panel">
-              <h3 className="text-xl font-bold text-high-contrast mb-6">Place Your Bet</h3>
-              
-              <div className="space-y-6">
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={decrementBet}
-                    disabled={isPlaying || bet <= 1}
-                    className="btn-secondary w-12 h-12 p-0"
-                  >
-                    <Minus className="w-5 h-5" />
-                  </button>
-                  
-                  <input
-                    type="number"
-                    value={bet}
-                    onChange={(e) => handleBetChange(Number(e.target.value))}
-                    disabled={isPlaying}
-                    min={1}
-                    max={currentBalance}
-                    className="form-input text-center text-xl font-bold flex-1"
-                  />
-                  
-                  <button
-                    onClick={incrementBet}
-                    disabled={isPlaying || bet >= currentBalance}
-                    className="btn-secondary w-12 h-12 p-0"
-                  >
-                    <Plus className="w-5 h-5" />
-                  </button>
-                </div>
-
+        <div className="mt-8 bg-[#132f4c] rounded-2xl border border-blue-500/20 p-4 shadow-2xl">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-3 bg-[#0f253c] px-3 sm:px-6 py-2 sm:py-3 rounded-xl border border-blue-500/10 shadow-lg">
+              <span className="text-base sm:text-lg font-medium text-white">Bet:</span>
+              <div className="flex items-center gap-2">
                 <button
-                  onClick={startGame}
-                  disabled={currentBalance < bet || isPlaying}
-                  className="btn-primary w-full text-lg py-4"
+                  onClick={decrementBet}
+                  disabled={isPlaying || bet <= 1}
+                  className="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-500/10 
+                    hover:bg-blue-500/20 border border-blue-500/30 text-blue-400
+                    disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  {isPlaying ? 'Playing...' : 'Start Game'}
+                  <Minus size={16} />
+                </button>
+                <input
+                  type="number"
+                  value={bet}
+                  onChange={(e) => handleBetChange(Number(e.target.value))}
+                  disabled={isPlaying}
+                  min={1}
+                  max={currentBalance}
+                  className="w-24 bg-[#0f253c] rounded-lg px-3 py-1.5 
+                    text-base sm:text-lg font-bold text-white text-center
+                    border border-blue-500/30 focus:border-blue-500/50 focus:outline-none
+                    disabled:opacity-50 disabled:cursor-not-allowed"
+                />
+                <button
+                  onClick={incrementBet}
+                  disabled={isPlaying || bet >= currentBalance}
+                  className="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-500/10 
+                    hover:bg-blue-500/20 border border-blue-500/30 text-blue-400
+                    disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  <Plus size={16} />
                 </button>
               </div>
             </div>
+            <button
+              onClick={startGame}
+              disabled={currentBalance < bet || isPlaying}
+              className="w-full sm:w-auto bg-gradient-to-br from-blue-400 via-blue-500 to-indigo-600 
+                hover:from-blue-500 hover:via-blue-600 hover:to-indigo-700
+                px-8 sm:px-12 py-2 sm:py-3 rounded-xl font-bold text-base sm:text-lg
+                disabled:opacity-50 transition-all duration-300 
+                shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30
+                disabled:hover:shadow-none border border-white/10
+                transform hover:-translate-y-0.5 active:translate-y-0"
+            >
+              {isPlaying ? 'Playing...' : 'Start Game'}
+            </button>
+          </div>
+        </div>
 
-            {/* Stats */}
-            <div className="game-panel">
-              <h3 className="text-xl font-bold text-high-contrast mb-6">Stats</h3>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="stats-panel">
-                  <div className={`stats-value ${stats.totalProfit >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                    {stats.totalProfit >= 0 ? '+' : ''}₹{stats.totalProfit}
-                  </div>
-                  <div className="stats-label">Total Profit</div>
-                </div>
-                <div className="stats-panel">
-                  <div className="stats-value text-green-400">{stats.totalWins}</div>
-                  <div className="stats-label">Wins</div>
-                </div>
-                <div className="stats-panel">
-                  <div className="stats-value text-red-400">{stats.totalLosses}</div>
-                  <div className="stats-label">Losses</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Recent Bets */}
-            <div className="game-panel">
-              <h3 className="text-xl font-bold text-high-contrast mb-6">Recent Bets</h3>
-              <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
-                {betHistory.length === 0 ? (
-                  <div className="text-center text-low-contrast py-8">
-                    No bets yet. Start playing!
-                  </div>
-                ) : (
-                  betHistory.map((record) => {
+        {/* Recent Bets */}
+        <div className="mt-8 bg-[#132f4c] rounded-2xl p-6 border border-blue-500/20 shadow-2xl">
+          <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">Recent Bets</h2>
+          {betHistory.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="text-left text-gray-400 border-b border-blue-500/10">
+                    <th className="pb-2 font-medium">Time</th>
+                    <th className="pb-2 font-medium">Bet</th>
+                    <th className="pb-2 font-medium">Multiplier</th>
+                    <th className="pb-2 font-medium">Payout</th>
+                    <th className="pb-2 font-medium">Profit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {betHistory.map((record) => {
                     const profit = record.winAmount - record.amount;
                     const isProfitable = profit >= 0;
                     
                     return (
-                      <div
-                        key={record.id}
-                        className={`p-4 rounded-lg border transition-all ${
-                          isProfitable
-                            ? 'bg-green-500/10 border-green-500/30 hover:bg-green-500/20'
-                            : 'bg-red-500/10 border-red-500/30 hover:bg-red-500/20'
-                        }`}
-                      >
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <div className="text-sm font-bold text-high-contrast">
-                              {record.multiplier.toFixed(2)}x
-                            </div>
-                            <div className="text-xs text-low-contrast">
-                              ₹{record.amount} bet
-                            </div>
-                          </div>
-                          <div className={`text-sm font-bold ${isProfitable ? 'text-green-400' : 'text-red-400'}`}>
-                            {isProfitable ? '+' : ''}₹{profit}
-                          </div>
-                        </div>
-                      </div>
+                      <tr key={record.id} className="border-b border-blue-500/10 last:border-0">
+                        <td className="py-3 text-sm">{formatTime(record.timestamp)}</td>
+                        <td className="py-3 text-sm">₹{record.amount}</td>
+                        <td className="py-3 text-sm">{record.multiplier}x</td>
+                        <td className="py-3 text-sm">₹{record.winAmount}</td>
+                        <td className={`py-3 text-sm font-medium ${isProfitable ? 'text-green-500' : 'text-red-500'}`}>
+                          {isProfitable ? '+' : ''}₹{profit}
+                        </td>
+                      </tr>
                     );
-                  })
-                )}
-              </div>
+                  })}
+                </tbody>
+              </table>
             </div>
-          </div>
+          ) : (
+            <div className="text-center py-8 text-gray-400">
+              No bets yet. Start playing to see your history!
+            </div>
+          )}
         </div>
 
-        {/* Game Info Section */}
-        <div className="section-divider" />
-        <div className="game-panel">
-          <div className="flex items-center gap-3 mb-4">
-            <Info className="w-6 h-6 text-blue-400" />
-            <h3 className="text-xl font-bold text-high-contrast">How to Play Cosmic Balloon</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#112a44] rounded-xl p-4 border border-blue-500/20">
-              <h4 className="font-bold text-blue-400 mb-2">Game Rules</h4>
-              <ul className="text-medium-contrast text-sm space-y-1">
-                <li>• Set your bet amount</li>
-                <li>• Click any balloon to pop it</li>
-                <li>• Reveal hidden multiplier</li>
-                <li>• Win = Bet × Multiplier</li>
-                <li>• One balloon per round</li>
-              </ul>
+        {/* Stats Summary */}
+        <div className="mt-8 bg-[#132f4c] rounded-2xl p-6 border border-blue-500/20 shadow-2xl">
+          <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">Stats</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-[#0f253c] rounded-xl p-4 border border-blue-500/10">
+              <div className="text-sm text-gray-400">Total Profit</div>
+              <div className={`text-xl font-bold ${stats.totalProfit >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                {stats.totalProfit >= 0 ? '+' : ''}₹{stats.totalProfit}
+              </div>
             </div>
-            <div className="bg-[#112a44] rounded-xl p-4 border border-blue-500/20">
-              <h4 className="font-bold text-green-400 mb-2">Strategy Tips</h4>
-              <ul className="text-medium-contrast text-sm space-y-1">
-                <li>• Start with smaller bets</li>
-                <li>• All balloons are random</li>
-                <li>• Trust your intuition</li>
-                <li>• Set win/loss limits</li>
-                <li>• Play responsibly</li>
-              </ul>
+            <div className="bg-[#0f253c] rounded-xl p-4 border border-blue-500/10">
+              <div className="text-sm text-gray-400">Wins</div>
+              <div className="text-xl font-bold text-green-500">{stats.totalWins}</div>
             </div>
-            <div className="bg-[#112a44] rounded-xl p-4 border border-blue-500/20">
-              <h4 className="font-bold text-purple-400 mb-2">Multipliers</h4>
-              <ul className="text-medium-contrast text-sm space-y-1">
-                <li>• 0.2x - Small loss</li>
-                <li>• 0.5x - Minor loss</li>
-                <li>• 1x - Break even</li>
-                <li>• 2x - Double win</li>
-                <li>• 5x - Maximum win</li>
-              </ul>
+            <div className="bg-[#0f253c] rounded-xl p-4 border border-blue-500/10">
+              <div className="text-sm text-gray-400">Losses</div>
+              <div className="text-xl font-bold text-red-500">{stats.totalLosses}</div>
             </div>
           </div>
         </div>
       </div>
-      
+
       <Footer />
     </div>
   );
