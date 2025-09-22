@@ -286,61 +286,68 @@ export function HomePage() {
         {/* Main Content Area */}
         <main className="p-4 lg:p-8">
           <div className="max-w-7xl mx-auto">
+            {/* Page Header */}
+            <div className="flex items-center gap-3 mb-8">
+              <ArrowLeft className="w-6 h-6 text-blue-400" />
+              <h1 className="text-2xl font-bold text-high-contrast">Dashboard</h1>
+            </div>
+
             {/* Featured Offers Banner - Matching Screenshot */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="mb-12"
             >
-              <div className="bg-[#132f4c] rounded-2xl p-8 shadow-2xl border border-blue-500/20">
+              <div className="offer-banner">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-white">Featured Offers</h2>
+                  <h2 className="text-2xl font-bold text-high-contrast">Featured Offers</h2>
                   <button 
                     onClick={() => navigate('/offers')}
-                    className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-4 py-2 rounded-xl"
+                    className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 link-hover"
                   >
-                    View All →
+                    View All
+                    <ChevronRight size={16} />
                   </button>
                 </div>
                 
-                {/* Carousel Container */}
-                <div className="relative overflow-hidden rounded-2xl border border-blue-500/20">
-                  <div 
-                    className="flex transition-transform duration-500 ease-in-out"
-                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                  >
-                    {featuredOffers.map((offer) => (
-                      <div key={offer.id} className="w-full flex-shrink-0">
-                        <div className={`bg-gradient-to-r ${offer.color} p-6 text-white relative overflow-hidden rounded-2xl`}>
-                          <div className="absolute top-4 right-4">
-                            <img 
-                              src="https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&q=80&w=100&h=100"
-                              alt="Offer"
-                              className="w-16 h-16 opacity-80 rounded-xl"
-                            />
-                          </div>
-                          <div className="max-w-md">
-                            <div className="text-sm font-medium mb-2 opacity-90 bg-white/20 px-3 py-1 rounded-full inline-block">{offer.type}</div>
-                            <h3 className="text-xl font-bold mb-4">{offer.title}</h3>
-                            <button className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-xl font-medium transition-colors border border-white/20">
-                              {offer.buttonText}
-                            </button>
+                {/* Responsive Carousel Container */}
+                <div className="relative overflow-hidden">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {featuredOffers.map((offer, index) => (
+                      <motion.div
+                        key={offer.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className={`offer-card bg-gradient-to-br ${offer.color} relative overflow-hidden group hover-lift`}
+                      >
+                        {/* Offer Type Badge */}
+                        <div className="absolute top-4 left-4">
+                          <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-bold border border-white/30">
+                            {offer.type}
+                          </span>
+                        </div>
+                        
+                        {/* Offer Image */}
+                        <div className="absolute top-4 right-4">
+                          <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                            <Gift className="w-6 h-6 text-white" />
                           </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {/* Carousel Indicators */}
-                  <div className="flex justify-center gap-2 mt-4">
-                    {featuredOffers.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentSlide(index)}
-                        className={`w-3 h-3 rounded-full transition-colors ${
-                          currentSlide === index ? 'bg-blue-400' : 'bg-gray-600'
-                        }`}
-                      />
+                        
+                        {/* Content */}
+                        <div className="relative z-10 mt-12">
+                          <h3 className="text-lg font-bold text-white mb-3 text-shadow">
+                            {offer.title}
+                          </h3>
+                          <button className="offer-button w-full">
+                            {offer.buttonText}
+                          </button>
+                        </div>
+                        
+                        {/* Hover overlay */}
+                        <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </motion.div>
                     ))}
                   </div>
                 </div>
@@ -355,7 +362,7 @@ export function HomePage() {
               className="mb-12"
             >
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-3xl font-bold text-white flex items-center gap-2">
+                <h3 className="text-3xl font-bold text-high-contrast flex items-center gap-2">
                   <Gamepad2 className="text-blue-400" />
                   All Games ({filteredGames.length})
                 </h3>
@@ -364,21 +371,21 @@ export function HomePage() {
                     <button
                       onClick={() => setGameCarouselIndex(Math.max(0, gameCarouselIndex - 1))}
                       disabled={gameCarouselIndex === 0}
-                      className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-3 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover-lift min-w-[44px] min-h-[44px] flex items-center justify-center"
                     >
                       ←
                     </button>
                     <button
                       onClick={() => setGameCarouselIndex(Math.min(Math.ceil(filteredGames.length / 4) - 1, gameCarouselIndex + 1))}
                       disabled={gameCarouselIndex >= Math.ceil(filteredGames.length / 4) - 1}
-                      className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-3 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover-lift min-w-[44px] min-h-[44px] flex items-center justify-center"
                     >
                       →
                     </button>
                   </div>
                   <button
                     onClick={() => navigate('/all-games')}
-                    className="cosmic-button px-4 py-2 flex items-center gap-2"
+                    className="btn-primary flex items-center gap-2"
                   >
                     View All
                     <ChevronRight size={16} />
@@ -387,15 +394,15 @@ export function HomePage() {
               </div>
               
               {/* Category Filters */}
-              <div className="flex gap-3 mb-8 overflow-x-auto pb-2 games-scroll">
+              <div className="flex gap-3 mb-8 overflow-x-auto pb-2 games-scroll prevent-overflow">
                 {allCategories.map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`px-6 py-3 rounded-xl font-medium whitespace-nowrap transition-all shadow-lg border ${
+                    className={`px-6 py-3 rounded-xl font-medium whitespace-nowrap transition-all shadow-lg border min-h-[44px] hover-lift ${
                       selectedCategory === category
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-blue-500/30 border-blue-400'
-                        : 'bg-[#102841] text-gray-300 hover:bg-blue-600/20 border-blue-500/20'
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-blue-500/30 border-blue-400 text-high-contrast'
+                        : 'bg-[#102841] text-medium-contrast hover:bg-blue-600/20 border-blue-500/20 hover:text-white'
                     }`}
                   >
                     {category === 'all' ? 'All Games' : category}
@@ -404,13 +411,13 @@ export function HomePage() {
               </div>
               
               {/* Carousel Container */}
-              <div className="relative overflow-hidden">
+              <div className="relative overflow-hidden prevent-overflow">
                 <div 
                   className="flex transition-transform duration-500 ease-in-out gap-6"
                   style={{ transform: `translateX(-${gameCarouselIndex * 100}%)` }}
                 >
                   {Array.from({ length: Math.ceil(filteredGames.length / 4) }).map((_, slideIndex) => (
-                    <div key={slideIndex} className="min-w-full grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
+                    <div key={slideIndex} className="min-w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
                       {filteredGames.slice(slideIndex * 4, (slideIndex + 1) * 4).map((game, index) => (
                         <GameCard
                           key={game.route}
@@ -440,13 +447,13 @@ export function HomePage() {
               className="mb-12"
             >
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-3xl font-bold text-white flex items-center gap-2">
+                <h3 className="text-3xl font-bold text-high-contrast flex items-center gap-2">
                   <Star className="text-yellow-400" />
                   Featured Games
                 </h3>
               </div>
               
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
                 {featuredGames.map((game, index) => (
                   <GameCard
                     key={game.route}
@@ -472,13 +479,13 @@ export function HomePage() {
               className="mb-12"
             >
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-3xl font-bold text-white flex items-center gap-2">
+                <h3 className="text-3xl font-bold text-high-contrast flex items-center gap-2">
                   <TrendingUp className="text-blue-400" />
                   Popular Games
                 </h3>
                 <button
                   onClick={() => navigate('/popular')}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl flex items-center gap-2 transition-all"
+                  className="btn-primary flex items-center gap-2"
                 >
                   View All
                   <ChevronRight size={16} />
@@ -486,7 +493,7 @@ export function HomePage() {
               </div>
               </motion.section>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
                 {popularGames.slice(0, 4).map((game, index) => (
                   <GameCard
                     key={game.route}
@@ -511,22 +518,22 @@ export function HomePage() {
               transition={{ delay: 0.4 }}
               className="mb-8 lg:mb-12"
             >
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                <div className="bg-[#132f4c] rounded-2xl p-4 lg:p-6 text-center shadow-lg hover:shadow-blue-500/20 transition-all border border-blue-500/20">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 prevent-overflow">
+                <div className="card-cosmic text-center hover-lift">
                   <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-2">9</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Total Games</div>
+                  <div className="text-readable-secondary text-sm lg:text-base">Total Games</div>
                 </div>
-                <div className="bg-[#132f4c] rounded-2xl p-4 lg:p-6 text-center shadow-lg hover:shadow-green-500/20 transition-all border border-blue-500/20">
+                <div className="card-cosmic text-center hover-lift">
                   <div className="text-2xl lg:text-3xl font-bold text-green-400 mb-2">15K+</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Active Players</div>
+                  <div className="text-readable-secondary text-sm lg:text-base">Active Players</div>
                 </div>
-                <div className="bg-[#132f4c] rounded-2xl p-4 lg:p-6 text-center shadow-lg hover:shadow-purple-500/20 transition-all border border-blue-500/20">
+                <div className="card-cosmic text-center hover-lift">
                   <div className="text-2xl lg:text-3xl font-bold text-purple-400 mb-2">₹2.1M+</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Total Winnings</div>
+                  <div className="text-readable-secondary text-sm lg:text-base">Total Winnings</div>
                 </div>
-                <div className="bg-[#132f4c] rounded-2xl p-4 lg:p-6 text-center shadow-lg hover:shadow-yellow-500/20 transition-all border border-blue-500/20">
+                <div className="card-cosmic text-center hover-lift">
                   <div className="text-2xl lg:text-3xl font-bold text-yellow-400 mb-2">98.5%</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Average RTP</div>
+                  <div className="text-readable-secondary text-sm lg:text-base">Average RTP</div>
                 </div>
               </div>
             </motion.section>

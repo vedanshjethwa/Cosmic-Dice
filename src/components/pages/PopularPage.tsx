@@ -155,8 +155,14 @@ export function PopularPage() {
         </div>
 
         <div className="max-w-6xl mx-auto p-6">
+          {/* Page Header */}
+          <div className="flex items-center gap-3 mb-8">
+            <ArrowLeft className="w-6 h-6 text-blue-400" />
+            <h1 className="text-2xl font-bold text-high-contrast">Popular Games</h1>
+          </div>
+
           <div className="mb-8">
-            <p className="text-gray-400 text-lg">
+            <p className="text-readable-secondary text-lg section-padding">
               Discover the most played and highest-rated games on our platform
             </p>
           </div>
@@ -167,87 +173,33 @@ export function PopularPage() {
           >
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-white">Most Popular Games</h2>
-                <span className="text-gray-400 text-sm">
+                <h2 className="text-2xl font-bold text-high-contrast">Most Popular Games</h2>
+                <span className="text-readable-muted text-sm">
                   {popularGames.length} games
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr prevent-overflow">
                 {popularGames.map((game, index) => (
-                  <motion.div
+                  <GameCard
                     key={game.route}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ scale: 1.02, y: -4 }}
-                    className="game-card-bordered bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col h-full"
-                    onClick={() => navigate(game.route)}
-                  >
-                    {/* Image Container */}
-                    <div className="relative h-40 lg:h-48 overflow-hidden">
-                      <img
-                        src={game.image}
-                        alt={game.label}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                      
-                      {/* Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent opacity-80" />
-                      
-                      {/* Badges */}
-                      <div className="absolute top-3 left-3 flex gap-2">
-                        {game.isNew && (
-                          <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold animate-pulse shadow-lg rounded-full">
-                            NEW
-                          </span>
-                        )}
-                        {game.isFeatured && (
-                          <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold shadow-lg rounded-full">
-                            FEATURED
-                           </span>
-                         )}
-                       </div>
-                       
-                       {/* Play button overlay on hover */}
-                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                         <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform shadow-lg">
-                           <Play size={20} />
-                           Play Now
-                         </div>
-                       </div>
-                     </div>
-                    {/* Content */}
-                    <div className="p-4 flex flex-col flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
-                          {game.category}
-                        </span>
-                        <div className="flex items-center gap-3 text-xs text-gray-400">
-                          <div className="flex items-center gap-1">
-                            <Star size={12} className="text-yellow-400 fill-current" />
-                            <span>{game.rating}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Users size={12} />
-                            <span>{game.players}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <h3 className="font-bold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
-                        {game.label}
-                      </h3>
-                      <p className="text-gray-400 text-sm mb-4 flex-1">
-                        {game.description}
-                      </p>
-                    </div>
-                  </motion.div>
+                    title={game.label}
+                    description={game.description}
+                    image={game.image}
+                    route={game.route}
+                    category={game.category}
+                    rating={game.rating}
+                    players={game.players}
+                    isNew={game.isNew}
+                    isFeatured={game.isFeatured}
+                    index={index}
+                  />
                 ))}
               </div>
               
               {/* Section Footer */}
               <div className="mt-8 pt-6 border-t border-blue-500/20">
-                <div className="text-center text-gray-400 text-sm">
+                <div className="text-center text-readable-muted text-sm">
                   <p>Popular games are ranked by player activity and community ratings</p>
                 </div>
               </div>

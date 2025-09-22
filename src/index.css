@@ -2,6 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Improved typography and spacing */
+@layer base {
+  body {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.3;
+    font-weight: 600;
+  }
+  
+  p {
+    line-height: 1.6;
+  }
+}
+
+/* Consistent button styles */
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 
+           text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 
+           transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25
+           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
+           min-w-[120px] whitespace-nowrap;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-xl 
+           transition-all duration-300 border border-gray-600 hover:border-gray-500
+           focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
+           min-w-[120px] whitespace-nowrap;
+  }
+  
+  .card-cosmic {
+    @apply bg-gradient-to-br from-[#132F4C] to-[#0A1929] rounded-2xl border border-blue-500/20 
+           shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300
+           hover:border-blue-400/40 p-6;
+  }
+}
+
 /* Global theme variables */
 :root {
   --cosmic-bg-primary: #0a1a2a;
@@ -12,6 +54,9 @@
   --cosmic-blue-dark: #1D4ED8;
   --cosmic-border: rgba(59, 130, 246, 0.2);
   --cosmic-border-hover: rgba(59, 130, 246, 0.4);
+  --text-primary: #ffffff;
+  --text-secondary: #e2e8f0;
+  --text-muted: #94a3b8;
 }
 
 /* Global rounded corners */
@@ -61,6 +106,7 @@ body {
   border-radius: 1.5rem;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+  padding: 1.5rem;
 }
 
 .cosmic-card:hover {
@@ -76,6 +122,9 @@ body {
   border-radius: 1rem;
   color: white;
   font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  min-width: 120px;
+  white-space: nowrap;
   transition: all 0.3s ease;
 }
 
@@ -83,6 +132,47 @@ body {
   background: linear-gradient(135deg, var(--cosmic-blue-light), var(--cosmic-blue));
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Improved text contrast */
+.text-high-contrast {
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.text-medium-contrast {
+  color: var(--text-secondary);
+}
+
+.text-low-contrast {
+  color: var(--text-muted);
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Improved spacing utilities */
+.section-padding {
+  padding: 2rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding: 3rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding: 4rem 2.5rem;
+  }
 }
 
 /* Performance optimizations */
@@ -606,7 +696,7 @@ img {
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
-  direction: ltr;
+  direction: rtl;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -629,6 +719,31 @@ img {
   background: linear-gradient(180deg, #2563eb, #1e40af);
 }
 
+/* Left-side scrollbar for sidebar */
+.sidebar-scroll {
+  direction: rtl;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+}
+
+.sidebar-scroll > * {
+  direction: ltr;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: rgba(15, 35, 60, 0.3);
+  border-radius: 3px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3b82f6, #1e40af);
+  border-radius: 3px;
+}
+
 /* Game container responsive styling */
 .game-container {
   min-height: 100vh;
@@ -643,24 +758,56 @@ img {
 
 /* Enhanced mobile responsiveness */
 @media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+  
   .premium-game-card {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
   
   .premium-button {
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
+    min-width: 100px;
   }
   
   .premium-panel {
-    padding: 1rem;
-    margin: 0.5rem;
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .section-padding {
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (min-width: 641px) {
+  body {
+    font-size: 16px;
   }
 }
 
 /* Grid auto-rows for equal height cards */
 .auto-rows-fr {
   grid-auto-rows: 1fr;
+}
+
+/* Consistent game card styling */
+.game-card-consistent {
+  background: linear-gradient(135deg, #132f4c, #0a1a2a);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 1.5rem;
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-card-consistent:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
 }
 
 /* Sharp edges for all game elements */
@@ -721,6 +868,11 @@ img[loading="lazy"].loaded {
 
 /* Mobile optimizations */
 @media (max-width: 768px) {
+  .btn-primary,
+  .btn-secondary {
+    @apply py-2.5 px-4 text-sm min-w-[100px];
+  }
+  
   .game-card-arcade:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2);
@@ -729,6 +881,27 @@ img[loading="lazy"].loaded {
   .cosmic-button:hover::before {
     left: 100%;
   }
+  
+  .section-padding {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* Improved focus states for accessibility */
+.focus-visible:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Better link hover effects */
+.link-hover {
+  transition: all 0.2s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.link-hover:hover {
+  border-bottom-color: currentColor;
+  transform: translateY(-1px);
 }
 
 @keyframes balloon-float {
@@ -842,18 +1015,74 @@ img[loading="lazy"].loaded {
   flex-direction: column;
   height: 100%;
 }
+  min-height: 320px;
 
 .game-card-arcade > div:last-child {
   flex: 1;
   display: flex;
   flex-direction: column;
+  padding: 1.5rem;
 }
 
 .game-card-arcade button {
   margin-top: auto;
+  min-height: 44px;
 }
 .game-card-arcade:hover {
   border-color: rgba(59, 130, 246, 0.5);
+}
+
+/* Improved offer banner styling */
+.offer-banner {
+  background: linear-gradient(135deg, #132f4c, #0a1a2a);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.offer-card {
+  border-radius: 1rem;
+  padding: 1.5rem;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.offer-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.offer-card p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.offer-button {
+  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  border: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-width: 120px;
+  white-space: nowrap;
+}
+
+.offer-button:hover {
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
 }
 
 /* Consistent game card borders */
@@ -869,11 +1098,40 @@ img[loading="lazy"].loaded {
   scroll-behavior: smooth;
 }
 
+/* Prevent horizontal overflow */
+.prevent-overflow {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Better spacing for mobile */
+@media (max-width: 640px) {
+  .mobile-spacing {
+    padding: 1rem;
+    margin: 0.5rem 0;
+  }
+  
+  .mobile-text {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  .mobile-button {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    min-width: 100px;
+  }
+}
+
 /* Enhanced button hover effects */
 .cosmic-button {
   position: relative;
   overflow: hidden;
   border-radius: 0.75rem;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cosmic-button::before {
@@ -896,12 +1154,30 @@ img[loading="lazy"].loaded {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 1.5rem;
   border: 2px solid rgba(59, 130, 246, 0.3);
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
 }
 
 .game-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   border-color: rgba(59, 130, 246, 0.5);
+}
+
+/* Improved text readability */
+.text-readable {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.text-readable-secondary {
+  color: #e2e8f0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.text-readable-muted {
+  color: #94a3b8;
 }
 
 /* Responsive optimizations */
@@ -912,11 +1188,29 @@ img[loading="lazy"].loaded {
   }
   
   .game-card {
-    min-height: 280px;
+    min-height: 300px;
   }
   
   .game-card img {
-    height: 160px;
+    height: 180px;
     object-fit: cover;
+  }
+  
+  /* Better mobile button spacing */
+  .mobile-button-spacing {
+    margin: 0.5rem 0;
+    padding: 0.875rem 1.25rem;
+  }
+  
+  /* Improved mobile text */
+  .mobile-heading {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+  
+  .mobile-body {
+    font-size: 0.875rem;
+    line-height: 1.6;
   }
 }

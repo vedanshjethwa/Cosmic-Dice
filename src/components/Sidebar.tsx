@@ -206,11 +206,9 @@ export function Sidebar({
         <div className="p-3 border-b border-blue-500/30 flex items-center justify-center bg-[#334155]">
           <button
             onClick={() => navigate('/')}
-            className="p-1 hover:bg-white/10 rounded-lg transition-colors flex items-center justify-center"
+            className="p-2 hover:bg-white/10 rounded-lg transition-colors flex items-center justify-center"
           >
-            <div className="text-lg font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              {isOpen ? 'COSMIC' : 'C'}
-            </div>
+            <Menu size={24} className="text-white" />
           </button>
         </div>
 
@@ -229,14 +227,13 @@ export function Sidebar({
         
         {/* Navigation */}
         <nav
-          className="p-3 overflow-y-auto h-[calc(100vh-140px)] custom-scrollbar"
-          style={{ direction: 'ltr' }}
+          className="p-3 overflow-y-auto h-[calc(100vh-140px)] sidebar-scroll"
         >
-          <ul className="space-y-2">
+          <ul className="space-y-2" style={{ direction: 'ltr' }}>
             {menuItems.map((item, index) => (
               <li key={index}>
                 <button
-                  className={`flex items-center gap-3 p-3 rounded-lg transition-all whitespace-nowrap group w-full border border-transparent hover:border-blue-500/30 hover:bg-blue-500/10 ${
+                  className={`flex items-center gap-3 p-3 rounded-lg transition-all whitespace-nowrap group w-full border border-transparent hover:border-blue-500/30 hover:bg-blue-500/10 min-h-[44px] ${
                     isActivePage(item)
                       ? 'bg-blue-500/20 text-white border-blue-500/50'
                       : `text-gray-300 hover:bg-blue-900/30 hover:text-white ${item.className || ''}`
