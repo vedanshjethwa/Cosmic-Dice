@@ -199,7 +199,7 @@ export function Sidebar({
       {/* Sidebar */}
       <div
         className={`fixed top-0 left-0 h-full bg-[#1E293B] border-r border-blue-500/30 shadow-2xl z-50 transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpen ? 'w-64' : 'w-0 lg:w-20'
+          isOpen ? 'w-64' : 'w-20'
         }`}
       >
         {/* Header */}
@@ -213,13 +213,13 @@ export function Sidebar({
         </div>
 
         {/* Wallet Display */}
-        <div className={`p-3 border-b border-blue-500/20 ${isOpen ? 'block' : 'hidden lg:block'}`}>
+        <div className={`p-3 border-b border-blue-500/20 ${isOpen ? 'block' : 'block'}`}>
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
             <div className="flex items-center gap-2 mb-1">
               <Wallet size={20} className="text-blue-400" />
-              <span className={`text-xs text-gray-400 ${isOpen ? 'block' : 'hidden lg:hidden'}`}>Balance</span>
+              <span className={`text-xs text-gray-400 ${isOpen ? 'block' : 'block'}`}>Balance</span>
             </div>
-            <div className={`text-lg font-bold text-blue-400 ${isOpen ? 'block' : 'hidden lg:hidden'}`}>
+            <div className={`text-lg font-bold text-blue-400 ${isOpen ? 'block' : 'block'}`}>
               ₹{((wallet?.real_balance || 0) + (wallet?.bonus_balance || 0)).toLocaleString()}
             </div>
           </div>
@@ -246,9 +246,7 @@ export function Sidebar({
                     {item.icon}
                   </span>
                   <span
-                    className={`transition-opacity ${
-                      isOpen ? 'opacity-100' : 'opacity-0 lg:opacity-0'
-                    } transition-opacity`}
+                    className="opacity-100 transition-opacity"
                   >
                     {item.label}
                   </span>

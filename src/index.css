@@ -963,6 +963,8 @@
   border-radius: var(--radius-sm);
   margin: 4px 8px;
   min-height: 44px;
+  width: calc(100% - 16px);
+  text-align: left;
 }
 
 .sidebar-item:hover {
@@ -974,6 +976,12 @@
   background: rgba(59, 130, 246, 0.2);
   color: var(--text-primary);
   border-left: 3px solid var(--accent-primary);
+}
+
+.sidebar-item span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ===== ENHANCED OFFER BANNER ===== */
