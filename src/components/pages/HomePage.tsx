@@ -14,7 +14,8 @@ import {
   Bell,
   Headphones,
   Gamepad2,
-  Menu
+  Menu,
+  ArrowLeft
 } from 'lucide-react';
 
 // Import components
