@@ -14,7 +14,18 @@ import {
   Bell,
   Headphones,
   Gamepad2,
-  Menu
+  Menu,
+  ArrowLeft,
+  Gift,
+  Home,
+  BarChart3,
+  FileText,
+  Music,
+  Settings,
+  MessageCircle,
+  ShoppingCart,
+  TrendingDown,
+  ChevronLeft
 } from 'lucide-react';
 
 // Import components
@@ -130,9 +141,8 @@ export function HomePage() {
   const [redeemOpen, setRedeemOpen] = useState(false);
   const [scratchOpen, setScratchOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [activeTab, setActiveTab] = useState('Games');
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [gameCarouselIndex, setGameCarouselIndex] = useState(0);
 
   // Featured offers data matching the screenshot
   const featuredOffers = [
@@ -140,29 +150,37 @@ export function HomePage() {
       id: 1,
       type: 'COSMIC',
       title: 'Get 10% free on your first recharge',
+      description: 'New users get instant bonus',
       buttonText: 'Claim Now',
-      color: 'from-blue-600 to-blue-800'
+      color: 'from-blue-600 to-blue-800',
+      image: 'https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&q=80&w=200&h=120'
     },
     {
       id: 2,
       type: 'SPECIAL',
       title: 'Earn 2x points this weekend',
+      description: 'Double rewards on all games',
       buttonText: 'Claim Now',
-      color: 'from-purple-600 to-purple-800'
+      color: 'from-purple-600 to-purple-800',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=200&h=120'
     },
     {
       id: 3,
       type: 'LIMITED',
       title: 'Exclusive 50% off on all games',
+      description: 'Limited time offer',
       buttonText: 'Claim Now',
-      color: 'from-green-600 to-green-800'
+      color: 'from-green-600 to-green-800',
+      image: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?auto=format&fit=crop&q=80&w=200&h=120'
     },
     {
       id: 4,
       type: 'GIVEAWAY',
       title: 'Win a free game every week',
+      description: 'Weekly giveaway for active players',
       buttonText: 'Claim Now',
-      color: 'from-orange-600 to-orange-800'
+      color: 'from-orange-600 to-orange-800',
+      image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=200&h=120'
     }
   ];
 
@@ -173,372 +191,344 @@ export function HomePage() {
     }, 4000);
     return () => clearInterval(timer);
   }, [featuredOffers.length]);
-  const allCategories = ['all', 'Strategy', 'Luck', 'Risk', 'Adventure', 'Timing'];
 
-  // Filter games based on category
-  const filteredGames = gameCards.filter(game => {
-    const matchesCategory = selectedCategory === 'all' || game.category.toLowerCase() === selectedCategory.toLowerCase();
-    return matchesCategory;
-  });
+  const sidebarItems = [
+    { icon: <Home size={20} />, label: 'Home', path: '/' },
+    { icon: <BarChart3 size={20} />, label: 'Analytics', path: '/analytics' },
+    { icon: <Gamepad2 size={20} />, label: 'Games', path: '/all-games' },
+    { icon: <Gift size={20} />, label: 'Bonuses', path: '/offers' },
+    { icon: <FileText size={20} />, label: 'Files', path: '/files' },
+    { icon: <Music size={20} />, label: 'Music', path: '/music' },
+    { icon: <Settings size={20} />, label: 'Settings', path: '/settings' },
+    { icon: <MessageCircle size={20} />, label: 'Chat', path: '/chat' },
+  ];
 
-  // Featured games for carousel
-  const featuredGames = gameCards.filter(game => game.isFeatured || game.isNew);
-  const popularGames = gameCards.filter(game => game.isFeatured);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % Math.ceil(filteredGames.length / 4));
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + Math.ceil(filteredGames.length / 4)) % Math.ceil(filteredGames.length / 4));
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'Games':
+        return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {gameCards.slice(0, 6).map((game, index) => (
+              <motion.div
+                key={game.route}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-700 transition-all cursor-pointer"
+                onClick={() => navigate(game.route)}
+              >
+                <img
+                  src={game.image}
+                  alt={game.label}
+                  className="w-full h-32 object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="font-bold text-white mb-2">{game.label}</h3>
+                  <p className="text-gray-400 text-sm">{game.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        );
+      case 'Bonuses':
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {featuredOffers.map((offer, index) => (
+              <motion.div
+                key={offer.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-all"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-xs bg-blue-600 text-white px-2 py-1 rounded-full">
+                      {offer.type}
+                    </span>
+                    <h3 className="font-bold text-white mt-2 mb-1">{offer.title}</h3>
+                    <p className="text-gray-400 text-sm">{offer.description}</p>
+                  </div>
+                  <img
+                    src={offer.image}
+                    alt={offer.title}
+                    className="w-16 h-16 rounded-lg object-cover"
+                  />
+                </div>
+                <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 rounded-lg mt-4 hover:from-blue-700 hover:to-purple-700 transition-all">
+                  {offer.buttonText}
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        );
+      case 'Affiliate':
+        return (
+          <div className="text-center py-12">
+            <Users className="w-16 h-16 mx-auto mb-4 text-blue-400" />
+            <h3 className="text-xl font-bold text-white mb-2">Affiliate Program</h3>
+            <p className="text-gray-400 mb-6">Earn commissions by referring friends</p>
+            <button 
+              onClick={() => navigate('/affiliate-program')}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all"
+            >
+              Learn More
+            </button>
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#0F172A] text-white">
+    <div className="min-h-screen bg-[#1a2332] text-white">
       {/* Sidebar */}
-      <Sidebar
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        onWalletClick={() => navigate('/wallet')}
-        onWithdrawalClick={() => navigate('/withdrawal')}
-        onDepositClick={() => navigate('/deposit')}
-        currentPath="/"
-      />
+      <div className="fixed left-0 top-0 h-full w-16 bg-[#0f1419] border-r border-gray-700 z-50 flex flex-col items-center py-4">
+        <div className="space-y-4">
+          {sidebarItems.map((item, index) => (
+            <button
+              key={index}
+              onClick={() => navigate(item.path)}
+              className="p-3 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-all"
+              title={item.label}
+            >
+              {item.icon}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Main Content */}
-      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
-        {/* Top Navigation */}
-        <motion.header
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="sticky top-0 z-40 bg-[#1E293B]/95 backdrop-blur-sm border-b border-blue-500/20"
-        >
-          <div className="flex items-center justify-between p-4 lg:px-8">
-            {/* Left side */}
+      <div className="ml-16">
+        {/* Header */}
+        <header className="bg-[#1a2332] border-b border-gray-700 px-6 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
             <div className="flex items-center gap-4">
-              <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-              >
-                <Menu size={24} />
-              </button>
-              <motion.h1
-                className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent transition-all duration-300"
-                style={{ fontFamily: "'Orbitron', sans-serif" }}
-                whileHover={{ scale: 1.05 }}
-              >
-                COSMIC
-              </motion.h1>
-            </div>
-
-            {/* Center - Search */}
-            <div className="hidden md:flex flex-1 max-w-md mx-8">
-              <button
-                onClick={() => setSearchOpen(true)}
-                className="w-full bg-[#334155] text-gray-400 px-4 py-2 rounded-lg text-left flex items-center gap-3 hover:bg-[#475569] transition-colors border border-blue-500/20"
-              >
-                <Search size={20} />
-                <span>Search games...</span>
-                <div className="ml-auto flex gap-1">
-                  <kbd className="px-2 py-1 bg-gray-700 text-xs">⌘</kbd>
-                  <kbd className="px-2 py-1 bg-gray-700 text-xs">K</kbd>
-                </div>
-              </button>
+              <h1 className="text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                Cosmic
+              </h1>
             </div>
 
             {/* Right side */}
-            <div className="flex items-center gap-2 lg:gap-4">
-              <button
-                onClick={() => setSearchOpen(true)}
-                className="p-2 hover:bg-white/10 transition-colors md:hidden"
-              >
-                <Search size={20} />
-              </button>
-              
+            <div className="flex items-center gap-4">
+              {/* Search Bar */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="text"
+                  placeholder="Search games..."
+                  className="bg-[#2a3441] text-white pl-10 pr-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500 w-64"
+                  onClick={() => setSearchOpen(true)}
+                />
+              </div>
+
               {/* Notification Bell */}
-              <button className="relative p-2 hover:bg-white/10 transition-colors">
-                <Bell size={20} className="text-white" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center">
+              <button className="relative p-2 text-gray-400 hover:text-white transition-colors">
+                <Bell size={20} />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
                   3
                 </span>
               </button>
-              
-              <button
-                onClick={() => navigate('/profile')}
-                className="p-2 hover:bg-white/10 transition-colors"
-              >
-                <User size={20} />
-              </button>
-              
-              <button
-                onClick={() => setWalletOpen(true)}
-                className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 px-4 py-2 rounded-lg border border-blue-500/30 flex items-center gap-2"
-              >
-                <Wallet size={16} />
-                <span className="font-medium">
-                  ₹{((wallet?.real_balance || 0) + (wallet?.bonus_balance || 0)).toLocaleString()}
+
+              {/* Cart/Coins */}
+              <button className="relative p-2 text-gray-400 hover:text-white transition-colors">
+                <ShoppingCart size={20} />
+                <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                  5
                 </span>
+              </button>
+
+              {/* Profile */}
+              <button 
+                onClick={() => navigate('/profile')}
+                className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold"
+              >
+                <User size={16} />
               </button>
             </div>
           </div>
-        </motion.header>
+        </header>
 
-        {/* Main Content Area */}
-        <main className="p-4 lg:p-8">
-          <div className="max-w-7xl mx-auto">
-            {/* Featured Offers Banner - Matching Screenshot */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-12"
-            >
-              <div className="bg-[#132f4c] rounded-2xl p-8 shadow-2xl border border-blue-500/20">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-white">Featured Offers</h2>
-                  <button 
-                    onClick={() => navigate('/offers')}
-                    className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-4 py-2 rounded-xl"
-                  >
-                    View All →
-                  </button>
-                </div>
-                
-                {/* Carousel Container */}
-                <div className="relative overflow-hidden rounded-2xl border border-blue-500/20">
-                  <div 
-                    className="flex transition-transform duration-500 ease-in-out"
-                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                  >
-                    {featuredOffers.map((offer) => (
-                      <div key={offer.id} className="w-full flex-shrink-0">
-                        <div className={`bg-gradient-to-r ${offer.color} p-6 text-white relative overflow-hidden rounded-2xl`}>
-                          <div className="absolute top-4 right-4">
-                            <img 
-                              src="https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&q=80&w=100&h=100"
-                              alt="Offer"
-                              className="w-16 h-16 opacity-80 rounded-xl"
-                            />
-                          </div>
-                          <div className="max-w-md">
-                            <div className="text-sm font-medium mb-2 opacity-90 bg-white/20 px-3 py-1 rounded-full inline-block">{offer.type}</div>
-                            <h3 className="text-xl font-bold mb-4">{offer.title}</h3>
-                            <button className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-xl font-medium transition-colors border border-white/20">
-                              {offer.buttonText}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {/* Carousel Indicators */}
-                  <div className="flex justify-center gap-2 mt-4">
-                    {featuredOffers.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentSlide(index)}
-                        className={`w-3 h-3 rounded-full transition-colors ${
-                          currentSlide === index ? 'bg-blue-400' : 'bg-gray-600'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.section>
+        {/* Tabs */}
+        <div className="bg-[#1a2332] border-b border-gray-700 px-6">
+          <div className="flex gap-8">
+            {['Games', 'Bonuses', 'Affiliate'].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`py-4 px-2 border-b-2 transition-all ${
+                  activeTab === tab
+                    ? 'border-blue-500 text-white'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
 
-            {/* All Games Section */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="mb-12"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-3xl font-bold text-white flex items-center gap-2">
-                  <Gamepad2 className="text-blue-400" />
-                  All Games ({filteredGames.length})
-                </h3>
-                <div className="flex items-center gap-4">
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setGameCarouselIndex(Math.max(0, gameCarouselIndex - 1))}
-                      disabled={gameCarouselIndex === 0}
-                      className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      ←
-                    </button>
-                    <button
-                      onClick={() => setGameCarouselIndex(Math.min(Math.ceil(filteredGames.length / 4) - 1, gameCarouselIndex + 1))}
-                      disabled={gameCarouselIndex >= Math.ceil(filteredGames.length / 4) - 1}
-                      className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      →
+        {/* Main Content */}
+        <main className="p-6">
+          {/* Top Offer Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            {featuredOffers.slice(0, 3).map((offer, index) => (
+              <motion.div
+                key={offer.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className={`bg-gradient-to-r ${offer.color} rounded-xl p-6 relative overflow-hidden`}
+              >
+                <div className="absolute top-3 left-3">
+                  <span className="bg-white/20 text-white text-xs px-2 py-1 rounded-full font-bold">
+                    {offer.type}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <h3 className="text-white font-bold text-lg mb-2">{offer.title}</h3>
+                    <p className="text-white/80 text-sm mb-4">{offer.description}</p>
+                    <button className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-all">
+                      {offer.buttonText}
                     </button>
                   </div>
-                  <button
-                    onClick={() => navigate('/all-games')}
-                    className="cosmic-button px-4 py-2 flex items-center gap-2"
-                  >
-                    View All
-                    <ChevronRight size={16} />
-                  </button>
-                </div>
-              </div>
-              
-              {/* Category Filters */}
-              <div className="flex gap-3 mb-8 overflow-x-auto pb-2 games-scroll">
-                {allCategories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-6 py-3 rounded-xl font-medium whitespace-nowrap transition-all shadow-lg border ${
-                      selectedCategory === category
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-blue-500/30 border-blue-400'
-                        : 'bg-[#102841] text-gray-300 hover:bg-blue-600/20 border-blue-500/20'
-                    }`}
-                  >
-                    {category === 'all' ? 'All Games' : category}
-                  </button>
-                ))}
-              </div>
-              
-              {/* Carousel Container */}
-              <div className="relative overflow-hidden">
-                <div 
-                  className="flex transition-transform duration-500 ease-in-out gap-6"
-                  style={{ transform: `translateX(-${gameCarouselIndex * 100}%)` }}
-                >
-                  {Array.from({ length: Math.ceil(filteredGames.length / 4) }).map((_, slideIndex) => (
-                    <div key={slideIndex} className="min-w-full grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
-                      {filteredGames.slice(slideIndex * 4, (slideIndex + 1) * 4).map((game, index) => (
-                        <GameCard
-                          key={game.route}
-                          title={game.label}
-                          description={game.description}
-                          image={game.image}
-                          route={game.route}
-                          category={game.category}
-                          rating={game.rating}
-                          players={game.players}
-                          isNew={game.isNew}
-                          isFeatured={game.isFeatured}
-                          index={index}
-                        />
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.section>
-
-            {/* Featured Games Section */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="mb-12"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-3xl font-bold text-white flex items-center gap-2">
-                  <Star className="text-yellow-400" />
-                  Featured Games
-                </h3>
-              </div>
-              
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
-                {featuredGames.map((game, index) => (
-                  <GameCard
-                    key={game.route}
-                    title={game.label}
-                    description={game.description}
-                    image={game.image}
-                    route={game.route}
-                    category={game.category}
-                    rating={game.rating}
-                    players={game.players}
-                    isNew={game.isNew}
-                    isFeatured={game.isFeatured}
-                    index={index}
+                  <img
+                    src={offer.image}
+                    alt={offer.title}
+                    className="w-20 h-20 rounded-lg object-cover ml-4"
                   />
-                ))}
-              </div>
-            </motion.section>
+                </div>
+                <div className="absolute top-3 right-3">
+                  <ChevronRight className="text-white/60" size={20} />
+                </div>
+              </motion.div>
+            ))}
+          </div>
 
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="mb-12"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-3xl font-bold text-white flex items-center gap-2">
-                  <TrendingUp className="text-blue-400" />
-                  Popular Games
-                </h3>
+          {/* Gaming Activity Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mb-8"
+          >
+            <h2 className="text-xl font-bold text-white mb-4">Gaming Activity</h2>
+            <div className="grid grid-cols-3 gap-6">
+              <div className="bg-red-900/20 border border-red-500/30 rounded-xl p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-red-400 font-medium">Loss</span>
+                  <TrendingDown className="text-red-400" size={20} />
+                </div>
+                <div className="text-2xl font-bold text-white mb-1">$2,500</div>
+                <div className="flex items-center gap-1 text-red-400 text-sm">
+                  <TrendingDown size={16} />
+                  <span>-5.2%</span>
+                </div>
+              </div>
+
+              <div className="bg-blue-900/20 border border-blue-500/30 rounded-xl p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-blue-400 font-medium">Deposit</span>
+                  <TrendingUp className="text-blue-400" size={20} />
+                </div>
+                <div className="text-2xl font-bold text-white mb-1">$10,000</div>
+                <div className="flex items-center gap-1 text-blue-400 text-sm">
+                  <TrendingUp size={16} />
+                  <span>+12.5%</span>
+                </div>
+              </div>
+
+              <div className="bg-green-900/20 border border-green-500/30 rounded-xl p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-green-400 font-medium">Profit</span>
+                  <TrendingUp className="text-green-400" size={20} />
+                </div>
+                <div className="text-2xl font-bold text-white mb-1">$3,750</div>
+                <div className="flex items-center gap-1 text-green-400 text-sm">
+                  <TrendingUp size={16} />
+                  <span>+8.3%</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Tab Content */}
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8"
+          >
+            {renderTabContent()}
+          </motion.div>
+
+          {/* Featured Offers Carousel */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mb-8"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-white">Featured Offers</h2>
+              <div className="flex gap-2">
                 <button
-                  onClick={() => navigate('/popular')}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl flex items-center gap-2 transition-all"
+                  onClick={() => setCurrentSlide((prev) => (prev - 1 + featuredOffers.length) % featuredOffers.length)}
+                  className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-all"
                 >
-                  View All
-                  <ChevronRight size={16} />
+                  <ChevronLeft size={16} className="text-white" />
+                </button>
+                <button
+                  onClick={() => setCurrentSlide((prev) => (prev + 1) % featuredOffers.length)}
+                  className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-all"
+                >
+                  <ChevronRight size={16} className="text-white" />
                 </button>
               </div>
-              </motion.section>
+            </div>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
-                {popularGames.slice(0, 4).map((game, index) => (
-                  <GameCard
-                    key={game.route}
-                    title={game.label}
-                    description={game.description}
-                    image={game.image}
-                    route={game.route}
-                    category={game.category}
-                    rating={game.rating}
-                    players={game.players}
-                    isNew={game.isNew}
-                    isFeatured={game.isFeatured}
-                    index={index}
-                  />
-                ))}
-              </div>
-            </motion.section>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {featuredOffers.map((offer, index) => (
+                <motion.div
+                  key={offer.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-all"
+                >
+                  <div className="text-xs bg-blue-600 text-white px-2 py-1 rounded-full inline-block mb-3">
+                    {offer.type}
+                  </div>
+                  <h3 className="font-bold text-white mb-2 text-sm">{offer.title}</h3>
+                  <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 rounded-lg text-sm hover:from-blue-700 hover:to-purple-700 transition-all">
+                    {offer.buttonText}
+                  </button>
+                </motion.div>
+              ))}
+            </div>
 
-            {/* Quick Stats */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="mb-8 lg:mb-12"
-            >
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                <div className="bg-[#132f4c] rounded-2xl p-4 lg:p-6 text-center shadow-lg hover:shadow-blue-500/20 transition-all border border-blue-500/20">
-                  <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-2">9</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Total Games</div>
-                </div>
-                <div className="bg-[#132f4c] rounded-2xl p-4 lg:p-6 text-center shadow-lg hover:shadow-green-500/20 transition-all border border-blue-500/20">
-                  <div className="text-2xl lg:text-3xl font-bold text-green-400 mb-2">15K+</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Active Players</div>
-                </div>
-                <div className="bg-[#132f4c] rounded-2xl p-4 lg:p-6 text-center shadow-lg hover:shadow-purple-500/20 transition-all border border-blue-500/20">
-                  <div className="text-2xl lg:text-3xl font-bold text-purple-400 mb-2">₹2.1M+</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Total Winnings</div>
-                </div>
-                <div className="bg-[#132f4c] rounded-2xl p-4 lg:p-6 text-center shadow-lg hover:shadow-yellow-500/20 transition-all border border-blue-500/20">
-                  <div className="text-2xl lg:text-3xl font-bold text-yellow-400 mb-2">98.5%</div>
-                  <div className="text-gray-400 text-sm lg:text-base">Average RTP</div>
-                </div>
-              </div>
-            </motion.section>
-          </div>
+            {/* Carousel Dots */}
+            <div className="flex justify-center gap-2 mt-6">
+              {featuredOffers.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    index === currentSlide ? 'bg-blue-500' : 'bg-gray-600'
+                  }`}
+                />
+              ))}
+            </div>
+          </motion.div>
         </main>
 
-        {/* Footer */}
         <Footer />
       </div>
 
-      {/* Modals and Overlays */}
+      {/* Modals */}
       <SearchSystem
         isOpen={searchOpen}
         onClose={() => setSearchOpen(false)}

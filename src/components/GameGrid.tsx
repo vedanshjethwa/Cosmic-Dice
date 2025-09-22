@@ -21,7 +21,7 @@ interface GameGridProps {
 }
 
 export function GameGrid({ games, title = "Games", searchTerm = "" }: GameGridProps) {
-  const filteredGames = games.filter(game =>
+  const filteredGames = (games || []).filter(game =>
     game.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
     game.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
     game.category.toLowerCase().includes(searchTerm.toLowerCase())
@@ -53,7 +53,7 @@ export function GameGrid({ games, title = "Games", searchTerm = "" }: GameGridPr
           <p className="text-gray-500">Try adjusting your search terms</p>
         </motion.div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredGames.map((game, index) => (
             <div key={game.route} className="game-card">
               <GameCard
