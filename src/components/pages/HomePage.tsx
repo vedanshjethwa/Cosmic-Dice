@@ -314,32 +314,32 @@ export function HomePage() {
                 
                 {/* Responsive Carousel Container */}
                 <div className="relative overflow-hidden">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {featuredOffers.map((offer, index) => (
                       <motion.div
                         key={offer.id}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className={`offer-card bg-gradient-to-br ${offer.color} relative overflow-hidden group hover-lift`}
+                        className="offer-card relative overflow-hidden group hover-lift"
                       >
                         {/* Offer Type Badge */}
                         <div className="absolute top-4 left-4">
-                          <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-bold border border-white/30">
+                          <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 text-sm font-bold border border-white/30" style={{ borderRadius: '12px' }}>
                             {offer.type}
                           </span>
                         </div>
                         
                         {/* Offer Image */}
                         <div className="absolute top-4 right-4">
-                          <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                          <div className="w-12 h-12 bg-white/20 flex items-center justify-center backdrop-blur-sm" style={{ borderRadius: '12px' }}>
                             <Gift className="w-6 h-6 text-white" />
                           </div>
                         </div>
                         
                         {/* Content */}
                         <div className="relative z-10 mt-12">
-                          <h3 className="text-lg font-bold text-white mb-3 text-shadow">
+                          <h3 className="text-lg font-bold mb-3" style={{ color: '#ffffff', marginBottom: '16px' }}>
                             {offer.title}
                           </h3>
                           <button className="offer-button w-full">
@@ -366,28 +366,31 @@ export function HomePage() {
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-3xl font-bold text-high-contrast flex items-center gap-2">
                   <Gamepad2 className="text-blue-400" />
-                  All Games ({filteredGames.length})
+                  All Games ({(filteredGames || []).length})
                 </h3>
                 <div className="flex items-center gap-4">
                   <div className="flex gap-2">
                     <button
                       onClick={() => setGameCarouselIndex(Math.max(0, gameCarouselIndex - 1))}
                       disabled={gameCarouselIndex === 0}
-                      className="p-3 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover-lift min-w-[44px] min-h-[44px] flex items-center justify-center"
+                      className="p-3 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover-lift min-w-[44px] min-h-[44px] flex items-center justify-center"
+                      style={{ borderRadius: '12px' }}
                     >
                       ←
                     </button>
                     <button
-                      onClick={() => setGameCarouselIndex(Math.min(Math.ceil(filteredGames.length / 4) - 1, gameCarouselIndex + 1))}
-                      disabled={gameCarouselIndex >= Math.ceil(filteredGames.length / 4) - 1}
-                      className="p-3 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover-lift min-w-[44px] min-h-[44px] flex items-center justify-center"
+                      onClick={() => setGameCarouselIndex(Math.min(Math.ceil((filteredGames || []).length / 4) - 1, gameCarouselIndex + 1))}
+                      disabled={gameCarouselIndex >= Math.ceil((filteredGames || []).length / 4) - 1}
+                      className="p-3 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover-lift min-w-[44px] min-h-[44px] flex items-center justify-center"
+                      style={{ borderRadius: '12px' }}
                     >
                       →
                     </button>
                   </div>
                   <button
                     onClick={() => navigate('/all-games')}
-                    className="btn-primary flex items-center gap-2"
+                    className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-semibold py-3 px-6 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 min-w-[120px] flex items-center gap-2"
+                    style={{ borderRadius: '12px' }}
                   >
                     View All
                     <ChevronRight size={16} />
@@ -401,11 +404,15 @@ export function HomePage() {
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`px-6 py-3 rounded-xl font-medium whitespace-nowrap transition-all shadow-lg border min-h-[44px] hover-lift ${
+                    className={`px-6 py-3 font-medium whitespace-nowrap transition-all border min-h-[44px] hover-lift ${
                       selectedCategory === category
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-blue-500/30 border-blue-400 text-high-contrast'
-                        : 'bg-[#102841] text-medium-contrast hover:bg-blue-600/20 border-blue-500/20 hover:text-white'
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white border-blue-400'
+                        : 'bg-gray-700 hover:bg-blue-600/20 border-blue-500/20 hover:text-white'
                     }`}
+                    style={{ 
+                      borderRadius: '12px',
+                      color: selectedCategory === category ? '#ffffff' : '#d1d5db'
+                    }}
                   >
                     {category === 'all' ? 'All Games' : category}
                   </button>
@@ -414,13 +421,8 @@ export function HomePage() {
               
               {/* Carousel Container */}
               <div className="relative overflow-hidden prevent-overflow">
-                <div 
-                  className="flex transition-transform duration-500 ease-in-out gap-6"
-                  style={{ transform: `translateX(-${gameCarouselIndex * 100}%)` }}
-                >
-                  {Array.from({ length: Math.ceil(filteredGames.length / 4) }).map((_, slideIndex) => (
-                    <div key={slideIndex} className="min-w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
-                      {filteredGames.slice(slideIndex * 4, (slideIndex + 1) * 4).map((game, index) => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-fr">
+                  {(filteredGames || []).map((game, index) => (
                         <GameCard
                           key={game.route}
                           title={game.label}
@@ -434,8 +436,6 @@ export function HomePage() {
                           isFeatured={game.isFeatured}
                           index={index}
                         />
-                      ))}
-                    </div>
                   ))}
                 </div>
               </div>
@@ -455,7 +455,7 @@ export function HomePage() {
                 </h3>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-fr">
                 {featuredGames.map((game, index) => (
                   <GameCard
                     key={game.route}
@@ -493,9 +493,8 @@ export function HomePage() {
                   <ChevronRight size={16} />
                 </button>
               </div>
-              </motion.section>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-fr">
                 {popularGames.slice(0, 4).map((game, index) => (
                   <GameCard
                     key={game.route}
@@ -512,6 +511,7 @@ export function HomePage() {
                   />
                 ))}
               </div>
+            </motion.section>
 
             {/* Quick Stats */}
             <motion.section
@@ -522,20 +522,20 @@ export function HomePage() {
             >
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 prevent-overflow">
                 <div className="card-cosmic text-center hover-lift">
-                  <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-2">9</div>
-                  <div className="text-readable-secondary text-sm lg:text-base">Total Games</div>
+                  <div className="text-2xl lg:text-3xl font-bold text-blue-400" style={{ marginBottom: '16px' }}>9</div>
+                  <div className="text-sm lg:text-base" style={{ color: '#d1d5db' }}>Total Games</div>
                 </div>
                 <div className="card-cosmic text-center hover-lift">
-                  <div className="text-2xl lg:text-3xl font-bold text-green-400 mb-2">15K+</div>
-                  <div className="text-readable-secondary text-sm lg:text-base">Active Players</div>
+                  <div className="text-2xl lg:text-3xl font-bold text-green-400" style={{ marginBottom: '16px' }}>15K+</div>
+                  <div className="text-sm lg:text-base" style={{ color: '#d1d5db' }}>Active Players</div>
                 </div>
                 <div className="card-cosmic text-center hover-lift">
-                  <div className="text-2xl lg:text-3xl font-bold text-purple-400 mb-2">₹2.1M+</div>
-                  <div className="text-readable-secondary text-sm lg:text-base">Total Winnings</div>
+                  <div className="text-2xl lg:text-3xl font-bold text-purple-400" style={{ marginBottom: '16px' }}>₹2.1M+</div>
+                  <div className="text-sm lg:text-base" style={{ color: '#d1d5db' }}>Total Winnings</div>
                 </div>
                 <div className="card-cosmic text-center hover-lift">
-                  <div className="text-2xl lg:text-3xl font-bold text-yellow-400 mb-2">98.5%</div>
-                  <div className="text-readable-secondary text-sm lg:text-base">Average RTP</div>
+                  <div className="text-2xl lg:text-3xl font-bold text-yellow-400" style={{ marginBottom: '16px' }}>98.5%</div>
+                  <div className="text-sm lg:text-base" style={{ color: '#d1d5db' }}>Average RTP</div>
                 </div>
               </div>
             </motion.section>
