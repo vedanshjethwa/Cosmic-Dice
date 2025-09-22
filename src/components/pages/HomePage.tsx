@@ -16,6 +16,7 @@ import {
   Gamepad2,
   Menu,
   ArrowLeft
+  Gift
 } from 'lucide-react';
 
 // Import components
