@@ -46,29 +46,33 @@ export function GameCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className="game-card-consistent relative overflow-hidden group cursor-pointer"
+      className={`cosmic-card relative overflow-hidden group cursor-pointer border-2 border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col h-full ${
+        isFeatured 
+          ? 'border-yellow-500/50 hover:border-yellow-400/70 hover:shadow-yellow-500/30' 
+          : ''
+      }`}
       onClick={handlePlay}
     >
       {/* Image Container */}
-      <div className="relative h-48 lg:h-52 overflow-hidden flex-shrink-0" style={{ borderRadius: '12px 12px 0 0' }}>
+      <div className="relative h-48 overflow-hidden flex-shrink-0">
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 rounded-t-2xl"
         />
         
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1E293B] via-transparent to-transparent opacity-80" />
         
         {/* Badges */}
         <div className="absolute top-3 left-3 flex gap-2">
           {isNew && (
-            <span className="px-3 py-1 bg-green-500 text-white text-xs font-bold shadow-lg" style={{ borderRadius: '12px' }}>
+            <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold animate-pulse shadow-lg">
               NEW
             </span>
           )}
           {isFeatured && (
-            <span className="px-3 py-1 bg-yellow-500 text-black text-xs font-bold shadow-lg" style={{ borderRadius: '12px' }}>
+            <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold shadow-lg">
               FEATURED
             </span>
           )}
@@ -76,7 +80,7 @@ export function GameCard({
 
         {/* Play button overlay on hover */}
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 font-semibold flex items-center gap-2 transition-all" style={{ borderRadius: '12px' }}>
+          <div className="cosmic-button text-white px-6 py-3 font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform shadow-lg">
             <Play size={20} />
             Play Now
           </div>
@@ -84,12 +88,12 @@ export function GameCard({
       </div>
 
       {/* Content */}
-      <div className="card-content">
+      <div className="p-4 flex flex-col flex-1 min-h-0">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs text-blue-400 bg-blue-500/20 px-3 py-1 font-medium border border-blue-500/30" style={{ borderRadius: '12px' }}>
+          <span className="text-xs text-blue-400 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
             {category}
           </span>
-          <div className="flex items-center gap-3 text-xs" style={{ color: '#9ca3af' }}>
+          <div className="flex items-center gap-3 text-xs text-gray-400">
             <div className="flex items-center gap-1">
               <Star size={12} className="text-yellow-400 fill-current" />
               <span>{rating}</span>
@@ -101,22 +105,39 @@ export function GameCard({
           </div>
         </div>
 
-        <h3 className="font-bold text-lg lg:text-xl group-hover:text-blue-400 transition-all" style={{ color: '#ffffff', marginBottom: '16px' }}>
+        <h3 className="font-bold text-white mb-2 text-lg group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
           {title}
         </h3>
-        
-        <p className="text-sm mb-4 flex-1" style={{ color: '#d1d5db', marginBottom: '20px' }}>
+
+        <p className="text-gray-400 text-sm mb-4 flex-1 line-clamp-2">
           {description}
         </p>
         
-        <div className="mt-auto">
-          <button
+        <div className="flex gap-2 mt-auto">
+          <button 
             onClick={handlePlay}
-            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-semibold py-3 px-6 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
-            style={{ borderRadius: '12px', minWidth: '120px' }}
+            className="flex-1 cosmic-button text-white py-3 transition-all font-medium shadow-lg hover:shadow-blue-500/30 transform hover:scale-105"
           >
             Play Now
           </button>
+          {(isNew || isFeatured) && (
+            <button
+              onClick={handleShowDetails}
+              className="px-4 py-3 bg-[#475569]/20 hover:bg-[#475569]/30 text-gray-300 transition-colors text-sm border border-gray-500/30 rounded-lg"
+            >
+              Info
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Game Footer */}
+      <div className="px-4 pb-4 mt-auto">
+        <div className="border-t border-blue-500/20 pt-3">
+          <div className="flex items-center justify-between text-xs text-gray-400">
+            <span>Min Bet: ₹1</span>
+            <span>Max Win: ₹100K</span>
+          </div>
         </div>
       </div>
     </motion.div>
