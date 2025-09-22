@@ -300,61 +300,61 @@ export function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               className="mb-12"
             >
-              <div className="offer-banner">
+              <div className="offer-banner-enhanced">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-high-contrast">Featured Offers</h2>
                   <button 
                     onClick={() => navigate('/offers')}
-                    className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 link-hover"
+                    className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
                   >
                     View All
                     <ChevronRight size={16} />
                   </button>
                 </div>
                 
-                {/* Responsive Carousel Container */}
-                <div className="relative overflow-hidden">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {featuredOffers.map((offer, index) => (
-                      <motion.div
-                        key={offer.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="offer-card relative overflow-hidden group hover-lift"
-                      >
-                        {/* Offer Type Badge */}
-                        <div className="absolute top-4 left-4">
-                          <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 text-sm font-bold border border-white/30" style={{ borderRadius: '12px' }}>
-                            {offer.type}
-                          </span>
+                <div className="offer-carousel">
+                  {[...featuredOffers, ...featuredOffers].map((offer, index) => (
+                    <motion.div
+                      key={`${offer.id}-${index}`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: (index % 4) * 0.1 }}
+                      className="offer-card hover-lift"
+                    >
+                      <div className="pill-badge mb-4">
+                        {offer.type}
+                      </div>
+                      
+                      <div className="absolute top-4 right-4">
+                        <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                          <Gift className="w-6 h-6 text-white" />
                         </div>
-                        
-                        {/* Offer Image */}
-                        <div className="absolute top-4 right-4">
-                          <div className="w-12 h-12 bg-white/20 flex items-center justify-center backdrop-blur-sm" style={{ borderRadius: '12px' }}>
-                            <Gift className="w-6 h-6 text-white" />
-                          </div>
-                        </div>
-                        
-                        {/* Content */}
-                        <div className="relative z-10 mt-12">
-                          <h3 className="text-lg font-bold mb-3" style={{ color: '#ffffff', marginBottom: '16px' }}>
-                            {offer.title}
-                          </h3>
-                          <button className="offer-button w-full">
-                            {offer.buttonText}
-                          </button>
-                        </div>
-                        
-                        {/* Hover overlay */}
-                        <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </motion.div>
-                    ))}
-                  </div>
+                      </div>
+                      
+                      <h3 className="text-lg font-bold text-high-contrast mb-4">
+                        {offer.title}
+                      </h3>
+                      
+                      <button className="btn-gradient w-full mt-auto">
+                        {offer.buttonText}
+                      </button>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                <div className="carousel-indicators">
+                  {Array.from({ length: 8 }).map((_, index) => (
+                    <div
+                      key={index}
+                      className={`carousel-dot ${index === currentSlide ? 'active' : ''}`}
+                      onClick={() => setCurrentSlide(index)}
+                    />
+                  ))}
                 </div>
               </div>
             </motion.section>
+
+            <div className="section-divider" />
 
             {/* All Games Section */}
             <motion.section
@@ -441,6 +441,8 @@ export function HomePage() {
               </div>
             </motion.section>
 
+            <div className="section-divider" />
+
             {/* Featured Games Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
@@ -473,6 +475,8 @@ export function HomePage() {
                 ))}
               </div>
             </motion.section>
+
+            <div className="section-divider" />
 
             <motion.section
               initial={{ opacity: 0, y: 20 }}

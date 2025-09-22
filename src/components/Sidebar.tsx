@@ -227,22 +227,22 @@ export function Sidebar({
         
         {/* Navigation */}
         <nav
-          className="p-3 overflow-y-auto h-[calc(100vh-140px)] sidebar-scroll"
+          className="p-3 overflow-y-auto h-[calc(100vh-140px)] sidebar-scroll custom-scrollbar"
         >
           <ul className="space-y-2" style={{ direction: 'ltr' }}>
             {menuItems.map((item, index) => (
               <li key={index}>
                 <button
-                  className={`flex items-center gap-3 p-3 rounded-lg transition-all whitespace-nowrap group w-full border border-transparent hover:border-blue-500/30 hover:bg-blue-500/10 min-h-[44px] ${
+                  className={`sidebar-item w-full ${
                     isActivePage(item)
-                      ? 'bg-blue-500/20 text-white border-blue-500/50'
-                      : `text-gray-300 hover:bg-blue-900/30 hover:text-white ${item.className || ''}`
+                      ? 'active'
+                      : ''
                   }`}
                   onClick={() => {
                     item.onClick();
                   }}
                 >
-                  <span className="min-w-[24px] flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <span className="min-w-[24px] flex items-center justify-center transition-transform">
                     {item.icon}
                   </span>
                   <span

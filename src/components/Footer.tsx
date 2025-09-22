@@ -97,17 +97,17 @@ export function Footer() {
   ];
 
   return (
-    <footer className="mt-8 bg-gradient-to-b from-[#0A1929] to-black rounded-xl lg:rounded-2xl xl:rounded-3xl border-t border-blue-500/20">
+    <footer className="footer-enhanced">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 lg:py-12 xl:py-16">
         {/* Logo and Copyright */}
         <div className="mb-12">
           <h2
-            className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent mb-2"
+            className="nav-brand text-xl lg:text-2xl mb-2"
             style={{ fontFamily: "'Press Start 2P', system-ui" }}
           >
             COSMIC
           </h2>
-          <p className="text-gray-400">© Cosmic777.com {currentYear}</p>
+          <p className="text-low-contrast">© Cosmic777.com {currentYear}</p>
         </div>
 
         {/* Main Footer Links */}
@@ -116,7 +116,7 @@ export function Footer() {
             <div key={section.title}>
               <div className="flex items-center gap-2 mb-4">
                 {section.icon}
-                <h3 className="text-base lg:text-lg font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                <h3 className="text-base lg:text-lg font-bold text-high-contrast">
                   {section.title}
                 </h3>
               </div>
@@ -126,22 +126,22 @@ export function Footer() {
                     {link.internal ? (
                       <button
                         onClick={() => window.location.href = link.href}
-                        className="text-gray-400 hover:text-blue-400 transition-all flex items-center gap-2 group text-sm w-full text-left"
+                        className="footer-link flex items-center gap-2 group text-sm w-full text-left"
                       >
                         {link.icon && <span className="opacity-60 group-hover:opacity-100">{link.icon}</span>}
-                        <span className="border-b border-transparent group-hover:border-blue-400/30">
+                        <span>
                           {link.name}
                         </span>
                       </button>
                     ) : (
                       <a
                         href={link.href}
-                        className="text-gray-400 hover:text-blue-400 transition-all flex items-center gap-2 group text-sm"
+                        className="footer-link flex items-center gap-2 group text-sm"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         {link.icon && <span className="opacity-60 group-hover:opacity-100">{link.icon}</span>}
-                        <span className="border-b border-transparent group-hover:border-blue-400/30">
+                        <span>
                           {link.name}
                         </span>
                         <ExternalLink size={12} className="opacity-60 group-hover:opacity-100" />
