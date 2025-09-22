@@ -46,15 +46,11 @@ export function GameCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -4 }}
-      className={`game-card-consistent relative overflow-hidden group cursor-pointer hover:border-blue-400/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 ${
-        isFeatured 
-          ? 'border-yellow-500/50 hover:border-yellow-400/70 hover:shadow-yellow-500/30' 
-          : ''
-      }`}
+      className="game-card-consistent relative overflow-hidden group cursor-pointer"
       onClick={handlePlay}
     >
       {/* Image Container */}
-      <div className="relative h-48 lg:h-52 overflow-hidden flex-shrink-0">
+      <div className="relative h-48 lg:h-52 overflow-hidden flex-shrink-0" style={{ borderRadius: '12px 12px 0 0' }}>
         <img
           src={image}
           alt={title}
@@ -62,17 +58,17 @@ export function GameCard({
         />
         
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#132f4c] via-transparent to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
         
         {/* Badges */}
         <div className="absolute top-3 left-3 flex gap-2">
           {isNew && (
-            <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold shadow-lg rounded-full">
+            <span className="px-3 py-1 bg-green-500 text-white text-xs font-bold shadow-lg" style={{ borderRadius: '12px' }}>
               NEW
             </span>
           )}
           {isFeatured && (
-            <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold shadow-lg rounded-full">
+            <span className="px-3 py-1 bg-yellow-500 text-black text-xs font-bold shadow-lg" style={{ borderRadius: '12px' }}>
               FEATURED
             </span>
           )}
@@ -80,7 +76,7 @@ export function GameCard({
 
         {/* Play button overlay on hover */}
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <div className="btn-primary flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 font-semibold flex items-center gap-2 transition-all" style={{ borderRadius: '12px' }}>
             <Play size={20} />
             Play Now
           </div>
@@ -88,12 +84,12 @@ export function GameCard({
       </div>
 
       {/* Content */}
-      <div className="p-6 flex flex-col flex-1 min-h-0">
+      <div className="card-content">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs text-blue-400 bg-blue-500/20 px-3 py-1 rounded-full font-medium border border-blue-500/30">
+          <span className="text-xs text-blue-400 bg-blue-500/20 px-3 py-1 font-medium border border-blue-500/30" style={{ borderRadius: '12px' }}>
             {category}
           </span>
-          <div className="flex items-center gap-3 text-xs text-readable-muted">
+          <div className="flex items-center gap-3 text-xs" style={{ color: '#9ca3af' }}>
             <div className="flex items-center gap-1">
               <Star size={12} className="text-yellow-400 fill-current" />
               <span>{rating}</span>
@@ -105,14 +101,19 @@ export function GameCard({
           </div>
         </div>
 
-        <h3 className="font-bold text-high-contrast mb-4 text-lg lg:text-xl group-hover:text-blue-400 transition-all">
+        <h3 className="font-bold text-lg lg:text-xl group-hover:text-blue-400 transition-all" style={{ color: '#ffffff', marginBottom: '16px' }}>
           {title}
         </h3>
         
+        <p className="text-sm mb-4 flex-1" style={{ color: '#d1d5db', marginBottom: '20px' }}>
+          {description}
+        </p>
+        
         <div className="mt-auto">
-          <button 
+          <button
             onClick={handlePlay}
-            className="w-full btn-primary"
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-semibold py-3 px-6 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
+            style={{ borderRadius: '12px', minWidth: '120px' }}
           >
             Play Now
           </button>
