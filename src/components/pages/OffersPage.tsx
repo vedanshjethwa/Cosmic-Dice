@@ -177,32 +177,38 @@ export function OffersPage() {
         </div>
 
         <div className="max-w-7xl mx-auto p-4 lg:p-8">
+          {/* Page Header */}
+          <div className="flex items-center gap-3 mb-8">
+            <ArrowLeft className="w-6 h-6 text-blue-400" />
+            <h1 className="text-2xl font-bold text-high-contrast">All Offers & Promotions</h1>
+          </div>
+
           {/* Search and Filter Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-[#132F4C] rounded-xl p-6 border border-blue-500/20 mb-8"
+            className="card-cosmic mb-8"
           >
             <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
               {/* Tab Filters */}
               <div className="flex gap-2 bg-[#0A1929] rounded-lg p-1">
                 <button
                   onClick={() => setActiveTab('active')}
-                  className={`px-6 py-2 rounded-lg transition-colors font-medium ${
+                  className={`px-6 py-3 rounded-lg transition-colors font-medium min-h-[44px] hover-lift ${
                     activeTab === 'active'
                       ? 'bg-blue-600 text-white'
-                      : 'text-gray-400 hover:text-white'
+                      : 'text-medium-contrast hover:text-white'
                   }`}
                 >
                   Active Offers ({allOffers.length})
                 </button>
                 <button
                   onClick={() => setActiveTab('expired')}
-                  className={`px-6 py-2 rounded-lg transition-colors font-medium ${
+                  className={`px-6 py-3 rounded-lg transition-colors font-medium min-h-[44px] hover-lift ${
                     activeTab === 'expired'
                       ? 'bg-blue-600 text-white'
-                      : 'text-gray-400 hover:text-white'
+                      : 'text-medium-contrast hover:text-white'
                   }`}
                 >
                   Expired Offers ({expiredOffers.length})
@@ -217,7 +223,7 @@ export function OffersPage() {
                   placeholder="Search offers..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full lg:w-64 bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400"
+                  className="w-full lg:w-64 bg-[#0A1929] text-white rounded-lg pl-10 pr-4 py-3 border border-blue-500/20 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20"
                 />
               </div>
             </div>
@@ -234,19 +240,19 @@ export function OffersPage() {
               <h2 className="text-2xl font-bold text-white">
                 {activeTab === 'active' ? 'All Active Offers' : 'Expired Offers'}
               </h2>
-              <span className="text-gray-400 text-sm">
+              <span className="text-readable-muted text-sm">
                 {filteredOffers.length} offer{filteredOffers.length !== 1 ? 's' : ''}
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 prevent-overflow">
               {filteredOffers.map((offer, index) => (
                 <motion.div
                   key={offer.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * index }}
-                  className="bg-[#132F4C] rounded-xl overflow-hidden border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 group"
+                  className="game-card-consistent overflow-hidden group hover-lift"
                 >
                   {/* Offer Image */}
                   <div className="relative h-48 overflow-hidden">
@@ -256,17 +262,17 @@ export function OffersPage() {
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#132F4C] via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#132f4c] via-transparent to-transparent" />
                     
                     {/* Badges */}
                     <div className="absolute top-3 left-3 flex flex-col gap-2">
                       {offer.isVip && (
-                        <span className="px-3 py-1 bg-purple-500/90 text-white rounded-lg text-sm font-medium backdrop-blur-sm">
+                        <span className="px-3 py-1 bg-purple-500/90 text-white rounded-full text-sm font-bold backdrop-blur-sm">
                           VIP
                         </span>
                       )}
                       {offer.isHot && (
-                        <span className="px-3 py-1 bg-red-500/90 text-white rounded-lg text-sm font-medium backdrop-blur-sm">
+                        <span className="px-3 py-1 bg-red-500/90 text-white rounded-full text-sm font-bold backdrop-blur-sm">
                           HOT
                         </span>
                       )}
@@ -274,7 +280,7 @@ export function OffersPage() {
 
                     {/* Time/Status */}
                     <div className="absolute top-3 right-3">
-                      <div className="flex items-center gap-1 text-white bg-black/50 px-2 py-1 rounded-lg text-sm backdrop-blur-sm">
+                      <div className="flex items-center gap-1 text-white bg-black/60 px-3 py-1 rounded-full text-sm backdrop-blur-sm">
                         <Clock size={14} />
                         <span>
                           {activeTab === 'active' ? offer.timeLeft : `Expired ${offer.expiredDate}`}
@@ -284,29 +290,29 @@ export function OffersPage() {
                   </div>
 
                   {/* Offer Content */}
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-1">
                     <div className="mb-3">
-                      <span className="text-sm text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">
+                      <span className="text-sm text-blue-400 bg-blue-500/20 px-3 py-1 rounded-full font-medium">
                         {offer.type}
                       </span>
                     </div>
 
-                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition-colors">
+                    <h3 className="text-xl font-bold mb-3 text-high-contrast group-hover:text-blue-400 transition-colors">
                       {offer.title}
                     </h3>
                     
-                    <p className="text-gray-400 mb-4 text-sm leading-relaxed">
+                    <p className="text-readable-secondary mb-6 text-sm leading-relaxed flex-1">
                       {offer.description}
                     </p>
 
                     {/* Action Button */}
-                    <div className="mt-auto">
+                    <div>
                       {activeTab === 'active' && (
                         <button
-                          className={`w-full py-3 rounded-lg font-medium transition-all duration-300 ${
+                          className={`w-full py-3 rounded-lg font-medium transition-all duration-300 min-h-[44px] ${
                             offer.isLocked
-                              ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
-                              : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white transform hover:scale-105'
+                              ? 'bg-gray-600/50 text-readable-muted cursor-not-allowed'
+                              : 'btn-primary'
                           }`}
                           disabled={offer.isLocked}
                         >
@@ -314,7 +320,7 @@ export function OffersPage() {
                         </button>
                       )}
                       {activeTab === 'expired' && (
-                        <div className="w-full py-3 bg-gray-600/20 text-gray-400 rounded-lg text-center font-medium">
+                        <div className="w-full py-3 bg-gray-600/20 text-readable-muted rounded-lg text-center font-medium min-h-[44px] flex items-center justify-center">
                           Expired
                         </div>
                       )}
@@ -333,11 +339,11 @@ export function OffersPage() {
               className="text-center py-12"
             >
               <div className="text-6xl mb-4">🎁</div>
-              <h3 className="text-xl font-bold text-gray-400 mb-2">No offers found</h3>
-              <p className="text-gray-500 mb-4">Try adjusting your search terms</p>
+              <h3 className="text-xl font-bold text-readable-muted mb-2">No offers found</h3>
+              <p className="text-readable-muted mb-4">Try adjusting your search terms</p>
               <button 
                 onClick={() => setSearchTerm('')}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
+                className="btn-primary"
               >
                 Clear Search
               </button>
@@ -353,11 +359,11 @@ export function OffersPage() {
           >
             <button
               onClick={() => setShowClaimedOffers(!showClaimedOffers)}
-              className="flex items-center justify-between w-full bg-[#132F4C] p-6 rounded-xl text-left border border-blue-500/20 hover:bg-[#1A243D] transition-colors"
+              className="flex items-center justify-between w-full card-cosmic text-left hover:bg-[#1A243D] transition-colors hover-lift"
             >
               <div className="flex items-center gap-3">
                 <Star className="text-yellow-400" size={24} />
-                <span className="font-semibold text-white text-xl">My Claimed Offers</span>
+                <span className="font-semibold text-high-contrast text-xl">My Claimed Offers</span>
               </div>
               {showClaimedOffers ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
             </button>
@@ -370,29 +376,29 @@ export function OffersPage() {
                   exit={{ height: 0, opacity: 0 }}
                   className="overflow-hidden"
                 >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 prevent-overflow">
                     {claimedOffers.map((offer) => (
                       <div
                         key={offer.id}
-                        className="bg-[#0A1929] rounded-xl p-6 border border-blue-500/10"
+                        className="bg-[#0A1929] rounded-xl p-6 border border-blue-500/10 hover-lift"
                       >
                         <div className="flex justify-between items-start mb-4">
                           <div className="flex-1">
-                            <h4 className="font-semibold mb-2 text-white text-lg">{offer.title}</h4>
-                            <p className="text-sm text-gray-400 mb-3">{offer.description}</p>
+                            <h4 className="font-semibold mb-2 text-high-contrast text-lg">{offer.title}</h4>
+                            <p className="text-sm text-readable-secondary mb-3">{offer.description}</p>
                             <div className="flex items-center gap-3">
                               <span className="text-sm text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">
                                 {offer.type}
                               </span>
-                              <span className="text-sm text-gray-400">
+                              <span className="text-sm text-readable-muted">
                                 {offer.status} • {offer.claimedDate}
                               </span>
                             </div>
                           </div>
-                          <div className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                          <div className={`px-4 py-2 rounded-lg text-sm font-medium min-h-[36px] flex items-center ${
                             offer.status === 'Claimed' 
                               ? 'bg-green-500/20 text-green-400' 
-                              : 'bg-gray-500/20 text-gray-400'
+                              : 'bg-gray-500/20 text-readable-muted'
                           }`}>
                             {offer.status}
                           </div>

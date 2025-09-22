@@ -84,78 +84,44 @@ export default function NewGamesPage() {
       </div>
 
       <div className="max-w-7xl mx-auto p-6">
+        {/* Page Header */}
+        <div className="flex items-center gap-3 mb-8">
+          <ArrowLeft className="w-6 h-6 text-blue-400" />
+          <h1 className="text-2xl font-bold text-high-contrast">New Games</h1>
+        </div>
+
         <div className="mb-8">
-          <p className="text-gray-300 text-lg">
+          <p className="text-readable-secondary text-lg section-padding">
             Discover our latest cosmic gaming experiences! These games have been recently added to our platform.
           </p>
         </div>
 
         {/* New Games Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr prevent-overflow">
           {newGames.map((game, index) => (
-            <motion.div
+            <GameCard
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.02, y: -4 }}
-              className="bg-[#132F4C] rounded-xl p-4 relative overflow-hidden group cursor-pointer border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300"
-              onClick={() => navigate(game.route)}
-            >
-              {/* New Badge */}
-              <div className="absolute top-4 right-4 z-10">
-                <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                  <Star size={12} />
-                  NEW
-                </div>
-              </div>
-
-              <div className="flex flex-col h-full">
-                <div className="w-full h-40 mb-4 overflow-hidden rounded-lg">
-                  <img
-                    src={game.image}
-                    alt={game.label}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="text-xs text-blue-400 font-medium">
-                      {game.category}
-                    </div>
-                    <div className="flex items-center gap-1 text-xs text-gray-400">
-                      <Clock size={12} />
-                      {game.releaseDate}
-                    </div>
-                  </div>
-                  <h3 className="font-bold text-white mb-2 text-lg">
-                    {game.label}
-                  </h3>
-                  <p className="text-gray-400 text-sm mb-4">
-                    {game.description}
-                  </p>
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(game.route);
-                    }}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg transition-all duration-300 w-full font-medium transform hover:scale-105"
-                  >
-                    Play Now
-                  </button>
-                </div>
-              </div>
-            </motion.div>
+              title={game.label}
+              description={game.description}
+              image={game.image}
+              route={game.route}
+              category={game.category}
+              rating={4.5}
+              players="New"
+              isNew={game.isNew}
+              isFeatured={false}
+              index={index}
+            />
           ))}
         </div>
 
         {/* Coming Soon Section */}
         <div className="mt-12">
-          <h2 className="text-2xl font-bold text-white mb-6">Coming Soon</h2>
-          <div className="bg-[#132F4C] rounded-xl p-8 border border-blue-500/20 text-center">
+          <h2 className="text-2xl font-bold text-high-contrast mb-6">Coming Soon</h2>
+          <div className="card-cosmic text-center">
             <div className="text-6xl mb-4">🚀</div>
-            <h3 className="text-xl font-bold text-white mb-2">More Games on the Way!</h3>
-            <p className="text-gray-400">
+            <h3 className="text-xl font-bold text-high-contrast mb-2">More Games on the Way!</h3>
+            <p className="text-readable-secondary">
               We're constantly working on new and exciting games. Stay tuned for more cosmic adventures!
             </p>
           </div>

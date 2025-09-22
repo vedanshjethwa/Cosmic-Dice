@@ -137,7 +137,7 @@ export default function DiceGame() {
             <div className="dice-container scale-75 md:scale-100">
               <div
                 className={`dice ${
-                  isRolling ? 'rolling-fast' : diceResult ? `show-${diceResult}` : ''
+                  isRolling ? 'rolling-fast' : diceResult ? `show-${diceResult}` : 'show-1'
                 }`}
               >
                 <div className="dice-face front">
@@ -161,9 +161,13 @@ export default function DiceGame() {
               </div>
             </div>
             {showWinMessage && (
-              <div className="text-xl md:text-3xl font-bold text-blue-400 animate-bounce">
+              <motion.div 
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="text-xl md:text-3xl font-bold text-green-400 animate-glow"
+              >
                 You Win! ₹{maxPossibleWin.toFixed(2)}
-              </div>
+              </motion.div>
             )}
           </div>
 
